@@ -1,11 +1,19 @@
 # 모든 폴더 무시
 /*
 
-# node_modules 무시
-**/node_modules
+# back, solidity 폴더 포함
+!back/
+!solidity/
 
 # .gitignore 포함
 !.gitignore
 
-# back 폴더 포함
-!back/
+# 폴더 무시
+**/node_modules
+**/.vs
+**/.*
+
+# 파일 무시
+*.njsproj*
+*.sln
+package-lock.json
