@@ -1,0 +1,11 @@
+# 모든 폴더 무시
+/*
+
+# node_modules 무시
+**/node_modules
+
+# .gitignore 포함
+!.gitignore
+
+# back 폴더 포함
+!back/
