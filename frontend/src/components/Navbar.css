@@ -1,0 +1,23 @@
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background: #777777;
+}
+
+.list {
+  list-style-type: none;
+  background: #777777;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.items {
+  margin-right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
