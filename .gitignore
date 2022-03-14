@@ -12,6 +12,7 @@
 **/node_modules
 **/.vs
 **/.*
+**/build
 
 # 파일 무시
 *.njsproj*
