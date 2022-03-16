@@ -1,0 +1,35 @@
+yarn이 설치되어 있지 않다면 실행
+
+```
+npm install -g yarn
+```
+
+반드시 설치해야 할 내용들 (router, redux, 그리고 mui 라이브러리 사용을 위한 것)
+
+```
+yarn add react-router-dom
+
+yarn add @mui/icons-material @mui/material @material-ui/icons @emotion/react @emotion/styled
+
+yarn add redux react-redux
+```
+
+Toast UI를 구동하기 위해 필요한 라이브러리 설치 (yarn 으로 설치가 안됩니다)
+
+```
+npm install --save @toast-ui/react-image-editor
+```
+
+설치 다 하셨다면
+
+```
+yarn install
+```
+
+하신 뒤,
+
+```
+yarn start
+```
+
+로 시작하세요.
