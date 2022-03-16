@@ -14,7 +14,16 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
-const pages = ["Redux1", "Redux2", "Toast UI", "Wallet Info", "Community"];
+const pages = [
+  "Redux1",
+  "Redux2",
+  "Toast UI",
+  "Wallet Info",
+  "Community",
+  "Mint",
+  "My Animal",
+  "Sale Animal",
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
@@ -37,33 +46,33 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl'>
+    <AppBar position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
-            component='div'
+            component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <Link styles={{ textDecoration: "none", color: "white" }} to='/'>
+            <Link styles={{ textDecoration: "none", color: "white" }} to="/">
               Home
             </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color='inherit'
+              color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
@@ -82,7 +91,7 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>
+                  <Typography textAlign="center">
                     <Link to={`/${page}`}>{page}</Link>
                   </Typography>
                 </MenuItem>
@@ -90,9 +99,9 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
-            component='div'
+            component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
             LOGO
@@ -110,14 +119,14 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
+            <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
@@ -133,7 +142,7 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign='center'>{setting}</Typography>
+                  <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
