@@ -7,7 +7,7 @@ const myTheme = {
 };
 
 // 설치해야하는 라이브러리들은 readme에 써놓았습니다
-// jira 연동되는지 테스트를 위한 commit
+// jira 연동되는지 테스트를 위한 commit2
 
 const Page3 = () => (
   <ImageEditor
