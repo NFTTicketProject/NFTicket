@@ -12,39 +12,46 @@ const Page3 = () => (
   <ImageEditor
     includeUI={{
       loadImage: {
-        path: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/be0a9a4b-1957-4a83-a542-fb720a0a660e/d17qhno-e7454092-80aa-4b3d-898a-96198b4a756c.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JlMGE5YTRiLTE5NTctNGE4My1hNTQyLWZiNzIwYTBhNjYwZVwvZDE3cWhuby1lNzQ1NDA5Mi04MGFhLTRiM2QtODk4YS05NjE5OGI0YTc1NmMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Kntd9m3HPNC-JF5QcIS3Iew_dNN68BOt4oeiOTj_Rgs",
+        // path 에 사진 경로를 넣으면 로드하자마자 바로 사진이 들어갑니다.
+        path: "https://static6.depositphotos.com/1096853/618/i/600/depositphotos_6188324-stock-photo-event-ticket.jpg",
         name: "SampleImage",
       },
       theme: myTheme,
       menu: [
+        // 넣고싶은 기능을 이 배열에서 없애거나 추가할 수 있습니다.
+        "resize",
+        "crop",
         "flip",
         "rotate",
         "draw",
         "shape",
+        "icon",
         "text",
         "mask",
         "filter",
-        "icon",
       ],
-      initMenu: "filter",
+      // 시작할 때 바로 로드되는 기능을 적습니다.
+      initMenu: "draw",
+      // width가 너무 커지면 사진이 로드돼도 Toast UI 타이틀이 표시돼서 1000px로 정했습니다.
       uiSize: {
         width: "1000px",
         height: "700px",
       },
+      // 메뉴바를 bottom, left, right 로 하면 Toast UI 타이틀이 표시돼서 top으로 정했습니다.
       menuBarPosition: "top",
     }}
     cssMaxHeight={500}
     cssMaxWidth={700}
+    // API 보시면 이미지를 선택하거나 crop 할 때 가장자리 모양을 설정하는 엄청 여러가지 선택기능이 있습니다.
     selectionStyle={{
       cornerSize: 20,
       rotatingPointOffset: 70,
+      cornerColor: "red",
     }}
     usageStatistics={true}
+    // 아래 설정을 false 로 하면 selectionStyle이 전부 default 값으로 변합니다.
+    applyCropSelectionStyle={true}
   />
 );
-
-// const Pagetwo = () => {
-//   return <h1>Pagetwo</h1>;
-// };
 
 export default Page3;
