@@ -1458,3 +1458,6 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,maven,macos,gradle,visualstudio,visualstudiocode,linux,webstorm,webstorm+all,webstorm+iml,pycharm,pycharm+all,pycharm+iml,intellij,intellij+all,intellij+iml,react,reactnative,vuejs,vue,node
+solidity/truffle-config.js
+solidity/contracts/Profile.sol
+solidity/contracts/ProfileManager.sol
