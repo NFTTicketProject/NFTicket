@@ -77,7 +77,7 @@ model Show {
   runningTime Int
   videoURL    String?   @db.VarChar(255)
   posterURL   String    @db.VarChar(255)
-  Category    Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "")
+  Category    Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
   Role        Role[]
 
   @@index([category_id], map: "category_id_idx")
