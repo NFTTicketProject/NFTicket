@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const redirect = require('./redirect')
-const root = require('./root')
-const profile = require('./profile')
+const redirect = require('./controllers/redirect')
+const root = require('./controllers/root')
+const profile = require('./controllers/profile')
 
 // root routing
 router.use('/', root)
