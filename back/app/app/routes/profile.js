@@ -1,8 +1,11 @@
+const prisma = require("../utils/prisma")
 const express = require('express')
 const router = express.Router()
 
 // 프로필 전체 조회
-router.get('/:walletId', (req, res, err) => {
+router.get('/:walletId', async (req, res, err) => {
+    const result = await prisma.Profile.findMany();
+    console.log(result)
     // walletID 와 일치하는 Row 반환
     res.json({
         nickname: "user1",
