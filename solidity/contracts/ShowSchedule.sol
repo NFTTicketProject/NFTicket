@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract ShowSchedule is Ownable {
     using Counters for Counters.Counter;
 
-    uint256 _adminId;
     uint256 _showId;
     uint256 _stageId;
     uint256 _startedAt;
@@ -20,7 +19,6 @@ contract ShowSchedule is Ownable {
     mapping(uint256 => bool) _validTicketIds;
 
     constructor(uint256 showId, uint256 stageId, uint256 startedAt, uint256 endedAt, uint256 totalMintCount) public {
-        owner();
         _showId = showId;
         _stageId = stageId;
         _startedAt = startedAt;
@@ -30,6 +28,10 @@ contract ShowSchedule is Ownable {
 
     function cancel() public onlyOwner {
         _isCancelled = true;
+    }
+
+    function info() public view returns(uint256, uint256, uint256, uint256, bool, uint256, uint256) {
+        return (_showId, _stageId, _startedAt, _endedAt, _isCancelled, _totalMintCount, _mintCount.current());
     }
 
     function registerTicketBulk(uint256[] memory ticketIds) public onlyOwner notFull notCanceled emptyTickets {
