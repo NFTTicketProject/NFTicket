@@ -23,6 +23,7 @@
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.0",
     "prisma": "^3.10.0"
   }
 }
