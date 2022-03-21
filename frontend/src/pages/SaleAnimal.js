@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import SaleAnimalCard from "../components/SaleAnimalCard";
-import { mintAnimalTokenContract, saleAnimalTokenContract } from "../web3Config";
+import { mintAnimalTokenContract, saleAnimalTokenContract } from "../utils/web3Config";
 
 function SaleAnimal({ account }) {
   const [saleAnimalCardArray, setSaleAnimalCardArray] = useState([]);
