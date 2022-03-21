@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { saleAnimalTokenContract, web3 } from "../web3Config";
+import { saleAnimalTokenContract, web3 } from "../utils/web3Config";
 import AnimalCard from "./AnimalCard";
 
 function MyAnimalCard({ animalTokenId, animalType, animalPrice, saleStatus, account }) {

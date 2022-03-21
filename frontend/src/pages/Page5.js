@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
+// import {Link} from 'react-router-dom';
 
 // const Page5 = () => {
 //   return <div>민구님 넹</div>;
@@ -94,6 +95,7 @@ const Page5 = () => {
     <button onClick={setImage3}>이미지3 변경</button>
     <button onClick={setWindow1}>카드1 변경</button>
     <button onClick={setWindow2}>카드2 변경</button>
+    {/* <button><Link to ='/Redux2'>Page2로 이동</Link></button> */}
     {/* <button onClick={takeScreenShot}>스크린샷</button> */}
     <button onClick={handleOnClickFullscreen}>Fullscreen</button>
     <div>

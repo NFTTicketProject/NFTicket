@@ -6,7 +6,7 @@ import {
   saleAnimalTokenAddress,
   saleAnimalTokenContract,
   web3,
-} from "../web3Config";
+} from "../utils/web3Config";
 import AnimalCard from "./AnimalCard";
 
 function SaleAnimalCard({

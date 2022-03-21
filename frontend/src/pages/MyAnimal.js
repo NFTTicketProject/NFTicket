@@ -7,7 +7,7 @@ import {
   mintAnimalTokenContract,
   saleAnimalTokenAddress,
   saleAnimalTokenContract,
-} from "../web3Config";
+} from "../utils/web3Config";
 
 function MyAnimal({ account }) {
   const [animalCardArray, setAnimalCardArray] = useState([]);
