@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import AnimalCard from "../components/AnimalCard";
 // solidity 컨트랙트 관련 data
-import { mintAnimalTokenContract } from "../web3Config";
+import { mintAnimalTokenContract } from "../utils/web3Config";
 
 function Mint({ account }) {
   const [newAnimalType, setNewAnimalType] = useState();
