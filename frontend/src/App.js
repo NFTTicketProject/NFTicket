@@ -12,6 +12,8 @@ import Page5 from "./pages/Page5";
 import MyAnimal from "./pages/MyAnimal";
 import SaleAnimal from "./pages/SaleAnimal";
 import Mint from "./pages/Mint";
+import Wallet from "./pages/Wallet";
+import Detail from "./pages/Detail";
 
 function App() {
   const [account, setAccount] = useState("");
@@ -51,6 +53,8 @@ function App() {
         <Route path="/Mint" element={<Mint account={account} />} />
         <Route path="/My%20Animal" element={<MyAnimal account={account} />} />
         <Route path="/Sale%20Animal" element={<SaleAnimal account={account} />} />
+        <Route path="/Wallet" element={<Wallet account={account}></Wallet>}></Route>
+        <Route path="/Detail" element={<Detail />}></Route>
       </Routes>
     </div>
   );

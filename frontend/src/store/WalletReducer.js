@@ -1,18 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
+// const connectWallet = async () => {
+//   const accounts = await window.ethereum.request({
+//     method: "eth_requestAccounts",
+//   });
+//   console.log(window.ethereum);
+// };
+
+const accounts = window.ethereum.request({
+  method: "eth_requestAccounts",
+});
 const walletSlice = createSlice({
-  name: 'wallet',
+  name: "wallet",
   initialState: {
-    accountInfo: "123",
+    accountInfo: "",
   },
   reducers: {
     changeAccount: (state) => {
-      state.accountInfo = "456"
-    }
+      state.accountInfo = accounts[0];
+    },
   },
-    extraReducers: {},
+  extraReducers: {},
 });
-
 
 export const { changeAccount } = walletSlice.actions;
 export default walletSlice.reducer;
