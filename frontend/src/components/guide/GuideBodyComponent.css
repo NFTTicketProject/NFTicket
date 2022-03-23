@@ -1,0 +1,22 @@
+.bodyComponent {
+  text-align: center;
+  margin: 100px;
+}
+
+.icon {
+  /* background-color: antiquewhite; */
+  margin-bottom: 10px;
+}
+
+.smallTitle {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.smallBody {
+  /* background-color: antiquewhite; */
+  margin-left: 10%;
+  margin-right: 10%;
+  font-size: 18px;
+  line-height: 30px;
+}
