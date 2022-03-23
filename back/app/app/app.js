@@ -5,6 +5,7 @@ const favicon = require('serve-favicon')
 const path = require('path')
 const router = require('./routes/index')
 const cors = require('cors');
+const { swaggerUi, specs } = require('./utils/swagger');
 
 // Static file Configuration
 app.use(express.static(__dirname + '/public'))
@@ -19,6 +20,9 @@ app.use(cors());
 
 // Set favicon
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
+// Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 //Router
 app.use('/', router)
