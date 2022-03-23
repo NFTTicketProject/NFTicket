@@ -15,12 +15,12 @@ contract ShowSchedule is Ownable {
     uint256 private _endedAt;
     bool private _isCancelled;
     Counters.Counter private _mintCount;
-    mapping(uint256 => Counters.Counter) private _mintCountByClass;
+    mapping(uint256 => Counters.Counter) private _mintCountByClassId;
     uint256 private _maxMintCount;
-    mapping(uint64 => uint256) private _maxMintCountByClass;
+    mapping(uint64 => uint256) private _maxMintCountByClassId;
     mapping(uint16 => mapping(uint16 => uint256)) private _ticketIdsBySeat;
 
-    MyTicket private _myTicket;
+    address private _myTicketContractAddress;
     
     constructor(
             uint64 showId, 
@@ -28,25 +28,24 @@ contract ShowSchedule is Ownable {
             uint256 startedAt, 
             uint256 endedAt, 
             uint256 maxMintCount, 
-            uint64[] memory classes, 
-            uint256[] memory maxMintCountByClass, 
+            uint64[] memory classIds, 
+            uint256[] memory maxMintCountByClassId,
             address myTicketContractAddress
         ) public {
-        require(classes.length == maxMintCountByClass.length);
-
+        require(classIds.length == maxMintCountByClassId.length);
         _setShowId(showId);
         _setStageName(stageName);
         _setStartedAt(startedAt);
         _setEndedAt(endedAt);
         _setMaxMintCount(maxMintCount);
 
-        for (uint256 i = 0; i < classes.length; i++)
+        for (uint256 i = 0; i < classIds.length; i++)
         {
-            _setMaxMintCountByClass(classes[i], maxMintCountByClass[i]);
+            _setMaxMintCountByClassId(classIds[i], maxMintCountByClassId[i]);
         }
 
         _isCancelled = false;
-        _myTicket = MyTicket(myTicketContractAddress);
+        _myTicketContractAddress = myTicketContractAddress;
     }
 
     function _setShowId(uint64 showId) private onlyOwner {
@@ -69,8 +68,8 @@ contract ShowSchedule is Ownable {
         _maxMintCount = maxMintCount;
     }
 
-    function _setMaxMintCountByClass(uint64 classId, uint256 maxMintCount) private onlyOwner {
-        _maxMintCountByClass[classId] = maxMintCount;
+    function _setMaxMintCountByClassId(uint64 classId, uint256 maxMintCount) private onlyOwner {
+        _maxMintCountByClassId[classId] = maxMintCount;
     }
 
     function cancel() public onlyOwner {
@@ -100,19 +99,22 @@ contract ShowSchedule is Ownable {
     // 7. 실패하면 nothing
 
     // 공연기획자가 CA에 돈을 지불하면서 좌석에 맞게 등록
-    function registerTicket(uint16 row, uint16 col, uint256 ticketId) public onlyOwner notFull notCanceled {
+    function registerTicket(uint16 row, uint16 col, uint256 ticketId) public payable onlyOwner notFull notCanceled {
         // 먼저 해당 자리가 비어있는지 확인
         require(_ticketIdsBySeat[row][col] == 0);
         
+        uint256 issuePrice = MyTicket(_myTicketContractAddress).IssuePrice(ticketId);
+        uint256 classId = MyTicket(_myTicketContractAddress).ClassId(ticketId);
+
         // 티켓 발행 가격만큼 공연 기획자가 CA에 지불한다
-        require(_myTicket.IssuePrice(ticketId) == msg.value);
+        //require(issuePrice == msg.value);
 
         // 해당 자리에 티켓 ID를 등록
         _ticketIdsBySeat[row][col] = ticketId;
 
         // 전체 및 해당 등급의 발행 티켓 수를 증가
         _mintCount.increment();
-        _mintCountByClass[class].increment();
+        _mintCountByClassId[classId].increment();
 
         // 티켓 발행 요청 ...
     }
