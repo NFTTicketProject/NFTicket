@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "ipfs-http-client": "^56.0.1",
+    "react-calendar": "^3.7.0",
+    "react-datepicker": "^4.7.0"
+  }
+}

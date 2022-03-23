@@ -23,6 +23,8 @@ const pages = [
   "Mint",
   "My Animal",
   "Sale Animal",
+  "Wallet",
+  "Detail",
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
