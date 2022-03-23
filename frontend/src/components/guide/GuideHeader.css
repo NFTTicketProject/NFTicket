@@ -1,0 +1,43 @@
+.selection {
+  cursor: pointer;
+  margin-bottom: 5px;
+  color: #707a83;
+  font-size: 14px;
+}
+
+.selected {
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: black;
+  font-size: 14px;
+}
+
+.guideSelect {
+  display: inline-block;
+  margin-top: 2px;
+  margin-left: 5px;
+  font-weight: 800;
+}
+
+.guideSelectBlock {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.selectButtons {
+  /* margin-left: ; */
+}
+
+.guideHeader {
+  background: #eeeeee;
+  /* width: 1440px; */
+  height: 350px;
+  left: 0px;
+  top: 80px;
+  /* position: absolute; */
+  padding-left: 10%;
+  padding-top: 50px;
+}
