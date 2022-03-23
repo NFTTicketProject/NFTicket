@@ -4,10 +4,8 @@
 //   deployer.deploy(Migrations);
 // };
 
-const MyTicket = artifacts.require("MyTicket");
-const ShowScheduleManager = artifacts.require("ShowScheduleManager");
+const NFTicket = artifacts.require("NFTicket");
 
 module.exports = function (deployer) {
-  deployer.deploy(MyTicket);
-  deployer.deploy(ShowScheduleManager);
+  deployer.deploy(NFTicket);
 };
