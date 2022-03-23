@@ -3,80 +3,138 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./MyTicket.sol";
 
+// 공연 정보 생성과 연관된 티켓 발매 역할
 contract ShowSchedule is Ownable {
     using Counters for Counters.Counter;
 
-    uint256 _showId;
-    uint256 _stageId;
-    uint256 _startedAt;
-    uint256 _endedAt;
+    uint64 private _showId;
+    string private _stageName;
+    uint256 private _startedAt;
+    uint256 private _endedAt;
+    bool private _isCancelled;
+    Counters.Counter private _mintCount;
+    mapping(uint256 => Counters.Counter) private _mintCountByClass;
+    uint256 private _maxMintCount;
+    mapping(uint64 => uint256) private _maxMintCountByClass;
+    mapping(uint16 => mapping(uint16 => uint256)) private _ticketIdsBySeat;
 
-    bool _isCancelled = false;
-    uint256 _totalMintCount = 0;
+    MyTicket private _myTicket;
+    
+    constructor(
+            uint64 showId, 
+            string memory stageName, 
+            uint256 startedAt, 
+            uint256 endedAt, 
+            uint256 maxMintCount, 
+            uint64[] memory classes, 
+            uint256[] memory maxMintCountByClass, 
+            address myTicketContractAddress
+        ) public {
+        require(classes.length == maxMintCountByClass.length);
 
-    Counters.Counter _mintCount;
-    mapping(uint256 => bool) _validTicketIds;
+        _setShowId(showId);
+        _setStageName(stageName);
+        _setStartedAt(startedAt);
+        _setEndedAt(endedAt);
+        _setMaxMintCount(maxMintCount);
 
-    constructor(uint256 showId, uint256 stageId, uint256 startedAt, uint256 endedAt, uint256 totalMintCount) public {
+        for (uint256 i = 0; i < classes.length; i++)
+        {
+            _setMaxMintCountByClass(classes[i], maxMintCountByClass[i]);
+        }
+
+        _isCancelled = false;
+        _myTicket = MyTicket(myTicketContractAddress);
+    }
+
+    function _setShowId(uint64 showId) private onlyOwner {
         _showId = showId;
-        _stageId = stageId;
+    }
+
+    function _setStageName(string memory stageName) private onlyOwner {
+        _stageName = stageName;
+    }
+
+    function _setStartedAt(uint256 startedAt) private onlyOwner {
         _startedAt = startedAt;
+    }
+
+    function _setEndedAt(uint256 endedAt) private onlyOwner {
         _endedAt = endedAt;
-        _totalMintCount = totalMintCount;
+    }
+
+    function _setMaxMintCount(uint256 maxMintCount) private onlyOwner {
+        _maxMintCount = maxMintCount;
+    }
+
+    function _setMaxMintCountByClass(uint64 classId, uint256 maxMintCount) private onlyOwner {
+        _maxMintCountByClass[classId] = maxMintCount;
     }
 
     function cancel() public onlyOwner {
         _isCancelled = true;
     }
 
-    function info() public view returns(uint256, uint256, uint256, uint256, bool, uint256, uint256) {
-        return (_showId, _stageId, _startedAt, _endedAt, _isCancelled, _totalMintCount, _mintCount.current());
-    }
+    // function info() public view returns(uint64, string memory, int256, int256, uint256) {
+    //     return (_showId, _stageName, int256(_startedAt) - int256(block.timestamp), int256(_endedAt) - int256(block.timestamp), _maxMintCount);
+    // }
 
-    function registerTicketBulk(uint256[] memory ticketIds) public onlyOwner notFull notCanceled emptyTickets {
-        for (uint i = 0; i < ticketIds.length; i++)
-        {
-            _validTicketIds[ticketIds[i]] = true;
-            _mintCount.increment();
-        }
-    }
+    // // 티켓 여러장 등록시
+    // function registerTicketBulk(uint16[] memory rows, uint16 memory cols, uint256[] memory ticketIds, uint64[] memory classes) public onlyOwner notFull notCanceled emptyTickets {
+    //     for (uint i = 0; i < ticketIds.length; i++)
+    //     {
+    //         _ticketIdsBySeat[Seat({row: rows[i], column: cols[i]})] = ticketIds[i];
+    //         _mintCount.increment();
+    //         _mintCountByClass[classes[i]].increment();
+    //     }
+    // }
 
-    function registerTicket(uint256 ticketId) public onlyOwner notFull notCanceled onlyUnregisteredTicket(ticketId) {
-        require(!_validTicketIds[ticketId], "This ticket is already registered");
-        _validTicketIds[ticketId] = true;
+    // 1. 프론트에서 고객으로부터 백엔드로 발행 요청 전달 받음
+    // 2. 백엔드 지갑에서 MyTicket에 접근해 티켓을 발급
+    // 3. 백엔드에서 발급한 티켓을 거래글로 등록해서 프론트로 전달
+    // 4. 고객이 거래글에 purchase 요청을 보냄 (Metamask 뜸)
+    // 5. 백엔드로부터 고객에게 발급된 티켓을 양도
+    // 6. 백엔드는 receipt 이벤트를 listen 하다가 성공하면 ShowSchedule로 접근해 발급한 티켓을 registerTicket
+    // 7. 실패하면 nothing
+
+    // 공연기획자가 CA에 돈을 지불하면서 좌석에 맞게 등록
+    function registerTicket(uint16 row, uint16 col, uint256 ticketId) public onlyOwner notFull notCanceled {
+        // 먼저 해당 자리가 비어있는지 확인
+        require(_ticketIdsBySeat[row][col] == 0);
+        
+        // 티켓 발행 가격만큼 공연 기획자가 CA에 지불한다
+        require(_myTicket.IssuePrice(ticketId) == msg.value);
+
+        // 해당 자리에 티켓 ID를 등록
+        _ticketIdsBySeat[row][col] = ticketId;
+
+        // 전체 및 해당 등급의 발행 티켓 수를 증가
         _mintCount.increment();
+        _mintCountByClass[class].increment();
+
+        // 티켓 발행 요청 ...
     }
 
-    function revokeTicket(uint256 ticketId) public onlyOwner {
-        require(_validTicketIds[ticketId], "Ticket needs to be registered");
-        _validTicketIds[ticketId] = false;
-        _mintCount.decrement();
+    // 티켓 등록 취소
+    function revokeTicket(uint16 row, uint16 col) public onlyOwner {
+        
     }
 
+    // 티켓 자리 바꿈
     function replaceTicket(uint256 oldTicketId, uint256 newTicketId) public onlyOwner {
-        require(_validTicketIds[oldTicketId], "Ticket needs to be registered");
-        _validTicketIds[oldTicketId] = false;
-        _validTicketIds[newTicketId] = true;
+        
+        
     }
 
     modifier notFull() {
-        require(_mintCount.current() < _totalMintCount, "You can't make a ticket at this schedule");
+        require(_mintCount.current() < _maxMintCount, "You can't make a ticket at this schedule");
         _;
     }
 
     modifier notCanceled() {
         require(!_isCancelled, "This show is cancelled");
-        _;
-    }
-
-    modifier onlyUnregisteredTicket(uint256 ticketId) {
-        require(!_validTicketIds[ticketId], "Ticket needs to be registered");
-        _;
-    }
-
-    modifier emptyTickets() {
-        require(_mintCount.current() == 0, "Ticket is already minted");
         _;
     }
 }
