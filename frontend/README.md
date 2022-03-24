@@ -28,12 +28,6 @@ yarn add file-saver  // 이미지 로컬 다운로드
 npm install react-unity-webgl@8.x  // WEBGL ????
 ```
 
-Toast UI를 구동하기 위해 필요한 라이브러리 설치 (yarn 으로 설치가 안됩니다)
-
-```
-npm install --save @toast-ui/react-image-editor
-```
-
 설치 다 하셨다면
 
 ```

@@ -1,20 +1,22 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import WalletReducer from '../store/WalletReducer';
-import MushmomReducer from '../store/MushmomReducer';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import WalletReducer from "../store/WalletReducer";
+import MushmomReducer from "../store/MushmomReducer";
+import GuidePageReducer from "../store/GuidePageReducer";
 
 const rootPersistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
-  whitelist: ['mush', 'wallet'],
+  whitelist: ["mush", "wallet"],
 };
 
 const rootReducer = combineReducers({
   // 각 리듀서를 합침
-  wallet: WalletReducer, 
+  wallet: WalletReducer,
   mush: MushmomReducer,
+  guide: GuidePageReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
