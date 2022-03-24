@@ -4,6 +4,7 @@ pragma solidity >=0.4.22 <0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./MyTicket.sol";
+import "./ShowScheduleManager.sol";
 
 contract TicketSale is Ownable {
     uint256 public _ticketId;
@@ -14,7 +15,7 @@ contract TicketSale is Ownable {
     bool public _isEnded;
     uint256 public _startedAt;
     uint256 public _endedAt;
-    bool private _isResell;
+    ShowScheduleManager private _showScheduleManagerContract;
     IERC20 private _currencyContract;
     MyTicket private _ticketContract;
 
@@ -24,7 +25,7 @@ contract TicketSale is Ownable {
         uint256 price,
         uint256 startedAt,
         uint256 endedAt,
-        bool isResell,
+        address showScheduleManagerContractAddress,
         address currencyContractAddress,
         address ticketContractAddress
     ) {
@@ -34,7 +35,7 @@ contract TicketSale is Ownable {
         _price = price;
         _startedAt = block.timestamp + startedAt;
         _endedAt = block.timestamp + endedAt;
-        _isResell = isResell;
+        _showScheduleManagerContract = ShowScheduleManager(showScheduleManagerContractAddress);
         _currencyContract = IERC20(currencyContractAddress);
         _ticketContract = MyTicket(ticketContractAddress);
     }
@@ -51,14 +52,29 @@ contract TicketSale is Ownable {
         return _currencyContract.balanceOf(address(this));
     }
 
-    function purchase() public payable ActiveSale {
-        require(_ticketContract.IssuePrice(_ticketId) == msg.value);
+    function purchase() public payable ActiveSale {        
+        uint256 showScheduleId = _ticketContract.ShowScheduleId(_ticketId);
+        uint256 classId = _ticketContract.ClassId(_ticketId);
+        uint256 classPrice = _showScheduleManagerContract.TicketClassPrice(showScheduleId, classId);
+
+        // 판매자가 현재 소유주인가 확인
+        require(_ticketContract.ownerOf(_ticketId) == owner());
+
+        // 구매자에게 현재 잔고가 있는가 확인
+        require(_currencyContract.balanceOf(msg.sender) >= classPrice);
+
+        // 판매자에게서 구매자에게 티켓 전송
         _ticketContract.transferFrom(owner(), msg.sender, _ticketId);
+
+        // 구매자에게서 CA로 토큰 지불
+        _currencyContract.transferFrom(msg.sender, address(this), classPrice);
+
         end();
     }
 
     function withdraw() public payable EndedSale onlyOwner {
-        _currencyContract.transfer(owner(), _currencyContract.balanceOf(address(this)));
+        uint256 contractBalance = _currencyContract.balanceOf(address(this));
+        _currencyContract.transfer(owner(), contractBalance);
     }
 
     function getStartTimeLeft() public view returns(uint256) {

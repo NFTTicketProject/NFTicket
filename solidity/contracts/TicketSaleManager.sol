@@ -11,19 +11,23 @@ contract TicketSaleManager is Ownable {
     mapping(uint256 => address) private _ticketSales;
     mapping(address => uint256[]) private _ticketSaleIdsByOwner;
     mapping(uint256 => Counters.Counter) private _ticketSaleCountsByTicket;
+    address private _showScheduleManagerContractAddress;
     address private _currencyContractAddress;
     address private _ticketContractAddress;
 
-    constructor(address currencyContractAddress, address ticketContractAddress) {
+    constructor(address showScheduleManagerContractAddress, address currencyContractAddress, address ticketContractAddress) {
+        _showScheduleManagerContractAddress = showScheduleManagerContractAddress;
         _currencyContractAddress = currencyContractAddress;
         _ticketContractAddress = ticketContractAddress;
     }
 
-    function create(uint256 ticketId, string memory description, uint256 price, uint256 startedAt, uint256 endedAt, bool isResell) public {
+    function create(uint256 ticketId, string memory description, uint256 price, uint256 startedAt, uint256 endedAt) public {
         _ticketSaleId.increment();
 
+        //TODO: TicketContract로 ResellPolicy 가지고 와서 제약 조건 설정 필요
+
         uint256 newTicketSaleId = _ticketSaleId.current();
-        TicketSale newTicketSale = new TicketSale(ticketId, description, price, startedAt, endedAt, isResell, _currencyContractAddress, _ticketContractAddress);
+        TicketSale newTicketSale = new TicketSale(ticketId, description, price, startedAt, endedAt, _showScheduleManagerContractAddress, _currencyContractAddress, _ticketContractAddress);
         newTicketSale.transferOwnership(msg.sender);
 
         _ticketSales[newTicketSaleId] = address(newTicketSale);
