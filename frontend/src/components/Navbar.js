@@ -20,11 +20,13 @@ const pages = [
   "Toast UI",
   "Wallet Info",
   "Community",
-  "Mint",
-  "My Animal",
-  "Sale Animal",
+  "Wansoo",
+  // "Mint",
+  // "My Animal",
+  // "Sale Animal",
   "Guide",
   "Detail",
+  "Profile",
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
