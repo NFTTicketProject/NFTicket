@@ -1,53 +1,70 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "./MyTicket.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ShowSchedule.sol";
+import "./MyTicket.sol";
 
-contract ShowScheduleManager is Ownable {
-    address _adminId;
-    address[] _showSchedules;
-
-    constructor() {
-        _adminId = msg.sender;
+contract ShowScheduleManager {
+    using Counters for Counters.Counter;
+    Counters.Counter private _showScheduleId;
+    mapping(uint256 => address) private _showSchedules;
+    mapping(address => uint256[]) private _showScheduleIdsByOwner;
+    address private _currencyContractAddress;
+    address private _ticketContractAddress;
+    
+    constructor(address currencyContractAddress, address ticketContractAddress) {
+        _currencyContractAddress = currencyContractAddress;
+        _ticketContractAddress = ticketContractAddress;
     }
 
-    function create(uint256 showId, uint256 stageId, uint256 startedAt, uint256 endedAt, uint256 totalMintCount) public {
-        ShowSchedule showSchedule = new ShowSchedule(showId, stageId, startedAt, endedAt, totalMintCount);
-        _showSchedules.push(address(showSchedule));
+    function create(
+            uint64 showId, 
+            string memory stageName, 
+            uint256 startedAt, 
+            uint256 endedAt, 
+            uint256 maxMintCount, 
+            uint64[] memory classes, 
+            uint256[] memory maxMintCountByClass
+        ) public {
+        _showScheduleId.increment();
+
+        uint256 newShowScheduleId = _showScheduleId.current();
+        ShowSchedule newShowSchedule = new ShowSchedule(showId, stageName, startedAt, endedAt, maxMintCount, classes, maxMintCountByClass, _currencyContractAddress, _ticketContractAddress);
+        newShowSchedule.transferOwnership(msg.sender);
+
+        _showSchedules[newShowScheduleId] = address(newShowSchedule);
+        _showScheduleIdsByOwner[msg.sender].push(newShowScheduleId);
     }
 
-    function info(uint256 showScheduleIdx) public view returns(uint256, uint256, uint256, uint256, bool, uint256, uint256) {
-        ShowSchedule showSchedule = ShowSchedule(_showSchedules[showScheduleIdx]);
-        return showSchedule.info();
+    function cancel(uint256 showScheduleId) public {
+        ShowSchedule(_showSchedules[showScheduleId]).cancel();
     }
 
-    function cancel(uint256 showScheduleIdx) public onlyOwner {
-        ShowSchedule showSchedule = ShowSchedule(_showSchedules[showScheduleIdx]);
-        showSchedule.cancel();
+    function registerTicket(uint256 showScheduleId, uint16 row, uint16 col, uint256 ticketId) public payable {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        ShowSchedule(showScheduleAddr).registerTicket(row, col, ticketId);
+    }
+    
+    function revokeTicket(uint256 showScheduleId, uint16 row, uint16 col, uint256 ticketId) public {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        ShowSchedule(showScheduleAddr).revokeTicket(row, col, ticketId);
     }
 
-    function registerTicketBulk(uint256 showScheduleIdx, uint256[] memory ticketIds) public onlyOwner {
-        ShowSchedule showSchedule = ShowSchedule(_showSchedules[showScheduleIdx]);
-        showSchedule.registerTicketBulk(ticketIds);
+    function getCount() public returns (uint256) {
+        return _showScheduleId.current();
     }
 
-    function registerTicket(uint256 showScheduleIdx, uint256 ticketId) public onlyOwner {
-        ShowSchedule showSchedule = ShowSchedule(_showSchedules[showScheduleIdx]);
-        showSchedule.registerTicket(ticketId);
+    function getShowSchedules(address walletId) public returns (uint256[] memory){
+        return _showScheduleIdsByOwner[walletId];
+    }
+    
+    function getShowSchedulesCount(address walletId) public returns (uint256){
+        return _showScheduleIdsByOwner[walletId].length;
     }
 
-    function revokeTicket(uint256 showScheduleIdx, uint256 ticketId) public onlyOwner {
-        ShowSchedule showSchedule = ShowSchedule(_showSchedules[showScheduleIdx]);
-        showSchedule.revokeTicket(ticketId);
-    }
-
-    function replaceTicket(uint256 showScheduleIdx, uint256 oldTicketId, uint256 newTicketId) public onlyOwner {
-        ShowSchedule showSchedule = ShowSchedule(_showSchedules[showScheduleIdx]);
-        showSchedule.replaceTicket(oldTicketId, newTicketId);
-    }
-
-    function allShowSchedules() public view returns (address[] memory) {
-        return _showSchedules;
+    //new!
+    function getAddressOfShowSchedule(uint256 showScheduleId) public returns (address) {
+        return _showSchedules[showScheduleId];
     }
 }
