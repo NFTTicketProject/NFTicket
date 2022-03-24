@@ -8,7 +8,7 @@ const options = {
             version: '1.0.0',
             description: 'Test API with express',
         },
-        host: 'localhost:3000',
+        host: 'j6a102.p.ssafy.io/api/v1',
         basePath: '/'
     },
     apis: ['./routes/*.js', './routes/controllers/*.js']
