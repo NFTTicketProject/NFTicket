@@ -8,8 +8,12 @@ const cors = require('cors');
 const { swaggerUi, specs } = require('./utils/swagger');
 const morgan = require('morgan');
 const { stream } = require('./utils/winston');
+const bodyparser = require('body-parser')
 
 require('dotenv').config();
+
+// use body-parser
+app.use(bodyparser.json());
 
 // Static file Configuration
 app.use(express.static(__dirname + '/public'))
