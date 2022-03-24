@@ -83,19 +83,16 @@ async function sendTransaction(walletAddress, privateKey, contractAddress, contr
 // 2. 사피 네트워크에 배포한 계약 정보
 // const contractAddr = "[배포한 계약 주소: 0x1234...]";
 // const { abi: contractABI } = JSON.parse(fs.readFileSync('./build/contracts/[Truffle compile한 결과물].json'));
-const NFTicketContractAddress = "0x70025E0a35e4fcaB8C5792f2D5C1907e6BDD10BE";
+const NFTicketContractAddress = "0xf07e74320E4a42BACd89dCc7Aa821561Ed33a21D";
 const { abi: NFTicketContractABI } = JSON.parse(fs.readFileSync('./build/contracts/NFTicket.json'));
 const { abi: MyTicketContractABI } = JSON.parse(fs.readFileSync('./build/contracts/MyTicket.json'));
 const { abi: ShowScheduleManagerContractABI } = JSON.parse(fs.readFileSync('./build/contracts/ShowScheduleManager.json'));
-const { abi: ShowScheduleContractABI } = JSON.parse(fs.readFileSync('./build/contracts/ShowSchedule.json'));
+const { abi: TicketSaleManagerContractABI } = JSON.parse(fs.readFileSync('./build/contracts/TicketSaleManager.json'));
 
 (async () => {
     const NFTicketContractInstance = new web3.eth.Contract(NFTicketContractABI, NFTicketContractAddress);
 
-    const myTicketAddress = await NFTicketContractInstance.methods.getAddressOfMyTicket().call();
     const showScheduleManagerAddress = await NFTicketContractInstance.methods.getAddressOfShowScheduleManager().call();
-    
-    const myTicketContractInstance = new web3.eth.Contract(MyTicketContractABI, myTicketAddress);
     const showScheduleManagerContractInstance = new web3.eth.Contract(ShowScheduleManagerContractABI, showScheduleManagerAddress);
     
     // 1. 프론트에서 고객으로부터 백엔드로 발행 요청 전달 받음
@@ -114,6 +111,9 @@ const { abi: ShowScheduleContractABI } = JSON.parse(fs.readFileSync('./build/con
         console.log(`showScheduleIds: ${showScheduleIds}`);
         console.log(`newShowScheduleId: ${newShowScheduleId}`);
     
+        const myTicketAddress = await NFTicketContractInstance.methods.getAddressOfMyTicket().call();
+        const myTicketContractInstance = new web3.eth.Contract(MyTicketContractABI, myTicketAddress);
+        
         const myTicketCreate = myTicketContractInstance.methods.create(walletAddressCustomer, "ticketURI", newShowScheduleId, 34, 15000, false, 30, 30000);
     
         sendTransaction(walletAddressCustomer, privateKeyCustomer, myTicketAddress, myTicketCreate, async () => {
