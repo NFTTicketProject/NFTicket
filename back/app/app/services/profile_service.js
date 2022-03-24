@@ -58,4 +58,9 @@ module.exports = {
 
         return result
     },
+    createProfile : async (info) =>{
+        await prisma.Profile.create({
+            data : info,
+        })
+    },
 }
