@@ -6,9 +6,14 @@ const path = require('path')
 const router = require('./routes/index')
 const cors = require('cors');
 const { swaggerUi, specs } = require('./utils/swagger');
+const morgan = require('morgan');
+const { stream } = require('./utils/winston');
+
+require('dotenv').config();
 
 // Static file Configuration
 app.use(express.static(__dirname + '/public'))
+app.use(morgan('combined', { stream }));
 
 // Set CORS
 // let corsOptions = {
