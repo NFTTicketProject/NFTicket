@@ -63,4 +63,49 @@ module.exports = {
             data : info,
         })
     },
+    editProfileNickname : async (info) =>{
+        try {
+            await prisma.Profile.update({
+                where: {
+                    wallet_id: info['wallet_id'],
+                },
+                data: {
+                    nickname: info['nickname'],
+                },
+            })
+            return 200
+        } catch (e) {
+            return 500
+        }
+    },
+    editProfileDescription : async (info) =>{
+        try {
+            await prisma.Profile.update({
+                where: {
+                    wallet_id: info['wallet_id'],
+                },
+                data: {
+                    description: info['description'],
+                },
+            })
+            return 200
+        } catch (e) {
+            return 500
+        }
+    },
+    editProfileImageURL : async (info) =>{
+        try {
+            await prisma.Profile.update({
+                where: {
+                    wallet_id: info['wallet_id'],
+                },
+                data: {
+                    image_url: info['image_url'],
+                },
+            })
+            return 200
+        } catch (e) {
+            return 500
+        }
+    },
 }
