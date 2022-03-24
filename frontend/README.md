@@ -23,6 +23,8 @@ yarn add redux-persist
 
 yarn add axios
 
+yarn add react-slick  // 홈화면 slider
+
 yarn add file-saver  // 이미지 로컬 다운로드
 
 npm install react-unity-webgl@8.x  // WEBGL ????
