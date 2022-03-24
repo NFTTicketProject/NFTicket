@@ -6,44 +6,38 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract MyTicket is ERC721Enumerable {
     using Counters for Counters.Counter;
+
     Counters.Counter private _tokenIds;
-
-    mapping(uint256 => uint8) _showScheduleIds;
-    mapping(uint256 => uint8) _seatIds;
-    mapping(uint256 => uint256) _prices;
-    mapping(uint256 => address) _minterIds;
-
     mapping(uint256 => string) private _tokenURIs;
+
+    struct ResellPolicy{
+        bool isAvailable;
+        uint8 royaltyRatePercent;
+        uint256 priceLimit;
+    }
+
+    mapping(uint256 => uint256) _showScheduleIds;
+    mapping(uint256 => uint64) _classIds;
+    mapping(uint256 => address) _minterIds;
+    mapping(uint256 => ResellPolicy) _resellPolicies;   // map tokenId to ReselPolicy
+    mapping(uint256 => uint256) _issuePrices;
     
     constructor() ERC721("MyTicket", "TKT") public {}
 
-    function create(string memory tokenURI, uint8 showScheduleId, uint8 seatId, uint256 price) public returns (uint256) {
-        _tokenIds.increment();
-
-        uint256 newTokenId = _tokenIds.current();
-        _mint(msg.sender, newTokenId);
-        _setTokenURI(newTokenId, tokenURI);
-        _setShowScheduleId(newTokenId, showScheduleId);
-        _setSeatId(newTokenId, seatId);
-        _setPrice(newTokenId, price);
-        _setMinterId(newTokenId, msg.sender);
-
-        return newTokenId;
-    }
-
-    function create(address to, string memory tokenURI, uint8 showScheduleId, uint8 seatId, uint256 price) public returns (uint256) {
-        require(to != address(0), "receiving address cannot to be 0x0");
+    function create(address to, string memory ticketURI, uint256 showScheduleId, uint64 classId, uint256 issuePrice, bool isResellAvailable, uint8 resellRoyaltyRatePercent, uint256 resellPriceLimit) public returns (uint256) {
+        require(to != address(0), "Receiving address cannot to be 0x0");
+        require(resellRoyaltyRatePercent <= 100, "The resellRoyaltyRatePercent should be smaller than 100");
+        require(resellPriceLimit > 0, "The resellPriceLimit should be larger than 0");
         _tokenIds.increment();
 
         uint256 newTokenId = _tokenIds.current();
         _mint(to, newTokenId);
-        _setTokenURI(newTokenId, tokenURI);
+        _setTokenURI(newTokenId, ticketURI);
         _setShowScheduleId(newTokenId, showScheduleId);
-        _setSeatId(newTokenId, seatId);
-        _setPrice(newTokenId, price);
+        _setClassId(newTokenId, classId);
+        _setIssuePrice(newTokenId, issuePrice);
         _setMinterId(newTokenId, msg.sender);
-
-        return newTokenId;
+        _setResellPolicy(newTokenId, isResellAvailable, resellRoyaltyRatePercent, resellPriceLimit);
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
@@ -68,36 +62,48 @@ contract MyTicket is ERC721Enumerable {
         _tokenURIs[tokenId] = _tokenURI;
     }
 
-    function _setShowScheduleId(uint256 tokenId, uint8 showScheduleId) private {
+    function _setShowScheduleId(uint256 tokenId, uint256 showScheduleId) private {
         _showScheduleIds[tokenId] = showScheduleId;
     }
 
-    function _setSeatId(uint256 tokenId, uint8 seatId) private {
-        _seatIds[tokenId] = seatId;
-    }
-
-    function _setPrice(uint256 tokenId, uint256 price) private {
-        _prices[tokenId] = price;
+    function _setClassId(uint256 tokenId, uint64 classId) private {
+        _classIds[tokenId] = classId;
     }
 
     function _setMinterId(uint256 tokenId, address minterId) private {
         _minterIds[tokenId] = minterId;
     }
 
-    function ShowScheduleId(uint256 tokenId) public view returns (uint8) {
+    function _setResellPolicy(uint256 tokenId, bool isResellAvailable, uint8 resellRoyaltyPercent, uint256 resellPriceLimit) private {
+        _resellPolicies[tokenId] = ResellPolicy({ 
+                isAvailable: isResellAvailable, 
+                royaltyRatePercent: resellRoyaltyPercent, 
+                priceLimit: resellPriceLimit 
+            });
+    }
+
+    function _setIssuePrice(uint256 tokenId, uint256 issuePrice) private {
+        _issuePrices[tokenId] = issuePrice;
+    }
+
+    function TokenURI(uint256 tokenId) public view returns (string memory) {
+        return _tokenURIs[tokenId];
+    }
+
+    function ShowScheduleId(uint256 tokenId) public view returns (uint256) {
         return _showScheduleIds[tokenId];
     }
 
-    function SeatId(uint256 tokenId) public view returns (uint8) {
-        return _seatIds[tokenId];
-    }
-
-    function Price(uint256 tokenId) public view returns (uint256) {
-        return _prices[tokenId];
+    function ClassId(uint256 tokenId) public view returns (uint64) {
+        return _classIds[tokenId];
     }
 
     function MinterId(uint256 tokenId) public view returns (address) {
         return _minterIds[tokenId];
+    }
+
+    function IssuePrice(uint256 tokenId) public view returns (uint256) {
+        return _issuePrices[tokenId];
     }
 
     function _burn(uint256 tokenId) internal virtual override {
@@ -109,11 +115,11 @@ contract MyTicket is ERC721Enumerable {
         if (_showScheduleIds[tokenId] != 0) {
             delete _showScheduleIds[tokenId];
         }
-        if (_seatIds[tokenId] != 0) {
-            delete _seatIds[tokenId];
+        if (_classIds[tokenId] != 0) {
+            delete _classIds[tokenId];
         }
-        if (_prices[tokenId] != 0) {
-            delete _prices[tokenId];
+        if (_issuePrices[tokenId] != 0) {
+            delete _issuePrices[tokenId];
         }
         if (_minterIds[tokenId] != address(0)) {
             delete _minterIds[tokenId];
