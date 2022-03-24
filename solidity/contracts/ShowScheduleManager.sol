@@ -19,22 +19,43 @@ contract ShowScheduleManager {
     }
 
     function create(
-            uint64 showId, 
+            uint64 showId,
             string memory stageName, 
             uint256 startedAt, 
             uint256 endedAt, 
             uint256 maxMintCount, 
-            uint64[] memory classes, 
-            uint256[] memory maxMintCountByClass
+            string[] memory ticketClassNames, 
+            uint256[] memory ticketClassPrices, 
+            uint256[] memory ticketClassMaxMintCounts
         ) public {
         _showScheduleId.increment();
 
         uint256 newShowScheduleId = _showScheduleId.current();
-        ShowSchedule newShowSchedule = new ShowSchedule(showId, stageName, startedAt, endedAt, maxMintCount, classes, maxMintCountByClass, _currencyContractAddress, _ticketContractAddress);
+        ShowSchedule newShowSchedule = new ShowSchedule(showId, stageName, startedAt, endedAt, maxMintCount, ticketClassNames, ticketClassPrices, ticketClassMaxMintCounts, _currencyContractAddress, _ticketContractAddress);
         newShowSchedule.transferOwnership(msg.sender);
 
         _showSchedules[newShowScheduleId] = address(newShowSchedule);
         _showScheduleIdsByOwner[msg.sender].push(newShowScheduleId);
+    }
+
+    function TicketClassCount(uint256 showScheduleId) public view returns(uint256) {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        return ShowSchedule(showScheduleAddr).TicketClassCount();
+    }
+
+    function TicketClassName(uint256 showScheduleId, uint256 ticketClassId) public view returns(string memory) {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        return ShowSchedule(showScheduleAddr).TicketClassName(ticketClassId);
+    }
+
+    function TicketClassPrice(uint256 showScheduleId, uint256 ticketClassId) public view returns(uint256) {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        return ShowSchedule(showScheduleAddr).TicketClassPrice(ticketClassId);
+    }
+
+    function TicketClassMaxMintCount(uint256 showScheduleId, uint256 ticketClassId) public view returns(uint256) {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        return ShowSchedule(showScheduleAddr).TicketClassMaxMintCount(ticketClassId);
     }
 
     function cancel(uint256 showScheduleId) public {
@@ -46,9 +67,14 @@ contract ShowScheduleManager {
         ShowSchedule(showScheduleAddr).registerTicket(row, col, ticketId);
     }
     
-    function revokeTicket(uint256 showScheduleId, uint16 row, uint16 col, uint256 ticketId) public {
+    function revokeTicket(uint256 showScheduleId, uint16 row, uint16 col) public payable {
         address showScheduleAddr = _showSchedules[showScheduleId];
-        ShowSchedule(showScheduleAddr).revokeTicket(row, col, ticketId);
+        ShowSchedule(showScheduleAddr).revokeTicket(row, col);
+    }
+
+    function refundTicket(uint256 showScheduleId, uint16 row, uint16 col) public payable {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        ShowSchedule(showScheduleAddr).refundTicket(row, col);
     }
 
     function getCount() public returns (uint256) {
@@ -61,10 +87,5 @@ contract ShowScheduleManager {
     
     function getShowSchedulesCount(address walletId) public returns (uint256){
         return _showScheduleIdsByOwner[walletId].length;
-    }
-
-    //new!
-    function getAddressOfShowSchedule(uint256 showScheduleId) public returns (address) {
-        return _showSchedules[showScheduleId];
     }
 }
