@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-// import "react-calendar/dist/Calendar.css"; // css import
 import CreateImage from "../components/CreateImage";
 import DatepickerComponent from "../components/DatepickerComponent";
 import InputEditor from "../components/InputEditor";

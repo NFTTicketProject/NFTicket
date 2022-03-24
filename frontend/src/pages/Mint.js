@@ -4,9 +4,9 @@ import AnimalCard from "../components/AnimalCard";
 // solidity 컨트랙트 관련 data
 import { mintAnimalTokenContract } from "../utils/web3Config";
 
-function Mint({ account }) {
+function Mint() {
   const [newAnimalType, setNewAnimalType] = useState();
-
+  let account = "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679";
   // Mint 함수
   const onClickMint = async () => {
     try {
