@@ -26,7 +26,7 @@ contract MyTicket is ERC721Enumerable {
 
     function create(address to, string memory ticketURI, uint256 showScheduleId, uint64 classId, uint256 issuePrice, bool isResellAvailable, uint8 resellRoyaltyRatePercent, uint256 resellPriceLimit) public returns (uint256) {
         require(to != address(0), "Receiving address cannot to be 0x0");
-        require(resellRoyaltyRatePercent <= 100, "The resellRoyaltyPercent should be smaller than 100");
+        require(resellRoyaltyRatePercent <= 100, "The resellRoyaltyRatePercent should be smaller than 100");
         require(resellPriceLimit > 0, "The resellPriceLimit should be larger than 0");
         _tokenIds.increment();
 
@@ -38,8 +38,6 @@ contract MyTicket is ERC721Enumerable {
         _setIssuePrice(newTokenId, issuePrice);
         _setMinterId(newTokenId, msg.sender);
         _setResellPolicy(newTokenId, isResellAvailable, resellRoyaltyRatePercent, resellPriceLimit);
-
-        return newTokenId;
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
