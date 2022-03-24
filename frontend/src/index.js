@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { PersistGate } from 'redux-persist/integration/react';
-import configStore from '../src/store/store';
+import { PersistGate } from "redux-persist/integration/react";
+import configStore from "../src/store/store";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -17,34 +17,30 @@ const { store, persistor } = configStore();
 const mush = {
   num: 100,
   name: "mushMom",
-}
-var myWallet = '';
+};
+var myWallet = "";
 
 const mushReducer = (state = mush, action) => {
   if (action.type === "증가") {
     state.num++;
     return state.num;
-  }
-  else if (action.type === "감소") {
+  } else if (action.type === "감소") {
     state.num--;
     return state.num;
-  }
-  else if (action.type === "아빠") {
+  } else if (action.type === "아빠") {
     state.name = "mushDad";
     return state.name;
-  }
-  else if (action.type === "엄마") {
+  } else if (action.type === "엄마") {
     state.name = "mushMom";
     return state.name;
-  }
-  else {
+  } else {
     return state;
   }
-}
+};
 
 function reducer(state = myWallet, action) {
   if (action.type === "로그인") {
-    myWallet = action.data
+    myWallet = action.data;
   }
 }
 

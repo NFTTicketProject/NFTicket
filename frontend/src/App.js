@@ -12,6 +12,9 @@ import Page5 from "./pages/Page5";
 import MyAnimal from "./pages/MyAnimal";
 import SaleAnimal from "./pages/SaleAnimal";
 import Mint from "./pages/Mint";
+import Guide from "./pages/guide/Guide";
+import Detail from "./pages/Detail";
+import "./App.css";
 
 function App() {
   const [account, setAccount] = useState("");
@@ -51,6 +54,8 @@ function App() {
         <Route path="/Mint" element={<Mint account={account} />} />
         <Route path="/My%20Animal" element={<MyAnimal account={account} />} />
         <Route path="/Sale%20Animal" element={<SaleAnimal account={account} />} />
+        <Route path="/Guide" element={<Guide />} />
+        <Route path="/Detail" element={<Detail />} />
       </Routes>
     </div>
   );
