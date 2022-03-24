@@ -3,6 +3,7 @@ const router = express.Router();
 const redirect = require('./controllers/redirect')
 const root = require('./controllers/root')
 const profile = require('./controllers/profile')
+const account = require('./controllers/account')
 
 // root routing
 router.use('/', root)
@@ -12,6 +13,9 @@ router.use('/redirect', redirect)
 
 // /profile routing
 router.use('/profile', profile)
+
+// /account routing
+router.use('/account', account)
 
 // custom 404 page
 router.use((req, res) => {
