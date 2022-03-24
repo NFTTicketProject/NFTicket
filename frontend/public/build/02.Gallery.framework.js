@@ -1315,7 +1315,7 @@ function _emscripten_asm_const_id(code, a0) {
  return ASM_CONSTS[code](a0);
 }
 STATIC_BASE = GLOBAL_BASE;
-STATICTOP = STATIC_BASE + 3380160;
+STATICTOP = STATIC_BASE + 3380496;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_AccessibilityScriptingClasses_cpp();
@@ -3385,12 +3385,15 @@ __ATINIT__.push({
   ___emscripten_environ_constructor();
  })
 });
-var STATIC_BUMP = 3380160;
+var STATIC_BUMP = 3380496;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
 STATICTOP += 16;
 assert(tempDoublePtr % 8 == 0);
+function _GetRoomName(roomName) {
+ window.dispatchReactUnityEvent("GetRoomName", Pointer_stringify(roomName));
+}
 function _GetSpeed(speed) {
  window.dispatchReactUnityEvent("GetSpeed", speed);
 }
@@ -20251,6 +20254,7 @@ Module.asmLibraryArg = {
  "invoke_vjii": invoke_vjii,
  "invoke_vjiiii": invoke_vjiiii,
  "invoke_vjji": invoke_vjji,
+ "_GetRoomName": _GetRoomName,
  "_GetSpeed": _GetSpeed,
  "_JS_Cursor_SetImage": _JS_Cursor_SetImage,
  "_JS_Cursor_SetShow": _JS_Cursor_SetShow,
