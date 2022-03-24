@@ -10,10 +10,12 @@ contract ShowScheduleManager {
     Counters.Counter private _showScheduleId;
     mapping(uint256 => address) private _showSchedules;
     mapping(address => uint256[]) private _showScheduleIdsByOwner;
-    address private _myTicketContractAddress;
+    address private _currencyContractAddress;
+    address private _ticketContractAddress;
     
-    constructor(address myTicketContractAddress) {
-        _myTicketContractAddress = myTicketContractAddress;
+    constructor(address currencyContractAddress, address ticketContractAddress) {
+        _currencyContractAddress = currencyContractAddress;
+        _ticketContractAddress = ticketContractAddress;
     }
 
     function create(
@@ -28,7 +30,9 @@ contract ShowScheduleManager {
         _showScheduleId.increment();
 
         uint256 newShowScheduleId = _showScheduleId.current();
-        ShowSchedule newShowSchedule = new ShowSchedule(showId, stageName, startedAt, endedAt, maxMintCount, classes, maxMintCountByClass, _myTicketContractAddress);
+        ShowSchedule newShowSchedule = new ShowSchedule(showId, stageName, startedAt, endedAt, maxMintCount, classes, maxMintCountByClass, _currencyContractAddress, _ticketContractAddress);
+        newShowSchedule.transferOwnership(msg.sender);
+
         _showSchedules[newShowScheduleId] = address(newShowSchedule);
         _showScheduleIdsByOwner[msg.sender].push(newShowScheduleId);
     }
@@ -38,7 +42,13 @@ contract ShowScheduleManager {
     }
 
     function registerTicket(uint256 showScheduleId, uint16 row, uint16 col, uint256 ticketId) public payable {
-        ShowSchedule(_showSchedules[showScheduleId]).registerTicket(row, col, ticketId);
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        ShowSchedule(showScheduleAddr).registerTicket(row, col, ticketId);
+    }
+    
+    function revokeTicket(uint256 showScheduleId, uint16 row, uint16 col, uint256 ticketId) public {
+        address showScheduleAddr = _showSchedules[showScheduleId];
+        ShowSchedule(showScheduleAddr).revokeTicket(row, col, ticketId);
     }
 
     function getCount() public returns (uint256) {
