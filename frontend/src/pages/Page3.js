@@ -26,7 +26,8 @@ const Page3 = () => {
   // };
 
   const ipfsClient = require('ipfs-http-client')
-  const ipfs = ipfsClient.create({ host: 'j6a102.p.ssafy.io', port: '5001', protocol: 'http' }) 
+  // const ipfs = ipfsClient.create({ host: 'j6a102.p.ssafy.io/ipfs', port: '443', protocol: 'https' }) 
+  const ipfs = ipfsClient.create(new URL('https://j6a102.p.ssafy.io/ipfs/api/v0')) 
 
   const editorAddImage = () => {editorRef.current.getInstance().addImageObject(imageSERVER + 'https://docs.unity3d.com/uploads/Main/ShadowIntro.png');}
   // 이미지 조절 관련 이슈로 질문 올린 상태 : https://github.com/nhn/tui.image-editor/issues/741
@@ -75,7 +76,11 @@ const Page3 = () => {
 
   function ImageSavedShow() {
     if (imageSavedPath !== '') {
-      return <div>이미지 주소 : <a href={'https://ipfs.io/ipfs/'+imageSavedPath}>https://ipfs.io/ipfs/{imageSavedPath}</a></div>
+      return <div>
+        이미지 주소 외부 : <a href={'https://ipfs.io/ipfs/'+imageSavedPath}>https://ipfs.io/ipfs/{imageSavedPath}</a>
+        <div>속도 테스트 내부 : <img src={'https://j6a102.p.ssafy.io/showipfs/ipfs'+imageSavedPath} alt="logo" loading="lazy"></img></div>
+        <div>속도 테스트 외부 : <img src={'https://ipfs.io/ipfs/'+imageSavedPath} alt="logo" loading="lazy"></img></div>
+      </div>
     }
     return null;
   }

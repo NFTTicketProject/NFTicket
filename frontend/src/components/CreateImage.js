@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 const CreateImage = ({ detailInfo, setDetailInfo }) => {
   const IPFS = require("ipfs-api");
   // const ipfs = new IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
-  const ipfs = new IPFS({ host: "j6a102.p.ssafy.io", port: 5001, protocol: "http" });
-
+  const ipfs = new IPFS({ host: "j6a102.p.ssafy.io", port: '/ipfs', protocol: "https" });
+  
   const [info, setInfo] = useState({
     ipfsHash: null,
     buffer: "",
