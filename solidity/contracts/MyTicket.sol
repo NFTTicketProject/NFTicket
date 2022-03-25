@@ -10,32 +10,25 @@ contract MyTicket is ERC721Enumerable {
     Counters.Counter private _tokenIds;
     mapping(uint256 => string) private _tokenURIs;
 
-    struct ResellPolicy{
-        bool isAvailable;
-        uint8 royaltyRatePercent;
-        uint256 priceLimit;
-    }
-
-    mapping(uint256 => uint256) _showScheduleIds;
-    mapping(uint256 => uint256) _classIds;
-    mapping(uint256 => address) _minterIds;
-    mapping(uint256 => ResellPolicy) _resellPolicies;   // map tokenId to ReselPolicy
-    mapping(uint256 => uint256) _issuePrices;
+    mapping(uint256 => uint256) private _showScheduleIds;
+    mapping(uint256 => uint256) private _classIds;
+    mapping(uint256 => address) private _minters;
     
     constructor() ERC721("MyTicket", "TKT") public {}
 
-    function create(string memory ticketURI, uint256 showScheduleId, uint256 classId, bool isResellAvailable, uint8 resellRoyaltyRatePercent, uint256 resellPriceLimit) public returns (uint256) {
-        require(resellRoyaltyRatePercent <= 100, "The resellRoyaltyRatePercent should be smaller than 100");
-        require(resellPriceLimit > 0, "The resellPriceLimit should be larger than 0");
+    function create(
+            string memory ticketURI, 
+            uint256 showScheduleId, 
+            uint256 classId
+        ) public returns (uint256) {
         _tokenIds.increment();
 
         uint256 newTokenId = _tokenIds.current();
         _mint(msg.sender, newTokenId);
-        _setMinterId(newTokenId, msg.sender);
+        _setMinter(newTokenId, msg.sender);
         _setTokenURI(newTokenId, ticketURI);
         _setShowScheduleId(newTokenId, showScheduleId);
         _setClassId(newTokenId, classId);
-        _setResellPolicy(newTokenId, isResellAvailable, resellRoyaltyRatePercent, resellPriceLimit);
 
         return newTokenId;
     }
@@ -57,8 +50,25 @@ contract MyTicket is ERC721Enumerable {
         return super.tokenURI(tokenId);
     }
 
-    function _setMinterId(uint256 tokenId, address minterId) private {
-        _minterIds[tokenId] = minterId;
+    function _burn(uint256 tokenId) internal virtual override {
+        super._burn(tokenId);
+
+        if (bytes(_tokenURIs[tokenId]).length != 0) {
+            delete _tokenURIs[tokenId];
+        }
+        if (_showScheduleIds[tokenId] != 0) {
+            delete _showScheduleIds[tokenId];
+        }
+        if (_classIds[tokenId] != 0) {
+            delete _classIds[tokenId];
+        }
+        if (_minters[tokenId] != address(0)) {
+            delete _minters[tokenId];
+        }
+    }
+
+    function _setMinter(uint256 tokenId, address minter) private {
+        _minters[tokenId] = minter;
     }
 
     function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal virtual {
@@ -74,44 +84,19 @@ contract MyTicket is ERC721Enumerable {
         _classIds[tokenId] = classId;
     }
 
-    function _setResellPolicy(uint256 tokenId, bool isResellAvailable, uint8 resellRoyaltyPercent, uint256 resellPriceLimit) private {
-        _resellPolicies[tokenId] = ResellPolicy({ 
-                isAvailable: isResellAvailable, 
-                royaltyRatePercent: resellRoyaltyPercent, 
-                priceLimit: resellPriceLimit 
-            });
-    }
-
-    function MinterId(uint256 tokenId) public view returns (address) {
-        return _minterIds[tokenId];
-    }
-
-    function TokenURI(uint256 tokenId) public view returns (string memory) {
+    function getTokenURI(uint256 tokenId) public view returns (string memory) {
         return _tokenURIs[tokenId];
     }
 
-    function ShowScheduleId(uint256 tokenId) public view returns (uint256) {
+    function getShowScheduleId(uint256 tokenId) public view returns (uint256) {
         return _showScheduleIds[tokenId];
     }
 
-    function ClassId(uint256 tokenId) public view returns (uint256) {
+    function getClassId(uint256 tokenId) public view returns (uint256) {
         return _classIds[tokenId];
     }
 
-    function _burn(uint256 tokenId) internal virtual override {
-        super._burn(tokenId);
-
-        if (bytes(_tokenURIs[tokenId]).length != 0) {
-            delete _tokenURIs[tokenId];
-        }
-        if (_showScheduleIds[tokenId] != 0) {
-            delete _showScheduleIds[tokenId];
-        }
-        if (_classIds[tokenId] != 0) {
-            delete _classIds[tokenId];
-        }
-        if (_minterIds[tokenId] != address(0)) {
-            delete _minterIds[tokenId];
-        }
+    function getMinter(uint256 tokenId) public view returns (address) {
+        return _minters[tokenId];
     }
 }
