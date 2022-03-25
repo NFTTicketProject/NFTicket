@@ -3,24 +3,28 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./MyTicket.sol";
 import "./ShowScheduleManager.sol";
 
 contract TicketSale is Ownable {
-    uint256 public _ticketId;
-    address public _seller;
-    string public _description;
-    uint256 public _price;
-    bool public _isCancelled;
-    bool public _isEnded;
-    uint256 public _startedAt;
-    uint256 public _endedAt;
+    using SafeMath for uint256;
+
+    uint256 private _ticketId;
+    address private _seller;
+    string private _description;
+    uint256 private _price;
+    bool private _isCancelled;
+    bool private _isEnded;
+    uint256 private _startedAt;
+    uint256 private _endedAt;
     ShowScheduleManager private _showScheduleManagerContract;
     IERC20 private _currencyContract;
     MyTicket private _ticketContract;
 
     constructor(
         uint256 ticketId,
+        address seller,
         string memory description,
         uint256 price,
         uint256 startedAt,
@@ -31,6 +35,7 @@ contract TicketSale is Ownable {
     ) {
         require(price > 0);
         _ticketId = ticketId;
+        _seller = seller;
         _description = description;
         _price = price;
         _startedAt = block.timestamp + startedAt;
@@ -53,18 +58,18 @@ contract TicketSale is Ownable {
     }
 
     function purchase() public payable ActiveSale {        
-        uint256 showScheduleId = _ticketContract.ShowScheduleId(_ticketId);
-        uint256 classId = _ticketContract.ClassId(_ticketId);
-        uint256 classPrice = _showScheduleManagerContract.TicketClassPrice(showScheduleId, classId);
+        uint256 showScheduleId = _ticketContract.getShowScheduleId(_ticketId);
+        uint256 classId = _ticketContract.getClassId(_ticketId);
+        uint256 classPrice = _showScheduleManagerContract.getTicketClassPrice(showScheduleId, classId);
 
-        // 판매자가 현재 소유주인가 확인
-        require(_ticketContract.ownerOf(_ticketId) == owner());
+        // 판매자가 티켓 주인인가 확인
+        require(_ticketContract.ownerOf(_ticketId) == _seller);
 
         // 구매자에게 현재 잔고가 있는가 확인
         require(_currencyContract.balanceOf(msg.sender) >= classPrice);
 
         // 판매자에게서 구매자에게 티켓 전송
-        _ticketContract.transferFrom(owner(), msg.sender, _ticketId);
+        _ticketContract.transferFrom(_seller, msg.sender, _ticketId);
 
         // 구매자에게서 CA로 토큰 지불
         _currencyContract.transferFrom(msg.sender, address(this), classPrice);
@@ -72,9 +77,17 @@ contract TicketSale is Ownable {
         end();
     }
 
-    function withdraw() public payable EndedSale onlyOwner {
+    function withdraw() public payable EndedSale onlySeller {
+        uint256 showScheduleId = _ticketContract.getShowScheduleId(_ticketId);
+        (, uint8 royaltyRatePercent, ) = _showScheduleManagerContract.getResellPolicy(showScheduleId);
+
         uint256 contractBalance = _currencyContract.balanceOf(address(this));
-        _currencyContract.transfer(owner(), contractBalance);
+        uint256 ownerAmount = contractBalance.mul(royaltyRatePercent).div(100);
+        uint256 sellerAmount = contractBalance.sub(ownerAmount);
+        _currencyContract.transfer(_seller, sellerAmount);
+        
+        uint256 contractBalanceAfterTransfer = _currencyContract.balanceOf(address(this));
+        _currencyContract.transfer(owner(), contractBalanceAfterTransfer);
     }
 
     function getStartTimeLeft() public view returns(uint256) {
@@ -85,6 +98,11 @@ contract TicketSale is Ownable {
     function getEndTimeLeft() public view returns(uint256) {
         require(_endedAt > block.timestamp, "This sale is already ended");
         return _endedAt - block.timestamp;
+    }
+
+    modifier onlySeller() {
+        require(msg.sender == _seller);
+        _;
     }
 
     modifier ActiveSale() {
