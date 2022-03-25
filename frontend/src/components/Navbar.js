@@ -17,16 +17,16 @@ import { Link } from "react-router-dom";
 
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
+  "Profile",
+  "Detail",
+  "Toast UI",
+  "Community",
+  // "Mint",
+  // "My Animal",
+  // "Sale Animal",
+  "Guide",
   "Redux1",
   "Redux2",
-  "Toast UI",
-  "Wallet Info",
-  "Community",
-  "Mint",
-  "My Animal",
-  "Sale Animal",
-  "Guide",
-  "Detail",
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 

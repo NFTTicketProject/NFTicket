@@ -37,13 +37,6 @@ const Page3 = () => {
       editorInstance.setObjectProperties(res.id, {width:canvasSize.width, height:canvasSize.height - 10}) 
       }
     );}
-  // const editorAddStamp1 = () => {editorRef.current.getInstance().addImageObject(stamp1);}
-  // const editorAddStamp2 = () => {editorRef.current.getInstance().addImageObject(stamp2);}
-  // const editorAddStamp3 = () => {editorRef.current.getInstance().addImageObject(stamp3);}
-  // const editorAddStamp4 = () => {editorRef.current.getInstance().addImageObject(stamp4);}
-  // const editorAddStamp5 = () => {editorRef.current.getInstance().addImageObject(stamp5);}
-  // const editorAddStamp6 = () => {editorRef.current.getInstance().addImageObject(stamp6);}
-  // const editorAddStamp7 = () => {editorRef.current.getInstance().addImageObject(stamp7);}
   function editorAddStamp(stamp) {editorRef.current.getInstance().addImageObject(stamp);}
 
   const itemData = [
@@ -69,7 +62,6 @@ const Page3 = () => {
         ia[i] = byteString.charCodeAt(i);
     }
     var blob = new Blob([ab], {type: mimeString});
-    // console.log('블롭', blob)
 
     try{
       const result = await ipfs.add(blob) 
@@ -134,13 +126,6 @@ const Page3 = () => {
     <ImageSavedShow />
     <hr/>
     <div>스티커 샘플 모음 (클릭시 티켓에 스티커를 추가할 수 있습니다.)</div>
-    {/* <img src={stamp1} alt="logo" onClick={editorAddStamp1}></img>
-    <img src={stamp2} alt="logo" onClick={editorAddStamp2}></img>
-    <img src={stamp3} alt="logo" onClick={editorAddStamp3}></img>
-    <img src={stamp4} alt="logo" onClick={editorAddStamp4}></img>
-    <img src={stamp5} alt="logo" onClick={editorAddStamp5}></img>
-    <img src={stamp6} alt="logo" onClick={editorAddStamp6}></img>
-    <img src={stamp7} alt="logo" onClick={editorAddStamp7}></img> */}
 
   <ImageList sx={{ width: 200, height: 200 }} cols={3} rowHeight={10}>
     {itemData.map((item) => (

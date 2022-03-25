@@ -139,7 +139,7 @@ function Detail() {
         <p>재판매 가능 여부</p>
         <input type="checkbox" onClick={() => setToggle(!toggle)} />
         <div>
-          최대 가격:
+          재판매 로열티:
           <input
             type="text"
             name="maxPrice"
@@ -149,7 +149,7 @@ function Detail() {
           />
         </div>
         <div>
-          최소 가격:
+          재판매 최대 배율:
           <input
             type="text"
             name="minPrice"
