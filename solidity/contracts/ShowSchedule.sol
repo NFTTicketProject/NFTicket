@@ -6,9 +6,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./MyTicket.sol";
 import "./TicketClass.sol";
+import "./IResellPolicy.sol";
 
 // 공연 정보 생성과 연관된 티켓 발매 역할
-contract ShowSchedule is Ownable {
+contract ShowSchedule is Ownable, IResellPolicy {
     using Counters for Counters.Counter;
 
     uint64 private _showId;
@@ -21,6 +22,7 @@ contract ShowSchedule is Ownable {
     mapping(uint256 => Counters.Counter) private _mintCountByClassId;
     uint256 private _maxMintCount;
     mapping(uint16 => mapping(uint16 => uint256)) private _ticketIdsBySeat;
+    ResellPolicy private _resellPolicy;
 
     IERC20 private _currencyContract;
     MyTicket private _ticketContract;
@@ -35,6 +37,7 @@ contract ShowSchedule is Ownable {
             string[] memory ticketClassNames, 
             uint256[] memory ticketClassPrices, 
             uint256[] memory ticketClassMaxMintCounts,
+            ResellPolicy memory resellPolicy,
             address currencyContractAddress,
             address ticketContractAddress
         ) public {
@@ -47,6 +50,7 @@ contract ShowSchedule is Ownable {
         _setStartedAt(block.timestamp + startedAt);
         _setEndedAt(block.timestamp + endedAt);
         _setMaxMintCount(maxMintCount);
+        _setResellPolicy(resellPolicy);
 
         _ticketClassContract = new TicketClass();
         for (uint256 i = 0; i < ticketClassNames.length; i++)
@@ -59,42 +63,6 @@ contract ShowSchedule is Ownable {
         _ticketContract = MyTicket(ticketContractAddress);
     }
 
-    function _setShowId(uint64 showId) private onlyOwner {
-        _showId = showId;
-    }
-
-    function _setStageName(string memory stageName) private onlyOwner {
-        _stageName = stageName;
-    }
-
-    function _setStartedAt(uint256 startedAt) private onlyOwner {
-        _startedAt = startedAt;
-    }
-
-    function _setEndedAt(uint256 endedAt) private onlyOwner {
-        _endedAt = endedAt;
-    }
-
-    function _setMaxMintCount(uint256 maxMintCount) private onlyOwner {
-        _maxMintCount = maxMintCount;
-    }
-
-    function TicketClassCount() public view returns(uint256) {
-        return _ticketClassContract.TicketClassCount();
-    }
-
-    function TicketClassName(uint256 ticketClassId) public view returns(string memory) {
-        return _ticketClassContract.TicketClassName(ticketClassId);
-    }
-
-    function TicketClassPrice(uint256 ticketClassId) public view returns(uint256) {
-        return _ticketClassContract.TicketClassPrice(ticketClassId);
-    }
-
-    function TicketClassMaxMintCount(uint256 ticketClassId) public view returns(uint256) {
-        return _ticketClassContract.TicketClassMaxMintCount(ticketClassId);
-    }
-
     function cancel() public notEnded onlyOwner {
         _isCancelled = true;
     }
@@ -104,8 +72,8 @@ contract ShowSchedule is Ownable {
         // 먼저 해당 자리가 비어있는지 확인
         require(_ticketIdsBySeat[row][col] == 0);
         
-        uint256 classId = _ticketContract.ClassId(ticketId);
-        uint256 classPrice = _ticketClassContract.TicketClassPrice(classId);
+        uint256 classId = _ticketContract.getClassId(ticketId);
+        uint256 classPrice = _ticketClassContract.getTicketClassPrice(classId);
 
         // 등록자에게 충분한 잔고가 있는지 확인
         require(_currencyContract.balanceOf(msg.sender) >= classPrice);
@@ -127,8 +95,8 @@ contract ShowSchedule is Ownable {
         require(_ticketIdsBySeat[row][col] > 0);
         
         uint256 ticketId = _ticketIdsBySeat[row][col];
-        uint256 classId = _ticketContract.ClassId(ticketId);
-        uint256 classPrice = _ticketClassContract.TicketClassPrice(classId);
+        uint256 classId = _ticketContract.getClassId(ticketId);
+        uint256 classPrice = _ticketClassContract.getTicketClassPrice(classId);
 
         // 티켓 주인인지 확인
         require(_ticketContract.ownerOf(ticketId) == msg.sender);
@@ -155,7 +123,72 @@ contract ShowSchedule is Ownable {
     // 모금액 회수
     function withdraw() public payable Ended onlyOwner {
         // 등록자에게 금액만큼 토큰을 전액 전송
-        _currencyContract.transferFrom(address(this), msg.sender, _currencyContract.balanceOf(address(this)));
+        uint256 contractBalance = _currencyContract.balanceOf(address(this));
+        _currencyContract.transferFrom(address(this), msg.sender, contractBalance);
+    }
+
+    function _setShowId(uint64 showId) private onlyOwner {
+        _showId = showId;
+    }
+
+    function _setStageName(string memory stageName) private onlyOwner {
+        _stageName = stageName;
+    }
+
+    function _setStartedAt(uint256 startedAt) private onlyOwner {
+        _startedAt = startedAt;
+    }
+
+    function _setEndedAt(uint256 endedAt) private onlyOwner {
+        _endedAt = endedAt;
+    }
+
+    function _setMaxMintCount(uint256 maxMintCount) private onlyOwner {
+        _maxMintCount = maxMintCount;
+    }
+
+    function _setResellPolicy(ResellPolicy memory resellPolicy) private {
+        _resellPolicy = resellPolicy;
+    }
+
+    function getShowId() public view returns(uint64) {
+        return _showId;
+    }
+
+    function getStageName() public view returns(string memory) {
+        return _stageName;
+    }
+
+    function getStartedAt() public view returns(uint256) {
+        return _startedAt;
+    }
+
+    function getEndedAt() public view returns(uint256) {
+        return _endedAt;
+    }
+
+    function getMaxMintCount() public view returns(uint256) {
+        return _maxMintCount;
+    }
+
+    function getResellPolicy() public view returns (bool, uint8, uint256) {
+        return (_resellPolicy.isAvailable, _resellPolicy.royaltyRatePercent, _resellPolicy.priceLimit);
+    }
+
+    function getTicketClassCount() public view returns(uint256) {
+        return _ticketClassContract.getTicketClassCount();
+    }
+
+    function getTicketClassName(uint256 ticketClassId) public view returns(string memory) {
+        return _ticketClassContract.getTicketClassName(ticketClassId);
+    }
+
+    function getTicketClassPrice(uint256 ticketClassId) public view returns(uint256) {
+        return _ticketClassContract.getTicketClassPrice(ticketClassId);
+    }
+
+    function getTicketClassMaxMintCount(uint256 ticketClassId) public view returns(uint256) {
+        return _ticketClassContract.getTicketClassMaxMintCount(ticketClassId);
     }
 
     modifier notEmpty() {
@@ -169,8 +202,8 @@ contract ShowSchedule is Ownable {
     }
 
     modifier notClassFull(uint256 ticketId) {
-        uint256 classId = _ticketContract.ClassId(ticketId);
-        uint256 classMaxMintCount = _ticketClassContract.TicketClassMaxMintCount(classId);
+        uint256 classId = _ticketContract.getClassId(ticketId);
+        uint256 classMaxMintCount = _ticketClassContract.getTicketClassMaxMintCount(classId);
 
         // 먼저 해당 등급이 비어있는지 확인
         require(_mintCountByClassId[classId].current() < classMaxMintCount, "You can't make a ticket at this schedule");
