@@ -5,10 +5,10 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract TicketClass {
     using Counters for Counters.Counter;
-    Counters.Counter ticketClassIds;
-    mapping(uint256 => string) ticketClassNames;
-    mapping(uint256 => uint256) ticketClassPrices;
-    mapping(uint256 => uint256) ticketClassMaxMintCounts;
+    Counters.Counter private ticketClassIds;
+    mapping(uint256 => string) private ticketClassNames;
+    mapping(uint256 => uint256) private ticketClassPrices;
+    mapping(uint256 => uint256) private ticketClassMaxMintCounts;
     
     constructor() {}
 
@@ -21,19 +21,19 @@ contract TicketClass {
         ticketClassMaxMintCounts[newTicketClassId] = ticketClassMaxMintCount;
     }
 
-    function TicketClassCount() public view returns(uint256) {
+    function getTicketClassCount() public view returns(uint256) {
         return ticketClassIds.current();
     }
 
-    function TicketClassName(uint256 ticketClassId) public view returns(string memory) {
+    function getTicketClassName(uint256 ticketClassId) public view returns(string memory) {
         return ticketClassNames[ticketClassId];
     }
 
-    function TicketClassPrice(uint256 ticketClassId) public view returns(uint256) {
+    function getTicketClassPrice(uint256 ticketClassId) public view returns(uint256) {
         return ticketClassPrices[ticketClassId];
     }
 
-    function TicketClassMaxMintCount(uint256 ticketClassId) public view returns(uint256) {
+    function getTicketClassMaxMintCount(uint256 ticketClassId) public view returns(uint256) {
         return ticketClassMaxMintCounts[ticketClassId];
     }
 }
