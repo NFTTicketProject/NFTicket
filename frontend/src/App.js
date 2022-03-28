@@ -15,6 +15,7 @@ import Page5 from "./pages/Page5";
 import Guide from "./pages/guide/Guide";
 import Detail from "./pages/Detail";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 import "./App.css";
 
 function App() {
@@ -52,13 +53,15 @@ function App() {
         <Route path="/Toast%20UI" element={<Page3 />} />
         <Route path="/Wallet%20Info" element={<Page4 />} />
         <Route path="/Community" element={<Page5 />} />
-        <Route path="/Wansoo" element={<Page4 />} />
+        {/* <Route path="/Wansoo" element={<Page4 />} /> */}
         {/* <Route path="/Mint" element={<Mint />} /> */}
         {/* <Route path="/My%20Animal" element={<MyAnimal account={account} />} />
         <Route path="/Sale%20Animal" element={<SaleAnimal account={account} />} /> */}
         <Route path="/Guide" element={<Guide />} />
         <Route path="/Detail" element={<Detail />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/Barcode" element={<Page4 />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
   );

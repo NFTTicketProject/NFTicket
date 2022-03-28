@@ -32,6 +32,10 @@ npm install react-unity-webgl@8.x  // WEBGL ????
 yarn add ipfs-api
 
 yarn add ipfs-http-client
+
+yarn add react-barcode
+
+
 ```
 
 설치 다 하셨다면
