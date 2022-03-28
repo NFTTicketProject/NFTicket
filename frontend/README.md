@@ -30,6 +30,8 @@ yarn add file-saver  // 이미지 로컬 다운로드
 npm install react-unity-webgl@8.x  // WEBGL ????
 
 yarn add ipfs-api
+
+yarn add ipfs-http-client
 ```
 
 설치 다 하셨다면
