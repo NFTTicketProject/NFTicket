@@ -28,6 +28,7 @@ const pages = [
   "Redux1",
   "Redux2",
   "Ticket-Detail",
+  "Barcode",
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -61,8 +62,10 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    // navbar 색은 #F5F5F5
-    <AppBar position='static' sx={{ bgcolor: "#F5F5F5" }}>
+    <AppBar
+      position='sticky'
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}
+    >
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
