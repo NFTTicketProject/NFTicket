@@ -7,11 +7,15 @@ const walletSlice = createSlice({
   },
   reducers: {
     changeAccount: (state) => {
-      state.accountInfo = "456";
+      state.accountInfo = "";
+    },
+    saveAccount: (state, action) => {
+      // 원하는 값으로 바꾸기
+      state.accountInfo = action.payload;
     },
   },
   extraReducers: {},
 });
 
-export const { changeAccount } = walletSlice.actions;
+export const { changeAccount, saveAccount } = walletSlice.actions;
 export default walletSlice.reducer;

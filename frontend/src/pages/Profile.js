@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import axios from "axios";
@@ -140,11 +141,16 @@ function Profile() {
       )}
       <hr />
       <pre>
-        로그인에는 Metamask가 필요하고 Metamask의 최상위 계정을 가져옵니다.<br/>
-        <br/>
-        그 이후, 정보 가져오기를 누르시면 해당 지갑주소에 연동된 닉네임과 description을 가져올 수 있습니다.<br/>
-        대상 ticket이 detail에서 발급 된 경우, 최근 발급된 티켓을 현재 주소 소유자의 이름으로 Mint할 수 있습니다.  <br/>
-        console.log에 발급된 티켓의 해쉬블록과 그 계정의 현재 NFT 갯수 등의 정보를 확인할 수 있습니다.  <br/>
+        로그인에는 Metamask가 필요하고 Metamask의 최상위 계정을 가져옵니다.
+        <br />
+        <br />
+        그 이후, 정보 가져오기를 누르시면 해당 지갑주소에 연동된 닉네임과 description을 가져올 수
+        있습니다.
+        <br />
+        대상 ticket이 detail에서 발급 된 경우, 최근 발급된 티켓을 현재 주소 소유자의 이름으로 Mint할
+        수 있습니다. <br />
+        console.log에 발급된 티켓의 해쉬블록과 그 계정의 현재 NFT 갯수 등의 정보를 확인할 수
+        있습니다. <br />
       </pre>
     </>
   );
