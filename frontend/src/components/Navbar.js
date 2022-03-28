@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
@@ -27,11 +27,15 @@ const pages = [
   "Guide",
   "Redux1",
   "Redux2",
-  "Barcode"
+  "Ticket-Detail",
+  "Barcode",
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
+  // react 6.0 버전 이후부터 useHistory => useNavigate 로 바뀌었다고 합니다.
+  const navigate = useNavigate();
+
   const Logo = styled.img`
     width: 107px;
     height: 30px;
@@ -48,6 +52,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
+  // 펼쳐진 상태에서의 Navbar 버튼클릭 이지만 비활성화 시켰다.
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -57,7 +62,10 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position='sticky' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}>
+    <AppBar
+      position='sticky'
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}
+    >
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
@@ -86,7 +94,9 @@ const ResponsiveAppBar = () => {
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              color='inherit'
+              // color='inherit'
+              // inherit 흰색 default 회색 primary 파랑 secondary 보라 error 빨강 info 파랑 success 초록 warning 주황 string 적용안됨
+              color='default'
             >
               <MenuIcon />
             </IconButton>
@@ -105,13 +115,24 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
+                color: "text.secondary",
                 display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page}
+                  onClick={() => navigate(`/${page}`)}
+                  sx={{
+                    ":hover": {
+                      color: "#FFC600",
+                    },
+                  }}
+                  // onClick={handleCloseNavMenu}
+                >
                   <Typography textAlign='center'>
-                    <Link to={`/${page}`}>{page}</Link>
+                    {/* <Link to={`/${page}`}>{page}</Link> */}
+                    {page}
                   </Typography>
                 </MenuItem>
               ))}
@@ -123,16 +144,36 @@ const ResponsiveAppBar = () => {
             component='div'
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            LOGO
+            <Link to='/'>
+              <Logo src='images/logo.png'></Logo>
+            </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            {/* 바로 아래 sx 수정하여 버튼 속성 수정 */}
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                // onClick={handleCloseNavMenu}
+                onClick={() => navigate(`/${page}`)}
+                sx={{
+                  textAlign: "center",
+                  mx: 1,
+                  my: 2,
+                  color: "black",
+                  display: "block",
+                  ":hover": {
+                    color: "#FFC600",
+                    bgcolor: "#F5F5F5",
+                  },
+                }}
               >
-                <Link to={`/${page}`}>{page}</Link>
+                {/* <Link to={`/${page}`}>{page}</Link> */}
+                {page}
               </Button>
             ))}
           </Box>

@@ -9,7 +9,7 @@ npm install -g yarn
 ```
 yarn add react-router-dom
 
-yarn add @mui/icons-material @mui/material @material-ui/icons @emotion/react @emotion/styled
+yarn add @mui/icons-material @mui/material @material-ui/icons @emotion/react @emotion/styled @mui/styles
 
 yarn add redux react-redux
 
