@@ -17,8 +17,17 @@ const TicketoItem = ()=>{
 
 
   return (
-    <TicketoContainer>
-      <TicketoImgContainer src='images/posterImg1.png' alt='poster img' style={{ width: "280px" }}>
+    <TicketoContainer
+      onMouseOver={(event) => {
+        console.log("마우스 오버 됨")
+      }}
+    >
+      <TicketoImgContainer 
+        src='images/posterImg1.png' 
+        alt='poster img' 
+        style={{ width: "280px" }}
+        
+      >
         
       </TicketoImgContainer>
       <p style={{ fontSize: "11px" }}>2022.04.01 ~ 2022.06.26</p>

@@ -14,6 +14,8 @@ const Community = ()=>{
 
   const CommunityItemContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    width: 90vw;
     justify-content: center;
   `;
 
@@ -21,14 +23,16 @@ const Community = ()=>{
     <div>
       <CommunityContainer>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <h2 style={{ width: "1180px"}}>커뮤니티</h2>
+          <h2 style={{ width: "90vw" }}>커뮤니티</h2>
         </div>
-        <CommunityItemContainer>
-          <CommunityItem/>
-          <CommunityItem/>
-          <CommunityItem/>
-          <CommunityItem/>
-        </CommunityItemContainer>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <CommunityItemContainer>
+            <CommunityItem/>
+            <CommunityItem/>
+            <CommunityItem/>
+            <CommunityItem/>
+          </CommunityItemContainer>
+        </div>
       </CommunityContainer>
     </div>
   );
