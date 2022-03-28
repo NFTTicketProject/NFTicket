@@ -6,7 +6,7 @@ module.exports = {
         if (!param.info.timestamp)
             return false
 
-        if (Math.abs(new Date(param.info.timestamp) - new Date()) > 600000)
+        if (Math.abs(new Date(param.info.timestamp) - new Date()) > 300000)
             return false
 
         const hash = crypto.createHash('sha256').update(JSON.stringify(param.info)).digest('hex');
