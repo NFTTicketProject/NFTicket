@@ -24,30 +24,32 @@ const Ticketo = ()=>{
 
   const TicketoItemContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    width: 90vw;
     justify-content: center;
   `;
   
   return (
     <div>
       <TitleContainer>
-        <div style={{display: "flex-column"}}>
+        <div style={{ display: "flex-column", width: "90vw" }}>
         {/* <div style={{ width: "1180px", display: "flex-column", justifyContent: "center"}}> */}
           <Title>티케토</Title>
-          <span style={{ width: "1180px" }}>다른 관객들과 NFTicket을 자유롭게 거래해보세요.</span>
+          <span style={{ width: "80vw" }}>다른 관객들과 NFTicket을 자유롭게 거래해보세요.</span>
         </div>
       </TitleContainer>
-      <TicketoItemContainer>
-      <TicketoItem/>
-      <TicketoItem/>
-      <TicketoItem/>
-      <TicketoItem/>
-      </TicketoItemContainer>
-      <TicketoItemContainer>
-      <TicketoItem/>
-      <TicketoItem/>
-      <TicketoItem/>
-      <TicketoItem/>
-      </TicketoItemContainer>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <TicketoItemContainer>
+          <TicketoItem/>
+          <TicketoItem/>
+          <TicketoItem/>
+          <TicketoItem/>
+          <TicketoItem/>
+          <TicketoItem/>
+          <TicketoItem/>
+          <TicketoItem/>
+        </TicketoItemContainer>
+      </div>
       
     </div>
   );
