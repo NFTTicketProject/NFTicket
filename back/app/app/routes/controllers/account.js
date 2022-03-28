@@ -93,11 +93,12 @@ router.patch('/edit/nickname/:walletId', async (req, res)=>{
         nickname : req.body.info.nickname,
     }
 
-    const validation = await auth.ownerCheck(req.body, req.params.wallet_id)
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
 
     if ( !validation ) {
         res.status(500)
         res.send()
+        return;
     }
 
     const status = await profile_service.editProfileNickname(newInfo)
@@ -159,11 +160,12 @@ router.patch('/edit/description/:walletId', async (req, res)=>{
         description : req.body.info.description,
     }
 
-    const validation = await auth.ownerCheck(req.body, req.params.wallet_id)
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
 
     if ( !validation ) {
         res.status(500)
         res.send()
+        return;
     }
 
     const status = await profile_service.editProfileDescription(newInfo)
@@ -225,11 +227,12 @@ router.patch('/edit/imageurl/:walletId', async (req, res)=>{
         image_url : req.body.info.image_url,
     }
 
-    const validation = await auth.ownerCheck(req.body, req.params.wallet_id)
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
 
     if ( !validation ) {
         res.status(500)
         res.send()
+        return;
     }
 
     const status = await profile_service.editProfileImageURL(newInfo)
