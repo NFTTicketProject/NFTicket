@@ -42,7 +42,7 @@ const Notification = () => {
           차감되어 거래가 체결될 수 있습니다.
         </Marginli>
         <Marginli>
-          구매 가격 제안 취소는 거래가 체결되기 이전까지 'My NFT > Price
+          구매 가격 제안 취소는 거래가 체결되기 이전까지 'My NFT ▶ Price
           Offer'에서 진행하실 수 있습니다.
         </Marginli>
         <Marginli>
