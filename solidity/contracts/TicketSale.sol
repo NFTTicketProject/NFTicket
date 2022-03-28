@@ -2,12 +2,13 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./MyTicket.sol";
 import "./ShowScheduleManager.sol";
 
-contract TicketSale is Ownable {
+contract TicketSale is Ownable, IERC721Receiver {
     using SafeMath for uint256;
 
     uint256 private _ticketId;
@@ -98,6 +99,11 @@ contract TicketSale is Ownable {
     function getEndTimeLeft() public view returns(uint256) {
         require(_endedAt > block.timestamp, "This sale is already ended");
         return _endedAt - block.timestamp;
+    }
+
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) external pure returns(bytes4)
+    {
+        return this.onERC721Received.selector;
     }
 
     modifier onlySeller() {
