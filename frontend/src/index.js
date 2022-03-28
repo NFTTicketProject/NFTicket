@@ -7,6 +7,7 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 // redux 관련해서는 https://www.youtube.com/watch?v=QZcYz2NrDIs&t=193s 에서 알려주는대로 따라했습니다. (애플코딩의 redux 설명)
 
@@ -49,6 +50,7 @@ function reducer(state = myWallet, action) {
 
 ReactDOM.render(
   <Router>
+    <ScrollToTop />
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <App />
