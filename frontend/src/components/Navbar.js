@@ -27,6 +27,7 @@ const pages = [
   "Guide",
   "Redux1",
   "Redux2",
+  "Barcode"
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -56,7 +57,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position='static' sx={{ bgcolor: "#F5F5F5" }}>
+    <AppBar position='sticky' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
