@@ -171,6 +171,184 @@ import normal119 from "../../images/stamp/normal/119.png";
 import normal120 from "../../images/stamp/normal/120.png";
 
 
+import icon001 from "../../images/stamp/icon/001.PNG";
+import icon002 from "../../images/stamp/icon/002.PNG";
+import icon003 from "../../images/stamp/icon/003.PNG";
+import icon004 from "../../images/stamp/icon/004.PNG";
+import icon005 from "../../images/stamp/icon/005.PNG";
+import icon006 from "../../images/stamp/icon/006.PNG";
+import icon007 from "../../images/stamp/icon/007.PNG";
+import icon008 from "../../images/stamp/icon/008.PNG";
+import icon009 from "../../images/stamp/icon/009.PNG";
+import icon010 from "../../images/stamp/icon/010.PNG";
+import icon011 from "../../images/stamp/icon/011.PNG";
+import icon012 from "../../images/stamp/icon/012.PNG";
+import icon013 from "../../images/stamp/icon/013.PNG";
+import icon014 from "../../images/stamp/icon/014.PNG";
+import icon015 from "../../images/stamp/icon/015.PNG";
+import icon016 from "../../images/stamp/icon/016.PNG";
+import icon017 from "../../images/stamp/icon/017.PNG";
+import icon018 from "../../images/stamp/icon/018.PNG";
+import icon019 from "../../images/stamp/icon/019.PNG";
+import icon020 from "../../images/stamp/icon/020.PNG";
+import icon021 from "../../images/stamp/icon/021.PNG";
+import icon022 from "../../images/stamp/icon/022.PNG";
+import icon023 from "../../images/stamp/icon/023.PNG";
+import icon024 from "../../images/stamp/icon/024.PNG";
+import icon025 from "../../images/stamp/icon/025.PNG";
+import icon026 from "../../images/stamp/icon/026.PNG";
+import icon027 from "../../images/stamp/icon/027.PNG";
+import icon028 from "../../images/stamp/icon/028.PNG";
+import icon029 from "../../images/stamp/icon/029.PNG";
+import icon030 from "../../images/stamp/icon/030.PNG";
+import icon031 from "../../images/stamp/icon/031.PNG";
+import icon032 from "../../images/stamp/icon/032.PNG";
+import icon033 from "../../images/stamp/icon/033.PNG";
+import icon034 from "../../images/stamp/icon/034.PNG";
+import icon035 from "../../images/stamp/icon/035.PNG";
+import icon036 from "../../images/stamp/icon/036.PNG";
+import icon037 from "../../images/stamp/icon/037.PNG";
+import icon038 from "../../images/stamp/icon/038.PNG";
+import icon039 from "../../images/stamp/icon/039.PNG";
+import icon040 from "../../images/stamp/icon/040.PNG";
+import icon041 from "../../images/stamp/icon/041.PNG";
+import icon042 from "../../images/stamp/icon/042.PNG";
+import icon043 from "../../images/stamp/icon/043.PNG";
+import icon044 from "../../images/stamp/icon/044.PNG";
+import icon045 from "../../images/stamp/icon/045.PNG";
+import icon046 from "../../images/stamp/icon/046.PNG";
+import icon047 from "../../images/stamp/icon/047.PNG";
+import icon048 from "../../images/stamp/icon/048.PNG";
+
+import galaxy001 from "../../images/stamp/galaxy/001.png";
+import galaxy002 from "../../images/stamp/galaxy/002.png";
+import galaxy003 from "../../images/stamp/galaxy/003.png";
+import galaxy004 from "../../images/stamp/galaxy/004.png";
+import galaxy005 from "../../images/stamp/galaxy/005.png";
+import galaxy006 from "../../images/stamp/galaxy/006.png";
+import galaxy007 from "../../images/stamp/galaxy/007.png";
+import galaxy008 from "../../images/stamp/galaxy/008.png";
+import galaxy009 from "../../images/stamp/galaxy/009.png";
+import galaxy010 from "../../images/stamp/galaxy/010.png";
+import galaxy011 from "../../images/stamp/galaxy/011.png";
+import galaxy012 from "../../images/stamp/galaxy/012.png";
+import galaxy013 from "../../images/stamp/galaxy/013.png";
+import galaxy014 from "../../images/stamp/galaxy/014.png";
+import galaxy015 from "../../images/stamp/galaxy/015.png";
+
+import sns001 from "../../images/stamp/sns/001.png";
+import sns002 from "../../images/stamp/sns/002.png";
+import sns003 from "../../images/stamp/sns/003.png";
+import sns004 from "../../images/stamp/sns/004.png";
+import sns005 from "../../images/stamp/sns/005.png";
+import sns006 from "../../images/stamp/sns/006.png";
+import sns007 from "../../images/stamp/sns/007.png";
+import sns008 from "../../images/stamp/sns/008.png";
+import sns009 from "../../images/stamp/sns/009.png";
+import sns010 from "../../images/stamp/sns/010.png";
+import sns011 from "../../images/stamp/sns/011.png";
+import sns012 from "../../images/stamp/sns/012.png";
+import sns013 from "../../images/stamp/sns/013.png";
+import sns014 from "../../images/stamp/sns/014.png";
+import sns015 from "../../images/stamp/sns/015.png";
+import sns016 from "../../images/stamp/sns/016.png";
+import sns017 from "../../images/stamp/sns/017.png";
+import sns018 from "../../images/stamp/sns/018.png";
+import sns019 from "../../images/stamp/sns/019.png";
+import sns020 from "../../images/stamp/sns/020.png";
+import sns021 from "../../images/stamp/sns/021.png";
+import sns022 from "../../images/stamp/sns/022.png";
+import sns023 from "../../images/stamp/sns/023.png";
+import sns024 from "../../images/stamp/sns/024.png";
+import sns025 from "../../images/stamp/sns/025.png";
+import sns026 from "../../images/stamp/sns/026.png";
+import sns027 from "../../images/stamp/sns/027.png";
+import sns028 from "../../images/stamp/sns/028.png";
+import sns029 from "../../images/stamp/sns/029.png";
+import sns030 from "../../images/stamp/sns/030.png";
+import sns031 from "../../images/stamp/sns/031.png";
+import sns032 from "../../images/stamp/sns/032.png";
+import sns033 from "../../images/stamp/sns/033.png";
+import sns034 from "../../images/stamp/sns/034.png";
+import sns035 from "../../images/stamp/sns/035.png";
+import sns036 from "../../images/stamp/sns/036.png";
+import sns037 from "../../images/stamp/sns/037.png";
+import sns038 from "../../images/stamp/sns/038.png";
+import sns039 from "../../images/stamp/sns/039.png";
+import sns040 from "../../images/stamp/sns/040.png";
+import sns041 from "../../images/stamp/sns/041.png";
+import sns042 from "../../images/stamp/sns/042.png";
+import sns043 from "../../images/stamp/sns/043.png";
+import sns044 from "../../images/stamp/sns/044.png";
+import sns045 from "../../images/stamp/sns/045.png";
+import sns046 from "../../images/stamp/sns/046.png";
+import sns047 from "../../images/stamp/sns/047.png";
+import sns048 from "../../images/stamp/sns/048.png";
+import sns049 from "../../images/stamp/sns/049.png";
+import sns050 from "../../images/stamp/sns/050.png";
+import sns051 from "../../images/stamp/sns/051.png";
+import sns052 from "../../images/stamp/sns/052.png";
+import sns053 from "../../images/stamp/sns/053.png";
+import sns054 from "../../images/stamp/sns/054.png";
+import sns055 from "../../images/stamp/sns/055.png";
+import sns056 from "../../images/stamp/sns/056.png";
+import sns057 from "../../images/stamp/sns/057.png";
+import sns058 from "../../images/stamp/sns/058.png";
+import sns059 from "../../images/stamp/sns/059.png";
+import sns060 from "../../images/stamp/sns/060.png";
+import sns061 from "../../images/stamp/sns/061.png";
+import sns062 from "../../images/stamp/sns/062.png";
+import sns063 from "../../images/stamp/sns/063.png";
+import sns064 from "../../images/stamp/sns/064.png";
+import sns065 from "../../images/stamp/sns/065.png";
+import sns066 from "../../images/stamp/sns/066.png";
+import sns067 from "../../images/stamp/sns/067.png";
+import sns068 from "../../images/stamp/sns/068.png";
+
+import family001 from "../../images/stamp/family/001.png";
+import family002 from "../../images/stamp/family/002.png";
+import family003 from "../../images/stamp/family/003.png";
+import family004 from "../../images/stamp/family/004.png";
+import family005 from "../../images/stamp/family/005.png";
+import family006 from "../../images/stamp/family/006.png";
+import family007 from "../../images/stamp/family/007.png";
+import family008 from "../../images/stamp/family/008.png";
+import family009 from "../../images/stamp/family/009.png";
+import family010 from "../../images/stamp/family/010.png";
+
+import pin001 from "../../images/stamp/pin/001.png";
+import pin002 from "../../images/stamp/pin/002.png";
+import pin003 from "../../images/stamp/pin/003.png";
+import pin004 from "../../images/stamp/pin/004.png";
+import pin005 from "../../images/stamp/pin/005.png";
+import pin006 from "../../images/stamp/pin/006.png";
+import pin007 from "../../images/stamp/pin/007.png";
+import pin008 from "../../images/stamp/pin/008.png";
+import pin009 from "../../images/stamp/pin/009.png";
+import pin010 from "../../images/stamp/pin/010.png";
+import pin011 from "../../images/stamp/pin/011.png";
+import pin012 from "../../images/stamp/pin/012.png";
+import pin013 from "../../images/stamp/pin/013.png";
+import pin014 from "../../images/stamp/pin/014.png";
+import pin015 from "../../images/stamp/pin/015.png";
+import pin016 from "../../images/stamp/pin/016.png";
+import pin017 from "../../images/stamp/pin/017.png";
+import pin018 from "../../images/stamp/pin/018.png";
+import pin019 from "../../images/stamp/pin/019.png";
+import pin020 from "../../images/stamp/pin/020.png";
+import pin021 from "../../images/stamp/pin/021.png";
+import pin022 from "../../images/stamp/pin/022.png";
+import pin023 from "../../images/stamp/pin/023.png";
+import pin024 from "../../images/stamp/pin/024.png";
+import pin025 from "../../images/stamp/pin/025.png";
+import pin026 from "../../images/stamp/pin/026.png";
+import pin027 from "../../images/stamp/pin/027.png";
+import pin028 from "../../images/stamp/pin/028.png";
+import pin029 from "../../images/stamp/pin/029.png";
+import pin030 from "../../images/stamp/pin/030.png";
+import pin031 from "../../images/stamp/pin/031.png";
+import pin032 from "../../images/stamp/pin/032.png";
+
 const DrawerMain = (props) => {
   const [activeMenu, setActiveMenu] = useState('');
 
@@ -183,7 +361,6 @@ const DrawerMain = (props) => {
     {img: stamp6, title:'no'},
     {img: stamp7, title:'no'},
   ]
-
   const itemDataNormal = [
     {img: normal001, title:'no'},
     {img: normal002, title:'no'},
@@ -306,7 +483,6 @@ const DrawerMain = (props) => {
     {img: normal119, title:'no'},
     {img: normal120, title:'no'},
   ]
-
   const itemDataEmoticon = [
     {img: emoticon1, title:'no'},
     {img: emoticon2, title:'no'},
@@ -333,13 +509,197 @@ const DrawerMain = (props) => {
     {img: emoticon23, title:'no'},
     {img: emoticon24, title:'no'}
   ]
+  const itemDataIcon = [
+    {img: icon001, title:'no'},
+    {img: icon002, title:'no'},
+    {img: icon003, title:'no'},
+    {img: icon004, title:'no'},
+    {img: icon005, title:'no'},
+    {img: icon006, title:'no'},
+    {img: icon007, title:'no'},
+    {img: icon008, title:'no'},
+    {img: icon009, title:'no'},
+    {img: icon010, title:'no'},
+    {img: icon011, title:'no'},
+    {img: icon012, title:'no'},
+    {img: icon013, title:'no'},
+    {img: icon014, title:'no'},
+    {img: icon015, title:'no'},
+    {img: icon016, title:'no'},
+    {img: icon017, title:'no'},
+    {img: icon018, title:'no'},
+    {img: icon019, title:'no'},
+    {img: icon020, title:'no'},
+    {img: icon021, title:'no'},
+    {img: icon022, title:'no'},
+    {img: icon023, title:'no'},
+    {img: icon024, title:'no'},
+    {img: icon025, title:'no'},
+    {img: icon026, title:'no'},
+    {img: icon027, title:'no'},
+    {img: icon028, title:'no'},
+    {img: icon029, title:'no'},
+    {img: icon030, title:'no'},
+    {img: icon031, title:'no'},
+    {img: icon032, title:'no'},
+    {img: icon033, title:'no'},
+    {img: icon034, title:'no'},
+    {img: icon035, title:'no'},
+    {img: icon036, title:'no'},
+    {img: icon037, title:'no'},
+    {img: icon038, title:'no'},
+    {img: icon039, title:'no'},
+    {img: icon040, title:'no'},
+    {img: icon041, title:'no'},
+    {img: icon042, title:'no'},
+    {img: icon043, title:'no'},
+    {img: icon044, title:'no'},
+    {img: icon045, title:'no'},
+    {img: icon046, title:'no'},
+    {img: icon047, title:'no'},
+    {img: icon048, title:'no'},
+  ]
+  const itemDataGalaxy = [
+    {img: galaxy001, title:'no'},
+    {img: galaxy002, title:'no'},
+    {img: galaxy003, title:'no'},
+    {img: galaxy004, title:'no'},
+    {img: galaxy005, title:'no'},
+    {img: galaxy006, title:'no'},
+    {img: galaxy007, title:'no'},
+    {img: galaxy008, title:'no'},
+    {img: galaxy009, title:'no'},
+    {img: galaxy010, title:'no'},
+    {img: galaxy011, title:'no'},
+    {img: galaxy012, title:'no'},
+    {img: galaxy013, title:'no'},
+    {img: galaxy014, title:'no'},
+    {img: galaxy015, title:'no'},
+  ]
+  const itemDataSns = [
+    {img: sns001, title:'no'},
+    {img: sns002, title:'no'},
+    {img: sns003, title:'no'},
+    {img: sns004, title:'no'},
+    {img: sns005, title:'no'},
+    {img: sns006, title:'no'},
+    {img: sns007, title:'no'},
+    {img: sns008, title:'no'},
+    {img: sns009, title:'no'},
+    {img: sns010, title:'no'},
+    {img: sns011, title:'no'},
+    {img: sns012, title:'no'},
+    {img: sns013, title:'no'},
+    {img: sns014, title:'no'},
+    {img: sns015, title:'no'},
+    {img: sns016, title:'no'},
+    {img: sns017, title:'no'},
+    {img: sns018, title:'no'},
+    {img: sns019, title:'no'},
+    {img: sns020, title:'no'},
+    {img: sns021, title:'no'},
+    {img: sns022, title:'no'},
+    {img: sns023, title:'no'},
+    {img: sns024, title:'no'},
+    {img: sns025, title:'no'},
+    {img: sns026, title:'no'},
+    {img: sns027, title:'no'},
+    {img: sns028, title:'no'},
+    {img: sns029, title:'no'},
+    {img: sns030, title:'no'},
+    {img: sns031, title:'no'},
+    {img: sns032, title:'no'},
+    {img: sns033, title:'no'},
+    {img: sns034, title:'no'},
+    {img: sns035, title:'no'},
+    {img: sns036, title:'no'},
+    {img: sns037, title:'no'},
+    {img: sns038, title:'no'},
+    {img: sns039, title:'no'},
+    {img: sns040, title:'no'},
+    {img: sns041, title:'no'},
+    {img: sns042, title:'no'},
+    {img: sns043, title:'no'},
+    {img: sns044, title:'no'},
+    {img: sns045, title:'no'},
+    {img: sns046, title:'no'},
+    {img: sns047, title:'no'},
+    {img: sns048, title:'no'},
+    {img: sns049, title:'no'},
+    {img: sns050, title:'no'},
+    {img: sns051, title:'no'},
+    {img: sns052, title:'no'},
+    {img: sns053, title:'no'},
+    {img: sns054, title:'no'},
+    {img: sns055, title:'no'},
+    {img: sns056, title:'no'},
+    {img: sns057, title:'no'},
+    {img: sns058, title:'no'},
+    {img: sns059, title:'no'},
+    {img: sns060, title:'no'},
+    {img: sns061, title:'no'},
+    {img: sns062, title:'no'},
+    {img: sns063, title:'no'},
+    {img: sns064, title:'no'},
+    {img: sns065, title:'no'},
+    {img: sns066, title:'no'},
+    {img: sns067, title:'no'},
+    {img: sns068, title:'no'}
+  ]
+  const itemDataFamily = [
+    {img: family001, title:'no'},
+    {img: family002, title:'no'},
+    {img: family003, title:'no'},
+    {img: family004, title:'no'},
+    {img: family005, title:'no'},
+    {img: family006, title:'no'},
+    {img: family007, title:'no'},
+    {img: family008, title:'no'},
+    {img: family009, title:'no'},
+    {img: family010, title:'no'}
+  ]
+  const itemDataPin = [
+    {img: pin001, title:'no'},
+    {img: pin002, title:'no'},
+    {img: pin003, title:'no'},
+    {img: pin004, title:'no'},
+    {img: pin005, title:'no'},
+    {img: pin006, title:'no'},
+    {img: pin007, title:'no'},
+    {img: pin008, title:'no'},
+    {img: pin009, title:'no'},
+    {img: pin010, title:'no'},
+    {img: pin011, title:'no'},
+    {img: pin012, title:'no'},
+    {img: pin013, title:'no'},
+    {img: pin014, title:'no'},
+    {img: pin015, title:'no'},
+    {img: pin016, title:'no'},
+    {img: pin017, title:'no'},
+    {img: pin018, title:'no'},
+    {img: pin019, title:'no'},
+    {img: pin020, title:'no'},
+    {img: pin021, title:'no'},
+    {img: pin022, title:'no'},
+    {img: pin023, title:'no'},
+    {img: pin024, title:'no'},
+    {img: pin025, title:'no'},
+    {img: pin026, title:'no'},
+    {img: pin027, title:'no'},
+    {img: pin028, title:'no'},
+    {img: pin029, title:'no'},
+    {img: pin030, title:'no'},
+    {img: pin031, title:'no'},
+    {img: pin032, title:'no'},
+  ]
 
   function MenuItem() {
     if (activeMenu === '개발') {
       return <ListItem >
-          <ImageList sx={{ width: 200, height: 200 }} cols={3} rowHeight={10}>
+          <ImageList sx={{ width: 200, height: (75 * 3) }} cols={3} rowHeight={10}>
             {itemData.map((item) => (
               <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
                 key={item.img}
                 onClick={() => {props.editorAddStamp(item.img)}}>
                 <img
@@ -360,6 +720,7 @@ const DrawerMain = (props) => {
           <ImageList sx={{ width: 200, height: (75*40) }} cols={3} rowHeight={10}>
             {itemDataNormal.map((item) => (
               <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
                 key={item.img}
                 onClick={() => {props.editorAddStamp(item.img)}}>
                 <img
@@ -374,13 +735,118 @@ const DrawerMain = (props) => {
     }
     return null;
   }
-
   function MenuItemEmoticon() {
     if (activeMenu === '이모티콘') {
       return <ListItem >
           <ImageList sx={{ width: 200, height: (75*8) }} cols={3} rowHeight={10}>
             {itemDataEmoticon.map((item) => (
               <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
+                key={item.img}
+                onClick={() => {props.editorAddStamp(item.img)}}>
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+      </ListItem>
+    }
+    return null;
+  }
+  function MenuItemIcon() {
+    if (activeMenu === '아이콘') {
+      return <ListItem >
+          <ImageList sx={{ width: 200, height: (75*16) }} cols={3} rowHeight={10}>
+            {itemDataIcon.map((item) => (
+              <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
+                key={item.img}
+                onClick={() => {props.editorAddStamp(item.img)}}>
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+      </ListItem>
+    }
+    return null;
+  }
+  function MenuItemGalaxy() {
+    if (activeMenu === '갤럭시') {
+      return <ListItem >
+          <ImageList sx={{ width: 200, height: (75*5) }} cols={3} rowHeight={10}>
+            {itemDataGalaxy.map((item) => (
+              <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
+                key={item.img}
+                onClick={() => {props.editorAddStamp(item.img)}}>
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+      </ListItem>
+    }
+    return null;
+  }
+  function MenuItemSns() {
+    if (activeMenu === 'SNS') {
+      return <ListItem >
+          <ImageList sx={{ width: 200, height: (75 * 23) }} cols={3} rowHeight={10}>
+            {itemDataSns.map((item) => (
+              <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
+                key={item.img}
+                onClick={() => {props.editorAddStamp(item.img)}}>
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+      </ListItem>
+    }
+    return null;
+  }
+  function MenuItemFamily() {
+    if (activeMenu === '가족') {
+      return <ListItem >
+          <ImageList sx={{ width: 200, height: (75 * 4) }} cols={3} rowHeight={10}>
+            {itemDataFamily.map((item) => (
+              <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
+                key={item.img}
+                onClick={() => {props.editorAddStamp(item.img)}}>
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+      </ListItem>
+    }
+    return null;
+  }
+  function MenuItemPin() {
+    if (activeMenu === '핀') {
+      return <ListItem >
+          <ImageList sx={{ width: 200, height: (75 * 11) }} cols={3} rowHeight={10}>
+            {itemDataPin.map((item) => (
+              <ImageListItem 
+                sx={{":hover": {cursor: 'pointer'}}}
                 key={item.img}
                 onClick={() => {props.editorAddStamp(item.img)}}>
                 <img
@@ -411,7 +877,7 @@ const DrawerMain = (props) => {
         <List>
 
           {/* 테스트 중 */}
-          <ListItem 
+          {/* <ListItem 
             button 
             key='개발'
             onClick={() => {
@@ -441,7 +907,7 @@ const DrawerMain = (props) => {
 
           </ListItem>
           <MenuItem />
-          <Divider />
+          <Divider /> */}
 
           {/* 일반 */}
           <ListItem 
@@ -510,7 +976,171 @@ const DrawerMain = (props) => {
           <MenuItemEmoticon />
           <Divider />
 
-        
+          {/* 아이콘 */}
+          <ListItem 
+            button 
+            key='아이콘'
+            onClick={() => {
+              if (activeMenu !== '아이콘') {
+                setActiveMenu('아이콘');
+              } else {
+                setActiveMenu('');
+              }
+            }}
+            secondaryAction={
+              (activeMenu === '아이콘') ? (
+                <KeyboardArrowUpIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              ) : (
+                <KeyboardArrowDownIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              )}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary='아이콘' />
+
+          </ListItem>
+          <MenuItemIcon />
+          <Divider />
+
+          {/* 갤럭시 */}
+          <ListItem 
+            button 
+            key='갤럭시'
+            onClick={() => {
+              if (activeMenu !== '갤럭시') {
+                setActiveMenu('갤럭시');
+              } else {
+                setActiveMenu('');
+              }
+            }}
+            secondaryAction={
+              (activeMenu === '갤럭시') ? (
+                <KeyboardArrowUpIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              ) : (
+                <KeyboardArrowDownIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              )}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary='갤럭시' />
+
+          </ListItem>
+          <MenuItemGalaxy />
+          <Divider />
+
+          {/* SNS */}
+          <ListItem 
+            button 
+            key='SNS'
+            onClick={() => {
+              if (activeMenu !== 'SNS') {
+                setActiveMenu('SNS');
+              } else {
+                setActiveMenu('');
+              }
+            }}
+            secondaryAction={
+              (activeMenu === 'SNS') ? (
+                <KeyboardArrowUpIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              ) : (
+                <KeyboardArrowDownIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              )}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary='SNS' />
+
+          </ListItem>
+          <MenuItemSns />
+          <Divider />
+
+          {/* 가족 */}
+          <ListItem 
+            button 
+            key='가족'
+            onClick={() => {
+              if (activeMenu !== '가족') {
+                setActiveMenu('가족');
+              } else {
+                setActiveMenu('');
+              }
+            }}
+            secondaryAction={
+              (activeMenu === '가족') ? (
+                <KeyboardArrowUpIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              ) : (
+                <KeyboardArrowDownIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              )}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary='가족' />
+
+          </ListItem>
+          <MenuItemFamily />
+          <Divider />
+
+          {/* 핀 */}
+          <ListItem 
+            button 
+            key='핀'
+            onClick={() => {
+              if (activeMenu !== '핀') {
+                setActiveMenu('핀');
+              } else {
+                setActiveMenu('');
+              }
+            }}
+            secondaryAction={
+              (activeMenu === '핀') ? (
+                <KeyboardArrowUpIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              ) : (
+                <KeyboardArrowDownIcon
+                  style={{ cursor: 'pointer' }}
+                  color='primary'
+                />
+              )}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary='핀' />
+
+          </ListItem>
+          <MenuItemPin />
+          <Divider />
+
         </List>
       </Box>
     </Drawer>
