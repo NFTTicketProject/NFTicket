@@ -103,7 +103,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         require(_currencyContract.balanceOf(address(this)) >= classPrice);
         
         // 등록자에게 금액만큼 토큰을 환불
-        _currencyContract.transferFrom(address(this), msg.sender, classPrice);
+        _currencyContract.transfer(msg.sender, classPrice);
 
         // 해당 자리에 티켓 ID를 등록 취소
         _ticketIdsBySeat[classId][seatIndex] = 0;
@@ -122,7 +122,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         // 등록자에게 금액만큼 토큰을 전액 전송
     function withdraw() public payable Ended onlyAdmin {
         uint256 contractBalance = _currencyContract.balanceOf(address(this));
-        _currencyContract.transferFrom(address(this), msg.sender, contractBalance);
+        _currencyContract.transfer(_admin, contractBalance);
     }
 
     function _setAdmin(address admin) private onlyOwner {
