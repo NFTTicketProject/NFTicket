@@ -22,7 +22,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     Counters.Counter private _mintCount;
     mapping(uint256 => Counters.Counter) private _mintCountByClassId;
     uint256 private _maxMintCount;
-    mapping(uint16 => mapping(uint16 => uint256)) private _ticketIdsBySeat;
+    mapping(uint256 => mapping(uint256 => uint256)) private _ticketIdsBySeat;
     ResellPolicy private _resellPolicy;
     TicketClassInfo[] private _ticketClasses;
 
@@ -61,9 +61,9 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     }
 
     // 티켓 등록
-    function registerTicket(uint16 row, uint16 col, uint256 ticketId) public payable notFull notClassFull(ticketId) notCanceled notStarted {
+    function registerTicket(uint256 classId, uint256 seatIndex, uint256 ticketId) public payable notFull notClassFull(ticketId) notCanceled notStarted {
         // 먼저 해당 자리가 비어있는지 확인
-        require(_ticketIdsBySeat[row][col] == 0);
+        require(_ticketIdsBySeat[classId][seatIndex] == 0, "This seat is already registered");
         
         uint256 classId = _ticketContract.getClassId(ticketId);
         uint256 classPrice = _ticketClassContract.getTicketClassPrice(classId);
@@ -75,7 +75,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         _currencyContract.transferFrom(msg.sender, address(this), classPrice);
 
         // 해당 자리에 티켓 ID를 등록
-        _ticketIdsBySeat[row][col] = ticketId;
+        _ticketIdsBySeat[classId][seatIndex] = ticketId;
 
         // 전체 및 해당 등급의 발행 티켓 수를 증가
         _mintCount.increment();
@@ -83,13 +83,18 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     }
 
     // 티켓 등록 취소
-    function revokeTicket(uint16 row, uint16 col) public payable notStarted {
+    function revokeTicket(uint256 classId, uint256 seatIndex) public payable notStarted {
          // 먼저 해당 자리에 해당 티켓이 등록되어 있는지 확인
-        require(_ticketIdsBySeat[row][col] > 0);
-        
-        uint256 ticketId = _ticketIdsBySeat[row][col];
-        uint256 classId = _ticketContract.getClassId(ticketId);
         uint256 classPrice = _ticketClassContract.getTicketClassPrice(classId);
+        require(_ticketIdsBySeat[classId][seatIndex] > 0);
+
+        // 해당 자리에 등록된 티켓 ID 가져오기
+        uint256 ticketId = _ticketIdsBySeat[classId][seatIndex];
+
+        // 티켓의 class와 취소할 class가 일치하는지 확인
+        require(classId == _ticketContract.getClassId(ticketId));
+
+        // 해당 클래스의 등록 가격 가져오기
 
         // 티켓 주인인지 확인
         require(_ticketContract.ownerOf(ticketId) == msg.sender);
@@ -101,7 +106,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         _currencyContract.transferFrom(address(this), msg.sender, classPrice);
 
         // 해당 자리에 티켓 ID를 등록 취소
-        _ticketIdsBySeat[row][col] = 0;
+        _ticketIdsBySeat[classId][seatIndex] = 0;
 
         // 전체 및 해당 등급의 발행 티켓 수를 감소
         _mintCount.decrement();
