@@ -276,7 +276,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         _maxMintCount = maxMintCount;
     }
 
-    function _setResellPolicy(ResellPolicy memory resellPolicy) private {
+    function _setResellPolicy(ResellPolicy memory resellPolicy) private onlyOwner {
         _resellPolicy = resellPolicy;
     }
 
