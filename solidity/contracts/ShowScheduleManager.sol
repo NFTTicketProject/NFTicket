@@ -90,13 +90,6 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
         return _showScheduleId.current();
     }
 
-    function getShowSchedules(address walletId) public view returns (uint256[] memory){
-        return _showScheduleIdsByOwner[walletId];
-    }
-    
-    function getShowSchedulesCount(address walletId) public view returns (uint256){
-        return _showScheduleIdsByOwner[walletId].length;
-    }
 
     function getShowId(uint256 showScheduleId) public view returns(uint64) {
         address showScheduleAddr = _showSchedules[showScheduleId];
@@ -149,5 +142,10 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
     function getShowSchedule(uint256 showScheduleId) public view returns(address) {
         return _showScheduleAddrs[showScheduleId];
     }
+    function getShowSchedulesCount(address walletAddr) public view returns (uint256){
+        return _showScheduleIdsByOwner[walletAddr].length;
+    }    
+    function getShowSchedulesOfOwner(address walletAddr) public view returns(uint256[] memory) {
+        return _showScheduleIdsByOwner[walletAddr];
     }
 }
