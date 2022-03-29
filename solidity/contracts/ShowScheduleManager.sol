@@ -10,7 +10,8 @@ import "./ITicketClass.sol";
 contract ShowScheduleManager is IResellPolicy, ITicketClass {
     using Counters for Counters.Counter;
     Counters.Counter private _showScheduleId;
-    mapping(uint256 => address) private _showSchedules;
+    mapping(uint256 => address) private _showScheduleAddrs;
+    mapping(uint256 => address) private _showScheduleOwners;
     mapping(address => uint256[]) private _showScheduleIdsByOwner;
     address private _currencyContractAddress;
     address private _ticketContractAddress;
@@ -82,6 +83,9 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
         ShowSchedule(showScheduleAddr).refundTicket(row, col);
     }
 
+    function ownerOf(uint256 showScheduleId) public view returns(address) {
+        return _showScheduleOwners[showScheduleId];
+    }
     function getCount() public view returns (uint256) {
         return _showScheduleId.current();
     }
