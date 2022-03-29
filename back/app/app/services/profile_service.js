@@ -76,7 +76,7 @@ module.exports = {
 
         logger.info('[profile_service.js] createProfile ::: ' + JSON.stringify(info))
     },
-    editProfile : async (info) =>{
+    setProfile : async (info) =>{
         try {
             await prisma.Profile.update({
                 where: {
@@ -89,16 +89,16 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] editProfile ::: ' + JSON.stringify(info))
+            logger.error('[profile_service.js] setProfile ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] editProfile ::: ' + e)
+            logger.error('[profile_service.js] setProfile ::: ' + e)
 
             return 500
         }
     },
-    editProfileNickname : async (info) =>{
+    setNickname : async (info) =>{
         try {
             await prisma.Profile.update({
                 where: {
@@ -109,16 +109,16 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] editProfileNickname ::: ' + JSON.stringify(info))
+            logger.error('[profile_service.js] setNickname ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] editProfileNickname ::: ' + e)
+            logger.error('[profile_service.js] setNickname ::: ' + e)
 
             return 500
         }
     },
-    editProfileDescription : async (info) =>{
+    setDescription : async (info) =>{
         try {
             await prisma.Profile.update({
                 where: {
@@ -129,16 +129,16 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] editProfileDescription ::: ' + JSON.stringify(info))
+            logger.error('[profile_service.js] setDescription ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] editProfileDescription ::: ' + e)
+            logger.error('[profile_service.js] setDescription ::: ' + e)
 
             return 500
         }
     },
-    editProfileImageURL : async (info) =>{
+    setImageURI : async (info) =>{
         try {
             await prisma.Profile.update({
                 where: {
@@ -149,11 +149,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] editProfileImageURL ::: ' + JSON.stringify(info))
+            logger.error('[profile_service.js] setImageURI ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] editProfileImageURL ::: ' + e)
+            logger.error('[profile_service.js] setImageURI ::: ' + e)
 
             return 500
         }
