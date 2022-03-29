@@ -78,7 +78,7 @@ contract TicketSaleManager is Ownable {
         return TicketSale(ticketSaleAddr).getEndTimeLeft();
     }
 
-    function getTotalSaleCount() public view returns(uint256) {
+    function getCount() public view returns (uint256) {
         return _saleIds.current();
     }
 
