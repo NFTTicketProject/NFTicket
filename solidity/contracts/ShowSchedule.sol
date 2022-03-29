@@ -5,11 +5,11 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./MyTicket.sol";
-import "./TicketClass.sol";
 import "./IResellPolicy.sol";
+import "./ITicketClass.sol";
 
 // 공연 정보 생성과 연관된 티켓 발매 역할
-contract ShowSchedule is Ownable, IResellPolicy {
+contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     using Counters for Counters.Counter;
 
     // 공연 관리자(기획자) 주소
@@ -25,10 +25,10 @@ contract ShowSchedule is Ownable, IResellPolicy {
     uint256 private _maxMintCount;
     mapping(uint16 => mapping(uint16 => uint256)) private _ticketIdsBySeat;
     ResellPolicy private _resellPolicy;
+    TicketClassInfo[] private _ticketClasses;
 
     IERC20 private _currencyContract;
     MyTicket private _ticketContract;
-    TicketClass private _ticketClassContract;
     
     constructor(
             address admin,
@@ -37,16 +37,11 @@ contract ShowSchedule is Ownable, IResellPolicy {
             uint256 startedAt, 
             uint256 endedAt, 
             uint256 maxMintCount, 
-            string[] memory ticketClassNames, 
-            uint256[] memory ticketClassPrices, 
-            uint256[] memory ticketClassMaxMintCounts,
+            TicketClassInfo[] memory ticketClasses,
             ResellPolicy memory resellPolicy,
             address currencyContractAddress,
             address ticketContractAddress
         ) public {
-        require(ticketClassNames.length > 0);
-        require(ticketClassNames.length == ticketClassPrices.length);
-        require(ticketClassNames.length == ticketClassMaxMintCounts.length);
 
         _setAdmin(admin);
         _setShowId(showId);
@@ -55,12 +50,7 @@ contract ShowSchedule is Ownable, IResellPolicy {
         _setEndedAt(block.timestamp + endedAt);
         _setMaxMintCount(maxMintCount);
         _setResellPolicy(resellPolicy);
-
-        _ticketClassContract = new TicketClass();
-        for (uint256 i = 0; i < ticketClassNames.length; i++)
-        {
-            _ticketClassContract.create(ticketClassNames[i], ticketClassPrices[i], ticketClassMaxMintCounts[i]);
-        }
+        _setTicketClasses(ticketClasses);
 
         _isCancelled = false;
         _currencyContract = IERC20(currencyContractAddress);
@@ -159,6 +149,13 @@ contract ShowSchedule is Ownable, IResellPolicy {
         _resellPolicy = resellPolicy;
     }
 
+    function _setTicketClasses(TicketClassInfo[] memory ticketClasses) private onlyOwner {
+        for (uint256 i = 0; i < ticketClasses.length; i++)
+        {
+            _ticketClasses.push(ticketClasses[i]);
+        }
+    }
+
     function getShowId() public view returns(uint64) {
         return _showId;
     }
@@ -184,19 +181,19 @@ contract ShowSchedule is Ownable, IResellPolicy {
     }
 
     function getTicketClassCount() public view returns(uint256) {
-        return _ticketClassContract.getTicketClassCount();
+        return _ticketClasses.length;
     }
 
     function getTicketClassName(uint256 ticketClassId) public view returns(string memory) {
-        return _ticketClassContract.getTicketClassName(ticketClassId);
+        return _ticketClasses[ticketClassId].name;
     }
 
     function getTicketClassPrice(uint256 ticketClassId) public view returns(uint256) {
-        return _ticketClassContract.getTicketClassPrice(ticketClassId);
+        return _ticketClasses[ticketClassId].price;
     }
 
     function getTicketClassMaxMintCount(uint256 ticketClassId) public view returns(uint256) {
-        return _ticketClassContract.getTicketClassMaxMintCount(ticketClassId);
+        return _ticketClasses[ticketClassId].maxMintCount;
     }
 
     modifier onlyAdmin() {
@@ -216,7 +213,7 @@ contract ShowSchedule is Ownable, IResellPolicy {
 
     modifier notClassFull(uint256 ticketId) {
         uint256 classId = _ticketContract.getClassId(ticketId);
-        uint256 classMaxMintCount = _ticketClassContract.getTicketClassMaxMintCount(classId);
+        uint256 classMaxMintCount = getTicketClassMaxMintCount(classId);
 
         // 먼저 해당 등급이 비어있는지 확인
         require(_mintCountByClassId[classId].current() < classMaxMintCount, "You can't make a ticket at this schedule");
