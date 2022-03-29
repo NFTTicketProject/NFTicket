@@ -66,7 +66,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         require(_ticketIdsBySeat[classId][seatIndex] == 0, "This seat is already registered");
         
         uint256 classId = _ticketContract.getClassId(ticketId);
-        uint256 classPrice = _ticketClassContract.getTicketClassPrice(classId);
+        uint256 classPrice = getTicketClassPrice(classId);
 
         // 등록자에게 충분한 잔고가 있는지 확인
         require(_currencyContract.balanceOf(msg.sender) >= classPrice);
@@ -85,7 +85,6 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     // 티켓 등록 취소
     function revokeTicket(uint256 classId, uint256 seatIndex) public payable notStarted {
          // 먼저 해당 자리에 해당 티켓이 등록되어 있는지 확인
-        uint256 classPrice = _ticketClassContract.getTicketClassPrice(classId);
         require(_ticketIdsBySeat[classId][seatIndex] > 0);
 
         // 해당 자리에 등록된 티켓 ID 가져오기
@@ -95,6 +94,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         require(classId == _ticketContract.getClassId(ticketId));
 
         // 해당 클래스의 등록 가격 가져오기
+        uint256 classPrice = getTicketClassPrice(classId);
 
         // 티켓 주인인지 확인
         require(_ticketContract.ownerOf(ticketId) == msg.sender);
