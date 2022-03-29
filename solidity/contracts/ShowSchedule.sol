@@ -114,8 +114,17 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     }
 
     // 티켓 환불
-    function refundTicket(uint16 row, uint16 col) public payable Canceled {
-        revokeTicket(row, col);
+    function refundTicket(uint256 classId, uint256 seatIndex) public payable Canceled {
+        require(_ticketIdsBySeat[classId][seatIndex] > 0);
+        uint256 ticketId = _ticketIdsBySeat[classId][seatIndex];
+        require(classId == _ticketContract.getClassId(ticketId));
+        uint256 classPrice = getTicketClassPrice(classId);
+        require(_ticketContract.ownerOf(ticketId) == msg.sender);
+        require(_currencyContract.balanceOf(address(this)) >= classPrice);
+        _currencyContract.transfer(msg.sender, classPrice);
+        _ticketIdsBySeat[classId][seatIndex] = 0;
+        _mintCount.decrement();
+        _mintCountByClassId[classId].decrement();
     }
 
     // 모금액 회수
