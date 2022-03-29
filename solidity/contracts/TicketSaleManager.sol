@@ -46,12 +46,17 @@ contract TicketSaleManager is Ownable {
         _saleCountOfTicket[ticketId].increment();
     }
 
+    function withdrawRoyalty() public payable onlyOwner {
+        uint256 contractBalance = IERC20(_currencyContractAddress).balanceOf(address(this));
+        IERC20(_currencyContractAddress).transfer(owner(), contractBalance);
     }
 
     function ownerOf(uint256 saleId) public view returns(address) {
         return _saleOwners[saleId];
     }
 
+    function getSale(uint256 saleId) public view returns(address) {
+        return _saleAddrs[saleId];
     }
 
     function getCount() public view returns (uint256) {
