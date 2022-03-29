@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Web3 from "web3";
 import { saveAccount } from "../store/WalletReducer";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UnconnectedContainer = styled.div`
   display: flex;
@@ -21,7 +21,6 @@ const ConnectedContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
 `;
 
 const LogInButton = styled.button`
@@ -50,10 +49,13 @@ const UserInfo = styled.div`
 `;
 
 function MyPage() {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState();
   const [isConnected, setIsConnected] = useState(false);
-  const [walletInfo, setWalletInfo] = useState([]);
-  const [toggle, setToggle] = useState(false);
+  const [walletInfo, setWalletInfo] = useState({
+    nickname: "Unnamed",
+    description: "",
+  });
 
   // Redux
   const dispatch = useDispatch();
@@ -92,7 +94,6 @@ function MyPage() {
 
         // userInfo에 저장 (localStorage)
         saveUserInfo(ethBalance, account, chainId);
-        console.log(userInfo);
 
         // post
         axios
@@ -108,7 +109,7 @@ function MyPage() {
       console.error(err);
     }
   };
-
+  // console.log(walletInfo);
   const saveUserInfo = (ethBalance, account, chainId) => {
     const userAccount = {
       account: account,
@@ -134,27 +135,19 @@ function MyPage() {
       if (userData != null) {
         setUserInfo(userData);
         setIsConnected(true);
+        // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
+        // .get
+        axios
+          .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userData.account}`)
+          .then((res) => {
+            setWalletInfo(res.data);
+          })
+          .catch((err) => console.error(err));
       }
     }
     checkConnectedWallet();
   }, []);
 
-  // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
-  const getWalletInfo = () => {
-    // .get
-    axios
-      .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userInfo.account}`)
-      .then((res) => {
-        setWalletInfo(res.data);
-      })
-      .catch((err) => console.error(err));
-
-    setToggle(!toggle);
-  };
-
-  const handleWalletInfoChange = (e) => {
-    setWalletInfo({ ...walletInfo, [e.target.name]: e.target.value });
-  };
   // 닉네임, 설명 수정 가능
   const editWalletNickname = (e) => {
     e.preventDefault();
@@ -187,41 +180,49 @@ function MyPage() {
     <>
       {isConnected ? (
         <ConnectedContainer>
-          <div>
-            <Link to="/MyPage/Settings">
-              <SettingsIcon />
-            </Link>
+          <img
+            src="images/leo.jpeg"
+            alt=""
+            style={{
+              height: "300px",
+              width: "100%",
+              objectFit: "scale-down",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              position: "absolute",
+              top: "370px",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
             <img
-              src="images/leo.jpeg"
-              alt="Profile Image"
+              src={walletInfo.image_url}
+              alt=""
               style={{
                 width: "150px",
                 height: "150px",
                 borderRadius: "50%",
-                border: "3px solid black",
+                border: "3px solid white",
+                objectFit: "cover",
               }}
             />
-          </div>
-          {toggle ? (
-            <UserInfo>
-              <input
-                type="text"
-                name="nickname"
-                value={walletInfo.nickname}
-                onChange={handleWalletInfoChange}
-                placeholder="Nickname"
-                style={{
-                  border: "none",
-                  textAlign: "center",
-                  fontSize: "2rem",
-                  fontWeight: "bold",
-                }}
+
+            <Link to="/MyPage/Settings">
+              <SettingsIcon
+              // onClick={() => {
+              //   navigate("/MyPage/Settings");
+              // }}
               />
-              <Button onClick={editWalletNickname}>수정</Button>
-            </UserInfo>
-          ) : (
-            <div></div>
-          )}
+            </Link>
+          </div>
+
+          <UserInfo>
+            <h1>{walletInfo.nickname}</h1>
+          </UserInfo>
 
           <p
             style={{
@@ -238,30 +239,9 @@ function MyPage() {
             {userInfo.account}
           </p>
 
-          <div>
-            <div>
-              <button onClick={getWalletInfo}>정보 가져오기</button>
-            </div>
-          </div>
-          {toggle ? (
-            <UserInfo>
-              <input
-                type="text"
-                name="description"
-                value={walletInfo.description}
-                onChange={handleWalletInfoChange}
-                placeholder="Description"
-                style={{
-                  border: "none",
-                  textAlign: "center",
-                  fontSize: "1rem",
-                }}
-              />
-              <Button onClick={editWalletDescription}>수정</Button>
-            </UserInfo>
-          ) : (
-            <div></div>
-          )}
+          <UserInfo>
+            <p>{walletInfo.description}</p>
+          </UserInfo>
 
           <div>
             <Button onClick={onDisconnect}>로그아웃</Button>
