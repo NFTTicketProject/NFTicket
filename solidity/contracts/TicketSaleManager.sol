@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./TicketSale.sol";
 import "./MyTicket.sol";
+import "./ShowSchedule.sol";
 import "./ShowScheduleManager.sol";
 
 contract TicketSaleManager is Ownable {
@@ -27,12 +29,15 @@ contract TicketSaleManager is Ownable {
         _saleIds.increment();
 
         uint256 showScheduleId = MyTicket(_ticketContractAddress).getShowScheduleId(ticketId);
-        (bool isAvailable, , uint256 priceLimit) = ShowScheduleManager(_showScheduleManagerContractAddress).getResellPolicy(showScheduleId);
-        require(isAvailable);
-        require(price < priceLimit);
-
+        address showScheduleAddr = ShowScheduleManager(_showScheduleManagerContractAddress).getShowSchedule(showScheduleId);
+        (bool isAvailable, , uint256 priceLimit) = ShowSchedule(showScheduleAddr).getResellPolicy();
+        require(isAvailable, "This ticket cannot be resell");
+        require(price < priceLimit || priceLimit == 0, "You must not sell over the resell limit price");
+        
         uint256 newTicketSaleId = _saleIds.current();
         TicketSale newTicketSale = new TicketSale(ticketId, seller, description, price, startedAt, endedAt, _showScheduleManagerContractAddress, _currencyContractAddress, _ticketContractAddress);
+
+        MyTicket(_ticketContractAddress).approve(address(newTicketSale), ticketId);
 
         _saleAddrs[newTicketSaleId] = address(newTicketSale);
         _saleIdsByWallet[msg.sender].push(newTicketSaleId);
