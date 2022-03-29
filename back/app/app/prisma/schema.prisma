@@ -15,25 +15,18 @@ model Authorization {
   jwt              String?  @db.Text
 }
 
-model Category {
-  category_id Int    @id @unique(map: "category_id_UNIQUE")
-  name        String @db.VarChar(50)
-  Show        Show[]
-}
-
 model Class {
   class_id Int    @id @unique(map: "class_id_UNIQUE")
   stage_id Int
   name     String @db.VarChar(45)
   price    Int
   Stage    Stage  @relation(fields: [stage_id], references: [stage_id], onDelete: NoAction, onUpdate: NoAction, map: "stage_id")
-  Seat     Seat[]
 
   @@index([stage_id], map: "stage_id_idx")
 }
 
 model Profile {
-  wallet_id   String   @id @unique(map: "wallet_id_UNIQUE") @db.Char(20)
+  wallet_id   String   @id @unique(map: "wallet_id_UNIQUE") @db.Char(42)
   nickname    String   @db.VarChar(45)
   description String?  @db.Text
   created_at  DateTime @default(now()) @db.Timestamp(0)
@@ -51,36 +44,22 @@ model Role {
   @@index([show_id], map: "show_id")
 }
 
-model Seat {
-  seat_id  Int   @id @unique(map: "seat_id_UNIQUE")
-  stage_id Int
-  class_id Int
-  row      Int?
-  col      Int?
-  Class    Class @relation(fields: [class_id], references: [class_id], onDelete: NoAction, onUpdate: NoAction, map: "Seat_ibfk_2")
-  Stage    Stage @relation(fields: [stage_id], references: [stage_id], onDelete: NoAction, onUpdate: NoAction, map: "Seat_ibfk_1")
-
-  @@index([class_id], map: "class_id")
-  @@index([stage_id], map: "stage_id")
-}
-
 model Server_config {
   key   String  @id @db.VarChar(45)
   value String? @db.VarChar(45)
 }
 
 model Show {
-  show_id     Int       @id
-  category_id Int?
-  name        String    @db.VarChar(45)
-  description String?   @db.Text
-  runningTime Int
-  videoURL    String?   @db.VarChar(255)
-  posterURL   String    @db.VarChar(255)
-  Category    Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
-  Role        Role[]
-
-  @@index([category_id], map: "category_id_idx")
+  show_id               Int     @id
+  category_name         String  @db.VarChar(10)
+  name                  String  @db.VarChar(45)
+  description           String? @db.Text
+  runningTime           Int
+  ageLimit              Int
+  posterURL             String  @db.VarChar(255)
+  videoURL              String? @db.VarChar(255)
+  defaultTicketImageURI String  @db.VarChar(255)
+  Role                  Role[]
 }
 
 model Staff {
@@ -97,5 +76,22 @@ model Stage {
   latitude  Float
   longitude Float
   Class     Class[]
-  Seat      Seat[]
+}
+
+model Ticket_images {
+  ticket_image_id Int    @id
+  sale_id         Int
+  uri             String @db.VarChar(100)
+  Sale            Sale   @relation(fields: [sale_id], references: [sale_id], onDelete: NoAction, onUpdate: NoAction, map: "sale_id")
+
+  @@index([sale_id], map: "sale_id_idx")
+}
+
+model Sale {
+  sale_id          Int             @id
+  show_schedule_id Int
+  description      String?         @db.Text
+  started_at       Int
+  ended_at         Int
+  Ticket_images    Ticket_images[]
 }
