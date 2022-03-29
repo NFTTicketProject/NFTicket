@@ -68,7 +68,7 @@ contract TicketSaleManager is Ownable {
     * @ exception 리셀 정책 상 리셀 가능한 공연 스케줄이어야 함
     * @ exception 판매 가격이 리셀 정책 상 최고 가격보다 작아야 함
     */
-    function create(uint256 ticketId, address seller, string memory description, uint256 price, uint256 startedAt, uint256 endedAt) public {
+    function create(uint256 ticketId, string memory description, uint256 price, uint256 startedAt, uint256 endedAt) public {
         _saleIds.increment();
 
         uint256 showScheduleId = MyTicket(_ticketContractAddress).getShowScheduleId(ticketId);
@@ -78,7 +78,7 @@ contract TicketSaleManager is Ownable {
         require(price < priceLimit || priceLimit == 0, "You must not sell over the resell limit price");
         
         uint256 newTicketSaleId = _saleIds.current();
-        TicketSale newTicketSale = new TicketSale(ticketId, seller, description, price, startedAt, endedAt, _showScheduleManagerContractAddress, _currencyContractAddress, _ticketContractAddress);
+        TicketSale newTicketSale = new TicketSale(ticketId, msg.sender, description, price, startedAt, endedAt, _showScheduleManagerContractAddress, _currencyContractAddress, _ticketContractAddress);
 
         MyTicket(_ticketContractAddress).approve(address(newTicketSale), ticketId);
 
