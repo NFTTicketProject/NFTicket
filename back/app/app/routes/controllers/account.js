@@ -1,5 +1,5 @@
 const profile_service = require("../../services/profile_service")
-const auth = require('../../services/authorization')
+const auth = require('../../services/auth_service')
 const express = require('express')
 const router = express.Router()
 
@@ -42,7 +42,7 @@ router.post('/:walletId', async (req, res) => {
 
 /**
  * @swagger
- * "/account/edit/{wallet_id}":
+ * /account/edit/{wallet_id}:
  *   patch:
  *     tags: [Account, User]
  *     summary: "관련 지갑 주소자의 닉네임 수정"
@@ -112,7 +112,7 @@ router.patch('/edit/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfile(newInfo)
+    const status = await profile_service.setProfile(newInfo)
 
     res.status(status)
     res.send()
@@ -180,7 +180,7 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfileNickname(newInfo)
+    const status = await profile_service.setNickname(newInfo)
 
     res.status(status)
     res.send()
@@ -248,7 +248,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfileDescription(newInfo)
+    const status = await profile_service.setDescription(newInfo)
 
     res.status(status)
     res.send()
@@ -316,7 +316,7 @@ router.patch('/edit/imageurl/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfileImageURL(newInfo)
+    const status = await profile_service.setImageURI(newInfo)
 
     res.status(status)
     res.send()
