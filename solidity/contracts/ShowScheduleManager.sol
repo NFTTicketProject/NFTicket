@@ -146,5 +146,8 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
     function getTicketClassMaxMintCount(uint256 showScheduleId, uint256 ticketClassId) public view returns(uint256) {
         address showScheduleAddr = _showSchedules[showScheduleId];
         return ShowSchedule(showScheduleAddr).getTicketClassMaxMintCount(ticketClassId);
+    function getShowSchedule(uint256 showScheduleId) public view returns(address) {
+        return _showScheduleAddrs[showScheduleId];
+    }
     }
 }
