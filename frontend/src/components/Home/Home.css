@@ -1,0 +1,37 @@
+.Tickets {
+  animation: tickets 30s 5s linear infinite;
+}
+
+@keyframes tickets {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.Ticket {
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+  height: 177px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  animation: ticket 5s 1s linear infinite;
+}
+
+@keyframes ticket {
+  from {
+    opacity: 100%;
+  }
+  to {
+    opacity: 10%;
+  }
+}
+
+.Community:hover {
+  opacity: 30%;
+}
