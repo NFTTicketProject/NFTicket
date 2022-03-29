@@ -1,4 +1,5 @@
 const prisma = require("../utils/prisma")
+const { logger } = require('../utils/winston')
 
 module.exports = {
     getProfile: async function (walletId) {
@@ -7,6 +8,8 @@ module.exports = {
                 wallet_id: walletId,
             },
         })
+
+        logger.info('[profile_service.js] getProfile ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -20,6 +23,8 @@ module.exports = {
             },
         })
 
+        logger.info('[profile_service.js] getNickname ::: ' + JSON.stringify(result))
+
         return result
     },
     getCreatedAt : async (walletId) =>{
@@ -31,6 +36,8 @@ module.exports = {
                 created_at: true,
             },
         })
+
+        logger.info('[profile_service.js] getCreatedAt ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -44,6 +51,8 @@ module.exports = {
             },
         })
 
+        logger.info('[profile_service.js] getDescription ::: ' + JSON.stringify(result))
+
         return result
     },
     getImageURL : async (walletId) =>{
@@ -56,12 +65,38 @@ module.exports = {
             },
         })
 
+        logger.info('[profile_service.js] getImageURL ::: ' + JSON.stringify(result))
+
         return result
     },
     createProfile : async (info) =>{
         await prisma.Profile.create({
             data : info,
         })
+
+        logger.info('[profile_service.js] createProfile ::: ' + JSON.stringify(info))
+    },
+    editProfile : async (info) =>{
+        try {
+            await prisma.Profile.update({
+                where: {
+                    wallet_id: info['wallet_id'],
+                },
+                data: {
+                    nickname: info['nickname'],
+                    description: info['description'],
+                    image_url: info['image_url'],
+                },
+            })
+
+            logger.error('[profile_service.js] editProfile ::: ' + JSON.stringify(info))
+
+            return 200
+        } catch (e) {
+            logger.error('[profile_service.js] editProfile ::: ' + e)
+
+            return 500
+        }
     },
     editProfileNickname : async (info) =>{
         try {
@@ -73,8 +108,13 @@ module.exports = {
                     nickname: info['nickname'],
                 },
             })
+
+            logger.error('[profile_service.js] editProfileNickname ::: ' + JSON.stringify(info))
+
             return 200
         } catch (e) {
+            logger.error('[profile_service.js] editProfileNickname ::: ' + e)
+
             return 500
         }
     },
@@ -88,8 +128,13 @@ module.exports = {
                     description: info['description'],
                 },
             })
+
+            logger.error('[profile_service.js] editProfileDescription ::: ' + JSON.stringify(info))
+
             return 200
         } catch (e) {
+            logger.error('[profile_service.js] editProfileDescription ::: ' + e)
+
             return 500
         }
     },
@@ -103,8 +148,13 @@ module.exports = {
                     image_url: info['image_url'],
                 },
             })
+
+            logger.error('[profile_service.js] editProfileImageURL ::: ' + JSON.stringify(info))
+
             return 200
         } catch (e) {
+            logger.error('[profile_service.js] editProfileImageURL ::: ' + e)
+
             return 500
         }
     },
