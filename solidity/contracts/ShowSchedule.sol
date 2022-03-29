@@ -18,7 +18,6 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     string private _stageName;
     uint256 private _startedAt;
     uint256 private _endedAt;
-    uint256 private _confirmAt;
     bool private _isCancelled;
     Counters.Counter private _mintCount;
     mapping(uint256 => Counters.Counter) private _mintCountByClassId;
