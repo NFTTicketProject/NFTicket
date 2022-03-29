@@ -64,25 +64,6 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
         _showScheduleIdsByOwner[msg.sender].push(newShowScheduleId);
     }
 
-    function cancel(uint256 showScheduleId) public {
-        ShowSchedule(_showSchedules[showScheduleId]).cancel();
-    }
-
-    function registerTicket(uint256 showScheduleId, uint16 row, uint16 col, uint256 ticketId) public payable {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        ShowSchedule(showScheduleAddr).registerTicket(row, col, ticketId);
-    }
-    
-    function revokeTicket(uint256 showScheduleId, uint16 row, uint16 col) public payable {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        ShowSchedule(showScheduleAddr).revokeTicket(row, col);
-    }
-
-    function refundTicket(uint256 showScheduleId, uint16 row, uint16 col) public payable {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        ShowSchedule(showScheduleAddr).refundTicket(row, col);
-    }
-
     function ownerOf(uint256 showScheduleId) public view returns(address) {
         return _showScheduleOwners[showScheduleId];
     }
@@ -90,55 +71,6 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
         return _showScheduleId.current();
     }
 
-
-    function getShowId(uint256 showScheduleId) public view returns(uint64) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getShowId();
-    }
-
-    function getStageName(uint256 showScheduleId) public view returns(string memory) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getStageName();
-    }
-
-    function getStartedAt(uint256 showScheduleId) public view returns(uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getStartedAt();
-    }
-
-    function getEndedAt(uint256 showScheduleId) public view returns(uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getEndedAt();
-    }
-
-    function getMaxMintCount(uint256 showScheduleId) public view returns(uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getMaxMintCount();
-    }
-
-    function getResellPolicy(uint256 showScheduleId) public view returns (bool, uint8, uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getResellPolicy();
-    }
-
-    function getTicketClassCount(uint256 showScheduleId) public view returns(uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getTicketClassCount();
-    }
-
-    function getTicketClassName(uint256 showScheduleId, uint256 ticketClassId) public view returns(string memory) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getTicketClassName(ticketClassId);
-    }
-
-    function getTicketClassPrice(uint256 showScheduleId, uint256 ticketClassId) public view returns(uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getTicketClassPrice(ticketClassId);
-    }
-
-    function getTicketClassMaxMintCount(uint256 showScheduleId, uint256 ticketClassId) public view returns(uint256) {
-        address showScheduleAddr = _showSchedules[showScheduleId];
-        return ShowSchedule(showScheduleAddr).getTicketClassMaxMintCount(ticketClassId);
     function getShowSchedule(uint256 showScheduleId) public view returns(address) {
         return _showScheduleAddrs[showScheduleId];
     }
