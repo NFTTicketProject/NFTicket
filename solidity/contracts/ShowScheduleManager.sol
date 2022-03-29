@@ -5,8 +5,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ShowSchedule.sol";
 import "./MyTicket.sol";
 import "./IResellPolicy.sol";
+import "./ITicketClass.sol";
 
-contract ShowScheduleManager is IResellPolicy {
+contract ShowScheduleManager is IResellPolicy, ITicketClass {
     using Counters for Counters.Counter;
     Counters.Counter private _showScheduleId;
     mapping(uint256 => address) private _showSchedules;
@@ -32,18 +33,33 @@ contract ShowScheduleManager is IResellPolicy {
             uint8 resellRoyaltyRatePercent, 
             uint256 resellPriceLimit
         ) public {
+        require(ticketClassNames.length > 0);
+        require(ticketClassPrices.length > 0);
+        require(ticketClassMaxMintCounts.length > 0);
+        require(ticketClassNames.length == ticketClassPrices.length);
+        require(ticketClassNames.length == ticketClassMaxMintCounts.length);
+
         _showScheduleId.increment();
 
         uint256 newShowScheduleId = _showScheduleId.current();
         ResellPolicy memory resellPolicy = ResellPolicy({ 
-                isAvailable: isResellAvailable, 
-                royaltyRatePercent: resellRoyaltyRatePercent, 
-                priceLimit: resellPriceLimit 
-            });
-        ShowSchedule newShowSchedule = new ShowSchedule(showId, stageName, startedAt, endedAt, maxMintCount, ticketClassNames, ticketClassPrices, ticketClassMaxMintCounts, resellPolicy, _currencyContractAddress, _ticketContractAddress);
-        newShowSchedule.transferOwnership(msg.sender);
+            isAvailable: isResellAvailable, 
+            royaltyRatePercent: resellRoyaltyRatePercent, 
+            priceLimit: resellPriceLimit 
+        });
 
-        _showSchedules[newShowScheduleId] = address(newShowSchedule);
+        TicketClassInfo[] memory ticketClassInfos = new TicketClassInfo[](ticketClassNames.length);
+        for (uint256 i = 0; i < ticketClassNames.length; i++)
+        {
+            ticketClassInfos[i].name = ticketClassNames[i];
+            ticketClassInfos[i].price = ticketClassPrices[i];
+            ticketClassInfos[i].maxMintCount = ticketClassMaxMintCounts[i];
+        }
+
+        ShowSchedule newShowSchedule = new ShowSchedule(msg.sender, showId, stageName, startedAt, endedAt, maxMintCount, ticketClassInfos, resellPolicy, _currencyContractAddress, _ticketContractAddress);
+        
+        _showScheduleAddrs[newShowScheduleId] = address(newShowSchedule);
+        _showScheduleOwners[newShowScheduleId] = msg.sender;
         _showScheduleIdsByOwner[msg.sender].push(newShowScheduleId);
     }
 
