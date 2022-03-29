@@ -52,7 +52,7 @@ contract TicketSale is Ownable, IERC721Receiver {
         _isEnded = true;
     }
 
-    function cancel() public {
+    function cancel() public onlySeller {
         _isCancelled = true;
     }
 
