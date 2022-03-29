@@ -1,21 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const redirect = require('./controllers/redirect')
-const root = require('./controllers/root')
 const profile = require('./controllers/profile')
 const account = require('./controllers/account')
-
-// root routing
-router.use('/', root)
-
-// /redirect routing
-router.use('/redirect', redirect)
+const sale = require('./controllers/sale')
+const staff = require('./controllers/staff')
+const role = require('./controllers/role')
 
 // /profile routing
 router.use('/profile', profile)
 
 // /account routing
 router.use('/account', account)
+
+// /sale routing
+router.use('/sale', sale)
+
+// /staff routing
+router.use('/staff', staff)
+
+// /role routing
+router.use('/role', role)
 
 // custom 404 page
 router.use((req, res) => {
