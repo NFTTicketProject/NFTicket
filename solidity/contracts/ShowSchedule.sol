@@ -12,6 +12,8 @@ import "./IResellPolicy.sol";
 contract ShowSchedule is Ownable, IResellPolicy {
     using Counters for Counters.Counter;
 
+    // 공연 관리자(기획자) 주소
+    address private _admin;
     uint64 private _showId;
     string private _stageName;
     uint256 private _startedAt;
@@ -29,6 +31,7 @@ contract ShowSchedule is Ownable, IResellPolicy {
     TicketClass private _ticketClassContract;
     
     constructor(
+            address admin,
             uint64 showId,
             string memory stageName, 
             uint256 startedAt, 
@@ -45,6 +48,7 @@ contract ShowSchedule is Ownable, IResellPolicy {
         require(ticketClassNames.length == ticketClassPrices.length);
         require(ticketClassNames.length == ticketClassMaxMintCounts.length);
 
+        _setAdmin(admin);
         _setShowId(showId);
         _setStageName(stageName);
         _setStartedAt(block.timestamp + startedAt);
@@ -63,7 +67,7 @@ contract ShowSchedule is Ownable, IResellPolicy {
         _ticketContract = MyTicket(ticketContractAddress);
     }
 
-    function cancel() public notEnded onlyOwner {
+    function cancel() public notEnded onlyAdmin {
         _isCancelled = true;
     }
 
@@ -121,10 +125,14 @@ contract ShowSchedule is Ownable, IResellPolicy {
     }
 
     // 모금액 회수
-    function withdraw() public payable Ended onlyOwner {
         // 등록자에게 금액만큼 토큰을 전액 전송
+    function withdraw() public payable Ended onlyAdmin {
         uint256 contractBalance = _currencyContract.balanceOf(address(this));
         _currencyContract.transferFrom(address(this), msg.sender, contractBalance);
+    }
+
+    function _setAdmin(address admin) private onlyOwner {
+        _admin = admin;
     }
 
     function _setShowId(uint64 showId) private onlyOwner {
@@ -189,6 +197,11 @@ contract ShowSchedule is Ownable, IResellPolicy {
 
     function getTicketClassMaxMintCount(uint256 ticketClassId) public view returns(uint256) {
         return _ticketClassContract.getTicketClassMaxMintCount(ticketClassId);
+    }
+
+    modifier onlyAdmin() {
+        require(msg.sender == _admin, "You're not admin");
+        _;
     }
 
     modifier notEmpty() {
