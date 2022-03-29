@@ -13,6 +13,7 @@ contract TicketSaleManager is Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _saleIds;
     mapping(uint256 => address) private _saleAddrs;
+    mapping(uint256 => address) private _saleOwners;
     mapping(address => uint256[]) private _saleIdsByWallet;
     mapping(uint256 => Counters.Counter) private _saleCountOfTicket;
     address private _showScheduleManagerContractAddress;
@@ -40,6 +41,7 @@ contract TicketSaleManager is Ownable {
         MyTicket(_ticketContractAddress).approve(address(newTicketSale), ticketId);
 
         _saleAddrs[newTicketSaleId] = address(newTicketSale);
+        _saleOwners[newTicketSaleId] = msg.sender;
         _saleIdsByWallet[msg.sender].push(newTicketSaleId);
         _saleCountOfTicket[ticketId].increment();
     }
@@ -67,6 +69,8 @@ contract TicketSaleManager is Ownable {
     function getStartTimeLeft(uint256 ticketSaleId) public view returns(uint256) {
         address ticketSaleAddr = _saleAddrs[ticketSaleId];
         return TicketSale(ticketSaleAddr).getStartTimeLeft();
+    function ownerOf(uint256 saleId) public view returns(address) {
+        return _saleOwners[saleId];
     }
 
     function getEndTimeLeft(uint256 ticketSaleId) public view returns(uint256) {
