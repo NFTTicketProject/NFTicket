@@ -46,36 +46,12 @@ contract TicketSaleManager is Ownable {
         _saleCountOfTicket[ticketId].increment();
     }
 
-    function cancel(uint256 ticketSaleId) public {
-        address ticketSaleAddr = _saleAddrs[ticketSaleId];
-        TicketSale(ticketSaleAddr).cancel();
     }
 
-    function balanceOf(uint256 ticketSaleId) public view returns(uint256) {
-        address ticketSaleAddr = _saleAddrs[ticketSaleId];
-        return TicketSale(ticketSaleAddr).balanceOf();
-    }
-
-    function purchase(uint256 ticketSaleId) public payable {
-        address ticketSaleAddr = _saleAddrs[ticketSaleId];
-        TicketSale(ticketSaleAddr).purchase();
-    }
-
-    function withdraw(uint256 ticketSaleId) public payable {
-        address ticketSaleAddr = _saleAddrs[ticketSaleId];
-        TicketSale(ticketSaleAddr).withdraw();
-    }
-
-    function getStartTimeLeft(uint256 ticketSaleId) public view returns(uint256) {
-        address ticketSaleAddr = _saleAddrs[ticketSaleId];
-        return TicketSale(ticketSaleAddr).getStartTimeLeft();
     function ownerOf(uint256 saleId) public view returns(address) {
         return _saleOwners[saleId];
     }
 
-    function getEndTimeLeft(uint256 ticketSaleId) public view returns(uint256) {
-        address ticketSaleAddr = _saleAddrs[ticketSaleId];
-        return TicketSale(ticketSaleAddr).getEndTimeLeft();
     }
 
     function getCount() public view returns (uint256) {
