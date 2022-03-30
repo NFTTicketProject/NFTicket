@@ -33,14 +33,14 @@ const rows = [
   ),
 ];
 
+const TradeHistoryTitle = styled.h2`
+  display: inline-block;
+  vertical-align: middle;
+  margin: 30px;
+`;
+
 const TradeHistory = () => {
   const editionNum = 156;
-
-  const TradeHistoryTitle = styled.h2`
-    display: inline-block;
-    vertical-align: middle;
-    margin: 30px;
-  `;
 
   return (
     <div>
