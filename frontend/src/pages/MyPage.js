@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { saveAccount } from "../store/WalletReducer";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const UnconnectedContainer = styled.div`
   display: flex;
@@ -49,7 +49,6 @@ const UserInfo = styled.div`
 `;
 
 function MyPage() {
-  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState();
   const [isConnected, setIsConnected] = useState(false);
   const [walletInfo, setWalletInfo] = useState({
@@ -100,6 +99,9 @@ function MyPage() {
           .post(`https://j6a102.p.ssafy.io/api/v1/account/${account}`)
           .then((res) => {
             console.log(res);
+            if (res.status === 200) {
+              checkConnectedWallet();
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -129,67 +131,69 @@ function MyPage() {
     setWalletInfo([]);
   };
 
-  useEffect(() => {
-    function checkConnectedWallet() {
-      const userData = JSON.parse(localStorage.getItem("userAccount"));
-      if (userData != null) {
-        setUserInfo(userData);
-        setIsConnected(true);
-        // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
-        // .get
-        axios
-          .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userData.account}`)
-          .then((res) => {
-            setWalletInfo(res.data);
-          })
-          .catch((err) => console.error(err));
-      }
+  function checkConnectedWallet() {
+    const userData = JSON.parse(localStorage.getItem("userAccount"));
+    if (userData != null) {
+      setUserInfo(userData);
+      setIsConnected(true);
+      // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
+      // .get
+      axios
+        .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userData.account}`)
+        .then((res) => {
+          setWalletInfo(res.data);
+        })
+        .catch((err) => console.error(err));
     }
+  }
+
+  useEffect(() => {
     checkConnectedWallet();
   }, []);
 
-  // 닉네임, 설명 수정 가능
-  const editWalletNickname = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/nickname/${userInfo.account}`, {
-        nickname: walletInfo.nickname,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-  const editWalletDescription = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/description/${userInfo.account}`, {
-        description: walletInfo.description,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  // // 닉네임, 설명 수정 가능
+  // const editWalletNickname = (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/nickname/${userInfo.account}`, {
+  //       nickname: walletInfo.nickname,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
+  // const editWalletDescription = (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/description/${userInfo.account}`, {
+  //       description: walletInfo.description,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
 
   return (
     <>
       {isConnected ? (
         <ConnectedContainer>
+          {/* 배경 */}
           <img
-            src="images/leo.jpeg"
+            src="images/1614121632-NYAN-CAT.jpeg"
             alt=""
             style={{
               height: "300px",
               width: "100%",
-              objectFit: "scale-down",
+              objectFit: "cover",
             }}
           />
-
+          {/* 프로필 사진 */}
           <div
             style={{
               display: "flex",
@@ -199,49 +203,69 @@ function MyPage() {
               transform: "translate(-50%, -50%)",
             }}
           >
-            <img
-              src={walletInfo.image_url}
-              alt=""
-              style={{
-                width: "150px",
-                height: "150px",
-                borderRadius: "50%",
-                border: "3px solid white",
-                objectFit: "cover",
-              }}
-            />
+            {walletInfo.image_url !== "none" ? (
+              <img
+                src={walletInfo.image_url}
+                alt=""
+                style={{
+                  width: "150px",
+                  height: "150px",
+                  borderRadius: "50%",
+                  border: "3px solid white",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <img
+                src="images/MetaMask_Fox.svg.png"
+                alt=""
+                style={{
+                  width: "150px",
+                  height: "150px",
+                  borderRadius: "50%",
+                  border: "3px solid white",
+                  objectFit: "cover",
+                  background: "grey",
+                }}
+              />
+            )}
 
             <Link to="/MyPage/Settings">
-              <SettingsIcon
-              // onClick={() => {
-              //   navigate("/MyPage/Settings");
-              // }}
-              />
+              <SettingsIcon style={{ color: "white", height: "50px", width: "50px" }} />
             </Link>
           </div>
-
-          <UserInfo>
-            <h1>{walletInfo.nickname}</h1>
-          </UserInfo>
-
-          <p
+          <div
             style={{
-              width: "200px",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              border: "1px solid grey",
-              borderRadius: "20px",
-              padding: "0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "100px",
             }}
           >
-            <img src="images/ethereum.png" alt="eth" style={{ width: "20px", height: "20px" }} />
-            {userInfo.account}
-          </p>
+            <UserInfo>
+              <h1>{walletInfo.nickname}</h1>
+            </UserInfo>
 
-          <UserInfo>
-            <p>{walletInfo.description}</p>
-          </UserInfo>
+            <p
+              style={{
+                width: "200px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                border: "1px solid grey",
+                borderRadius: "20px",
+                padding: "0.5rem",
+              }}
+            >
+              <img src="images/ethereum.png" alt="eth" style={{ width: "20px", height: "20px" }} />
+              {userInfo.account}
+            </p>
+
+            <UserInfo>
+              <p>{walletInfo.description}</p>
+            </UserInfo>
+          </div>
 
           <div>
             <Button onClick={onDisconnect}>로그아웃</Button>

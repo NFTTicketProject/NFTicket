@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 const pages = [
   // "Profile",
   "Detail",
+  "Schedule Manager",
   "Toast UI",
   "Community",
   // "Mint",
