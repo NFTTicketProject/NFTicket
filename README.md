@@ -1,6 +1,6 @@
 # 🐢 NFTicket - 티켓의 추억을 부여하다
 
-![타이틀이미지](dosc/images/title.jpg)
+![타이틀이미지](docs/images/title.jpg)
 
 
 ## NFTicket 링크(모바일 화면) : [https://tupli.kr](https://tupli.kr/) [수정필요]
