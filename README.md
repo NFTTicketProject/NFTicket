@@ -93,43 +93,68 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ---
 ### Back
 ```
-tupli
-  ├── api
-  │   └── dev
-  ├── config
-  │   ├── auth
-  │   ├── filter
-  │   ├── interceptor
-  │   └── listener
-  ├── controller
-  ├── dto
-  │   └── simple
-  ├── entity
-  ├── info(OAuth)
-  ├── repository
-  ├── scheduler
-  ├── service
-  └── utils
+NFTicket
+├── app
+│   └── app
+│       ├── README.md
+│       ├── app.js
+│       ├── logs
+│       │   ├── NFTicket_20220328.log
+│       │   ├── NFTicket_20220329.log
+│       │   └── NFTicket_20220330.log
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── prisma
+│       │   └── schema.prisma
+│       ├── public
+│       │   ├── favicon.ico
+│       │   ├── images
+│       │   │   └── bonobono.jpg
+│       │   └── stylesheets
+│       │       └── main.css
+│       ├── routes
+│       │   ├── controllers
+│       │   │   ├── account.js
+│       │   │   ├── profile.js
+│       │   │   ├── redirect.js
+│       │   │   └── root.js
+│       │   └── index.js
+│       ├── services
+│       │   ├── authorization.js
+│       │   └── profile_service.js
+│       ├── start.sh
+│       └── utils
+│           ├── prisma.js
+│           ├── swagger.js
+│           └── winston.js
+├── job
+│   └── README.md
+└── log
+    └── README.md
 ```
 ### BlockChain
 ```
-tupli
-  ├── api
-  │   └── dev
-  ├── config
-  │   ├── auth
-  │   ├── filter
-  │   ├── interceptor
-  │   └── listener
-  ├── controller
-  ├── dto
-  │   └── simple
-  ├── entity
-  ├── info(OAuth)
-  ├── repository
-  ├── scheduler
-  ├── service
-  └── utils
+NFTicket
+├── README.md
+├── contracts
+│   ├── IResellPolicy.sol
+│   ├── ITicketClass.sol
+│   ├── Migrations.sol
+│   ├── MyTicket.sol
+│   ├── ShowSchedule.sol
+│   ├── ShowScheduleManager.sol
+│   ├── SsafyToken.sol
+│   ├── TicketSale.sol
+│   └── TicketSaleManager.sol
+├── extra
+│   ├── TicketClass.sol
+│   ├── sol.js
+│   └── ssafy_net.js
+├── migrations
+│   └── 1_initial_migration.js
+├── package.json
+└── truffle-config.js
+
 ```
 
 ## ✔ 협업 툴
