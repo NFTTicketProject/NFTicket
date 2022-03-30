@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import "./App.css";
 import MyPage from "./pages/MyPage";
 import Settings from "./components/Settings";
+import Purchase from "./pages/Purchase";
 
 function App() {
   // const [account, setAccount] = useState("");
@@ -66,6 +67,7 @@ function App() {
         <Route path="/MyPage/Settings" element={<Settings />} />
         <Route path="/Ticket-Detail" element={<TicketDetail />} />
         <Route path="/Barcode" element={<Page4 />} />
+        <Route path="/Purchase" element={<Purchase />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>

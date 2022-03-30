@@ -19,7 +19,7 @@ const Ticket = ()=>{
   `;
 
   return (
-    <div class='Tickets' style={{ overflow: 'hidden' }}>
+    <div className='Tickets' style={{ overflow: 'hidden' }}>
       <TicketContainer>
         <TicketImg src='images/ticketImg1.png' alt=''></TicketImg>
         <TicketImg src='images/ticketImg2.png' alt=''></TicketImg>
@@ -37,7 +37,7 @@ const Ticket = ()=>{
         <TicketImg src='images/ticketImg2.png' alt=''></TicketImg>
         <TicketImg src='images/ticketImg4.png' alt=''></TicketImg>
         <TicketImg src='images/ticketImg3.png' alt=''></TicketImg>
-        <div class='Ticket'>
+        <div className='Ticket'>
           <TicketImg src='images/ticketImg5.png' alt=''></TicketImg>
         </div>
       </TicketContainer>
