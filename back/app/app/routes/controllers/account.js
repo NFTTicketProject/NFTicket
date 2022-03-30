@@ -31,7 +31,7 @@ router.post('/:walletId', async (req, res) => {
             wallet_id: req.params.walletId,
             nickname: req.params.walletId,
             description: `${req.params.walletId}Description`,
-            image_url: 'none'
+            image_uri: 'none'
         }
 
         await profile_service.createProfile(newInfo)
@@ -101,7 +101,7 @@ router.patch('/edit/:walletId', async (req, res) => {
         wallet_id: req.params.walletId,
         nickname: req.body.info.nickname,
         description: req.body.info.description,
-        image_url: req.body.info.image_url,
+        image_uri: req.body.info.image_url,
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
@@ -305,7 +305,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
 router.patch('/edit/imageurl/:walletId', async (req, res) => {
     const newInfo = {
         wallet_id: req.params.walletId,
-        image_url: req.body.info.image_url,
+        image_uri: req.body.info.image_url,
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
