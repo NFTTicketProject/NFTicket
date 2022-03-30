@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const CreateImage = ({ detailInfo, setDetailInfo }) => {
+const PosterImage = ({ apiData, setApiData }) => {
   const IPFS = require("ipfs-api");
   // const ipfs = new IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
   const ipfs = new IPFS({ host: "j6a102.p.ssafy.io", port: "/ipfs", protocol: "https" });
@@ -61,16 +61,22 @@ const CreateImage = ({ detailInfo, setDetailInfo }) => {
   // console.log(`hash: ${info.ipfsHash}`);
 
   useEffect(() => {
-    setDetailInfo({ ...detailInfo, poster: info.ipfsHash });
+    setApiData({ ...apiData, poster: `https://ipfs.io/ipfs/${info.ipfsHash}` });
   }, [info]);
 
   return (
     <div className="App">
       <div>
-        <h3> IPFS로 보낼 파일 업로드 </h3>
-      </div>
-      <div>
-        {/* 직접 이미지 올리는거로 */}
+        <img
+          src={apiData.poster}
+          alt="sample"
+          style={{
+            width: "150px",
+            height: "150px",
+            margin: "auto",
+          }}
+        />
+
         <form onSubmit={onSubmit}>
           <input type="file" onChange={captureFile} />
           <button bsStyle="primary" type="submit">
@@ -82,4 +88,4 @@ const CreateImage = ({ detailInfo, setDetailInfo }) => {
   );
 };
 
-export default CreateImage;
+export default PosterImage;

@@ -14,12 +14,16 @@ const DatepickerComponent = ({ detailInfo, setDetailInfo }) => {
 
   // 변경사항 저장해서 넘겨주기
   useEffect(() => {
-    setDetailInfo({ ...detailInfo, startDate: startDate, endDate: endDate });
+    setDetailInfo({
+      ...detailInfo,
+      startedAt: startDate.getTime() - new Date().getTime(),
+      endedAt: endDate.getTime() - new Date().getTime(),
+    });
   }, [startDate, endDate]);
 
   return (
     <>
-      From:
+      startedAt:
       <DatePicker
         selected={startDate}
         onChange={(date: Date) => setStartDate(date)}
@@ -29,7 +33,7 @@ const DatepickerComponent = ({ detailInfo, setDetailInfo }) => {
         timeCaption="time"
         dateFormat="MMMM d, yyyy h:mm aa"
       />
-      To:
+      endedAt:
       <DatePicker
         selected={endDate}
         onChange={(date: Date) => setEndDate(date)}

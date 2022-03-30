@@ -33,7 +33,7 @@ function ProfileImage({ userInfo, setUserInfo }) {
       if (err) {
         console.error(err);
       }
-      console.log(ipfsHash[0].hash);
+      // console.log(ipfsHash[0].hash);
       setInfo({ ipfsHash: ipfsHash[0].hash });
     });
   };
@@ -43,30 +43,32 @@ function ProfileImage({ userInfo, setUserInfo }) {
   }, [info]);
 
   return (
-    <div>
-      <img
-        alt="sample"
-        src={userInfo.image_url}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "150px",
-          height: "150px",
-          margin: "auto",
-          borderRadius: "50%",
-        }}
-      />
-      <div
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <input name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
-        <button onClick={onSubmit}>저장</button>
+    <>
+      <div>
+        <img
+          src={userInfo.image_url}
+          alt="sample"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "150px",
+            height: "150px",
+            margin: "auto",
+            borderRadius: "50%",
+          }}
+        />
+        <div
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <input name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
+          <button onClick={onSubmit}>저장</button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
