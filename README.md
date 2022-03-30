@@ -7,7 +7,7 @@
 ## 소개 영상 보기 : [UCC 링크](https://youtu.be/WU3tIIOS0Ec) [수정필요]
 
 ## 💜 프로젝트 진행 기간
-2022.02.21(월) ~ 2022.04.08(금) (39일간 진행)  
+2022.02.21(월) ~ 2022.04.08(금) (46일간 진행)  
 SSAFY 6기 2학기 특화프로젝트 - NFTicket
 
 </br>
@@ -41,35 +41,27 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     - consectetur adipiscing elit
     - sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
     - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-    <br/>
-- ### 팔로우
-    - 취향이 같은 유저를 팔로우해서 이후에도 계속해서 영상을 공유받을 수 있어요.
-    - 팔로우 맺은 친구를 플레이룸에 초대해서 영상을 같이 시청해볼까요?
 </br>
 
 ## ✔ 주요 기술
 ---
 
-**Backend - Spring**
-- IntelliJ IDE
-- Springboot 2.6.3
-- Spring Data JPA
-- Spring Security
-- Spring Validation
-- Spring Web
-- QueryDSL
-- WebSocket
-- Redis
-- GCP 3.0.0
-- Swagger 3.0.0
-- Firebase 8.1.0
+**Backend - Express.js**
+- Visual Studio Code
+- Node.ks 16.14
+- PRISMA 2
+- ethers 5.6.2
+- dotenv
+- morgan
+- winston
 - MariaDB
 
-**Backend - Flask**
-- Scikit-learn
-- SQLAlchemy
+**BlockChain - Ethereum**
+- Solidity 0.4.22 < 0.9.0
+- openzeppelin/contracts
+- Truffle
 
-**Frontend**
+**Frontend  [수정 필요]**
 - Visual Studio Code IDE
 - Vue 2.6.11
 - Vuetify 2.4.0
@@ -79,11 +71,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - Firebase 9.6.6
 - sweetalert2 11.3.10
 
-**CI/CD**
+**CI/CD [수정 필요]**
 - AWS EC2
 - Jenkins
 - NGINX
 - SSL
+- Docker
+- Portainer
 
 ## ✔ 프로젝트 구조
 ---
@@ -166,8 +160,11 @@ NFTicket
 - Slack
 - MatterMost
 - Webex
+- Code With Me
+- Visual Studio Live Share
+- Swagger
 
-## ✔ 협업 환경
+## ✔ 협업 환경 [수정 필요]
 ---
 - Gitlab
   - 코드의 버전을 관리
@@ -215,7 +212,7 @@ NFTicket
 - [최종발표자료](./ppt/TUPLI_최종발표.pptx)
 
 
-## 🎵 NFTicket 서비스 화면
+## 🎵 NFTicket 서비스 화면 [수정 필요]
 ---
 
 ### 메인화면
