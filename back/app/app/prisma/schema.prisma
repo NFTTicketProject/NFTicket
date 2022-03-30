@@ -20,7 +20,7 @@ model Profile {
   nickname    String   @db.VarChar(45)
   description String?  @db.Text
   created_at  DateTime @default(now()) @db.Timestamp(0)
-  image_url   String?  @db.VarChar(255)
+  image_uri   String?  @db.VarChar(255)
 }
 
 model Role {
@@ -34,45 +34,45 @@ model Role {
   @@index([show_id], map: "show_id")
 }
 
-model Server_config {
+model Show {
+  show_id                  Int     @id @default(autoincrement())
+  category_name            String  @db.VarChar(10)
+  name                     String  @db.VarChar(45)
+  description              String? @db.Text
+  running_time             Int
+  age_limit                Int
+  poster_uri               String  @db.VarChar(255)
+  video_uri                String? @db.VarChar(255)
+  default_ticket_image_uri String  @db.VarChar(255)
+  Role                     Role[]
+}
+
+model Staff {
+  staff_id  Int     @id @unique(map: "staff_id_UNIQUE") @default(autoincrement())
+  name      String  @db.VarChar(45)
+  image_uri String? @db.VarChar(255)
+  Role      Role[]
+}
+
+model Sale {
+  sale_id          Int            @id @default(autoincrement())
+  show_schedule_id Int
+  description      String?        @db.Text
+  started_at       Int
+  ended_at         Int
+  TicketImages     TicketImages[]
+}
+
+model ServerConfig {
   key   String  @id @db.VarChar(45)
   value String? @db.VarChar(45)
 }
 
-model Show {
-  show_id               Int     @id
-  category_name         String  @db.VarChar(10)
-  name                  String  @db.VarChar(45)
-  description           String? @db.Text
-  runningTime           Int
-  ageLimit              Int
-  posterURL             String  @db.VarChar(255)
-  videoURL              String? @db.VarChar(255)
-  defaultTicketImageURI String  @db.VarChar(255)
-  Role                  Role[]
-}
-
-model Staff {
-  staff_id Int     @id @unique(map: "staff_id_UNIQUE")
-  name     String  @db.VarChar(45)
-  imageURL String? @db.VarChar(255)
-  Role     Role[]
-}
-
-model Ticket_images {
-  ticket_image_id Int    @id
+model TicketImages {
+  ticket_image_id Int    @id @default(autoincrement())
   sale_id         Int
   uri             String @db.VarChar(100)
   Sale            Sale   @relation(fields: [sale_id], references: [sale_id], onDelete: NoAction, onUpdate: NoAction, map: "sale_id")
 
   @@index([sale_id], map: "sale_id_idx")
-}
-
-model Sale {
-  sale_id          Int             @id
-  show_schedule_id Int
-  description      String?         @db.Text
-  started_at       Int
-  ended_at         Int
-  Ticket_images    Ticket_images[]
 }
