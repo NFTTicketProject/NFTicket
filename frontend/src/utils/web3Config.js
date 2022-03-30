@@ -611,101 +611,6 @@ const myTicketAbi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "ClassId",
-    outputs: [
-      {
-        internalType: "uint64",
-        name: "",
-        type: "uint64",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "IssuePrice",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "MinterId",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "ShowScheduleId",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "TokenURI",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -743,11 +648,6 @@ const myTicketAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
         internalType: "string",
         name: "ticketURI",
         type: "string",
@@ -758,28 +658,8 @@ const myTicketAbi = [
         type: "uint256",
       },
       {
-        internalType: "uint64",
+        internalType: "uint256",
         name: "classId",
-        type: "uint64",
-      },
-      {
-        internalType: "uint256",
-        name: "issuePrice",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "isResellAvailable",
-        type: "bool",
-      },
-      {
-        internalType: "uint8",
-        name: "resellRoyaltyRatePercent",
-        type: "uint8",
-      },
-      {
-        internalType: "uint256",
-        name: "resellPriceLimit",
         type: "uint256",
       },
     ],
@@ -808,6 +688,82 @@ const myTicketAbi = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getClassId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getMinter",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getShowScheduleId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getTokenURI",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -1069,12 +1025,184 @@ const myTicketAbi = [
     type: "function",
   },
 ];
+const showScheduleManagerAbi = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "currencyContractAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "ticketContractAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint64",
+        name: "showId",
+        type: "uint64",
+      },
+      {
+        internalType: "string",
+        name: "stageName",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "startedAt",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "endedAt",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxMintCount",
+        type: "uint256",
+      },
+      {
+        internalType: "string[]",
+        name: "ticketClassNames",
+        type: "string[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "ticketClassPrices",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "ticketClassMaxMintCounts",
+        type: "uint256[]",
+      },
+      {
+        internalType: "bool",
+        name: "isResellAvailable",
+        type: "bool",
+      },
+      {
+        internalType: "uint8",
+        name: "resellRoyaltyRatePercent",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "resellPriceLimit",
+        type: "uint256",
+      },
+    ],
+    name: "create",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "showScheduleId",
+        type: "uint256",
+      },
+    ],
+    name: "getShowSchedule",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "walletAddr",
+        type: "address",
+      },
+    ],
+    name: "getShowSchedulesCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "walletAddr",
+        type: "address",
+      },
+    ],
+    name: "getShowSchedulesOfOwner",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "showScheduleId",
+        type: "uint256",
+      },
+    ],
+    name: "ownerOf",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 const mintAnimalTokenAddress = "0xdDCdECe6524be448D1d2609D5430754bB06d835e";
 export const saleAnimalTokenAddress = "0xB30199f422DEc42ac5782d2D05777AD640f81447";
-const myTicketAddress = "0xd5613Ad172F89C37539cf3a4E92134Fe4e9AE451";
+const myTicketAddress = "0x2a8C81C628C1E85893844a5D9E63d6886e1a69be";
+const showScheduleManagerAddress = "0xD86140CAF8Ebb42CB7DBAbADf854FC29ab112361";
 
 export const web3 = new Web3(window.ethereum);
+
 export const mintAnimalTokenContract = new web3.eth.Contract(
   mintAnimalTokenAbi,
   mintAnimalTokenAddress
@@ -1084,3 +1212,7 @@ export const saleAnimalTokenContract = new web3.eth.Contract(
   saleAnimalTokenAddress
 );
 export const myTicketContract = new web3.eth.Contract(myTicketAbi, myTicketAddress);
+export const showScheduleManagerContract = new web3.eth.Contract(
+  showScheduleManagerAbi,
+  showScheduleManagerAddress
+);
