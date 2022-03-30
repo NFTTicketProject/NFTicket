@@ -21,7 +21,6 @@ const ConnectedContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
 `;
 
 const LogInButton = styled.button`
@@ -52,8 +51,10 @@ const UserInfo = styled.div`
 function MyPage() {
   const [userInfo, setUserInfo] = useState();
   const [isConnected, setIsConnected] = useState(false);
-  const [walletInfo, setWalletInfo] = useState([]);
-  const [toggle, setToggle] = useState(false);
+  const [walletInfo, setWalletInfo] = useState({
+    nickname: "Unnamed",
+    description: "",
+  });
 
   // Redux
   const dispatch = useDispatch();
@@ -92,13 +93,15 @@ function MyPage() {
 
         // userInfo에 저장 (localStorage)
         saveUserInfo(ethBalance, account, chainId);
-        console.log(userInfo);
 
         // post
         axios
           .post(`https://j6a102.p.ssafy.io/api/v1/account/${account}`)
           .then((res) => {
             console.log(res);
+            if (res.status === 200) {
+              checkConnectedWallet();
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -108,7 +111,7 @@ function MyPage() {
       console.error(err);
     }
   };
-
+  // console.log(walletInfo);
   const saveUserInfo = (ethBalance, account, chainId) => {
     const userAccount = {
       account: account,
@@ -128,140 +131,141 @@ function MyPage() {
     setWalletInfo([]);
   };
 
-  useEffect(() => {
-    function checkConnectedWallet() {
-      const userData = JSON.parse(localStorage.getItem("userAccount"));
-      if (userData != null) {
-        setUserInfo(userData);
-        setIsConnected(true);
-      }
+  function checkConnectedWallet() {
+    const userData = JSON.parse(localStorage.getItem("userAccount"));
+    if (userData != null) {
+      setUserInfo(userData);
+      setIsConnected(true);
+      // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
+      // .get
+      axios
+        .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userData.account}`)
+        .then((res) => {
+          setWalletInfo(res.data);
+        })
+        .catch((err) => console.error(err));
     }
+  }
+
+  useEffect(() => {
     checkConnectedWallet();
   }, []);
 
-  // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
-  const getWalletInfo = () => {
-    // .get
-    axios
-      .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userInfo.account}`)
-      .then((res) => {
-        setWalletInfo(res.data);
-      })
-      .catch((err) => console.error(err));
-
-    setToggle(!toggle);
-  };
-
-  const handleWalletInfoChange = (e) => {
-    setWalletInfo({ ...walletInfo, [e.target.name]: e.target.value });
-  };
-  // 닉네임, 설명 수정 가능
-  const editWalletNickname = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/nickname/${userInfo.account}`, {
-        nickname: walletInfo.nickname,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-  const editWalletDescription = (e) => {
-    e.preventDefault();
-    axios
-      .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/description/${userInfo.account}`, {
-        description: walletInfo.description,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  // // 닉네임, 설명 수정 가능
+  // const editWalletNickname = (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/nickname/${userInfo.account}`, {
+  //       nickname: walletInfo.nickname,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
+  // const editWalletDescription = (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/description/${userInfo.account}`, {
+  //       description: walletInfo.description,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
 
   return (
     <>
       {isConnected ? (
         <ConnectedContainer>
-          <div>
-            <Link to="/MyPage/Settings">
-              <SettingsIcon />
-            </Link>
-            <img
-              src="images/leo.jpeg"
-              alt="Profile Image"
-              style={{
-                width: "150px",
-                height: "150px",
-                borderRadius: "50%",
-                border: "3px solid black",
-              }}
-            />
-          </div>
-          {toggle ? (
-            <UserInfo>
-              <input
-                type="text"
-                name="nickname"
-                value={walletInfo.nickname}
-                onChange={handleWalletInfoChange}
-                placeholder="Nickname"
-                style={{
-                  border: "none",
-                  textAlign: "center",
-                  fontSize: "2rem",
-                  fontWeight: "bold",
-                }}
-              />
-              <Button onClick={editWalletNickname}>수정</Button>
-            </UserInfo>
-          ) : (
-            <div></div>
-          )}
-
-          <p
+          {/* 배경 */}
+          <img
+            src="images/1614121632-NYAN-CAT.jpeg"
+            alt=""
             style={{
-              width: "200px",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              border: "1px solid grey",
-              borderRadius: "20px",
-              padding: "0.5rem",
+              height: "300px",
+              width: "100%",
+              objectFit: "cover",
+            }}
+          />
+          {/* 프로필 사진 */}
+          <div
+            style={{
+              display: "flex",
+              position: "absolute",
+              top: "370px",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <img src="images/ethereum.png" alt="eth" style={{ width: "20px", height: "20px" }} />
-            {userInfo.account}
-          </p>
-
-          <div>
-            <div>
-              <button onClick={getWalletInfo}>정보 가져오기</button>
-            </div>
-          </div>
-          {toggle ? (
-            <UserInfo>
-              <input
-                type="text"
-                name="description"
-                value={walletInfo.description}
-                onChange={handleWalletInfoChange}
-                placeholder="Description"
+            {walletInfo.image_url !== "none" ? (
+              <img
+                src={walletInfo.image_url}
+                alt=""
                 style={{
-                  border: "none",
-                  textAlign: "center",
-                  fontSize: "1rem",
+                  width: "150px",
+                  height: "150px",
+                  borderRadius: "50%",
+                  border: "3px solid white",
+                  objectFit: "cover",
                 }}
               />
-              <Button onClick={editWalletDescription}>수정</Button>
+            ) : (
+              <img
+                src="images/MetaMask_Fox.svg.png"
+                alt=""
+                style={{
+                  width: "150px",
+                  height: "150px",
+                  borderRadius: "50%",
+                  border: "3px solid white",
+                  objectFit: "cover",
+                  background: "grey",
+                }}
+              />
+            )}
+
+            <Link to="/MyPage/Settings">
+              <SettingsIcon style={{ color: "white", height: "50px", width: "50px" }} />
+            </Link>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "100px",
+            }}
+          >
+            <UserInfo>
+              <h1>{walletInfo.nickname}</h1>
             </UserInfo>
-          ) : (
-            <div></div>
-          )}
+
+            <p
+              style={{
+                width: "200px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                border: "1px solid grey",
+                borderRadius: "20px",
+                padding: "0.5rem",
+              }}
+            >
+              <img src="images/ethereum.png" alt="eth" style={{ width: "20px", height: "20px" }} />
+              {userInfo.account}
+            </p>
+
+            <UserInfo>
+              <p>{walletInfo.description}</p>
+            </UserInfo>
+          </div>
 
           <div>
             <Button onClick={onDisconnect}>로그아웃</Button>

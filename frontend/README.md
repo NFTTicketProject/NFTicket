@@ -36,6 +36,7 @@ yarn add ipfs-http-client
 yarn add react-barcode
 
 yarn add react-datepicker
+yarn add ethers
 
 
 ```
