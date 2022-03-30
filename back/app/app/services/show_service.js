@@ -3,11 +3,20 @@ const { logger } = require('../utils/winston')
 
 module.exports = {
     createShow : async (info) =>{
-        await prisma.Show.create({
-            data: info,
-        })
 
         logger.info('[show_service.js] createShow ::: ' + JSON.stringify(info))
+
+        try {
+            await prisma.Show.create({
+                data: info,
+            })
+            return true
+        }
+        catch (e){
+            logger.error('[show_service.js] createShow ::: ' + JSON.stringify(e))
+
+            return false
+        }
     },
     setShow : async (showId, info) =>{
         try {
