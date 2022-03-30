@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import PeopleIcon from '@mui/icons-material/People';
 
+
 const CommunityItem = ()=>{
 
   const CommunityContainer = styled.div`

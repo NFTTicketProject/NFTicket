@@ -21,6 +21,7 @@ import MyPage from "./pages/MyPage";
 import Settings from "./components/Settings";
 import ScheduleManager from "./pages/ScheduleManager";
 import TC from "./pages/TC";
+import Purchase from "./pages/Purchase";
 
 function App() {
   // const [account, setAccount] = useState("");
@@ -70,6 +71,7 @@ function App() {
         <Route path="/MyPage/Settings" element={<Settings />} />
         <Route path="/Ticket-Detail" element={<TicketDetail />} />
         <Route path="/Barcode" element={<Page4 />} />
+        <Route path="/Purchase" element={<Purchase />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>

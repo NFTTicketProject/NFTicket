@@ -23,7 +23,7 @@ const Community = ()=>{
     <div>
       <CommunityContainer>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <h2 style={{ width: "90vw" }}>커뮤니티</h2>
+          <h2 style={{ width: "75vw" }}>커뮤니티</h2>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <CommunityItemContainer>

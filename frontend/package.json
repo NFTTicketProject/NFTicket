@@ -29,7 +29,7 @@
     "react-redux": "^7.2.6",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.2.2",
-    "react-scripts": "4.0.0",
+    "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
     "react-unity-webgl": "^8.8.0",
     "redux": "^4.1.2",
@@ -40,6 +40,9 @@
     "web-vitals": "^2.1.0",
     "web3": "^1.7.1"
   },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

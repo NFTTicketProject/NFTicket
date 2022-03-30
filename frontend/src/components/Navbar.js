@@ -30,6 +30,7 @@ const pages = [
   "Redux2",
   "Ticket-Detail",
   "Barcode",
+  "Purchase",
 ];
 const settings = ["MyPage", "Account", "Dashboard", "Logout"];
 
