@@ -3,6 +3,7 @@ const router = express.Router();
 const profile = require('./controllers/profile')
 const account = require('./controllers/account')
 const sale = require('./controllers/sale')
+const show = require('./controllers/show')
 const staff = require('./controllers/staff')
 const role = require('./controllers/role')
 
@@ -14,6 +15,9 @@ router.use('/account', account)
 
 // /sale routing
 router.use('/sale', sale)
+
+// /show routing
+router.use('/show', show)
 
 // /staff routing
 router.use('/staff', staff)
