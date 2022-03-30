@@ -2,15 +2,15 @@ import React from "react";
 
 import styled from "styled-components";
 
+const NotiTitle = styled.h3`
+  margin: 25px;
+`;
+
+const Marginli = styled.li`
+  margin-top: 5px;
+`;
+
 const Notification = () => {
-  const NotiTitle = styled.h3`
-    margin: 25px;
-  `;
-
-  const Marginli = styled.li`
-    margin-top: 5px;
-  `;
-
   return (
     <div>
       <NotiTitle>NFTicket 유의사항</NotiTitle>

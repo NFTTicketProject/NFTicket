@@ -1,40 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 
-import DetailDescription from "./DetailDescription";
-import Notification from "./Notification";
-import TradeHistory from "./TradeHistory";
-import NFTInfo from "./NFTInfo";
+import MiddleLeft from "./MiddleLeft";
+import MiddleRight from "./MiddleRight";
+
+const ContainMiddle = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const MiddleLeftCss = styled.div`
+  width: 670px;
+`;
+
+const MiddleRightCss = styled.div`
+  width: 330px;
+  height: 100px;
+`;
 
 const Middle = () => {
-  const DetailDescriptionCss = styled.div``;
-
-  const NotificationCss = styled.div`
-    margin-top: 20px;
-  `;
-
-  const TradeHistoryCss = styled.div``;
-
-  const NFTInfoCss = styled.div`
-    width: 500px;
-  `;
   return (
     <div>
-      <DetailDescriptionCss>
-        <DetailDescription></DetailDescription>
-      </DetailDescriptionCss>
+      <ContainMiddle>
+        <MiddleLeftCss>
+          <MiddleLeft></MiddleLeft>
+        </MiddleLeftCss>
 
-      <NotificationCss>
-        <Notification></Notification>
-      </NotificationCss>
-
-      <TradeHistoryCss>
-        <TradeHistory></TradeHistory>
-      </TradeHistoryCss>
-
-      <NFTInfoCss>
-        <NFTInfo></NFTInfo>
-      </NFTInfoCss>
+        <MiddleRightCss>
+          <MiddleRight></MiddleRight>
+        </MiddleRightCss>
+      </ContainMiddle>
     </div>
   );
 };
