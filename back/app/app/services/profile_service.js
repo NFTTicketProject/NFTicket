@@ -2,6 +2,13 @@ const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
 module.exports = {
+    createProfile : async (info) =>{
+        await prisma.Profile.create({
+            data : info,
+        })
+
+        logger.info('[profile_service.js] createProfile ::: ' + JSON.stringify(info))
+    },
     getProfile: async function (walletId) {
         const result = await prisma.Profile.findUnique({
             where: {
@@ -55,26 +62,19 @@ module.exports = {
 
         return result
     },
-    getImageURL : async (walletId) =>{
+    getImageURI : async (walletId) =>{
         const result = await prisma.Profile.findFirst({
             where: {
                 wallet_id: walletId,
             },
             select: {
-                image_url: true,
+                image_uri: true,
             },
         })
 
-        logger.info('[profile_service.js] getImageURL ::: ' + JSON.stringify(result))
+        logger.info('[profile_service.js] getImageURI ::: ' + JSON.stringify(result))
 
         return result
-    },
-    createProfile : async (info) =>{
-        await prisma.Profile.create({
-            data : info,
-        })
-
-        logger.info('[profile_service.js] createProfile ::: ' + JSON.stringify(info))
     },
     setProfile : async (info) =>{
         try {
@@ -85,7 +85,7 @@ module.exports = {
                 data: {
                     nickname: info['nickname'],
                     description: info['description'],
-                    image_url: info['image_url'],
+                    image_uri: info['image_uri'],
                 },
             })
 
@@ -145,7 +145,7 @@ module.exports = {
                     wallet_id: info['wallet_id'],
                 },
                 data: {
-                    image_url: info['image_url'],
+                    image_uri: info['image_uri'],
                 },
             })
 
