@@ -4,7 +4,6 @@ import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "@mui/material";
-import CreateImage from "./CreateImage";
 import ProfileImage from "./ProfileImage";
 
 const SettingContainer = styled.div`
@@ -41,87 +40,24 @@ function Settings() {
     return signature;
   };
 
-  // 닉네임, 설명 수정 가능
-  // const editWalletNickname = async () => {
-  //   const nickData = { nickname: userInfo.nickname, timestamp: new Date().getTime() };
-  //   const nicikSign = await signMessage(JSON.stringify(nickData));
-  //   const sendNickData = { info: nickData, hash_sign: nicikSign };
-  //   axios
-  //     .patch(
-  //       `https://j6a102.p.ssafy.io/api/v1/account/edit/nickname/${userInfo.wallet_id}`,
-  //       sendNickData
-  //     )
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  //   navigate("/MyPage");
-  // };
-  // const editWalletDescription = async (e) => {
-  //   e.preventDefault();
-  //   const desData = { description: userInfo.description, timestamp: new Date().getTime() };
-  //   const desSign = await signMessage(JSON.stringify(desData));
-  //   const sendDesData = { info: desData, hash_sign: desSign };
-  //   axios
-  //     .patch(
-  //       `https://j6a102.p.ssafy.io/api/v1/account/edit/description/${userInfo.wallet_id}`,
-  //       sendDesData
-  //     )
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // };
-  const editProfileImage = async () => {
-    const profileData = {
+  const editInfo = async () => {
+    const data = {
+      nickname: userInfo.nickname,
+      description: userInfo.description,
       image_url: userInfo.image_url,
       timestamp: new Date().getTime(),
     };
-    const profileSign = await signMessage(JSON.stringify(profileData));
-    const sendProfileData = { info: profileData, hash_sign: profileSign };
+    const sign = await signMessage(JSON.stringify(data));
+    const sendData = { info: data, hash_sign: sign };
     axios
-      .patch(
-        `https://j6a102.p.ssafy.io/api/v1/account/edit/imageurl/${userInfo.wallet_id}`,
-        sendProfileData
-      )
+      .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.error(err);
       });
-  };
-
-  const onClickEdit = async () => {
-    const nickData = { nickname: userInfo.nickname, timestamp: new Date().getTime() };
-    const nicikSign = await signMessage(JSON.stringify(nickData));
-    const sendNickData = { info: nickData, hash_sign: nicikSign };
-    const desData = { description: userInfo.description, timestamp: new Date().getTime() };
-    const desSign = await signMessage(JSON.stringify(desData));
-    const sendDesData = { info: desData, hash_sign: desSign };
-    axios.all(
-      [
-        axios.patch(
-          `https://j6a102.p.ssafy.io/api/v1/account/edit/nickname/${userInfo.wallet_id}`,
-          sendNickData
-        ),
-        axios.patch(
-          `https://j6a102.p.ssafy.io/api/v1/account/edit/description/${userInfo.wallet_id}`,
-          sendDesData
-        ),
-      ]
-        .then(
-          axios.spread((res1, res2) => {
-            console.log(res1, res2);
-          })
-        )
-        .catch((err) => console.error(err))
-    );
-    navigate("/MyPage");
+    // navigate("/MyPage");
   };
 
   const getUserInfo = () => {
@@ -136,20 +72,15 @@ function Settings() {
         .catch((err) => console.error(err));
     }
   };
-  console.log(userInfo);
+  // console.log(userInfo);
   useEffect(() => {
     getUserInfo();
   }, []);
-
-  ////////
 
   return (
     <SettingContainer>
       <h1>Profile Settings</h1>
       <ProfileImage userInfo={userInfo} setUserInfo={setUserInfo} />
-      {/* <CreateImage detailInfo={detailInfo} setDetailInfo={setDetailInfo} /> */}
-      {/* {detailInfo.poster ? <div>{detailInfo.poster}</div> : <div></div>} */}
-      <button onClick={editProfileImage}>수정</button>
       <h2>Username</h2>
       <InputForm
         type="text"
@@ -167,8 +98,16 @@ function Settings() {
         onChange={handleChange}
       />
       <div>
-        <Button variant="contained" onClick={onClickEdit} style={{ marginTop: "1rem" }}>
+        <Button variant="contained" onClick={editInfo} style={{ marginTop: "1rem" }}>
           수정
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/MyPage");
+          }}
+          style={{ marginTop: "1rem" }}
+        >
+          돌아가기
         </Button>
       </div>
     </SettingContainer>
