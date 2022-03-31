@@ -98,7 +98,7 @@ router.post('/:walletId', async (req, res) => {
  *                   description: "소개글"
  *                   type: string
  *                   example: 나는 NFTurtle 입니다.
- *                 image_url:
+ *                 image_uri:
  *                   description: "이미지"
  *                   type: string
  *                   example: http://ipfs/...
@@ -121,7 +121,7 @@ router.patch('/edit/:walletId', async (req, res) => {
         wallet_id: req.params.walletId,
         nickname: req.body.info.nickname,
         description: req.body.info.description,
-        image_uri: req.body.info.image_url,
+        image_uri: req.body.info.image_uri,
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
@@ -270,7 +270,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
 
 /**
  * @swagger
- * "/account/edit/imageurl/{wallet_id}":
+ * "/account/edit/imageuri/{wallet_id}":
  *   patch:
  *     tags: [Account, User]
  *     summary: "관련 지갑 주소자의 이미지 수정"
@@ -295,7 +295,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
  *               description: "수정 정보"
  *               type: object
  *               properties:
- *                 image_url:
+ *                 image_uri:
  *                   description: "이미지"
  *                   type: string
  *                   example: http://ipfs/...
@@ -313,10 +313,10 @@ router.patch('/edit/description/:walletId', async (req, res) => {
  *       500:
  *         description: "사용자 없음 | 서버 오류"
  */
-router.patch('/edit/imageurl/:walletId', async (req, res) => {
+router.patch('/edit/imageuri/:walletId', async (req, res) => {
     const newInfo = {
         wallet_id: req.params.walletId,
-        image_uri: req.body.info.image_url,
+        image_uri: req.body.info.image_uri,
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
