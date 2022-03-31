@@ -73,7 +73,7 @@ const CreateImage = ({ detailInfo, setDetailInfo }) => {
         {/* 직접 이미지 올리는거로 */}
         <form onSubmit={onSubmit}>
           <input type="file" onChange={captureFile} />
-          <button bsStyle="primary" type="submit">
+          <button bsstyle="primary" type="submit">
             등록
           </button>
         </form>

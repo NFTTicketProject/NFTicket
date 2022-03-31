@@ -21,8 +21,8 @@ import "./App.css";
 import MyPage from "./pages/MyPage";
 import Settings from "./components/Settings";
 import ScheduleManager from "./pages/ScheduleManager";
-import TC from "./pages/TC";
 import Purchase from "./pages/Purchase";
+import ShowDetail from "./pages/ShowDetail";
 
 function App() {
   // const [account, setAccount] = useState("");
@@ -65,7 +65,7 @@ function App() {
         <Route path="/Sale%20Animal" element={<SaleAnimal account={account} />} /> */}
         <Route path='/Guide' element={<Guide />} />
         <Route path='/Detail' element={<Detail />} />
-        <Route path='/Detail/:showScheduleAddress' element={<TC />} />
+        <Route path='/Detail/:showScheduleAddress' element={<ShowDetail />} />
         <Route path='/Schedule%20Manager' element={<ScheduleManager />}></Route>
         {/* <Route path='/Profile' element={<Profile />} /> */}
         <Route path='/MyPage' element={<MyPage />} />
