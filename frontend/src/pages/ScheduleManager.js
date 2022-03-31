@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import DatepickerComponent from "../components/DatepickerComponent";
 import InputEditor from "../components/InputEditor";
 import InputList from "../components/InputList";
 import PosterImage from "../components/PosterImage";
 // import { showScheduleManagerContract } from "../utils/web3Config";
 import { showScheduleManagerContract } from "../utils/web3";
+import axios from "axios";
 
 function ScheduleManager() {
   const navigate = useNavigate();
@@ -24,7 +26,16 @@ function ScheduleManager() {
     resellPriceLimit: 1000000,
     ticketInfo: [], // 티켓 설정
   });
-  const [apiData, setApiData] = useState({});
+  const [apiData, setApiData] = useState({
+    category_name: "",
+    name: "",
+    description: "",
+    running_time: 0,
+    age_limit: 0,
+    poster_uri: "",
+    video_uri: "http://video...",
+    default_ticket_image_uri: "http://image...",
+  });
   const handleApiChange = (e) => {
     setApiData({ ...apiData, [e.target.name]: e.target.value });
   };
@@ -46,13 +57,16 @@ function ScheduleManager() {
     setTicketClassMaxMintCounts([newItem.seats, ...ticketClassMaxMintCounts]);
   };
   const userData = JSON.parse(localStorage.getItem("userAccount"));
+
+  //Redux 사용 account
+  const account = useSelector((state) => state.wallet.accountInfo);
   // console.log(`acc: ${userData.account}`);
 
   // detailInfo에 좌석 가격 관련 정보 추가
   useEffect(() => {
     setDetailInfo({ ...detailInfo, ticketInfo: data });
     // console.log(data[0].grade);
-    console.log(ticketClassNames);
+    // console.log(ticketClassNames);
   }, [data]);
 
   // 📤 '제출' 버튼 클릭 시 동작 - 초기화
@@ -88,15 +102,17 @@ function ScheduleManager() {
           ticketClassNames,
           ticketClassPrices,
           ticketClassMaxMintCounts,
-          parseInt(detailInfo.isResellAvailable),
+          detailInfo.isResellAvailable,
           parseInt(detailInfo.resellRoyaltyRatePercent),
           parseInt(detailInfo.resellPriceLimit)
         )
-        .send({ from: userData.account });
+        // .send({ from: userData.account });
+        .send({ from: account });
       console.log(response);
       if (response.status) {
-        console.log("helo");
-        handleSubmit();
+        // console.log("helo");
+        // handleSubmit();
+        handleApi();
         navigate("/Detail");
       }
     } catch (err) {
@@ -104,9 +120,44 @@ function ScheduleManager() {
     }
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  const handleApi = () => {
+    console.log(apiData);
+    axios
+      .post(`https://j6a102.p.ssafy.io/api/v1/show/`, {
+        category_name: apiData.category_name,
+        name: apiData.name,
+        description: apiData.description,
+        running_time: parseInt(apiData.running_time),
+        age_limit: parseInt(apiData.age_limit),
+        poster_uri: apiData.poster,
+        video_uri: apiData.video_uri,
+        default_ticket_image_uri: apiData.default_ticket_image_uri,
+      })
+      .then((res) => {
+        console.log(res);
+        // setApiData({
+        //   category_name: "",
+        //   name: "",
+        //   description: "",
+        //   running_time: 0,
+        //   age_limit: 0,
+        //   poster_uri: "",
+        //   video_uri: "http://video...",
+        //   default_ticket_image_uri: "http://image...",
+        // });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  // const handleDate = ({ startDate, endDate }) => {
+  //   setDetailInfo({
+  //     ...detailInfo,
+  //     startedAt: startDate,
+  //     endedAt: endDate,
+  //   });
+  // };
 
   return (
     <>
@@ -134,6 +185,7 @@ function ScheduleManager() {
           />
         </div>
         <DatepickerComponent detailInfo={detailInfo} setDetailInfo={setDetailInfo} />
+        {/* <DatepickerComponent handleDate={handleDate} /> */}
         <div>
           총 발행 갯수:
           <input
@@ -179,39 +231,57 @@ function ScheduleManager() {
             />
           </div>
         </div>
-        <button onClick={handleSubmit}>제출</button>
-        <button onClick={handleMint}>민트</button>
       </div>
       <div>
         <h2>API</h2>
         <div>
-          포스터:
-          <PosterImage apiData={apiData} setApiData={setApiData} />
+          카테고리
+          <input
+            type="text"
+            name="category_name"
+            value={apiData.category_name}
+            onChange={handleApiChange}
+          />
         </div>
         <div>
-          관람연령:
-          <input type="text" name="rating" value={apiData.rating} onChange={handleApiChange} />
+          공연명
+          <input type="text" name="name" value={apiData.name} onChange={handleApiChange} />
         </div>
         <div>
-          캐스팅:
-          <input type="text" name="casting" value={apiData.casting} onChange={handleApiChange} />
+          공연설명
+          <input
+            type="text"
+            name="description"
+            value={apiData.description}
+            onChange={handleApiChange}
+          />
         </div>
         <div>
           공연시간:
           <input
-            type="text"
-            name="runningTime"
-            value={apiData.runningTime}
+            type="number"
+            name="running_time"
+            value={apiData.running_time}
             onChange={handleApiChange}
           />
         </div>
-        <button
-          onClick={() => {
-            console.log(apiData);
-          }}
-        >
-          제출
-        </button>
+        <div>
+          관람연령:
+          <input
+            type="number"
+            name="age_limit"
+            value={apiData.age_limit}
+            onChange={handleApiChange}
+          />
+        </div>
+        <div>
+          포스터:
+          <PosterImage apiData={apiData} setApiData={setApiData} />
+        </div>
+        <button onClick={handleApi}>제출</button>
+        <div>
+          <button onClick={handleMint}>민트</button>
+        </div>
       </div>
     </>
   );

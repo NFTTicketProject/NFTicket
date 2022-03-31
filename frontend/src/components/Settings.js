@@ -22,7 +22,6 @@ const InputForm = styled.input`
 function Settings() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
-  const [detailInfo, setDetailInfo] = useState("");
 
   const handleChange = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
@@ -44,7 +43,7 @@ function Settings() {
     const data = {
       nickname: userInfo.nickname,
       description: userInfo.description,
-      image_url: userInfo.image_url,
+      image_uri: userInfo.image_uri,
       timestamp: new Date().getTime(),
     };
     const sign = await signMessage(JSON.stringify(data));
@@ -53,11 +52,13 @@ function Settings() {
       .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
       .then((res) => {
         console.log(res);
+        if (res.status) {
+          navigate("/MyPage");
+        }
       })
       .catch((err) => {
         console.error(err);
       });
-    // navigate("/MyPage");
   };
 
   const getUserInfo = () => {
@@ -70,9 +71,11 @@ function Settings() {
           setUserInfo(res.data);
         })
         .catch((err) => console.error(err));
+    } else {
+      return;
     }
   };
-  // console.log(userInfo);
+  console.log(userInfo);
   useEffect(() => {
     getUserInfo();
   }, []);

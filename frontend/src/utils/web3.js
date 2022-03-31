@@ -1274,6 +1274,19 @@ export const showScheduleAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "isCancelled",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -1300,9 +1313,9 @@ export const showScheduleAbi = [
 ];
 
 //
-const myTicketAddress = "0xFCa7e0511Df14fd375ca69641d252FB34b366694";
-const showScheduleManagerAddress = "0xbffDc8f82a6b14Ddcd22D1A917E5FB66374bd302";
-const ticketSaleManagerAddress = "0xdf4fb7024BD11a456C0dDCdf703C1dC7A01515F0";
+const myTicketAddress = "0xab39e34d46524d74adea79986FA1c6F152103A64";
+const showScheduleManagerAddress = "0xB3ab48589a480575c09A94E3776800D6d6CEC4A3";
+const ticketSaleManagerAddress = "0x75A989b082297E3a3315e5F6733F307df31dB793";
 export const showScheduleAddress = "";
 
 //
