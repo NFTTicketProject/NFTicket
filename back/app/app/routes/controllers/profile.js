@@ -157,4 +157,42 @@ router.get('/imageuri/:walletId', async (req, res, err) => {
     res.json(result)
 })
 
+/**
+ * @swagger
+ * /profile/gallery/{wallet_id}:
+ *  get:
+ *    summary: "갤러리 사이즈 조회"
+ *    description: "갤러리 사이즈 조회"
+ *    tags: [Profile, User]
+ *    parameters:
+ *      - in: path
+ *        name: wallet_id
+ *        required: true
+ *        description: 지갑 주소
+ *        schema:
+ *          type: string
+ *    responses:
+ *      "200":
+ *        description: 사용자 갤러리 사이즈 반환
+ *        schema:
+ *          type: object
+ *          properties:
+ *            gallery:
+ *              description: "갤러리 사이즈"
+ *              type: string
+ *              example: "galleryS"
+ *      "404":
+ *        description: 존재하지 않는 사용자
+ */
+// 사용자 갤러리 사이즈 조회
+router.get('/gallery/:walletId', async (req, res, err) => {
+    // walletID 와 일치하는 갤러리 사이즈 반환
+    const result = await profile_service.getGallery(req.params.walletId)
+
+    if (!result)
+        res.status(404)
+
+    res.json(result)
+})
+
 module.exports = router
