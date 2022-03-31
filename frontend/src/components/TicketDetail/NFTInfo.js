@@ -47,6 +47,11 @@ const NFTInfo = () => {
   return (
     <div>
       <NftInfoTitle>NFT 정보</NftInfoTitle>
+      {/* <TableContainer
+        components={{
+          Container: (props) => <Paper {...props} evelation={0} />,
+        }}
+      > */}
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label='simple table'>
           <TableRow
