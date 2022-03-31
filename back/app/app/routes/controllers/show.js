@@ -2,24 +2,6 @@ const show_service = require("../../services/show_service");
 const express = require("express");
 const router = express.Router();
 
-// 공연 검색
-router.get("/search", async (req, res, err) => {
-  const result = await show_service.search(req.query);
-
-  if (!result) res.status(404);
-
-  res.json(result);
-});
-
-// 공연 카테고리 목록
-router.get("/categories", async (req, res, err) => {
-  const result = await show_service.getCategoryNames();
-
-  if (!result) res.status(404);
-
-  res.json(result);
-});
-
 /**
  * @swagger
  * "/show/":
@@ -135,7 +117,10 @@ router.post("/", async (req, res, err) => {
 
 // 공연 조회
 router.get("/:showId", async (req, res, err) => {
-  const result = await show_service.getShow(req.params.showId);
+  let result
+  if (req.params.showId == 'search') result = await show_service.search(req.query);
+  else if (req.params.showId == 'categories') result = await show_service.getCategoryNames();
+  else result = await show_service.getShow(req.params.showId);
 
   if (!result) res.status(404);
 
