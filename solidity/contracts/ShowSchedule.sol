@@ -330,6 +330,10 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     function isCancelled() public view returns(bool) {
         return _isCancelled;
     }
+    
+    function getTicketId(uint256 classId, uint256 seatIndex) public view returns(uint256) {
+        return _ticketIdsBySeat[classId][seatIndex];
+    }
 
     modifier onlyAdmin() {
         require(msg.sender == _admin, "You're not admin");
