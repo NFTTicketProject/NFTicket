@@ -53,6 +53,7 @@ router.post("/", async (req, res, err) => {
   const result = await show.createShow(req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json();
 });
@@ -123,6 +124,7 @@ router.get("/:showId", async (req, res, err) => {
   else result = await show.getShow(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -161,6 +163,7 @@ router.get("/:showId/category-name", async (req, res, err) => {
   const result = await show.getCategoryName(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -199,6 +202,7 @@ router.get("/:showId/name", async (req, res, err) => {
   const result = await show.getName(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -237,6 +241,7 @@ router.get("/:showId/description", async (req, res, err) => {
   const result = await show.getDescription(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -275,6 +280,7 @@ router.get("/:showId/running-time", async (req, res, err) => {
   const result = await show.getRunningTime(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -313,6 +319,7 @@ router.get("/:showId/age-limit", async (req, res, err) => {
   const result = await show.getAgeLimit(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -351,6 +358,7 @@ router.get("/:showId/poster-uri", async (req, res, err) => {
   const result = await show.getPosterURI(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -389,6 +397,7 @@ router.get("/:showId/video-uri", async (req, res, err) => {
   const result = await show.getVideoURI(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -427,6 +436,7 @@ router.get("/:showId/default-ticket-image-uri", async (req, res, err) => {
   const result = await show.getDefaultTicketImageURI(req.params.showId);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -436,6 +446,7 @@ router.patch("/:showId", async (req, res, err) => {
   const result = await show.setShow(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -445,6 +456,7 @@ router.patch("/:showId/category-name", async (req, res, err) => {
   const result = await show.setCategoryName(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -454,6 +466,7 @@ router.patch("/:showId/name", async (req, res, err) => {
   const result = await show.setName(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -463,6 +476,7 @@ router.patch("/:showId/description", async (req, res, err) => {
   const result = await show.setDescription(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -472,6 +486,7 @@ router.patch("/:showId/running-time", async (req, res, err) => {
   const result = await show.setRunningTime(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -481,6 +496,7 @@ router.patch("/:showId/age-limit", async (req, res, err) => {
   const result = await show.setAgeLimit(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -490,6 +506,7 @@ router.patch("/:showId/poster-uri", async (req, res, err) => {
   const result = await show.setPosterURI(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -499,6 +516,7 @@ router.patch("/:showId/video-uri", async (req, res, err) => {
   const result = await show.setVideoURI(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
@@ -508,6 +526,17 @@ router.patch("/:showId/default-ticket-image-uri", async (req, res, err) => {
   const result = await show.setDefaultTicketImageURI(req.params.showId, req.body);
 
   if (!result) res.status(404);
+  if (result == 500) res.status(500);
+
+  res.json(result);
+});
+
+// 공연 스케줄 Contract 주소 추가
+router.put("/:showId/show-schedule", async (req, res, err) => {
+  const result = await show.addShowScheduleAddress(req.params.showId, req.body);
+
+  if (!result) res.status(404);
+  if (result == 500) res.status(500);
 
   res.json(result);
 });
