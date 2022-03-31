@@ -386,16 +386,66 @@ module.exports = {
     search : async (query) =>{
         let where = {}
         let include
+        let orderBy = []
+        let OR = []
         let skip, take
         let ret
 
-        const params = ['category_name']
-        for (var param of params)
+        const string_params = ['category_name', 'name', 'description']
+        const range_params = ['min_running_time', 'max_running_time', 'min_age_limit', 'max_age_limit']
+        
+        for (var param of [...string_params, ...range_params])
         {
-            if (query[param]) where[param] = query[param]
+            if (!query[param]) continue;
+            
+            if (string_params.includes(param)) {
+                if (Array.isArray(query[param]))
+                {
+                    for (var i of query[param])
+                    {
+                        OR = [ ...OR, { [param]: { contains: i } } ]
+                    }
+                    where = { ...where, OR };
+                }
+                else
+                {
+                    where = { [param]: { contains: query[param] } };
+                }
+            }
+            else if (range_params.includes(param)) {
+                const param_name = param.split('_').filter((el, idx) => idx > 0).join('_');
+                where[param_name] = { 
+                    ...where[param_name], 
+                    ...(param.includes('min') && { gte: Number(query[param]) }), 
+                    ...(param.includes('max') && { lte: Number(query[param]) })
+                }
+            }
         }
+        console.log(where)
 
         if (query['include_address']) include = { Address: { select: { address: true } } }
+
+        if (query['sort_by']) {
+            if (Array.isArray(query['sort_by']))
+            {
+                for (var i = 0; i < query['sort_by'].length; i++)
+                {
+                    if (Array.isArray(query['order_by']))
+                    {
+                        orderBy = [...orderBy, { [query['sort_by'][i]]: query['order_by'][i] ? query['order_by'][i] : 'asc' }]
+                    }
+                    else
+                    {
+                        orderBy = [...orderBy, { [query['sort_by'][i]]: query['order_by'] }];
+                    }
+                }
+            }
+            else 
+            {
+                orderBy = { [query['sort_by']]: query['order_by'] ? query['order_by'] : 'asc' };
+            }
+        }
+        console.log(orderBy)
 
         if (query['offset']) skip = Number(query['offset'])
         if (query['limit']) take = Number(query['limit'])
@@ -403,6 +453,7 @@ module.exports = {
         const result = await prisma.Show.findMany({
             where,
             include,
+            orderBy,
             skip,
             take,
         })
