@@ -26,9 +26,10 @@ const pages = [
   // "My Animal",
   // "Sale Animal",
   "Guide",
-  "Redux1",
-  "Redux2",
+  // "Redux1",
+  // "Redux2",
   "Ticket-Detail",
+  "Detail-Handover",
   "Barcode",
   "Purchase",
 ];
