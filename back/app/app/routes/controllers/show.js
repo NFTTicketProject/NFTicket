@@ -114,6 +114,25 @@ router.post("/", async (req, res, err) => {
  *       500:
  *         description: "사용자 없음 | 서버 오류"
  */
+
+// 공연 검색
+router.get("/search", async (req, res, err) => {
+  const result = await show_service.search(req.query);
+
+  if (!result) res.status(404);
+
+  res.json(result);
+});
+
+// 공연 카테고리 목록
+router.get("/categories", async (req, res, err) => {
+  const result = await show_service.getCategoryNames();
+
+  if (!result) res.status(404);
+
+  res.json(result);
+});
+
 // 공연 조회
 router.get("/:showId", async (req, res, err) => {
   const result = await show_service.getShow(req.params.showId);

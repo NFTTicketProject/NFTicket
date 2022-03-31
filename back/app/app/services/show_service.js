@@ -338,4 +338,41 @@ module.exports = {
 
         return result
     },
+    search : async (query) =>{
+        let where = {}
+        let skip, take
+        let ret
+
+        const params = ['category_name']
+        for (var param of params)
+        {
+            if (query[param]) where[param] = query[param]
+        }
+
+        if (query['offset']) skip = Number(query['offset'])
+        if (query['limit']) take = Number(query['limit'])
+        
+        const result = await prisma.Show.findMany({
+            where,
+            skip,
+            take,
+        })
+
+        ret = result.reduce((prev, cur) => { prev.push(query['id_only'] ? cur['show_id'] : cur); return prev; }, []);
+
+        logger.info('[show_service.js] search ::: ' + JSON.stringify(ret))
+
+        return ret
+    },
+    getCategoryNames : async (query) =>{
+        const result = await prisma.Show.groupBy({
+            by: ['category_name'],
+        })
+
+        const ret = result.reduce((prev, cur) => { prev.push(cur['category_name']); return prev; }, []);
+
+        logger.info('[show_service.js] getCategoryNames ::: ' + JSON.stringify(ret))
+
+        return ret
+    }
 }
