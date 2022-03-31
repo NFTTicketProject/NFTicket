@@ -7,7 +7,7 @@ module.exports = {
             data: info,
         })
 
-        logger.info('[role_service.js] createRole ::: ' + JSON.stringify(info))
+        logger.info('[Service] role ::: createRole ::: ' + JSON.stringify(info))
     },
     setRole : async (info) =>{
         try {
@@ -26,11 +26,11 @@ module.exports = {
                 data
             })
 
-            logger.error('[role_service.js] setRole ::: ' + JSON.stringify(info))
+            logger.error('[Service] role ::: setRole ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[role_service.js] setRole ::: ' + e)
+            logger.error('[Service] role ::: setRole ::: ' + e)
 
             return 500
         }
@@ -46,11 +46,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[role_service.js] setOccupation ::: ' + JSON.stringify(info))
+            logger.error('[Service] role ::: setOccupation ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[role_service.js] setOccupation ::: ' + e)
+            logger.error('[Service] role ::: setOccupation ::: ' + e)
 
             return 500
         }
@@ -66,11 +66,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[role_service.js] setStaffId ::: ' + JSON.stringify(info))
+            logger.error('[Service] role ::: setStaffId ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[role_service.js] setStaffId ::: ' + e)
+            logger.error('[Service] role ::: setStaffId ::: ' + e)
 
             return 500
         }
@@ -86,11 +86,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[role_service.js] setShowId ::: ' + JSON.stringify(info))
+            logger.error('[Service] role ::: setShowId ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[role_service.js] setShowId ::: ' + e)
+            logger.error('[Service] role ::: setShowId ::: ' + e)
 
             return 500
         }
@@ -108,7 +108,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[role_service.js] getRole ::: ' + JSON.stringify(el))
+            logger.info('[Service] role ::: getRole ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -124,7 +124,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[role_service.js] getOccupation ::: ' + JSON.stringify(el))
+            logger.info('[Service] role ::: getOccupation ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -140,7 +140,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[role_service.js] getStaffId ::: ' + JSON.stringify(el))
+            logger.info('[Service] role ::: getStaffId ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -156,7 +156,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[role_service.js] getShowId ::: ' + JSON.stringify(el))
+            logger.info('[Service] role ::: getShowId ::: ' + JSON.stringify(el))
         });
 
         return result

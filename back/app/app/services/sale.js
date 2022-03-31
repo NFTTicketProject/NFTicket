@@ -7,7 +7,7 @@ module.exports = {
             data: info,
         })
 
-        logger.info('[sale_service.js] createSale ::: ' + JSON.stringify(info))
+        logger.info('[Service] sale ::: createSale ::: ' + JSON.stringify(info))
     },
     setSale : async (info) =>{
         try {
@@ -26,11 +26,11 @@ module.exports = {
                 data
             })
 
-            logger.error('[sale_service.js] setSale ::: ' + JSON.stringify(info))
+            logger.error('[Service] sale ::: setSale ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[sale_service.js] setSale ::: ' + e)
+            logger.error('[Service] sale ::: setSale ::: ' + e)
 
             return 500
         }
@@ -46,11 +46,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[sale_service.js] setShowScheduleId ::: ' + JSON.stringify(info))
+            logger.error('[Service] sale ::: setShowScheduleId ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[sale_service.js] setShowScheduleId ::: ' + e)
+            logger.error('[Service] sale ::: setShowScheduleId ::: ' + e)
 
             return 500
         }
@@ -66,11 +66,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[sale_service.js] setDescription ::: ' + JSON.stringify(info))
+            logger.error('[Service] sale ::: setDescription ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[sale_service.js] setDescription ::: ' + e)
+            logger.error('[Service] sale ::: setDescription ::: ' + e)
 
             return 500
         }
@@ -86,11 +86,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[sale_service.js] setStartedAt ::: ' + JSON.stringify(info))
+            logger.error('[Service] sale ::: setStartedAt ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[sale_service.js] setStartedAt ::: ' + e)
+            logger.error('[Service] sale ::: setStartedAt ::: ' + e)
 
             return 500
         }
@@ -106,11 +106,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[sale_service.js] setEndedAt ::: ' + JSON.stringify(info))
+            logger.error('[Service] sale ::: setEndedAt ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[sale_service.js] setEndedAt ::: ' + e)
+            logger.error('[Service] sale ::: setEndedAt ::: ' + e)
 
             return 500
         }
@@ -130,7 +130,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[sale_service.js] getSale ::: ' + JSON.stringify(el))
+            logger.info('[Service] sale ::: getSale ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -146,7 +146,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[sale_service.js] getShowScheduleId ::: ' + JSON.stringify(el))
+            logger.info('[Service] sale ::: getShowScheduleId ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -162,7 +162,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[sale_service.js] getDescription ::: ' + JSON.stringify(el))
+            logger.info('[Service] sale ::: getDescription ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -178,7 +178,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[sale_service.js] getStartedAt ::: ' + JSON.stringify(el))
+            logger.info('[Service] sale ::: getStartedAt ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -194,7 +194,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[sale_service.js] getEndedAt ::: ' + JSON.stringify(el))
+            logger.info('[Service] sale ::: getEndedAt ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -210,7 +210,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[sale_service.js] getImageURIBySaleId ::: ' + JSON.stringify(el))
+            logger.info('[Service] sale ::: getImageURIBySaleId ::: ' + JSON.stringify(el))
         });
 
         return result
