@@ -4,7 +4,7 @@ const {logger} = require('../utils/winston')
 module.exports = {
     ownerCheck: async (param, verkey) => {
         if (!param.info.timestamp) {
-            logger.info('[auth_service.js] param.info.timestamp is not exist')
+            logger.info('[Service] auth ::: param.info.timestamp is not exist')
             return {
                 success : false,
                 message : 'param.info.timestamp is not exist',
@@ -12,7 +12,7 @@ module.exports = {
         }
 
         if (Math.abs(new Date(param.info.timestamp) - new Date()) > 300000) {
-            logger.info('[auth_service.js] time synchronization needed')
+            logger.info('[Service] auth ::: time synchronization needed')
             return {
                 success : false,
                 message : 'time synchronization needed',
