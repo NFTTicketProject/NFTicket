@@ -4,7 +4,7 @@ const { logger } = require('../utils/winston')
 module.exports = {
     createShow : async (info) =>{
 
-        logger.info('[show_service.js] createShow ::: ' + JSON.stringify(info))
+        logger.info('[Service] show ::: createShow ::: ' + JSON.stringify(info))
 
         try {
             await prisma.Show.create({
@@ -13,34 +13,33 @@ module.exports = {
             return true
         }
         catch (e){
-            logger.error('[show_service.js] createShow ::: ' + JSON.stringify(e))
+            logger.error('[Service] show ::: createShow ::: ' + JSON.stringify(e))
 
             return false
         }
     },
     setShow : async (showId, info) =>{
         try {
+            const params = ['category_name', 'name', 'description', 'running_time', 'age_limit', 'poster_uri', 'video_uri', 'default_ticket_image_uri']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.Show.update({
                 where: {
                     show_id: Number(showId),
                 },
-                data: {
-                    category_name: info['category_name'],
-                    name: info['name'],
-                    description: info['description'],
-                    running_time: Number(info['running_time']),
-                    age_limit: Number(info['age_limit']),
-                    poster_uri: info['poster_uri'],
-                    video_uri: info['video_uri'],
-                    default_ticket_image_uri: info['default_ticket_image_uri'],
-                },
+                data
             })
 
-            logger.error('[show_service.js] setShow ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setShow ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setShow ::: ' + e)
+            logger.error('[Service] show ::: setShow ::: ' + e)
 
             return 500
         }
@@ -56,11 +55,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setCategoryName ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setCategoryName ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setCategoryName ::: ' + e)
+            logger.error('[Service] show ::: setCategoryName ::: ' + e)
 
             return 500
         }
@@ -76,11 +75,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setName ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setName ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setName ::: ' + e)
+            logger.error('[Service] show ::: setName ::: ' + e)
 
             return 500
         }
@@ -96,11 +95,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setDescription ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setDescription ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setDescription ::: ' + e)
+            logger.error('[Service] show ::: setDescription ::: ' + e)
 
             return 500
         }
@@ -116,11 +115,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setRunningTime ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setRunningTime ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setRunningTime ::: ' + e)
+            logger.error('[Service] show ::: setRunningTime ::: ' + e)
 
             return 500
         }
@@ -136,11 +135,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setAgeLimit ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setAgeLimit ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setAgeLimit ::: ' + e)
+            logger.error('[Service] show ::: setAgeLimit ::: ' + e)
 
             return 500
         }
@@ -156,11 +155,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setVideoURI ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setVideoURI ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setVideoURI ::: ' + e)
+            logger.error('[Service] show ::: setVideoURI ::: ' + e)
 
             return 500
         }
@@ -176,11 +175,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setPosterURI ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setPosterURI ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setPosterURI ::: ' + e)
+            logger.error('[Service] show ::: setPosterURI ::: ' + e)
 
             return 500
         }
@@ -196,11 +195,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[show_service.js] setDefaultTicketImageURI ::: ' + JSON.stringify(info))
+            logger.error('[Service] show ::: setDefaultTicketImageURI ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[show_service.js] setDefaultTicketImageURI ::: ' + e)
+            logger.error('[Service] show ::: setDefaultTicketImageURI ::: ' + e)
 
             return 500
         }
@@ -222,7 +221,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getShow ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getShow ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -236,7 +235,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getCategoryName ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getCategoryName ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -250,7 +249,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getName ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getName ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -264,7 +263,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getDescription ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getDescription ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -278,7 +277,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getRunningTime ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getRunningTime ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -292,7 +291,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getAgeLimit ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getAgeLimit ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -306,7 +305,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getVideoURI ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getVideoURI ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -320,7 +319,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getPosterURI ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getPosterURI ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -334,7 +333,7 @@ module.exports = {
             },
         })
 
-        logger.info('[show_service.js] getDefaultTicketImageURI ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getDefaultTicketImageURI ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -360,7 +359,7 @@ module.exports = {
 
         ret = result.reduce((prev, cur) => { prev.push(query['id_only'] ? cur['show_id'] : cur); return prev; }, []);
 
-        logger.info('[show_service.js] search ::: ' + JSON.stringify(ret))
+        logger.info('[Service] show ::: search ::: ' + JSON.stringify(ret))
 
         return ret
     },
@@ -371,7 +370,7 @@ module.exports = {
 
         const ret = result.reduce((prev, cur) => { prev.push(cur['category_name']); return prev; }, []);
 
-        logger.info('[show_service.js] getCategoryNames ::: ' + JSON.stringify(ret))
+        logger.info('[Service] show ::: getCategoryNames ::: ' + JSON.stringify(ret))
 
         return ret
     }

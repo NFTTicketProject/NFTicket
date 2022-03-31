@@ -8,7 +8,7 @@ module.exports = {
             data : info,
         })
 
-        logger.info('[profile_service.js] createProfile ::: ' + JSON.stringify(info))
+        logger.info('[Service] profile ::: createProfile ::: ' + JSON.stringify(info))
     },
     getProfile: async function (walletId) {
         const result = await prisma.Profile.findUnique({
@@ -17,7 +17,7 @@ module.exports = {
             },
         })
 
-        logger.info('[profile_service.js] getProfile ::: ' + JSON.stringify(result))
+        logger.info('[Service] profile ::: getProfile ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -31,7 +31,7 @@ module.exports = {
             },
         })
 
-        logger.info('[profile_service.js] getNickname ::: ' + JSON.stringify(result))
+        logger.info('[Service] profile ::: getNickname ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -45,7 +45,7 @@ module.exports = {
             },
         })
 
-        logger.info('[profile_service.js] getCreatedAt ::: ' + JSON.stringify(result))
+        logger.info('[Service] profile ::: getCreatedAt ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -59,7 +59,7 @@ module.exports = {
             },
         })
 
-        logger.info('[profile_service.js] getDescription ::: ' + JSON.stringify(result))
+        logger.info('[Service] profile ::: getDescription ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -73,7 +73,7 @@ module.exports = {
             },
         })
 
-        logger.info('[profile_service.js] getImageURI ::: ' + JSON.stringify(result))
+        logger.info('[Service] profile ::: getImageURI ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -87,7 +87,7 @@ module.exports = {
             },
         })
 
-        logger.info('[profile_service.js] getImageURI ::: ' + JSON.stringify(result))
+        logger.info('[Service] profile ::: getImageURI ::: ' + JSON.stringify(result))
 
         return result
     },
@@ -104,11 +104,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] setProfile ::: ' + JSON.stringify(info))
+            logger.error('[Service] profile ::: setProfile ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] setProfile ::: ' + e)
+            logger.error('[Service] profile ::: setProfile ::: ' + e)
 
             return 500
         }
@@ -124,11 +124,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] setNickname ::: ' + JSON.stringify(info))
+            logger.error('[Service] profile ::: setNickname ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] setNickname ::: ' + e)
+            logger.error('[Service] profile ::: setNickname ::: ' + e)
 
             return 500
         }
@@ -144,11 +144,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] setDescription ::: ' + JSON.stringify(info))
+            logger.error('[Service] profile ::: setDescription ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] setDescription ::: ' + e)
+            logger.error('[Service] profile ::: setDescription ::: ' + e)
 
             return 500
         }
@@ -164,11 +164,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] setImageURI ::: ' + JSON.stringify(info))
+            logger.error('[Service] profile ::: setImageURI ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] setImageURI ::: ' + e)
+            logger.error('[Service] profile ::: setImageURI ::: ' + e)
 
             return 500
         }
@@ -184,11 +184,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[profile_service.js] setImageURI ::: ' + JSON.stringify(info))
+            logger.error('[Service] profile ::: setImageURI ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[profile_service.js] setImageURI ::: ' + e)
+            logger.error('[Service] profile ::: setImageURI ::: ' + e)
 
             return 500
         }

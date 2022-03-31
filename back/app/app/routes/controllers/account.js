@@ -1,6 +1,6 @@
-const profile_service = require("../../services/profile_service")
+const profile = require("../../services/profile")
 const text_generater = require('../../services/text_generater')
-const auth = require('../../services/auth_service')
+const auth = require('../../services/auth')
 const express = require('express')
 const router = express.Router()
 
@@ -50,7 +50,7 @@ const router = express.Router()
  *                   example: 'galleryS'
  */
 router.post('/:walletId', async (req, res) => {
-    const result = await profile_service.getProfile(req.params.walletId)
+    const result = await profile.getProfile(req.params.walletId)
 
     if (result)
         res.send(result)
@@ -63,9 +63,9 @@ router.post('/:walletId', async (req, res) => {
             gallery: 'galleryS',
         }
 
-        await profile_service.createProfile(newInfo)
+        await profile.createProfile(newInfo)
 
-        res.send(await profile_service.getProfile(req.params.walletId))
+        res.send(await profile.getProfile(req.params.walletId))
     }
 })
 
@@ -138,7 +138,7 @@ router.patch('/edit/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.setProfile(newInfo)
+    const status = await profile.setProfile(newInfo)
 
     res.status(status)
     res.send()
@@ -203,7 +203,7 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.setNickname(newInfo)
+    const status = await profile.setNickname(newInfo)
 
     res.status(status)
     res.send()
@@ -268,7 +268,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.setDescription(newInfo)
+    const status = await profile.setDescription(newInfo)
 
     res.status(status)
     res.send()
@@ -333,7 +333,7 @@ router.patch('/edit/imageuri/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.setImageURI(newInfo)
+    const status = await profile.setImageURI(newInfo)
 
     res.status(status)
     res.send()
@@ -398,7 +398,7 @@ router.patch('/edit/gallery/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.setGallery(newInfo)
+    const status = await profile.setGallery(newInfo)
 
     res.status(status)
     res.send()

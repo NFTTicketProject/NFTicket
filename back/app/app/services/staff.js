@@ -7,25 +7,30 @@ module.exports = {
             data: info,
         })
 
-        logger.info('[staff_service.js] createStaff ::: ' + JSON.stringify(info))
+        logger.info('[Service] staff ::: createStaff ::: ' + JSON.stringify(info))
     },
     setStaff : async (info) =>{
         try {
+            const params = ['name', 'image_uri']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.staff.update({
                 where: {
                     staff_id: info['staff_id'],
                 },
-                data: {
-                    name: info['name'],
-                    imageURL: info['image_uri'],                    
-                },
+                data
             })
 
-            logger.error('[staff_service.js] setStaff ::: ' + JSON.stringify(info))
+            logger.error('[Service] staff ::: setStaff ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[staff_service.js] setStaff ::: ' + e)
+            logger.error('[Service] staff ::: setStaff ::: ' + e)
 
             return 500
         }
@@ -41,11 +46,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[staff_service.js] setDescription ::: ' + JSON.stringify(info))
+            logger.error('[Service] staff ::: setDescription ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[staff_service.js] setDescription ::: ' + e)
+            logger.error('[Service] staff ::: setDescription ::: ' + e)
 
             return 500
         }
@@ -61,11 +66,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[staff_service.js] setImageURL ::: ' + JSON.stringify(info))
+            logger.error('[Service] staff ::: setImageURL ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[staff_service.js] setImageURL ::: ' + e)
+            logger.error('[Service] staff ::: setImageURL ::: ' + e)
 
             return 500
         }
@@ -83,7 +88,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[staff_service.js] getStaff ::: ' + JSON.stringify(el))
+            logger.info('[Service] staff ::: getStaff ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -99,7 +104,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[staff_service.js] getName ::: ' + JSON.stringify(el))
+            logger.info('[Service] staff ::: getName ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -115,7 +120,7 @@ module.exports = {
         })
 
         result.forEach(el => {
-            logger.info('[staff_service.js] getImageURI ::: ' + JSON.stringify(el))
+            logger.info('[Service] staff ::: getImageURI ::: ' + JSON.stringify(el))
         });
 
         return result
@@ -131,7 +136,7 @@ module.exports = {
     //     })
 
     //     result.forEach(el => {
-    //         logger.info('[staff_service.js] getImageURIByStaffId ::: ' + JSON.stringify(el))
+    //         logger.info('[Service] staff ::: getImageURIByStaffId ::: ' + JSON.stringify(el))
     //     });
 
     //     return result
