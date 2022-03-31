@@ -356,7 +356,7 @@ NFTicket
 
 ## ✔ 프로젝트 결과물 [수정 필요]
 - [포팅메뉴얼](./exec/TUPLI_포팅_메뉴얼.docx)
-- [중간발표자료](./ppt/TUPLI_중간발표.pptx)
+- [중간발표자료](docs/docs/NFTicket_midterm.pdf)
 - [최종발표자료](./ppt/TUPLI_최종발표.pptx)
 
 
