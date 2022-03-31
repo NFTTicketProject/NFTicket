@@ -228,16 +228,24 @@ module.exports = {
             return 500
         }
     },
-    getShow : async (showId) =>{
+    getShow : async (showId, query) =>{
+        let ret;
+        let include;
+        
+        if (query['include_address']) include = { Address: { select: { address: true } } }
+
         const result = await prisma.Show.findUnique({
             where: {
                 show_id: Number(showId)
-            }
+            },
+            include
         })
+        
+        ret = query['include_address'] ? [result].map(({ Address, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address) })) : result;
 
-        logger.info('[Service] show ::: getShow ::: ' + JSON.stringify(result))
+        logger.info('[Service] show ::: getShow ::: ' + JSON.stringify(ret))
 
-        return result
+        return ret
     },
     getCategoryName : async (showId) =>{
         const result = await prisma.Show.findUnique({
@@ -377,6 +385,7 @@ module.exports = {
     },
     search : async (query) =>{
         let where = {}
+        let include
         let skip, take
         let ret
 
@@ -386,18 +395,19 @@ module.exports = {
             if (query[param]) where[param] = query[param]
         }
 
-        if (!Object.keys(where).legnth) return 400
+        if (query['include_address']) include = { Address: { select: { address: true } } }
 
         if (query['offset']) skip = Number(query['offset'])
         if (query['limit']) take = Number(query['limit'])
         
         const result = await prisma.Show.findMany({
             where,
+            include,
             skip,
             take,
         })
 
-        ret = result.reduce((prev, cur) => { prev.push(query['id_only'] ? cur['show_id'] : cur); return prev; }, []);
+        ret = query['include_address'] ? result.map(({ Address, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address) })) : result;
 
         logger.info('[Service] show ::: search ::: ' + JSON.stringify(ret))
 

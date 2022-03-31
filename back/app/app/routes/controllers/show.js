@@ -121,7 +121,7 @@ router.get("/:showId", async (req, res, err) => {
   let result
   if (req.params.showId == 'search') result = await show.search(req.query);
   else if (req.params.showId == 'categories') result = await show.getCategoryNames();
-  else result = await show.getShow(req.params.showId);
+  else result = await show.getShow(req.params.showId, req.query);
 
   if (!result) res.status(404);
   if (result == 500) res.status(500);
