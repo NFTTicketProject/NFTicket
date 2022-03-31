@@ -43,6 +43,10 @@ const router = express.Router()
  *                   description: "프로필 사진"
  *                   type: string
  *                   example: 'http://ipfs/...'
+ *             gallery:
+ *                   description: "갤러리 사이즈"
+ *                   type: string
+ *                   example: 'galleryS'
  */
 router.post('/:walletId', async (req, res) => {
     const result = await profile_service.getProfile(req.params.walletId)
@@ -54,7 +58,8 @@ router.post('/:walletId', async (req, res) => {
             wallet_id: req.params.walletId,
             nickname: req.params.walletId,
             description: `${req.params.walletId}Description`,
-            image_uri: 'none'
+            image_uri: 'none',
+            gallery: 'galleryS',
         }
 
         await profile_service.createProfile(newInfo)
@@ -328,6 +333,71 @@ router.patch('/edit/imageuri/:walletId', async (req, res) => {
     }
 
     const status = await profile_service.setImageURI(newInfo)
+
+    res.status(status)
+    res.send()
+})
+
+/**
+ * @swagger
+ * "/account/edit/gallery/{wallet_id}":
+ *   patch:
+ *     tags: [Account, User]
+ *     summary: "관련 지갑 주소자의 갤러리 사이즈 수정"
+ *     consumes: [application/json]
+ *     produces: [application/json]
+ *     parameters:
+ *       - in: path
+ *         name: wallet_id
+ *         required: true
+ *         description: 지갑 주소
+ *         schema:
+ *           type: string
+ *         example : "0xC1b9c91D0416a04162cb96029626aDE4ccC15818"
+ *       - name: "info"
+ *         description: "변경하고 싶은 갤러리 사이즈"
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             info:
+ *               description: "수정 정보"
+ *               type: object
+ *               properties:
+ *                 gallery:
+ *                   description: "갤러리 사이즈"
+ *                   type: string
+ *                   example: 'galleryS'
+ *                 timestamp:
+ *                   description: "타임스탬프"
+ *                   type: int
+ *                   example: 1648433785800
+ *             hash_sign:
+ *               description: "sha256 서명"
+ *               type: string
+ *               example: "0xb075e20f0ab0b27d30cd238bcbd54e0936daee9381f7d9ce562404a2b1c3d69d483e997ded8aee17d12d54da3472c4c35dcdaa9139c52ab785f34a9f585fd6ba1c"
+ *     responses:
+ *       200:
+ *         description: "성공"
+ *       500:
+ *         description: "사용자 없음 | 서버 오류"
+ */
+router.patch('/edit/gallery/:walletId', async (req, res) => {
+    const newInfo = {
+        wallet_id: req.params.walletId,
+        gallery: req.body.info.gallery,
+    }
+
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
+
+    if (!validation.success) {
+        res.status(500)
+        res.send({message : validation.message})
+        return;
+    }
+
+    const status = await profile_service.setGallery(newInfo)
 
     res.status(status)
     res.send()
