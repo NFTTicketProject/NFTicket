@@ -71,43 +71,53 @@ const TopLeft = () => {
         </PosterArea>
         <TicketInfoArea>
           <table>
-            <tr>
-              <th>장소</th>
-              <td>{showPlace}</td>
-            </tr>
-            <tr>
-              <th>공연기간</th>
-              <td>
-                {showStart} ~ {showEnd}
-              </td>
-            </tr>
-            <tr>
-              <th>공연시간</th>
-              <td>{showDuration}분</td>
-            </tr>
-            <tr>
-              <th>관람연령</th>
-              <td>{allowedAge}세 이상 관람가</td>
-            </tr>
-            <tr>
-              <th valign='top'>가격</th>
+            <tbody>
               <tr>
-                <th>VIP석</th>
-                <td>{price.VIP}</td>
+                <th>장소</th>
+                <td>{showPlace}</td>
               </tr>
+            </tbody>
+            <tbody>
               <tr>
-                <th>R석</th>
-                <td>{price.R}</td>
+                <th>공연기간</th>
+                <td>
+                  {showStart} ~ {showEnd}
+                </td>
               </tr>
+            </tbody>
+            <tbody>
               <tr>
-                <th>S석</th>
-                <td>{price.S}</td>
+                <th>공연시간</th>
+                <td>{showDuration}분</td>
               </tr>
+            </tbody>
+            <tbody>
               <tr>
-                <th>A석</th>
-                <td>{price.A}</td>
+                <th>관람연령</th>
+                <td>{allowedAge}세 이상 관람가</td>
               </tr>
-            </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <th valign='top'>가격</th>
+                <tr>
+                  <th>VIP석</th>
+                  <td>{price.VIP}</td>
+                </tr>
+                <tr>
+                  <th>R석</th>
+                  <td>{price.R}</td>
+                </tr>
+                <tr>
+                  <th>S석</th>
+                  <td>{price.S}</td>
+                </tr>
+                <tr>
+                  <th>A석</th>
+                  <td>{price.A}</td>
+                </tr>
+              </tr>
+            </tbody>
           </table>
         </TicketInfoArea>
       </UnderTitle>
