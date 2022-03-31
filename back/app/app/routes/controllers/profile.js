@@ -1,4 +1,4 @@
-const profile_service = require("../../services/profile_service")
+const profile = require("../../services/profile")
 const express = require('express')
 const router = express.Router()
 
@@ -25,7 +25,7 @@ const router = express.Router()
  */
 // 프로필 전체 조회
 router.get('/:walletId', async (req, res, err) => {
-    const result = await profile_service.getProfile(req.params.walletId);
+    const result = await profile.getProfile(req.params.walletId);
 
     if (!result)
         res.status(404)
@@ -56,7 +56,7 @@ router.get('/:walletId', async (req, res, err) => {
 // 닉네임 조회
 router.get('/nickname/:walletId', async (req, res, err) => {
     // walletID 와 일치하는 닉네임 반환
-    const result = await profile_service.getNickname(req.params.walletId)
+    const result = await profile.getNickname(req.params.walletId)
 
     if (!result)
         res.status(404)
@@ -87,7 +87,7 @@ router.get('/nickname/:walletId', async (req, res, err) => {
 // 가입일 조회
 router.get('/createdat/:walletId', async (req, res, err) => {
     // walletID 와 일치하는 가입일 반환
-    const result = await profile_service.getCreatedAt(req.params.walletId)
+    const result = await profile.getCreatedAt(req.params.walletId)
 
     if (!result)
         res.status(404)
@@ -118,7 +118,7 @@ router.get('/createdat/:walletId', async (req, res, err) => {
 // 자기소개 조회
 router.get('/description/:walletId', async (req, res, err) => {
     // walletID 와 일치하는 자기소개 반환
-    const result = await profile_service.getDescription(req.params.walletId)
+    const result = await profile.getDescription(req.params.walletId)
 
     if (!result)
         res.status(404)
@@ -149,7 +149,7 @@ router.get('/description/:walletId', async (req, res, err) => {
 // 사용자 이미지 조회
 router.get('/imageuri/:walletId', async (req, res, err) => {
     // walletID 와 일치하는 자기소개 반환
-    const result = await profile_service.getImageURI(req.params.walletId)
+    const result = await profile.getImageURI(req.params.walletId)
 
     if (!result)
         res.status(404)
@@ -187,7 +187,7 @@ router.get('/imageuri/:walletId', async (req, res, err) => {
 // 사용자 갤러리 사이즈 조회
 router.get('/gallery/:walletId', async (req, res, err) => {
     // walletID 와 일치하는 갤러리 사이즈 반환
-    const result = await profile_service.getGallery(req.params.walletId)
+    const result = await profile.getGallery(req.params.walletId)
 
     if (!result)
         res.status(404)
