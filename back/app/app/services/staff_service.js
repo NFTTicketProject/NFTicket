@@ -11,14 +11,19 @@ module.exports = {
     },
     setStaff : async (info) =>{
         try {
+            const params = ['name', 'image_uri']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.staff.update({
                 where: {
                     staff_id: info['staff_id'],
                 },
-                data: {
-                    name: info['name'],
-                    imageURL: info['image_uri'],                    
-                },
+                data
             })
 
             logger.error('[staff_service.js] setStaff ::: ' + JSON.stringify(info))
