@@ -20,20 +20,19 @@ module.exports = {
     },
     setShow : async (showId, info) =>{
         try {
+            const params = ['category_name', 'name', 'description', 'running_time', 'age_limit', 'poster_uri', 'video_uri', 'default_ticket_image_uri']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.Show.update({
                 where: {
                     show_id: Number(showId),
                 },
-                data: {
-                    category_name: info['category_name'],
-                    name: info['name'],
-                    description: info['description'],
-                    running_time: Number(info['running_time']),
-                    age_limit: Number(info['age_limit']),
-                    poster_uri: info['poster_uri'],
-                    video_uri: info['video_uri'],
-                    default_ticket_image_uri: info['default_ticket_image_uri'],
-                },
+                data
             })
 
             logger.error('[show_service.js] setShow ::: ' + JSON.stringify(info))

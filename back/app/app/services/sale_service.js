@@ -11,16 +11,19 @@ module.exports = {
     },
     setSale : async (info) =>{
         try {
+            const params = ['show_schedule_id', 'description', 'started_at', 'ended_at']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.Sale.update({
                 where: {
                     sale_id: info['sale_id'],
                 },
-                data: {
-                    show_schedule_id: info['show_schedule_id'],
-                    description: info['description'],
-                    started_at: info['started_at'],
-                    ended_at: info['ended_at'],                    
-                },
+                data
             })
 
             logger.error('[sale_service.js] setSale ::: ' + JSON.stringify(info))

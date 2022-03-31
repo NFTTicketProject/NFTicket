@@ -11,15 +11,19 @@ module.exports = {
     },
     setRole : async (info) =>{
         try {
+            const params = ['occupation', 'staff_id', 'show_id']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.role.update({
                 where: {
                     role_id: info['role_id'],
                 },
-                data: {
-                    occupation: info['occupation'],
-                    staff_id: info['staff_id'],
-                    show_id: info['show_id']
-                },
+                data
             })
 
             logger.error('[role_service.js] setRole ::: ' + JSON.stringify(info))
