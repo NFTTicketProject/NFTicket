@@ -76,6 +76,20 @@ module.exports = {
 
         return result
     },
+    getGallery : async (walletId) =>{
+        const result = await prisma.Profile.findFirst({
+            where: {
+                wallet_id: walletId,
+            },
+            select: {
+                gallery: true,
+            },
+        })
+
+        logger.info('[profile_service.js] getImageURI ::: ' + JSON.stringify(result))
+
+        return result
+    },
     setProfile : async (info) =>{
         try {
             await prisma.Profile.update({
@@ -146,6 +160,26 @@ module.exports = {
                 },
                 data: {
                     image_uri: info['image_uri'],
+                },
+            })
+
+            logger.error('[profile_service.js] setImageURI ::: ' + JSON.stringify(info))
+
+            return 200
+        } catch (e) {
+            logger.error('[profile_service.js] setImageURI ::: ' + e)
+
+            return 500
+        }
+    },
+    setGallery : async (info) =>{
+        try {
+            await prisma.Profile.update({
+                where: {
+                    wallet_id: info['wallet_id'],
+                },
+                data: {
+                    gallery: info['gallery'],
                 },
             })
 
