@@ -79,7 +79,7 @@ const PosterImage = ({ apiData, setApiData }) => {
 
         <form onSubmit={onSubmit}>
           <input type="file" onChange={captureFile} />
-          <button bsStyle="primary" type="submit">
+          <button bsstyle="primary" type="submit">
             등록
           </button>
         </form>

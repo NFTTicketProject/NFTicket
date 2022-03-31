@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 
 function ProfileImage({ userInfo, setUserInfo }) {
@@ -35,18 +36,20 @@ function ProfileImage({ userInfo, setUserInfo }) {
       }
       // console.log(ipfsHash[0].hash);
       setInfo({ ipfsHash: ipfsHash[0].hash });
+      //
+      setUserInfo({ ...userInfo, image_uri: `https://ipfs.io/ipfs/${ipfsHash[0].hash}` });
     });
   };
 
-  useEffect(() => {
-    setUserInfo({ ...userInfo, image_url: `https://ipfs.io/ipfs/${info.ipfsHash}` });
-  }, [info]);
+  // useEffect(() => {
+  //   setUserInfo({ ...userInfo, image_uri: `https://ipfs.io/ipfs/${info.ipfsHash}` });
+  // }, [info]);
 
   return (
     <>
       <div>
         <img
-          src={userInfo.image_url}
+          src={userInfo.image_uri}
           alt="sample"
           style={{
             display: "flex",
