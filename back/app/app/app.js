@@ -31,7 +31,7 @@ app.use(cors());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 // Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./api/swagger.json')));
 
 //Router
 app.use('/', router)
