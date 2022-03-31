@@ -1,3 +1,4 @@
+const text_generater = require('./text_generater')
 const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
