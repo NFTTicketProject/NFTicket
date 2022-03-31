@@ -211,6 +211,7 @@ module.exports = {
             }
 
             if (info['address']) data['address'] = info['address']
+            if (info['show_schedule_id']) data['show_schedule_id'] = info['show_schedule_id']
 
             if (!data['address']) return 400
 
@@ -350,14 +351,14 @@ module.exports = {
 
         return result
     },
-    getShowScheduleAddress : async (showId) =>{
+    getShowScheduleAddress : async (showId, info) =>{
         let ret
 
         const result = await prisma.Address.findMany({
-            where: { show_id: showId }
+            where: { show_id: Number(showId) }
         })
 
-        ret = result.reduce((prev, cur) => { prev.push(cur['address']); return prev; }, []);
+        ret = result.reduce((prev, cur) => { prev.push(info['verbose'] ? cur : cur['address']); return prev; }, []);
 
         logger.info('[Service] show ::: getShowScheduleAddress ::: ' + JSON.stringify(ret))
 
