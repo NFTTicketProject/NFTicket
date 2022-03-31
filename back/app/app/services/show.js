@@ -204,21 +204,34 @@ module.exports = {
             return 500
         }
     },
+    addShowScheduleAddress : async (showId, info) =>{
+        try {
+            var data = { 
+                show_id: Number(showId) 
+            }
+
+            if (info['address']) data['address'] = info['address']
+
+            if (!data['address']) return 400
+
+            await prisma.Address.create({
+                data
+            })
+
+            logger.error('[Service] show ::: addShowScheduleAddress ::: ' + JSON.stringify(info))
+
+            return 200
+        } catch (e) {
+            logger.error('[Service] show ::: addShowScheduleAddress ::: ' + e)
+
+            return 500
+        }
+    },
     getShow : async (showId) =>{
         const result = await prisma.Show.findUnique({
             where: {
                 show_id: Number(showId)
-            },
-            select: {
-                category_name: true,
-                name: true,
-                description: true,
-                running_time: true,
-                age_limit: true,
-                video_uri: true,
-                poster_uri: true,
-                default_ticket_image_uri: true
-            },
+            }
         })
 
         logger.info('[Service] show ::: getShow ::: ' + JSON.stringify(result))
@@ -337,6 +350,30 @@ module.exports = {
 
         return result
     },
+    getShowScheduleAddress : async (showId) =>{
+        let ret
+
+        const result = await prisma.Address.findMany({
+            where: { show_id: showId }
+        })
+
+        ret = result.reduce((prev, cur) => { prev.push(cur['address']); return prev; }, []);
+
+        logger.info('[Service] show ::: getShowScheduleAddress ::: ' + JSON.stringify(ret))
+
+        return ret
+    },
+    getCategoryNames : async (query) =>{
+        const result = await prisma.Show.groupBy({
+            by: ['category_name'],
+        })
+
+        const ret = result.reduce((prev, cur) => { prev.push(cur['category_name']); return prev; }, []);
+
+        logger.info('[Service] show ::: getCategoryNames ::: ' + JSON.stringify(ret))
+
+        return ret
+    },
     search : async (query) =>{
         let where = {}
         let skip, take
@@ -347,6 +384,8 @@ module.exports = {
         {
             if (query[param]) where[param] = query[param]
         }
+
+        if (!Object.keys(where).legnth) return 400
 
         if (query['offset']) skip = Number(query['offset'])
         if (query['limit']) take = Number(query['limit'])
@@ -363,15 +402,4 @@ module.exports = {
 
         return ret
     },
-    getCategoryNames : async (query) =>{
-        const result = await prisma.Show.groupBy({
-            by: ['category_name'],
-        })
-
-        const ret = result.reduce((prev, cur) => { prev.push(cur['category_name']); return prev; }, []);
-
-        logger.info('[Service] show ::: getCategoryNames ::: ' + JSON.stringify(ret))
-
-        return ret
-    }
 }
