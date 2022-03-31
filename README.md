@@ -41,6 +41,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     - consectetur adipiscing elit
     - sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
     - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+- ### 스마트 컨트랙트에서 거래
+    - 이더리움 네트워크 내 스마트 컨트랙트를 통해 NFT 토큰(티켓) 거래
+    - middle-man에 대한 의존성 제거
+    - 이더리움 네트워크 내 참여 노드들에 의해 거래 검증
 </br>
 
 ## ✔ 주요 기술
@@ -61,6 +65,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - openzeppelin/contracts
 - Truffle
 
+**Storage**
+- IPFS
+- IPFS-Cluster
+
 **Frontend  [수정 필요]**
 - Visual Studio Code IDE
 - Vue 2.6.11
@@ -71,7 +79,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - Firebase 9.6.6
 - sweetalert2 11.3.10
 
-**CI/CD [수정 필요]**
+**CI/CD**
 - AWS EC2
 - Jenkins
 - NGINX
@@ -308,12 +316,13 @@ NFTicket
 ## ✔ 협업 환경
 ---
 - Gitlab
-  - 코드의 버전을 관리
+  - 코드 버전 관리
   - 이슈 발행, 해결을 위한 토론
   - MR시, 팀원이 코드리뷰를 진행하고 피드백 게시
 - JIRA
   - 매주 목표량을 설정하여 Sprint 진행
-  - 업무의 할당량을 정하여 Story Point를 설정하고, In-Progress -> Done 순으로 작업  
+  - 업무의 할당량을 정하여 Story Point를 설정하고, In-Progress -> Done 순으로 작업
+  - 소멸 차트를 통해 프로젝트 진행도 확인
 - 회의
   - Gether Town 아침회의 진행, 전날 목표 달성량과 당일 할 업무 브리핑
   - 각자 위치에서 건네야 할 말이 생기면 팀원의 위치로 이동하여 전달
@@ -356,7 +365,7 @@ NFTicket
 
 ## ✔ 프로젝트 결과물 [수정 필요]
 - [포팅메뉴얼](./exec/TUPLI_포팅_메뉴얼.docx)
-- [중간발표자료](docs/docs/NFTicket_midterm.pdf)
+- [중간발표자료](docs/docs/NFTicket_midterm.pdf) [완료]
 - [최종발표자료](./ppt/TUPLI_최종발표.pptx)
 
 
