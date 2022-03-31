@@ -128,7 +128,7 @@ router.get('/description/:walletId', async (req, res, err) => {
 
 /**
  * @swagger
- * /profile/imageurl/{wallet_id}:
+ * /profile/imageuri/{wallet_id}:
  *  get:
  *    summary: "프로필 조회"
  *    description: "프로필 조회"
@@ -147,9 +147,9 @@ router.get('/description/:walletId', async (req, res, err) => {
  *        description: 존재하지 않는 사용자
  */
 // 사용자 이미지 조회
-router.get('/imageurl/:walletId', async (req, res, err) => {
+router.get('/imageuri/:walletId', async (req, res, err) => {
     // walletID 와 일치하는 자기소개 반환
-    const result = await profile_service.getImageURL(req.params.walletId)
+    const result = await profile_service.getImageURI(req.params.walletId)
 
     if (!result)
         res.status(404)

@@ -1,5 +1,5 @@
 const profile_service = require("../../services/profile_service")
-const auth = require('../../services/authorization')
+const auth = require('../../services/auth_service')
 const express = require('express')
 const router = express.Router()
 
@@ -20,6 +20,29 @@ const router = express.Router()
  *    responses:
  *       200:
  *         description: 관련 지갑 주소자의 정보 반환
+ *         schema:
+ *           type: object
+ *           properties:
+ *             wallet_id:
+ *                   description: "지갑주소"
+ *                   type: string
+ *                   example: '0xC1b9c81D0416a04162cb96029726aDE4ccC15819'
+ *             nickname:
+ *                   description: "닉네임"
+ *                   type: string
+ *                   example: '닉네임'
+ *             description:
+ *                   description: "자기소개"
+ *                   type: string
+ *                   example: '자기소개'
+ *             created_at:
+ *                   description: "생성시간"
+ *                   type: string
+ *                   example: '2022-03-30T17:24:14.000Z'
+ *             image_uri:
+ *                   description: "프로필 사진"
+ *                   type: string
+ *                   example: 'http://ipfs/...'
  */
 router.post('/:walletId', async (req, res) => {
     const result = await profile_service.getProfile(req.params.walletId)
@@ -31,7 +54,7 @@ router.post('/:walletId', async (req, res) => {
             wallet_id: req.params.walletId,
             nickname: req.params.walletId,
             description: `${req.params.walletId}Description`,
-            image_url: 'none'
+            image_uri: 'none'
         }
 
         await profile_service.createProfile(newInfo)
@@ -42,10 +65,10 @@ router.post('/:walletId', async (req, res) => {
 
 /**
  * @swagger
- * "/account/edit/{wallet_id}":
+ * /account/edit/{wallet_id}:
  *   patch:
  *     tags: [Account, User]
- *     summary: "관련 지갑 주소자의 닉네임 수정"
+ *     summary: "관련 지갑 주소자의 프로필 수정"
  *     consumes: [application/json]
  *     produces: [application/json]
  *     parameters:
@@ -57,7 +80,7 @@ router.post('/:walletId', async (req, res) => {
  *           type: string
  *         example : "0xC1b9c91D0416a04162cb96029626aDE4ccC15818"
  *       - name: "info"
- *         description: "변경하고 싶은 닉네임"
+ *         description: "변경하고 싶은 프로필"
  *         in: body
  *         required: true
  *         schema:
@@ -66,26 +89,23 @@ router.post('/:walletId', async (req, res) => {
  *             info:
  *               description: "수정 정보"
  *               type: object
- *               schema:
- *                 type: object
- *                 properties:
- *                   nickname:
- *                     description: "닉네임"
- *                     type: string
- *                     example: test1234
- *                   description:
- *                     description: "소개글"
- *                     type: string
- *                     example: 나는 NFTurtle 입니다.
- *                   image_url:
- *                     description: "이미지"
- *                     type: string
- *                     example: http://ipfs/...
- *                   timestamp:
- *                     description: "타임스탬프"
- *                     type: int
- *                     example: 1648433785800
- *               example: {nickname : test1234, description : 나는 NFTurtle 입니다., image_url : http://ipfs/..., timestamp : 1648433785800}
+ *               properties:
+ *                 nickname:
+ *                   description: "닉네임"
+ *                   type: string
+ *                   example: test1234
+ *                 description:
+ *                   description: "소개글"
+ *                   type: string
+ *                   example: 나는 NFTurtle 입니다.
+ *                 image_uri:
+ *                   description: "이미지"
+ *                   type: string
+ *                   example: http://ipfs/...
+ *                 timestamp:
+ *                   description: "타임스탬프"
+ *                   type: int
+ *                   example: 1648433785800
  *             hash_sign:
  *               description: "sha256 서명"
  *               type: string
@@ -101,7 +121,7 @@ router.patch('/edit/:walletId', async (req, res) => {
         wallet_id: req.params.walletId,
         nickname: req.body.info.nickname,
         description: req.body.info.description,
-        image_url: req.body.info.image_url,
+        image_uri: req.body.info.image_uri,
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
@@ -112,7 +132,7 @@ router.patch('/edit/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfile(newInfo)
+    const status = await profile_service.setProfile(newInfo)
 
     res.status(status)
     res.send()
@@ -135,7 +155,7 @@ router.patch('/edit/:walletId', async (req, res) => {
  *           type: string
  *         example : "0xC1b9c91D0416a04162cb96029626aDE4ccC15818"
  *       - name: "info"
- *         description: "변경하고 싶은 닉네임"
+ *         description: "변경하고 싶은 프로필"
  *         in: body
  *         required: true
  *         schema:
@@ -144,18 +164,15 @@ router.patch('/edit/:walletId', async (req, res) => {
  *             info:
  *               description: "수정 정보"
  *               type: object
- *               schema:
- *                 type: object
- *                 properties:
- *                   nickname:
- *                     description: "닉네임"
- *                     type: string
- *                     example: test1234
- *                   timestamp:
- *                     description: "타임스탬프"
- *                     type: int
- *                     example: 1648433785800
- *               example: {nickname : test1234, timestamp : 1648433785800}
+ *               properties:
+ *                 nickname:
+ *                   description: "닉네임"
+ *                   type: string
+ *                   example: test1234
+ *                 timestamp:
+ *                   description: "타임스탬프"
+ *                   type: int
+ *                   example: 1648433785800
  *             hash_sign:
  *               description: "sha256 서명"
  *               type: string
@@ -180,7 +197,7 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfileNickname(newInfo)
+    const status = await profile_service.setNickname(newInfo)
 
     res.status(status)
     res.send()
@@ -203,7 +220,7 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
  *           type: string
  *         example : "0xC1b9c91D0416a04162cb96029626aDE4ccC15818"
  *       - name: "info"
- *         description: "변경하고 싶은 소개글"
+ *         description: "변경하고 싶은 프로필"
  *         in: body
  *         required: true
  *         schema:
@@ -212,18 +229,15 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
  *             info:
  *               description: "수정 정보"
  *               type: object
- *               schema:
- *                 type: object
- *                 properties:
- *                   description:
- *                     description: "소개글"
- *                     type: string
- *                     example: 나는 NFTurtle 입니다.
- *                   timestamp:
- *                     description: "타임스탬프"
- *                     type: int
- *                     example: 1648433785800
- *               example: {description : 나는 NFTurtle 입니다., timestamp : 1648433785800}
+ *               properties:
+ *                 description:
+ *                   description: "소개글"
+ *                   type: string
+ *                   example: 나는 NFTurtle 입니다.
+ *                 timestamp:
+ *                   description: "타임스탬프"
+ *                   type: int
+ *                   example: 1648433785800
  *             hash_sign:
  *               description: "sha256 서명"
  *               type: string
@@ -248,7 +262,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfileDescription(newInfo)
+    const status = await profile_service.setDescription(newInfo)
 
     res.status(status)
     res.send()
@@ -256,7 +270,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
 
 /**
  * @swagger
- * "/account/edit/imageurl/{wallet_id}":
+ * "/account/edit/imageuri/{wallet_id}":
  *   patch:
  *     tags: [Account, User]
  *     summary: "관련 지갑 주소자의 이미지 수정"
@@ -271,7 +285,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
  *           type: string
  *         example : "0xC1b9c91D0416a04162cb96029626aDE4ccC15818"
  *       - name: "info"
- *         description: "변경하고 싶은 이미지"
+ *         description: "변경하고 싶은 프로필"
  *         in: body
  *         required: true
  *         schema:
@@ -280,18 +294,15 @@ router.patch('/edit/description/:walletId', async (req, res) => {
  *             info:
  *               description: "수정 정보"
  *               type: object
- *               schema:
- *                 type: object
- *                 properties:
- *                   image_url:
- *                     description: "이미지"
- *                     type: string
- *                     example: http://ipfs/...
- *                   timestamp:
- *                     description: "타임스탬프"
- *                     type: int
- *                     example: 1648433785800
- *               example: {image_url : http://ipfs/..., timestamp : 1648433785800}
+ *               properties:
+ *                 image_uri:
+ *                   description: "이미지"
+ *                   type: string
+ *                   example: http://ipfs/...
+ *                 timestamp:
+ *                   description: "타임스탬프"
+ *                   type: int
+ *                   example: 1648433785800
  *             hash_sign:
  *               description: "sha256 서명"
  *               type: string
@@ -302,10 +313,10 @@ router.patch('/edit/description/:walletId', async (req, res) => {
  *       500:
  *         description: "사용자 없음 | 서버 오류"
  */
-router.patch('/edit/imageurl/:walletId', async (req, res) => {
+router.patch('/edit/imageuri/:walletId', async (req, res) => {
     const newInfo = {
         wallet_id: req.params.walletId,
-        image_url: req.body.info.image_url,
+        image_uri: req.body.info.image_uri,
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
@@ -316,7 +327,7 @@ router.patch('/edit/imageurl/:walletId', async (req, res) => {
         return;
     }
 
-    const status = await profile_service.editProfileImageURL(newInfo)
+    const status = await profile_service.setImageURI(newInfo)
 
     res.status(status)
     res.send()
