@@ -21,6 +21,7 @@ import MyPage from "./pages/MyPage";
 import Settings from "./components/Settings";
 import ScheduleManager from "./pages/ScheduleManager";
 import Purchase from "./pages/Purchase";
+import Market from "./pages/Market";
 import ShowDetail from "./pages/ShowDetail";
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
         <Route path="/Ticket-Detail" element={<TicketDetail />} />
         <Route path="/Barcode" element={<Page4 />} />
         <Route path="/Purchase" element={<Purchase />} />
+        <Route path="/Market" element={<Market />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
