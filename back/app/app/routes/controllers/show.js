@@ -99,11 +99,11 @@ router.post("/", async (req, res, err) => {
  *                   description: "공연 시청연령"
  *                   type: int
  *                   example: 12
- *             video_url:
+ *             video_uri:
  *                   description: "공연 포스터 URI"
  *                   type: string
  *                   example: "http://..."
- *             poster_url:
+ *             poster_uri:
  *                   description: "공연 예고편 URI"
  *                   type: string
  *                   example: "http://..."
