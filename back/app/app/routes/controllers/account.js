@@ -56,7 +56,7 @@ router.post('/:walletId', async (req, res) => {
     else {
         const newInfo = {
             wallet_id: req.params.walletId,
-            nickname: req.params.walletId,
+            nickname: 'nickname',
             description: `${req.params.walletId}Description`,
             image_uri: 'none',
             gallery: 'galleryS',
@@ -191,7 +191,7 @@ router.patch('/edit/:walletId', async (req, res) => {
 router.patch('/edit/nickname/:walletId', async (req, res) => {
     const newInfo = {
         wallet_id: req.params.walletId,
-        nickname: req.body.info.nickname,
+        nickname: req.body.info.nickname.slice(0, 10),
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
