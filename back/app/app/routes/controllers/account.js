@@ -1,4 +1,5 @@
 const profile_service = require("../../services/profile_service")
+const text_generater = require('../../services/text_generater')
 const auth = require('../../services/auth_service')
 const express = require('express')
 const router = express.Router()
@@ -56,8 +57,8 @@ router.post('/:walletId', async (req, res) => {
     else {
         const newInfo = {
             wallet_id: req.params.walletId,
-            nickname: req.params.walletId,
-            description: `${req.params.walletId}Description`,
+            nickname: await text_generater.getRandomNickname(),
+            description: '티켓 공연 좋아합니다',
             image_uri: 'none',
             gallery: 'galleryS',
         }
@@ -191,7 +192,7 @@ router.patch('/edit/:walletId', async (req, res) => {
 router.patch('/edit/nickname/:walletId', async (req, res) => {
     const newInfo = {
         wallet_id: req.params.walletId,
-        nickname: req.body.info.nickname,
+        nickname: req.body.info.nickname.slice(0, 10),
     }
 
     const validation = await auth.ownerCheck(req.body, req.params.walletId)
