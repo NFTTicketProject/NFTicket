@@ -541,4 +541,14 @@ router.put("/:showId/show-schedule", async (req, res, err) => {
   res.json(result);
 });
 
+// 공연 스케줄 Contract 주소 추가
+router.get("/:showId/show-schedule", async (req, res, err) => {
+  const result = await show.getShowScheduleAddress(req.params.showId, req.query);
+
+  if (!result) res.status(404);
+  if (result == 500) res.status(500);
+
+  res.json(result);
+});
+
 module.exports = router;
