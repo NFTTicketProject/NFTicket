@@ -6,8 +6,11 @@ import axios from "axios";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
+import TicketCollection from "../components/TicketCollection";
+import { myTicketContract } from "../utils/web3Config";
 
 const UnconnectedContainer = styled.div`
   display: flex;
@@ -23,6 +26,7 @@ const ConnectedContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-bottom: 2rem;
 `;
 
 const LogInButton = styled.button`
@@ -150,124 +154,218 @@ function MyPage() {
     }
   }
 
-  useEffect(() => {
-    checkConnectedWallet();
-  }, []);
+  // useEffect(() => {
+  //   console.log(walletInfo);
+  // }, []);
+
+  ////
+  const [ticketArray, setTicketArray] = useState([]);
+  const [saleStatus, setSaleStatus] = useState(false);
+  // const account = userInfo.account;
+  // console.log(account);
+
+  const getMyTickets = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem("userAccount"));
+      // 해당 지갑 주소 소유자가 가지고있는 티켓 수
+      const balanceLength = await myTicketContract.methods.balanceOf(userData.account).call();
+
+      const tempArray = [];
+      for (let i = 0; i < parseInt(balanceLength, 10); i++) {
+        // ticketId: 1부터 시작
+        const ticketId = await myTicketContract.methods
+          .tokenOfOwnerByIndex(userData.account, i)
+          .call();
+        // showScheduleId: 1부터 시작
+        const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
+        // clasId: 1부터 시작
+        const classId = await myTicketContract.methods.getClassId(ticketId).call();
+        //
+        const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+        tempArray.push({ ticketId, showScheduleId, classId, ticketUri });
+      }
+      setTicketArray(tempArray);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // const getIsApprovedForAll = async () => {
+  //   try {
+  //      const userData = JSON.parse(localStorage.getItem("userAccount"));
+  //     const response = await myTicketContract.methods
+  //       .isApprovedForAll(userData.account, saleAnimalTokenAddress)
+  //       .call();
+
+  //     // console.log(response);
+  //     if (response.status) {
+  //       setSaleStatus(response);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 
   useEffect(() => {
-    console.log(walletInfo);
+    checkConnectedWallet();
+    getMyTickets();
+    console.log(ticketArray);
   }, []);
 
   return (
     <>
       {isConnected ? (
-        <ConnectedContainer>
-          {/* 배경 */}
-          <img
-            src="images/1614121632-NYAN-CAT.jpeg"
-            alt=""
-            style={{
-              height: "300px",
-              width: "100%",
-              objectFit: "cover",
-            }}
-          />
-          {/* 프로필 사진 */}
-          <Grid container spacing={2} style={{ marginTop: "0.5rem" }}>
-            <Grid item xs={4}>
-              <div></div>
-            </Grid>
-            <Grid item xs={4}>
-              <div
+        <>
+          <ConnectedContainer>
+            {/* 배경 */}
+            <img
+              src="images/1614121632-NYAN-CAT.jpeg"
+              alt=""
+              style={{
+                height: "300px",
+                width: "100%",
+                objectFit: "cover",
+              }}
+            />
+            {/* 프로필 사진 */}
+            <Grid container spacing={2} style={{ marginTop: "0.5rem" }}>
+              <Grid item xs={4}>
+                <div></div>
+              </Grid>
+              <Grid item xs={4}>
+                <div
+                  style={{
+                    display: "flex",
+                    position: "absolute",
+                    top: "390px",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  {walletInfo.image_uri !== null ? (
+                    <img
+                      src={walletInfo.image_uri}
+                      alt=""
+                      style={{
+                        width: "150px",
+                        height: "150px",
+                        borderRadius: "50%",
+                        border: "3px solid white",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src="images/MetaMask_Fox.svg.png"
+                      alt=""
+                      style={{
+                        width: "150px",
+                        height: "150px",
+                        borderRadius: "50%",
+                        border: "3px solid white",
+                        objectFit: "cover",
+                        background: "grey",
+                      }}
+                    />
+                  )}
+                </div>
+              </Grid>
+              <Grid
+                item
+                xs={4}
                 style={{
                   display: "flex",
-                  position: "absolute",
-                  top: "390px",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  paddingRight: "4rem",
                 }}
               >
-                {walletInfo.image_uri !== null ? (
-                  <img
-                    src={walletInfo.image_uri}
-                    alt=""
+                <Link to="/MyPage/Settings">
+                  <SettingsIcon
                     style={{
-                      width: "150px",
-                      height: "150px",
-                      borderRadius: "50%",
-                      border: "3px solid white",
-                      objectFit: "cover",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "black",
+                      height: "30px",
+                      width: "30px",
                     }}
                   />
-                ) : (
-                  <img
-                    src="images/MetaMask_Fox.svg.png"
-                    alt=""
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      borderRadius: "50%",
-                      border: "3px solid white",
-                      objectFit: "cover",
-                      background: "grey",
-                    }}
-                  />
-                )}
-              </div>
+                </Link>
+
+                <LogoutIcon
+                  onClick={onDisconnect}
+                  style={{ color: "black", height: "30px", width: "30px", marginLeft: "0.5rem" }}
+                />
+              </Grid>
             </Grid>
-            <Grid
-              item
-              xs={4}
+            {/* 유저 정보 */}
+            <div
               style={{
                 display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
                 alignItems: "center",
-                justifyContent: "end",
-                paddingRight: "4rem",
+                marginTop: "1rem",
               }}
             >
-              <Link to="/MyPage/Settings">
-                <SettingsIcon style={{ color: "black", height: "30px", width: "30px" }} />
-              </Link>
-            </Grid>
-          </Grid>
-          {/* 유저 정보 */}
+              {/* 닉네임 */}
+              <UserInfo>
+                <h1>{walletInfo.nickname}</h1>
+              </UserInfo>
+              {/* 지갑 주소 */}
+              <p
+                style={{
+                  width: "200px",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  border: "1px solid grey",
+                  borderRadius: "20px",
+                  padding: "0.5rem",
+                }}
+              >
+                <img
+                  src="images/ethereum.png"
+                  alt="eth"
+                  style={{ width: "20px", height: "20px" }}
+                />
+                {userInfo.account}
+              </p>
+              {/* 설명 */}
+              <UserInfo>
+                <p>{walletInfo.description}</p>
+              </UserInfo>
+            </div>
+            {/* <div>
+              <Button onClick={onDisconnect}>로그아웃</Button>
+            </div> */}
+          </ConnectedContainer>
+          <h2 style={{ marginLeft: "2rem" }}>Collected Tickets</h2>
+
+          {ticketArray &&
+            ticketArray.map((v, i) => {
+              return (
+                <div key={i}>
+                  <div>ticketId = {v.ticketId}</div>
+                  <div>showScheduleId = {v.showScheduleId}</div>
+                  <div>classId = {v.classId}</div>
+                  <div>ticketUri = {v.ticketUri}</div>
+                  <hr />
+                </div>
+              );
+            })}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "1rem",
+              justifyContent: "space-around",
+              marginTop: "2rem",
             }}
           >
-            {/* 닉네임 */}
-            <UserInfo>
-              <h1>{walletInfo.nickname}</h1>
-            </UserInfo>
-            {/* 지갑 주소 */}
-            <p
-              style={{
-                width: "200px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                border: "1px solid grey",
-                borderRadius: "20px",
-                padding: "0.5rem",
-              }}
-            >
-              <img src="images/ethereum.png" alt="eth" style={{ width: "20px", height: "20px" }} />
-              {userInfo.account}
-            </p>
-            {/* 설명 */}
-            <UserInfo>
-              <p>{walletInfo.description}</p>
-            </UserInfo>
+            <TicketCollection />
+            <TicketCollection />
           </div>
-          <div>
-            <Button onClick={onDisconnect}>로그아웃</Button>
-          </div>
-        </ConnectedContainer>
+        </>
       ) : (
         <UnconnectedContainer>
           <h1>Connect Your Wallet</h1>
