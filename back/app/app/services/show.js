@@ -3,19 +3,27 @@ const { logger } = require('../utils/winston')
 
 module.exports = {
     createShow : async (info) =>{
+        const params = ['category_name', 'name', 'description', 'running_time', 'age_limit', 'poster_uri', 'video_uri', 'default_ticket_image_uri']
+        let data = {}
+
+        for (var param of params)
+        {
+            if (info[param]) data[param] = info[param]
+        }
 
         logger.info('[Service] show ::: createShow ::: ' + JSON.stringify(info))
 
         try {
-            await prisma.Show.create({
-                data: info,
+            const result = await prisma.Show.create({
+                data,
             })
-            return true
+
+            return result
         }
         catch (e){
             logger.error('[Service] show ::: createShow ::: ' + JSON.stringify(e))
 
-            return false
+            return 500
         }
     },
     setShow : async (showId, info) =>{
