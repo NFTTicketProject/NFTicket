@@ -46,7 +46,7 @@ const NFTInfo = () => {
 
   return (
     <div>
-      <NftInfoTitle>NFT 정보</NftInfoTitle>
+      <NftInfoTitle>스마트 컨트랙트 정보</NftInfoTitle>
       {/* <TableContainer
         components={{
           Container: (props) => <Paper {...props} evelation={0} />,
