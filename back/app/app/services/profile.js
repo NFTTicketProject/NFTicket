@@ -4,11 +4,13 @@ const { logger } = require('../utils/winston')
 
 module.exports = {
     createProfile : async (info) =>{
-        await prisma.Profile.create({
+        const result = await prisma.Profile.create({
             data : info,
         })
 
         logger.info('[Service] profile ::: createProfile ::: ' + JSON.stringify(info))
+
+        return result
     },
     getProfile: async function (walletId) {
         const result = await prisma.Profile.findUnique({
@@ -93,15 +95,19 @@ module.exports = {
     },
     setProfile : async (info) =>{
         try {
+            const params = ['nickname', 'description', 'image_uri', 'gallery']
+            let data = {}
+
+            for (var param of params)
+            {
+                if (info[param]) data[param] = info[param]
+            }
+
             await prisma.Profile.update({
                 where: {
                     wallet_id: info['wallet_id'],
                 },
-                data: {
-                    nickname: info['nickname'],
-                    description: info['description'],
-                    image_uri: info['image_uri'],
-                },
+                data
             })
 
             logger.error('[Service] profile ::: setProfile ::: ' + JSON.stringify(info))
