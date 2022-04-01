@@ -12,19 +12,19 @@ SSAFY 6기 2학기 특화프로젝트 - NFTicket
 
 </br>
 
-## 🎵 NFTicket - 배경
+## 🎵 NFTicket - 배경 [수정필요]
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 </br>
 
-## 💜 NFTicket - 개요
+## 💜 NFTicket - 개요 [수정필요]
 *- The quick brown fox jumps over the lazy dog -*  
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 </br>
 
-## 💜 주요 기능
+## 💜 주요 기능 [수정필요]
 ---
 - ### Lorem ipsum
     - consectetur adipiscing elit
@@ -97,183 +97,47 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ```
 NFTicket
 ├── README.md
+├── api
+│   └── swagger.json
+├── app.js
+├── logs
+│   ├── NFTicket_20220328.log
+│   ├── NFTicket_20220329.log
+│   ├── NFTicket_20220330.log
+│   ├── NFTicket_20220331.log
+│   └── NFTicket_20220401.log
+├── package-lock.json
 ├── package.json
+├── prisma
+│   └── schema.prisma
 ├── public
-│   ├── build
-│   │   ├── 02.Gallery.data
-│   │   ├── 02.Gallery.framework.js
-│   │   ├── 02.Gallery.loader.js
-│   │   └── 02.Gallery.wasm
-│   ├── favicon-1.ico
-│   ├── favicon-2.ico
 │   ├── favicon.ico
 │   ├── images
-│   │   ├── 1.png
-│   │   └── ...
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-├── src
-│   ├── App.css
-│   ├── App.js
-│   ├── components
-│   │   ├── AnimalCard.js
-│   │   ├── CreateImage.js
-│   │   ├── DatepickerComponent.js
-│   │   ├── Footer.js
-│   │   ├── Home
-│   │   │   ├── Community.js
-│   │   │   ├── CommunityItem.js
-│   │   │   ├── Home.css
-│   │   │   ├── Perform.js
-│   │   │   ├── Slider.js
-│   │   │   ├── SpecialTicket.js
-│   │   │   ├── Ticket.js
-│   │   │   ├── Ticketo.js
-│   │   │   ├── TicketoItem.js
-│   │   │   └── TodayPerformance.js
-│   │   ├── InputEditor.js
-│   │   ├── InputItem.js
-│   │   ├── InputList.js
-│   │   ├── MyAnimalCard.js
-│   │   ├── Navbar.css
-│   │   ├── Navbar.js
-│   │   ├── PosterImage.js
-│   │   ├── ProfileImage.js
-│   │   ├── Purchase
-│   │   │   ├── Seat.js
-│   │   │   └── SeatInfo.js
-│   │   ├── SaleAnimalCard.js
-│   │   ├── Settings.js
-│   │   ├── TicketDetail
-│   │   │   ├── Bottom.js
-│   │   │   ├── DetailDescription.js
-│   │   │   ├── Middle.js
-│   │   │   ├── MiddleLeft.js
-│   │   │   ├── MiddleRight.js
-│   │   │   ├── NFTInfo.js
-│   │   │   ├── Notification.js
-│   │   │   ├── TopLeft.css
-│   │   │   ├── TopLeft.js
-│   │   │   ├── TopRight.js
-│   │   │   └── TradeHistory.js
-│   │   ├── common
-│   │   │   └── ScrollToTop.js
-│   │   ├── guide
-│   │   │   ├── GuideBody.js
-│   │   │   ├── GuideBodyComponent.css
-│   │   │   ├── GuideBodyComponent.js
-│   │   │   ├── GuideHeader.css
-│   │   │   ├── GuideHeader.js
-│   │   │   ├── GuideTitle.css
-│   │   │   └── GuideTitle.js
-│   │   └── toast
-│   │       └── DrawerMain.js
-│   ├── images
-│   │   └── stamp
-│   │       ├── emoticon
-│   │       │   ├── 01_really.png
-│   │       │   ├── ...
-│   │       ├── family
-│   │       │   ├── 001.png
-│   │       │   ├── ...
-│   │       │   └── readme.txt
-│   │       ├── galaxy
-│   │       │   ├── 001.png
-│   │       │   ├── ...
-│   │       │   └── readme.txt
-│   │       ├── icon
-│   │       │   ├── 001.PNG
-│   │       │   └── ...
-│   │       ├── normal
-│   │       │   ├── 001.png
-│   │       │   ├── ...
-│   │       │   └── readme.txt
-│   │       ├── pin
-│   │       │   ├── 001.png
-│   │       │   ├── ...
-│   │       │   └── readme.txt
-│   │       ├── sns
-│   │       │   ├── 001.png
-│   │       │   ├── ...
-│   │       │   └── readme.txt
-│   │       ├── stamp1.png
-│   │       └── ...
-│   ├── index.css
-│   ├── index.js
-│   ├── pages
-│   │   ├── Detail.js
-│   │   ├── Guide.js
-│   │   ├── Home.js
-│   │   ├── Mint.js
-│   │   ├── MyAnimal.js
-│   │   ├── MyPage.js
-│   │   ├── NotFound.js
-│   │   ├── Page1.js
-│   │   ├── Page2.js
-│   │   ├── Page3.js
-│   │   ├── Page4.js
-│   │   ├── Page5.js
-│   │   ├── Payment.js
-│   │   ├── Profile.js
-│   │   ├── Purchase.js
-│   │   ├── SaleAnimal.js
-│   │   ├── ScheduleManager.js
-│   │   ├── TC.js
-│   │   ├── Thumbnail.css
-│   │   └── TicketDetail.js
-│   ├── store
-│   │   ├── GuidePageReducer.js
-│   │   ├── MushmomReducer.js
-│   │   ├── WalletReducer.js
-│   │   └── store.js
-│   └── utils
-│       ├── web3.js
-│       └── web3Config.js
-└── yarn.lock
-```
-### Back
-```
-NFTicket
-├── app
-│   └── app
-│       ├── README.md
-│       ├── app.js
-│       ├── logs
-│       │   ├── NFTicket_20220328.log
-│       │   ├── NFTicket_20220329.log
-│       │   └── NFTicket_20220330.log
-│       ├── package-lock.json
-│       ├── package.json
-│       ├── prisma
-│       │   └── schema.prisma
-│       ├── public
-│       │   ├── favicon.ico
-│       │   ├── images
-│       │   │   └── bonobono.jpg
-│       │   └── stylesheets
-│       │       └── main.css
-│       ├── routes
-│       │   ├── controllers
-│       │   │   ├── account.js
-│       │   │   ├── profile.js
-│       │   │   ├── redirect.js
-│       │   │   └── root.js
-│       │   └── index.js
-│       ├── services
-│       │   ├── authorization.js
-│       │   └── profile_service.js
-│       ├── start.sh
-│       └── utils
-│           ├── prisma.js
-│           ├── swagger.js
-│           └── winston.js
-├── job
-│   └── README.md
-└── log
-    └── README.md
+│   │   └── bonobono.jpg
+│   └── stylesheets
+│       └── main.css
+├── routes
+│   ├── controllers
+│   │   ├── account.js
+│   │   ├── profile.js
+│   │   ├── role.js
+│   │   ├── sale.js
+│   │   ├── show.js
+│   │   └── staff.js
+│   └── index.js
+├── services
+│   ├── auth.js
+│   ├── profile.js
+│   ├── role.js
+│   ├── sale.js
+│   ├── show.js
+│   ├── staff.js
+│   └── text_generater.js
+├── start.sh
+└── utils
+    ├── prisma.js
+    ├── swagger.js
+    └── winston.js
 ```
 ### BlockChain
 ```
@@ -350,29 +214,28 @@ NFTicket
 ## ✔ 프로젝트 산출물 [수정 필요]
 ---
 - [기능명세서](docs/docs/기능명세서.md)
-- [디자인&컨셉기획](./docs/디자인&컨셉기획.md)
-- [스토리보드](./docs/스토리보드.md)
-- [시퀀스다이어그램](./docs/시퀀스다이어그램.md)
-- [아키텍처](./docs/서비스_아키텍처.md)
-- [와이어프레임](./docs/와이어프레임.md)
-- [컨벤션](./docs/컨벤션.md)
-- [API](./docs/API.md)
-- [ERD](./docs/ERD.md)
-- [회의록](./docs/회의록.md)
-- [테스트케이스](./docs/TUPLI_테스트케이스.xlsx)
-- [시스템기술서](./docs/TUPLI_시스템_기술서.docx)
-- [명세기술서](./docs/TUPLI_명세_기술서.docx)
+- [디자인&컨셉기획](./docs/디자인&컨셉기획.md) [수정 필요]
+- [스토리보드](./docs/스토리보드.md) [수정 필요]
+- [시퀀스다이어그램](./docs/시퀀스다이어그램.md) [수정 필요]
+- [아키텍처](./docs/서비스_아키텍처.md) [수정 필요]
+- [와이어프레임](./docs/와이어프레임.md) [수정 필요]
+- [컨벤션](./docs/컨벤션.md) [수정 필요]
+- [API](./docs/API.md) [수정 필요]
+- [ERD](docs/docs/ERD.md)
+- [회의록](./docs/회의록.md) [수정 필요]
+- [시스템기술서](./docs/TUPLI_시스템_기술서.docx) [수정 필요]
+- [명세기술서](./docs/TUPLI_명세_기술서.docx) [수정 필요]
 
 ## ✔ 프로젝트 결과물 [수정 필요]
-- [포팅메뉴얼](./exec/TUPLI_포팅_메뉴얼.docx)
-- [중간발표자료](docs/docs/NFTicket_midterm.pdf) [완료]
-- [최종발표자료](./ppt/TUPLI_최종발표.pptx)
+- [포팅메뉴얼](./exec/TUPLI_포팅_메뉴얼.docx) [수정 필요]
+- [중간발표자료](docs/docs/NFTicket_midterm.pdf)
+- [최종발표자료](./ppt/TUPLI_최종발표.pptx) [수정 필요]
 
 
 ## 🎵 NFTicket 서비스 화면 [수정 필요]
 ---
 
-### 메인화면
+### 메인화면 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
 - 무한스크롤이 적용됩니다.
 
