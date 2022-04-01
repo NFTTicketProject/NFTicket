@@ -103,10 +103,16 @@
         ],
         "responses": {
           "200": {
-            "description": "성공"
+            "description": "기존에 존재하던 프로필"
+          },
+          "201": {
+            "description": "새로운 프로필 생성"
+          },
+          "400": {
+            "description": "잘못된 지갑 주소 입력"
           },
           "500": {
-            "description": "사용자 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -145,8 +151,17 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음"
+          },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -230,8 +245,17 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음"
+          },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -315,8 +339,17 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음"
+          },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 오류"
           }
         }
       }
@@ -400,8 +433,17 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음"
+          },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 오류"
           }
         }
       }
@@ -485,8 +527,17 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음"
+          },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 오류"
           }
         }
       }
@@ -565,7 +616,10 @@
             }
           },
           "404": {
-            "description": "존재하지 않는 사용자"
+            "description": "프로필 없음"
+          },
+          "500": {
+            "description": "서버 에러"
           }
         }
       }
@@ -600,8 +654,11 @@
               "$ref": "#/definitions/ProfileNickname"
             }
           },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버 오류"
+            "description": "서버 에러"
           }
         }
       }
@@ -673,8 +730,11 @@
               "$ref": "#/definitions/ProfileDescription"
             }
           },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 에러"
           }
         }
       }
@@ -746,8 +806,11 @@
               "$ref": "#/definitions/ProfileImageURI"
             }
           },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 에러"
           }
         }
       }
@@ -759,7 +822,7 @@
         ],
         "summary": "지갑 소유자의 이미지 반환",
         "description": "",
-        "operationId": "getProfileImageURI",
+        "operationId": "getProfileImageURILegacy",
         "consumes": [
           "application/json"
         ],
@@ -819,8 +882,11 @@
               "$ref": "#/definitions/ProfileCreatedAt"
             }
           },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 에러"
           }
         }
       }
@@ -892,8 +958,11 @@
               "$ref": "#/definitions/ProfileGallery"
             }
           },
+          "404": {
+            "description": "프로필 없음"
+          },
           "500": {
-            "description": "사용자 없음 | 서버"
+            "description": "서버 에러"
           }
         }
       }
