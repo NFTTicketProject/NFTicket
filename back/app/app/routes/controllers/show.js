@@ -55,7 +55,7 @@ router.post("/", async (req, res, err) => {
   if (!result) res.status(404);
   if (result == 500) res.status(500);
 
-  res.json();
+  res.json(result);
 });
 
 /**
