@@ -190,11 +190,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] profile ::: setImageURI ::: ' + JSON.stringify(info))
+            logger.error('[Service] profile ::: setGallery ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
-            logger.error('[Service] profile ::: setImageURI ::: ' + e)
+            logger.error('[Service] profile ::: setGallery ::: ' + e)
 
             return 500
         }
