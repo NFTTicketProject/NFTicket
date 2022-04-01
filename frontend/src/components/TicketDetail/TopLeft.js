@@ -1,4 +1,5 @@
 import React from "react";
+
 import styled from "styled-components";
 import "./TopLeft.css";
 
@@ -32,90 +33,68 @@ const TicketInfoArea = styled.div`
   margin-left: 20px;
 `;
 
-const TopLeft = () => {
-  const ticketType = "뮤지컬";
-  const totalAmount = 110;
-  const remainAmount = 32;
-  const totalRemainText =
-    "총 " + totalAmount + "장 중 " + remainAmount + "장 남음";
-  const ticketTitle = "뮤지컬 지킬앤하이드 (Jekyll & Hyde)";
-  const posterDirectory =
-    "http://ticketimage.interpark.com/Play/image/large/22/22001534_p.gif";
+const TopLeft = (props) => {
+  // 전체 좌석 수 계산
+  const seatGradeNum = props.seatInfo.length;
+  let totalSeat = 0;
+  for (let i = 0; i < seatGradeNum; i++) {
+    totalSeat = totalSeat + Number(props.seatInfo[i].ticketClassMaxMintCount);
+  }
 
-  const showPlace = "샤롯데씨어터";
-  const showStart = "2021.10.19";
-  const showEnd = "2022.05.08";
-  const showDuration = 170;
-  const allowedAge = 14;
-  const price = {
-    VIP: 150000,
-    R: 130000,
-    S: 100000,
-    A: 70000,
-  };
+  const totalRemainText = "총 " + totalSeat + "장 중 " + totalSeat + "장 남음";
 
   return (
     <div>
       <TypeAndLeft>
         <Stack direction='row' spacing={1}>
-          <Chip label={ticketType} color='default' />
+          <Chip label={props.catetory} color='default' />
           <Chip label={totalRemainText} variant='outlined' />
         </Stack>
       </TypeAndLeft>
 
-      <TicketTitle>{ticketTitle}</TicketTitle>
+      <TicketTitle>{props.showTitle}</TicketTitle>
 
       <UnderTitle>
         <PosterArea>
-          <Poster src={`${posterDirectory}`} alt='poster img'></Poster>
+          <Poster src={props.posterUri} alt='poster img'></Poster>
         </PosterArea>
         <TicketInfoArea>
           <table>
             <tbody>
               <tr>
                 <th>장소</th>
-                <td>{showPlace}</td>
+                <td>{props.stageName}</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
                 <th>공연기간</th>
                 <td>
-                  {showStart} ~ {showEnd}
+                  {props.startedAt} ~ {props.endedAt}
                 </td>
               </tr>
             </tbody>
             <tbody>
               <tr>
                 <th>공연시간</th>
-                <td>{showDuration}분</td>
+                <td>{props.showDuration}분</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
                 <th>관람연령</th>
-                <td>{allowedAge}세 이상 관람가</td>
+                <td>{props.allowedAge}세 이상 관람가</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
                 <th valign='top'>가격</th>
-                <tr>
-                  <th>VIP석</th>
-                  <td>{price.VIP}</td>
-                </tr>
-                <tr>
-                  <th>R석</th>
-                  <td>{price.R}</td>
-                </tr>
-                <tr>
-                  <th>S석</th>
-                  <td>{price.S}</td>
-                </tr>
-                <tr>
-                  <th>A석</th>
-                  <td>{price.A}</td>
-                </tr>
+                {props.seatInfo.map((it, idx) => (
+                  <tr key={idx}>
+                    <th>{it.ticketClassName}</th>
+                    <td>{it.ticketClassPrice}원</td>
+                  </tr>
+                ))}
               </tr>
             </tbody>
           </table>
