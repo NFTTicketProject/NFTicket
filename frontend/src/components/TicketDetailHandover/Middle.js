@@ -4,32 +4,35 @@ import styled from "styled-components";
 import MiddleLeft from "./MiddleLeft";
 import MiddleRight from "./MiddleRight";
 
-const ContainMiddle = styled.div`
+const MiddleCss = styled.div`
   display: flex;
   justify-content: center;
+  height: 500px;
+  margin-top: 50px;
 `;
 
 const MiddleLeftCss = styled.div`
   width: 670px;
+  background-color: #fdebd0;
 `;
 
 const MiddleRightCss = styled.div`
   width: 330px;
-  height: 100px;
+  background-color: #bfc9ca;
 `;
 
-const Middle = (props) => {
+const Middle = () => {
   return (
     <div>
-      <ContainMiddle>
+      <MiddleCss>
         <MiddleLeftCss>
-          <MiddleLeft description={props.description}></MiddleLeft>
+          <MiddleLeft></MiddleLeft>
         </MiddleLeftCss>
 
         <MiddleRightCss>
           <MiddleRight></MiddleRight>
         </MiddleRightCss>
-      </ContainMiddle>
+      </MiddleCss>
     </div>
   );
 };
