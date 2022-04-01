@@ -76,6 +76,7 @@ function App() {
         <Route path='/Barcode' element={<Page4 />} />
         <Route path='/Purchase' element={<Purchase />} />
         <Route path='/*' element={<NotFound />} />
+        <Route path='/Market' element={<Market />} />
       </Routes>
     </div>
   );
