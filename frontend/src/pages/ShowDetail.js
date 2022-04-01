@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { web3, showScheduleAbi, myTicketContract } from "../utils/web3";
+import { useNavigate, useParams } from "react-router-dom";
+// import { web3, showScheduleAbi, myTicketContract } from "../utils/web3";
+import { web3, showScheduleAbi, myTicketContract } from "../utils/web3Config";
 
 function ShowDetail() {
+  const navigate = useNavigate();
   const { showScheduleAddress } = useParams();
   const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
   // const [showId, setShowId] = useState();
@@ -56,6 +58,7 @@ function ShowDetail() {
       console.log(cancel);
       if (cancel.status) {
         window.localStorage.setItem(`${showScheduleAddress}Cancelled`, true);
+        navigate("/Detail");
       }
     } catch (err) {
       console.error(err);
