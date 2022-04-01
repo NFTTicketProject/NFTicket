@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "j6a102.p.ssafy.io",
-  "basePath": "/api/v1",
+  "host": "127.0.0.1:3000",
+  "basePath": "/",
   "tags": [
     {
       "name": "Account",
@@ -66,7 +66,7 @@
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/account/{wallet_address}": {
@@ -90,15 +90,6 @@
             "description": "지갑 주소",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "서명된 프로필 정보",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SignedProfile"
-            }
           }
         ],
         "responses": {
@@ -1043,13 +1034,26 @@
               }
             }
           },
+          "400": {
+            "description": "잘못요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid Params"
+                }
+              }
+            }
+          },
           "500": {
             "description": "서버 오류"
           }
         }
       }
     },
-    "/role/{role_id}": {
+    "/role/{show_id}/{staff_id}": {
       "get": {
         "tags": [
           "Role"
@@ -1066,8 +1070,16 @@
         "parameters": [
           {
             "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -1078,6 +1090,22 @@
             "description": "성공",
             "schema": {
               "$ref": "#/definitions/Role"
+            }
+          },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "404": {
+            "description": "일치하는 롤 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
             }
           },
           "500": {
@@ -1101,8 +1129,16 @@
         "parameters": [
           {
             "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -1113,84 +1149,6 @@
             "description": "갱신할 역할 정보",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Role"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "성공"
-          },
-          "500": {
-            "description": "역할 정보 없음 | 서버 오류"
-          }
-        }
-      }
-    },
-    "/role/{role_id}/occupation": {
-      "get": {
-        "tags": [
-          "Role"
-        ],
-        "summary": "공연 내 역할 정보 반환",
-        "description": "",
-        "operationId": "getRoleOccupation",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "성공",
-            "schema": {
-              "$ref": "#/definitions/RoleOccupation"
-            }
-          },
-          "500": {
-            "description": "역할 정보 없음 | 서버 오류"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Role"
-        ],
-        "summary": "공연 내 역할 정보 수정",
-        "description": "",
-        "operationId": "editRoleOccupation",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "갱신할 공연 내 역할 정보",
-            "required": true,
-            "schema": {
               "$ref": "#/definitions/RoleOccupation"
             }
           }
@@ -1199,161 +1157,8 @@
           "200": {
             "description": "성공"
           },
-          "500": {
-            "description": "역할 정보 없음 | 서버 오류"
-          }
-        }
-      }
-    },
-    "/role/{role_id}/staff-id": {
-      "get": {
-        "tags": [
-          "Role"
-        ],
-        "summary": "스태프 ID 정보 반환",
-        "description": "",
-        "operationId": "getRoleStaffId",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "성공",
-            "schema": {
-              "$ref": "#/definitions/RoleStaffId"
-            }
-          },
-          "500": {
-            "description": "역할 정보 없음 | 서버 오류"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Role"
-        ],
-        "summary": "스태프 ID 정보 수정",
-        "description": "",
-        "operationId": "editRoleStaffId",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "갱신할 스태프 ID 정보",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RoleStaffId"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "성공"
-          },
-          "500": {
-            "description": "역할 정보 없음 | 서버 오류"
-          }
-        }
-      }
-    },
-    "/role/{role_id}/show-id": {
-      "get": {
-        "tags": [
-          "Role"
-        ],
-        "summary": "공연 ID 정보 반환",
-        "description": "",
-        "operationId": "getRoleShowId",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "성공",
-            "schema": {
-              "$ref": "#/definitions/RoleShowId"
-            }
-          },
-          "500": {
-            "description": "역할 정보 없음 | 서버 오류"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Role"
-        ],
-        "summary": "공연 ID 정보 수정",
-        "description": "",
-        "operationId": "editRoleShowId",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "role_id",
-            "description": "역할 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "갱신할 공연 ID 정보",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RoleShowId"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "성공"
+          "400": {
+            "description": "잘못된 요청"
           },
           "500": {
             "description": "역할 정보 없음 | 서버 오류"

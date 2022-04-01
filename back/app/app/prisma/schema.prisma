@@ -7,6 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Address {
+  address          String @id @db.VarChar(100)
+  show_schedule_id Int?
+  show_id          Int?
+  Show             Show?  @relation(fields: [show_id], references: [show_id], onDelete: NoAction, onUpdate: NoAction, map: "show_id")
+
+  @@index([show_id], map: "show_id_idx")
+}
+
 model Authorization {
   wallet_id        String   @id @db.Char(20)
   nonce            Int
@@ -17,10 +26,21 @@ model Authorization {
 
 model Profile {
   wallet_id   String   @id @unique(map: "wallet_id_UNIQUE") @db.Char(42)
-  nickname    String   @db.VarChar(45)
+  nickname    String   @db.VarChar(10)
   description String?  @db.Text
   created_at  DateTime @default(now()) @db.Timestamp(0)
   image_uri   String?  @db.VarChar(255)
+  gallery     String?  @db.Char(10)
+}
+
+model RandomAdjective {
+  id        Int    @id @unique(map: "id_UNIQUE") @default(autoincrement()) @db.UnsignedInt
+  adjective String @unique(map: "adjective_UNIQUE") @db.Char(5)
+}
+
+model RandomNoun {
+  id   Int    @id @unique(map: "id_UNIQUE") @default(autoincrement()) @db.UnsignedInt
+  noun String @unique(map: "noun_UNIQUE") @db.Char(5)
 }
 
 model Role {
@@ -32,26 +52,6 @@ model Role {
 
   @@id([staff_id, show_id])
   @@index([show_id], map: "show_id")
-}
-
-model Show {
-  show_id                  Int     @id @default(autoincrement())
-  category_name            String  @db.VarChar(10)
-  name                     String  @db.VarChar(45)
-  description              String? @db.Text
-  running_time             Int
-  age_limit                Int
-  poster_uri               String  @db.VarChar(255)
-  video_uri                String? @db.VarChar(255)
-  default_ticket_image_uri String  @db.VarChar(255)
-  Role                     Role[]
-}
-
-model Staff {
-  staff_id  Int     @id @unique(map: "staff_id_UNIQUE") @default(autoincrement())
-  name      String  @db.VarChar(45)
-  image_uri String? @db.VarChar(255)
-  Role      Role[]
 }
 
 model Sale {
@@ -66,6 +66,27 @@ model Sale {
 model ServerConfig {
   key   String  @id @db.VarChar(45)
   value String? @db.VarChar(45)
+}
+
+model Show {
+  show_id                  Int       @id @default(autoincrement())
+  category_name            String    @db.VarChar(10)
+  name                     String    @db.VarChar(45)
+  description              String?   @db.Text
+  running_time             Int
+  age_limit                Int
+  poster_uri               String    @db.VarChar(255)
+  video_uri                String?   @db.VarChar(255)
+  default_ticket_image_uri String    @db.VarChar(255)
+  Address                  Address[]
+  Role                     Role[]
+}
+
+model Staff {
+  staff_id  Int     @id @unique(map: "staff_id_UNIQUE") @default(autoincrement())
+  name      String  @db.VarChar(45)
+  image_uri String? @db.VarChar(255)
+  Role      Role[]
 }
 
 model TicketImages {

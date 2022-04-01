@@ -1,5 +1,4 @@
 const profile = require("../../services/profile")
-const text_generater = require('../../services/text_generater')
 const auth = require('../../services/auth')
 const {logger} = require('../../utils/winston')
 const express = require('express')
@@ -24,7 +23,7 @@ router.post('/:wallet_address', async (req, res) => {
         } else {
             const newInfo = {
                 wallet_id: req.params.wallet_address,
-                nickname: await text_generater.getRandomNickname(),
+                nickname: await profile.getRandomNickname(),
                 description: '티켓 공연 좋아합니다',
                 image_uri: 'none',
                 gallery: 'galleryS',
@@ -55,7 +54,7 @@ router.patch('/edit/:walletId', async (req, res) => {
 
     if (!validation.success) {
         res.status(500)
-        res.send({message : validation.message})
+        res.send({message: validation.message})
         return;
     }
 
@@ -84,7 +83,6 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
     res.status(status)
     res.send({message: "This API will be deprecated. Find out more at our swagger docs."})
 })
-
 
 router.patch('/edit/description/:walletId', async (req, res) => {
     const newInfo = {

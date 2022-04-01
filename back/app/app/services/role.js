@@ -3,15 +3,26 @@ const { logger } = require('../utils/winston')
 
 module.exports = {
     createRole : async (info) =>{
-        await prisma.Role.create({
-            data: info,
+        const params = ['occupation', 'staff_id', 'show_id']
+        let data = {}
+
+        for (var param of params)
+        {
+            if (info[param]) data[param] = info[param]
+            else return
+        }
+
+        const result = await prisma.Role.create({
+            data
         })
 
         logger.info('[Service] role ::: createRole ::: ' + JSON.stringify(info))
+
+        return result
     },
     setRole : async (info) =>{
         try {
-            const params = ['occupation', 'staff_id', 'show_id']
+            const params = ['occupation']
             let data = {}
 
             for (var param of params)
@@ -19,9 +30,12 @@ module.exports = {
                 if (info[param]) data[param] = info[param]
             }
 
-            await prisma.role.update({
+            await prisma.Role.update({
                 where: {
-                    role_id: info['role_id'],
+                    staff_id_show_id: {
+                        show_id: Number(info['show_id']),
+                        staff_id: Number(info['staff_id']),
+                    }
                 },
                 data
             })
@@ -35,130 +49,38 @@ module.exports = {
             return 500
         }
     },
-    setOccupation : async (info) =>{
-        try {
-            await prisma.Role.update({
-                where: {
-                    role_id: info['role_id'],
+    getRole : async (showId, staffId) =>{
+        const result = await prisma.Role.findUnique({
+            where: {
+                staff_id_show_id: {
+                    show_id: Number(showId),
+                    staff_id: Number(staffId),
+                }
+            },
+            include: {
+                Show: {
+                    select: {
+                        name: true
+                    }
                 },
-                data: {
-                    occupation: info['occupation'],
-                },
-            })
+                Staff: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        })
 
-            logger.error('[Service] role ::: setOccupation ::: ' + JSON.stringify(info))
-
-            return 200
-        } catch (e) {
-            logger.error('[Service] role ::: setOccupation ::: ' + e)
-
-            return 500
+        const ret = {
+            staff_id: result["staff_id"],
+            staff_name: result["Staff"]["name"],
+            show_id: result["show_id"],
+            show_name: result["Show"]["name"],
+            occupation: result["occupation"]
         }
-    },
-    setStaffId : async (info) =>{
-        try {
-            await prisma.Role.update({
-                where: {
-                    role_id: info['role_id'],
-                },
-                data: {
-                    staff_id: info['staff_id'],
-                },
-            })
 
-            logger.error('[Service] role ::: setStaffId ::: ' + JSON.stringify(info))
+        logger.info('[Service] role ::: getRole ::: ' + JSON.stringify(ret))
 
-            return 200
-        } catch (e) {
-            logger.error('[Service] role ::: setStaffId ::: ' + e)
-
-            return 500
-        }
-    },
-    setShowId : async (info) =>{
-        try {
-            await prisma.Role.update({
-                where: {
-                    role_id: info['role_id'],
-                },
-                data: {
-                    show_id: info['show_id'],
-                },
-            })
-
-            logger.error('[Service] role ::: setShowId ::: ' + JSON.stringify(info))
-
-            return 200
-        } catch (e) {
-            logger.error('[Service] role ::: setShowId ::: ' + e)
-
-            return 500
-        }
-    },
-    getRole : async (roleId) =>{
-        const result = await prisma.Role.findUnique({
-            where: {
-                role_id: Number(roleId)
-            },
-            select: {
-                occupation: true,
-                staff_id: true,
-                show_id: true
-            },
-        })
-
-        result.forEach(el => {
-            logger.info('[Service] role ::: getRole ::: ' + JSON.stringify(el))
-        });
-
-        return result
-    },
-    getOccupation : async (roleId) =>{
-        const result = await prisma.Role.findUnique({
-            where: {
-                role_id: Number(roleId)
-            },
-            select: {
-                occupation: true
-            },
-        })
-
-        result.forEach(el => {
-            logger.info('[Service] role ::: getOccupation ::: ' + JSON.stringify(el))
-        });
-
-        return result
-    },
-    getStaffId : async (roleId) =>{
-        const result = await prisma.Role.findUnique({
-            where: {
-                role_id: Number(roleId)
-            },
-            select: {
-                staff_id: true
-            },
-        })
-
-        result.forEach(el => {
-            logger.info('[Service] role ::: getStaffId ::: ' + JSON.stringify(el))
-        });
-
-        return result
-    },
-    getShowId : async (roleId) =>{
-        const result = await prisma.Role.findUnique({
-            where: {
-                role_id: Number(roleId)
-            },
-            select: {
-                show_id: true
-            },
-        })
-
-        result.forEach(el => {
-            logger.info('[Service] role ::: getShowId ::: ' + JSON.stringify(el))
-        });
-
-        return result
-    },
+        return ret
+    }
 }
