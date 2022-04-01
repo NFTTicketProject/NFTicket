@@ -9,15 +9,15 @@ const NavList = styled.div`
 
 const NavListItem = styled.div`
   margin: 12px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
   cursor: pointer;
 `;
 
 const NavListItemSelected = styled.div`
   margin: 12px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
   cursor: pointer;
   font-weight: bold;
 `;
@@ -66,27 +66,6 @@ const MiddleLeft = (props) => {
             공연장 정보
           </NavListItem>
         )}
-        {pageNum === 4 ? (
-          <NavListItemSelected onClick={() => handlePageNum(4)}>
-            관람 후기
-          </NavListItemSelected>
-        ) : (
-          <NavListItem onClick={() => handlePageNum(4)}>관람 후기</NavListItem>
-        )}
-        {pageNum === 5 ? (
-          <NavListItemSelected onClick={() => handlePageNum(5)}>
-            티켓 정보
-          </NavListItemSelected>
-        ) : (
-          <NavListItem onClick={() => handlePageNum(5)}>티켓 정보</NavListItem>
-        )}
-        {pageNum === 6 ? (
-          <NavListItemSelected onClick={() => handlePageNum(6)}>
-            티켓 거래
-          </NavListItemSelected>
-        ) : (
-          <NavListItem onClick={() => handlePageNum(6)}>티켓 거래</NavListItem>
-        )}
       </NavList>
 
       {pageNum === 1 && (
@@ -95,11 +74,8 @@ const MiddleLeft = (props) => {
           <DescriptionDiv>{props.description}</DescriptionDiv>
         </div>
       )}
-      {pageNum === 2 && <h2>캐스팅 정보</h2>}
-      {pageNum === 3 && <h2>공연장 정보</h2>}
-      {pageNum === 4 && <h2>관람 후기</h2>}
-      {pageNum === 5 && <h2>티켓 정보</h2>}
-      {pageNum === 6 && <h2>티켓 거래</h2>}
+      {pageNum === 2 && <TitleText>캐스팅 정보</TitleText>}
+      {pageNum === 3 && <TitleText>공연장 정보</TitleText>}
     </div>
   );
 };
