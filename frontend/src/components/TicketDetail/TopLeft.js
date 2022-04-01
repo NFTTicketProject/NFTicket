@@ -92,7 +92,7 @@ const TopLeft = (props) => {
                 {props.seatInfo.map((it, idx) => (
                   <tr key={idx}>
                     <th>{it.ticketClassName}</th>
-                    <td>{it.ticketClassPrice}원</td>
+                    <td>{it.ticketClassPrice} SSF</td>
                   </tr>
                 ))}
               </tr>
