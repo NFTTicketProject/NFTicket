@@ -78,9 +78,7 @@ const TicketDetail = () => {
   const { showScheduleAddress } = useParams();
   const showScheduleContract = new web3.eth.Contract(
     showScheduleAbi,
-    // showScheduleAddress,
-    // "0x9bCdeD90A39D48eBa31B805109b8Ca686AC4F558",
-    "0xB8027A6Deb6525ecf0390f7802d0bdB8c4310C0D",
+    "0x4c6069672f42f21bAB6e13e60Df121aDF7DafD5E",
   );
   // const [showId, setShowId] = useState();
   const [showDetail, setShowDetail] = useState({});
@@ -136,8 +134,6 @@ const TicketDetail = () => {
         });
       }
       setTicketDetail(tmp);
-      // console.log(showId);
-      // setShowId(getShowId);
       setShowDetail({
         ...showDetail,
         showId,
@@ -151,6 +147,11 @@ const TicketDetail = () => {
         startedAt,
         endedAt,
       });
+      const showInfo = await axios.get(
+        `https://j6a102.p.ssafy.io/api/v1/show/${showId}`,
+      );
+      console.log("showInfo", showInfo);
+      setShowDetailBack(showInfo.data);
     } catch (err) {
       console.error(err);
     }
@@ -183,12 +184,12 @@ const TicketDetail = () => {
 
   useEffect(() => {
     callShowDetail();
-    getShowInfo();
   }, []);
 
   return (
     <div>
       <div>{showDetail.showId}</div>
+      <div>{showDetailBack.poster_uri}</div>
       <TopCss>
         <TopLeftCss>
           <TopLeft
