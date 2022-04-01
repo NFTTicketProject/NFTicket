@@ -80,7 +80,7 @@ const TicketDetail = () => {
     showScheduleAbi,
     // showScheduleAddress,
     // "0x9bCdeD90A39D48eBa31B805109b8Ca686AC4F558",
-    "0x0d9b7757064E76FD8BDE68bB31925c1c293e1128",
+    "0xB8027A6Deb6525ecf0390f7802d0bdB8c4310C0D",
   );
   // const [showId, setShowId] = useState();
   const [showDetail, setShowDetail] = useState({});
@@ -172,8 +172,7 @@ const TicketDetail = () => {
   const getShowInfo = async () => {
     try {
       const showInfo = await axios.get(
-        // `https://j6a102.p.ssafy.io/api.v1/show/${showDetail.showId}`,
-        `https://j6a102.p.ssafy.io/api/v1/show/12`,
+        `https://j6a102.p.ssafy.io/api/v1/show/${showDetail.showId}`,
       );
       console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
@@ -189,6 +188,7 @@ const TicketDetail = () => {
 
   return (
     <div>
+      <div>{showDetail.showId}</div>
       <TopCss>
         <TopLeftCss>
           <TopLeft
