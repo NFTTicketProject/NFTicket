@@ -27,9 +27,10 @@ const pages = [
   // "My Animal",
   // "Sale Animal",
   "Guide",
-  "Redux1",
-  "Redux2",
+  // "Redux1",
+  // "Redux2",
   "Ticket-Detail",
+  "Detail-Handover",
   "Barcode",
   "Purchase",
 ];
@@ -37,8 +38,8 @@ const settings = ["MyPage", "Account", "Dashboard", "Logout"];
 
 const Logo = styled.img`
   width: 107px;
-  height: 30px;
   margin-top: 5px;
+  background-color: #f5f5f5;
 `;
 
 const ResponsiveAppBar = () => {
