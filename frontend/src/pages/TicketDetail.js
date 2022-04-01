@@ -188,8 +188,15 @@ const TicketDetail = () => {
 
   return (
     <div>
-      <div>{showDetail.showId}</div>
+      <div>{showDetailBack.age_limit}</div>
+      <div>{showDetailBack.category_name}</div>
+      <div>{showDetailBack.default_ticket_image_uri}</div>
+      <div>{showDetailBack.description}</div>
+      <div>{showDetailBack.name}</div>
       <div>{showDetailBack.poster_uri}</div>
+      <div>{showDetailBack.running_time}</div>
+      <div>{showDetailBack.show_id}</div>
+      <div>{showDetailBack.video_uri}</div>
       <TopCss>
         <TopLeftCss>
           <TopLeft

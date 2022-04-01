@@ -53,7 +53,7 @@ const ButtonBoxCss = styled.div`
   margin-top: 10px;
 `;
 
-const TopRight = () => {
+const TopRight = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [time, setTime] = React.useState();
 
@@ -103,7 +103,7 @@ const TopRight = () => {
 
         <ColorHr></ColorHr>
 
-        <SmallTitleCss>회차</SmallTitleCss>
+        <SmallTitleCss>좌석</SmallTitleCss>
         <ToggleButtonCss>
           <ToggleButtonGroup value={time} exclusive onChange={handleTime}>
             {showTimes.map((showTime, index) => (
