@@ -17,7 +17,7 @@ app.use(bodyparser.json());
 
 // Static file Configuration
 app.use(express.static(__dirname + '/public'))
-app.use(morgan('[Controller] :method :url ::: :url HTTP/:http-version :status :res[content-length] - :response-time ms - :remote-addr', { stream }));
+app.use(morgan('[Router] :method :url ::: :url HTTP/:http-version :status :res[content-length] - :response-time ms - :remote-addr', { stream }));
 
 // Set CORS
 // let corsOptions = {
