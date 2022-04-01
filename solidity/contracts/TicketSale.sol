@@ -223,7 +223,7 @@ contract TicketSale is Ownable, IERC721Receiver {
     }
 
     modifier ActiveSale() {
-        require(_startedAt > block.timestamp, "This sale is not started yet");
+        require(_startedAt < block.timestamp, "This sale is not started yet");
         require(_endedAt > block.timestamp, "This sale is already ended");
         require(!_isCancelled);
         require(!_isEnded);
