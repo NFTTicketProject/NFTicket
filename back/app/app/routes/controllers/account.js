@@ -1,7 +1,9 @@
 const profile = require("../../services/profile")
 const text_generater = require('../../services/text_generater')
 const auth = require('../../services/auth')
+const { logger } = require('../../utils/winston')
 const express = require('express')
+const web3 = require('web3')
 const router = express.Router()
 
 /**
@@ -49,23 +51,42 @@ const router = express.Router()
  *                   type: string
  *                   example: 'galleryS'
  */
-router.post('/:walletId', async (req, res) => {
-    let result = await profile.getProfile(req.params.walletId)
+router.post('/:wallet_address', async (req, res) => {
+    let status_code = 500;
+    let result;
 
-    if (result)
-        res.send(result)
-    else {
-        const newInfo = {
-            wallet_id: req.params.walletId,
-            nickname: await text_generater.getRandomNickname(),
-            description: '티켓 공연 좋아합니다',
-            image_uri: 'none',
-            gallery: 'galleryS',
+    try {
+        if (!web3.utils.isAddress(req.params.wallet_address))
+        {
+            status_code = 400
+            result = {message: "Invalid address"}
         }
 
-        await profile.createProfile(newInfo)
-        result = await profile.getProfile(req.params.walletId)
-
+        result = await profile.getProfile(req.params.wallet_address)
+        if (result)
+        {
+            status_code = 200
+        }
+        else
+        {
+            const newInfo = {
+                wallet_id: req.params.wallet_address,
+                nickname: await text_generater.getRandomNickname(),
+                description: '티켓 공연 좋아합니다',
+                image_uri: 'none',
+                gallery: 'galleryS',
+            }
+    
+            await profile.createProfile(newInfo)
+            result = await profile.getProfile(req.params.wallet_address)
+    
+            status_code = 201
+        }
+    } catch (e) {
+        logger.error('[Controller] /:wallet_address ::: ' + e);
+    } finally {
+        logger.info('[Controller] /:wallet_address ::: ' + JSON.stringify(result));
+        res.status(status_code)
         res.send(result)
     }
 })
