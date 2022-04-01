@@ -18,12 +18,12 @@ const MiddleRightCss = styled.div`
   height: 100px;
 `;
 
-const Middle = () => {
+const Middle = (props) => {
   return (
     <div>
       <ContainMiddle>
         <MiddleLeftCss>
-          <MiddleLeft></MiddleLeft>
+          <MiddleLeft description={props.description}></MiddleLeft>
         </MiddleLeftCss>
 
         <MiddleRightCss>
