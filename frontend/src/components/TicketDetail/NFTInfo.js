@@ -1,5 +1,4 @@
 import React from "react";
-
 import styled from "styled-components";
 
 import { makeStyles } from "@mui/styles";
@@ -28,6 +27,12 @@ const useStyles = makeStyles({
   },
 });
 
+const NftInfoTitle = styled.h3`
+  display: inline-block;
+  vertical-align: middle;
+  margin: 30px;
+`;
+
 // 테이블에 넣을 데이터
 function createData(owner, contractAddress, tokenID) {
   return { owner, contractAddress, tokenID };
@@ -38,12 +43,6 @@ const rows = [
 
 const NFTInfo = () => {
   const classes = useStyles();
-
-  const NftInfoTitle = styled.h3`
-    display: inline-block;
-    vertical-align: middle;
-    margin: 30px;
-  `;
 
   return (
     <div>
