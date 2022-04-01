@@ -50,7 +50,7 @@ const router = express.Router()
  *                   example: 'galleryS'
  */
 router.post('/:walletId', async (req, res) => {
-    const result = await profile.getProfile(req.params.walletId)
+    let result = await profile.getProfile(req.params.walletId)
 
     if (result)
         res.send(result)
@@ -64,8 +64,9 @@ router.post('/:walletId', async (req, res) => {
         }
 
         await profile.createProfile(newInfo)
+        result = await profile.getProfile(req.params.walletId)
 
-        res.send(await profile.getProfile(req.params.walletId))
+        res.send(result)
     }
 })
 
@@ -141,7 +142,7 @@ router.patch('/edit/:walletId', async (req, res) => {
     const status = await profile.setProfile(newInfo)
 
     res.status(status)
-    res.send()
+    res.send({message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -206,7 +207,7 @@ router.patch('/edit/nickname/:walletId', async (req, res) => {
     const status = await profile.setNickname(newInfo)
 
     res.status(status)
-    res.send()
+    res.send({message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -271,7 +272,7 @@ router.patch('/edit/description/:walletId', async (req, res) => {
     const status = await profile.setDescription(newInfo)
 
     res.status(status)
-    res.send()
+    res.send({message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -336,7 +337,7 @@ router.patch('/edit/imageuri/:walletId', async (req, res) => {
     const status = await profile.setImageURI(newInfo)
 
     res.status(status)
-    res.send()
+    res.send({message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -385,6 +386,108 @@ router.patch('/edit/imageuri/:walletId', async (req, res) => {
  *         description: "사용자 없음 | 서버 오류"
  */
 router.patch('/edit/gallery/:walletId', async (req, res) => {
+    const newInfo = {
+        wallet_id: req.params.walletId,
+        gallery: req.body.info.gallery,
+    }
+
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
+
+    if (!validation.success) {
+        res.status(500)
+        res.send({message : validation.message})
+        return;
+    }
+
+    const status = await profile.setGallery(newInfo)
+
+    res.status(status)
+    res.send({message: "This API will be deprecated. Find out more at our swagger docs."})
+})
+
+router.patch('/:walletId', async (req, res) => {
+    const newInfo = {
+        wallet_id: req.params.walletId,
+        nickname: req.body.info.nickname,
+        description: req.body.info.description,
+        image_uri: req.body.info.image_uri,
+    }
+
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
+
+    if (!validation.success) {
+        res.status(500)
+        res.send({message : validation.message})
+        return;
+    }
+
+    const status = await profile.setProfile(newInfo)
+
+    res.status(status)
+    res.send()
+})
+
+router.patch('/:walletId/nickname', async (req, res) => {
+    const newInfo = {
+        wallet_id: req.params.walletId,
+        nickname: req.body.info.nickname.slice(0, 10),
+    }
+
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
+
+    if (!validation.success) {
+        res.status(500)
+        res.send({message : validation.message})
+        return;
+    }
+
+    const status = await profile.setNickname(newInfo)
+
+    res.status(status)
+    res.send()
+})
+
+router.patch('/:walletId/description', async (req, res) => {
+    const newInfo = {
+        wallet_id: req.params.walletId,
+        description: req.body.info.description,
+    }
+
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
+
+    if (!validation.success) {
+        res.status(500)
+        res.send({message : validation.message})
+        return;
+    }
+
+    const status = await profile.setDescription(newInfo)
+
+    res.status(status)
+    res.send()
+})
+
+router.patch('/:walletId/image-uri', async (req, res) => {
+    const newInfo = {
+        wallet_id: req.params.walletId,
+        image_uri: req.body.info.image_uri,
+    }
+
+    const validation = await auth.ownerCheck(req.body, req.params.walletId)
+
+    if (!validation.success) {
+        res.status(500)
+        res.send({message : validation.message})
+        return;
+    }
+
+    const status = await profile.setImageURI(newInfo)
+
+    res.status(status)
+    res.send()
+})
+
+router.patch('/:walletId/gallery', async (req, res) => {
     const newInfo = {
         wallet_id: req.params.walletId,
         gallery: req.body.info.gallery,

@@ -61,7 +61,7 @@ router.get('/nickname/:walletId', async (req, res, err) => {
     if (!result)
         res.status(404)
 
-    res.json(result)
+    res.json({...result, message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -92,7 +92,7 @@ router.get('/createdat/:walletId', async (req, res, err) => {
     if (!result)
         res.status(404)
 
-    res.json(result)
+    res.json({...result, message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -123,7 +123,7 @@ router.get('/description/:walletId', async (req, res, err) => {
     if (!result)
         res.status(404)
 
-    res.json(result)
+    res.json({...result, message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -154,7 +154,7 @@ router.get('/imageuri/:walletId', async (req, res, err) => {
     if (!result)
         res.status(404)
 
-    res.json(result)
+    res.json({...result, message: "This API will be deprecated. Find out more at our swagger docs."})
 })
 
 /**
@@ -186,6 +186,62 @@ router.get('/imageuri/:walletId', async (req, res, err) => {
  */
 // 사용자 갤러리 사이즈 조회
 router.get('/gallery/:walletId', async (req, res, err) => {
+    // walletID 와 일치하는 갤러리 사이즈 반환
+    const result = await profile.getGallery(req.params.walletId)
+
+    if (!result)
+        res.status(404)
+
+    res.json({...result, message: "This API will be deprecated. Find out more at our swagger docs."})
+})
+
+
+// 닉네임 조회
+router.get('/:walletId/nickname', async (req, res, err) => {
+    // walletID 와 일치하는 닉네임 반환
+    const result = await profile.getNickname(req.params.walletId)
+
+    if (!result)
+        res.status(404)
+
+    res.json(result)
+})
+
+// 자기소개 조회
+router.get('/:walletId/description', async (req, res, err) => {
+    // walletID 와 일치하는 자기소개 반환
+    const result = await profile.getDescription(req.params.walletId)
+
+    if (!result)
+        res.status(404)
+
+    res.json(result)
+})
+
+// 사용자 이미지 조회
+router.get('/:walletId/image-uri', async (req, res, err) => {
+    // walletID 와 일치하는 자기소개 반환
+    const result = await profile.getImageURI(req.params.walletId)
+
+    if (!result)
+        res.status(404)
+
+    res.json(result)
+})
+
+// 가입일 조회
+router.get('/:walletId/created-at', async (req, res, err) => {
+    // walletID 와 일치하는 가입일 반환
+    const result = await profile.getCreatedAt(req.params.walletId)
+
+    if (!result)
+        res.status(404)
+
+    res.json(result)
+})
+
+// 사용자 갤러리 사이즈 조회
+router.get('/:walletId/gallery', async (req, res, err) => {
     // walletID 와 일치하는 갤러리 사이즈 반환
     const result = await profile.getGallery(req.params.walletId)
 
