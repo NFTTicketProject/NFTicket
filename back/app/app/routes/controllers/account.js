@@ -77,15 +77,13 @@ router.post('/:wallet_address', async (req, res) => {
                 gallery: 'galleryS',
             }
     
-            await profile.createProfile(newInfo)
-            result = await profile.getProfile(req.params.wallet_address)
-    
+            result = await profile.createProfile(newInfo)
             status_code = 201
         }
     } catch (e) {
-        logger.error('[Controller] /:wallet_address ::: ' + e);
+        logger.error('[Controller] POST /:wallet_address ::: ' + e);
     } finally {
-        logger.info('[Controller] /:wallet_address ::: ' + JSON.stringify(result));
+        logger.info('[Controller] POST /:wallet_address ::: ' + JSON.stringify(result));
         res.status(status_code)
         res.send(result)
     }
