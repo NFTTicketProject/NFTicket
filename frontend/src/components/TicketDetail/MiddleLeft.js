@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import DetailDescription from "./DetailDescription";
-
 const NavList = styled.div`
   display: flex;
   justify-content: center;
@@ -24,7 +22,16 @@ const NavListItemSelected = styled.div`
   font-weight: bold;
 `;
 
-const MiddleLeft = () => {
+const TitleText = styled.h2`
+  margin-left: 20px;
+`;
+
+const DescriptionDiv = styled.div`
+  margin-left: 20px;
+  margin-bottom: 20px;
+`;
+
+const MiddleLeft = (props) => {
   const [pageNum, setPageNum] = useState(1);
 
   const handlePageNum = (page) => {
@@ -82,7 +89,12 @@ const MiddleLeft = () => {
         )}
       </NavList>
 
-      {pageNum === 1 && <DetailDescription></DetailDescription>}
+      {pageNum === 1 && (
+        <div>
+          <TitleText>상세 정보</TitleText>
+          <DescriptionDiv>{props.description}</DescriptionDiv>
+        </div>
+      )}
       {pageNum === 2 && <h2>캐스팅 정보</h2>}
       {pageNum === 3 && <h2>공연장 정보</h2>}
       {pageNum === 4 && <h2>관람 후기</h2>}
