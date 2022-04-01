@@ -22,6 +22,7 @@ const pages = [
   "Schedule Manager",
   "Toast UI",
   "Community",
+  "Market",
   // "Mint",
   // "My Animal",
   // "Sale Animal",

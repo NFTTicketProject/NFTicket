@@ -5,8 +5,8 @@ import DatepickerComponent from "../components/DatepickerComponent";
 import InputEditor from "../components/InputEditor";
 import InputList from "../components/InputList";
 import PosterImage from "../components/PosterImage";
-// import { showScheduleManagerContract } from "../utils/web3Config";
-import { showScheduleManagerContract } from "../utils/web3";
+import { showScheduleManagerContract } from "../utils/web3Config";
+// import { showScheduleManagerContract } from "../utils/web3";
 import axios from "axios";
 
 function ScheduleManager() {
@@ -33,8 +33,8 @@ function ScheduleManager() {
     running_time: 0,
     age_limit: 0,
     poster_uri: "",
-    video_uri: "http://video...",
-    default_ticket_image_uri: "http://image...",
+    video_uri: "none",
+    default_ticket_image_uri: "none",
   });
   const handleApiChange = (e) => {
     setApiData({ ...apiData, [e.target.name]: e.target.value });
@@ -112,7 +112,7 @@ function ScheduleManager() {
       if (response.status) {
         // console.log("helo");
         // handleSubmit();
-        handleApi();
+        // handleApi();
         navigate("/Detail");
       }
     } catch (err) {
@@ -135,6 +135,7 @@ function ScheduleManager() {
       })
       .then((res) => {
         console.log(res);
+        setDetailInfo({ ...detailInfo, showId: parseInt(res.data.show_id) });
         // setApiData({
         //   category_name: "",
         //   name: "",
@@ -163,8 +164,70 @@ function ScheduleManager() {
     <>
       <h1>Schedule Manager</h1>
       <div>
-        <h2>Mint</h2>
+        <h2>API</h2>
         <div>
+          카테고리
+          <input
+            type="text"
+            name="category_name"
+            value={apiData.category_name}
+            onChange={handleApiChange}
+          />
+        </div>
+        <div>
+          공연명
+          <input type="text" name="name" value={apiData.name} onChange={handleApiChange} />
+        </div>
+        <div>
+          공연설명
+          <input
+            type="text"
+            name="description"
+            value={apiData.description}
+            onChange={handleApiChange}
+          />
+        </div>
+        <div>
+          공연시간:
+          <input
+            type="number"
+            name="running_time"
+            value={apiData.running_time}
+            onChange={handleApiChange}
+          />
+        </div>
+        <div>
+          관람연령:
+          <input
+            type="number"
+            name="age_limit"
+            value={apiData.age_limit}
+            onChange={handleApiChange}
+          />
+        </div>
+        <div>
+          포스터:
+          <PosterImage apiData={apiData} setApiData={setApiData} />
+          {/* <input type="text" name="poster_uri" value={apiData.poster_uri} onChange={handleApi} /> */}
+        </div>
+        {/* <div>
+          비디오:
+          <input type="text" name="video_uri" value={apiData.video_uri} onChange={handleApi} />
+        </div>
+        <div>
+          기본 티켓 이미지:
+          <input
+            type="text"
+            name="default_ticket_image_uri"
+            value={apiData.default_ticket_image_uri}
+            onChange={handleApi}
+          />
+        </div> */}
+        <button onClick={handleApi}>제출</button>
+      </div>
+      <div>
+        <h2>Mint</h2>
+        {/* <div>
           공연 이름:
           <input
             name="showId"
@@ -173,7 +236,7 @@ function ScheduleManager() {
             onChange={handleInfoChange}
             placeholder="showId"
           />
-        </div>
+        </div> */}
         <div>
           공연 장소:
           <input
@@ -233,55 +296,7 @@ function ScheduleManager() {
         </div>
       </div>
       <div>
-        <h2>API</h2>
-        <div>
-          카테고리
-          <input
-            type="text"
-            name="category_name"
-            value={apiData.category_name}
-            onChange={handleApiChange}
-          />
-        </div>
-        <div>
-          공연명
-          <input type="text" name="name" value={apiData.name} onChange={handleApiChange} />
-        </div>
-        <div>
-          공연설명
-          <input
-            type="text"
-            name="description"
-            value={apiData.description}
-            onChange={handleApiChange}
-          />
-        </div>
-        <div>
-          공연시간:
-          <input
-            type="number"
-            name="running_time"
-            value={apiData.running_time}
-            onChange={handleApiChange}
-          />
-        </div>
-        <div>
-          관람연령:
-          <input
-            type="number"
-            name="age_limit"
-            value={apiData.age_limit}
-            onChange={handleApiChange}
-          />
-        </div>
-        <div>
-          포스터:
-          <PosterImage apiData={apiData} setApiData={setApiData} />
-        </div>
-        <button onClick={handleApi}>제출</button>
-        <div>
-          <button onClick={handleMint}>민트</button>
-        </div>
+        <button onClick={handleMint}>민트</button>
       </div>
     </>
   );

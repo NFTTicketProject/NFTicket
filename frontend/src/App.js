@@ -22,6 +22,7 @@ import MyPage from "./pages/MyPage";
 import Settings from "./components/Settings";
 import ScheduleManager from "./pages/ScheduleManager";
 import Purchase from "./pages/Purchase";
+import Market from "./pages/Market";
 import ShowDetail from "./pages/ShowDetail";
 
 function App() {
