@@ -102,7 +102,7 @@ router.get("/:staff_id/name", async (req, res, err) =>
 })
 
 // 스태프 사진 조회
-router.get("/:staff_id/photo", async (req, res, err) =>
+router.get("/:staff_id/image-uri", async (req, res, err) =>
 {
   let status_code = 500
   let result
@@ -174,7 +174,7 @@ router.patch("/:staff_id/name", async (req, res, err) =>
 })
 
 // 스태프 사진 변경
-router.patch("/:staff_id/photo", async (req, res, err) =>
+router.patch("/:staff_id/image-uri", async (req, res, err) =>
 {
   let status_code = 500
   let result

@@ -3,27 +3,30 @@ const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
 module.exports = {
-    createProfile : async (info) =>{
+    createProfile: async (info) =>
+    {
         const result = await prisma.Profile.create({
-            data : info,
+            data: info,
         })
 
-        logger.info(`[Service] ${service_name} ::: createProfile ::: ${JSON.stringify(info)}`)
+        logger.info(`[Service] ${ service_name } ::: createProfile ::: ${ JSON.stringify(info) }`)
 
         return result
     },
-    getProfile: async function (walletId) {
+    getProfile: async function (walletId)
+    {
         const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
             },
         })
 
-        logger.info(`[Service] ${service_name} ::: getProfile ::: ${JSON.stringify(result)}`)
+        logger.info(`[Service] ${ service_name } ::: getProfile ::: ${ JSON.stringify(result) }`)
 
         return result
     },
-    getNickname : async (walletId) =>{
+    getNickname: async (walletId) =>
+    {
         const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
@@ -33,11 +36,12 @@ module.exports = {
             },
         })
 
-        logger.info(`[Service] ${service_name} ::: getNickname ::: ${JSON.stringify(result)}`)
+        logger.info(`[Service] ${ service_name } ::: getNickname ::: ${ JSON.stringify(result) }`)
 
         return result
     },
-    getCreatedAt : async (walletId) =>{
+    getCreatedAt: async (walletId) =>
+    {
         const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
@@ -47,11 +51,12 @@ module.exports = {
             },
         })
 
-        logger.info(`[Service] ${service_name} ::: getCreatedAt ::: ${JSON.stringify(result)}`)
+        logger.info(`[Service] ${ service_name } ::: getCreatedAt ::: ${ JSON.stringify(result) }`)
 
         return result
     },
-    getDescription : async (walletId) =>{
+    getDescription: async (walletId) =>
+    {
         const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
@@ -61,11 +66,12 @@ module.exports = {
             },
         })
 
-        logger.info(`[Service] ${service_name} ::: getDescription ::: ${JSON.stringify(result)}`)
+        logger.info(`[Service] ${ service_name } ::: getDescription ::: ${ JSON.stringify(result) }`)
 
         return result
     },
-    getImageURI : async (walletId) =>{
+    getImageURI: async (walletId) =>
+    {
         const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
@@ -75,11 +81,12 @@ module.exports = {
             },
         })
 
-        logger.info(`[Service] ${service_name} ::: getImageURI ::: ${JSON.stringify(result)}`)
+        logger.info(`[Service] ${ service_name } ::: getImageURI ::: ${ JSON.stringify(result) }`)
 
         return result
     },
-    getGallery : async (walletId) =>{
+    getGallery: async (walletId) =>
+    {
         const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
@@ -89,126 +96,144 @@ module.exports = {
             },
         })
 
-        logger.info(`[Service] ${service_name} ::: getImageURI ::: ${JSON.stringify(result)}`)
+        logger.info(`[Service] ${ service_name } ::: getImageURI ::: ${ JSON.stringify(result) }`)
 
         return result
     },
-    getRandomNickname : async () => {
-        try {
+    getRandomNickname: async () =>
+    {
+        try
+        {
             const adjective = await prisma.$queryRaw`SELECT adjective FROM RandomAdjective order by rand() limit 1`
             const noun = await prisma.$queryRaw`SELECT noun FROM RandomNoun order by rand() limit 1`
 
-            logger.error('[Service] text_generater ::: getRandomNickname ::: ' + `${adjective[0].adjective} ${noun[0].noun}`)
+            logger.error(`[Service] ${ service_name } ::: getRandomNickname ::: ${ adjective[ 0 ].adjective } ${ noun[ 0 ].noun }`)
 
-            return `${adjective[0].adjective} ${noun[0].noun}`
-        }catch (e) {
-            logger.error('[Service] text_generater ::: getRandomNickname ::: ' + e)
+            return `${ adjective[ 0 ].adjective } ${ noun[ 0 ].noun }`
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: getRandomNickname ::: ${ e }`)
 
             return '닉네임생성실패'
         }
     },
-    setProfile : async (info) =>{
-        try {
-            const params = ['nickname', 'description', 'image_uri', 'gallery']
+    setProfile: async (info) =>
+    {
+        try
+        {
+            const params = [ 'nickname', 'description', 'image_uri', 'gallery' ]
             let data = {}
 
-            for (var param of params)
+            for (let param of params)
             {
-                if (info[param]) data[param] = info[param]
+                if (info[ param ]) data[ param ] = info[ param ]
             }
 
             await prisma.Profile.update({
                 where: {
-                    wallet_id: info['wallet_id'],
+                    wallet_id: info[ 'wallet_id' ],
                 },
                 data
             })
 
-            logger.info(`[Service] ${service_name} ::: setProfile ::: ${JSON.stringify(info)}`)
+            logger.info(`[Service] ${ service_name } ::: setProfile ::: ${ JSON.stringify(info) }`)
 
             return 200
-        } catch (e) {
-            logger.error(`[Service] ${service_name} ::: setProfile ::: ${e}`)
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: setProfile ::: ${ e }`)
 
             return 500
         }
     },
-    setNickname : async (info) =>{
-        try {
+    setNickname: async (info) =>
+    {
+        try
+        {
             await prisma.Profile.update({
                 where: {
-                    wallet_id: info['wallet_id'],
+                    wallet_id: info[ 'wallet_id' ],
                 },
                 data: {
-                    nickname: info['nickname'],
+                    nickname: info[ 'nickname' ],
                 },
             })
 
-            logger.info(`[Service] ${service_name} ::: setNickname ::: ${JSON.stringify(info)}`)
+            logger.info(`[Service] ${ service_name } ::: setNickname ::: ${ JSON.stringify(info) }`)
 
             return 200
-        } catch (e) {
-            logger.error(`[Service] ${service_name} ::: setNickname ::: ${e}`)
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: setNickname ::: ${ e }`)
 
             return 500
         }
     },
-    setDescription : async (info) =>{
-        try {
+    setDescription: async (info) =>
+    {
+        try
+        {
             await prisma.Profile.update({
                 where: {
-                    wallet_id: info['wallet_id'],
+                    wallet_id: info[ 'wallet_id' ],
                 },
                 data: {
-                    description: info['description'],
+                    description: info[ 'description' ],
                 },
             })
 
-            logger.info(`[Service] ${service_name} ::: setDescription ::: ${JSON.stringify(info)}`)
+            logger.info(`[Service] ${ service_name } ::: setDescription ::: ${ JSON.stringify(info) }`)
 
             return 200
-        } catch (e) {
-            logger.error(`[Service] ${service_name} ::: setDescription ::: ${e}`)
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: setDescription ::: ${ e }`)
 
             return 500
         }
     },
-    setImageURI : async (info) =>{
-        try {
+    setImageURI: async (info) =>
+    {
+        try
+        {
             await prisma.Profile.update({
                 where: {
-                    wallet_id: info['wallet_id'],
+                    wallet_id: info[ 'wallet_id' ],
                 },
                 data: {
-                    image_uri: info['image_uri'],
+                    image_uri: info[ 'image_uri' ],
                 },
             })
 
-            logger.info(`[Service] ${service_name} ::: setImageURI ::: ${JSON.stringify(info)}`)
+            logger.info(`[Service] ${ service_name } ::: setImageURI ::: ${ JSON.stringify(info) }`)
 
             return 200
-        } catch (e) {
-            logger.error(`[Service] ${service_name} ::: setImageURI ::: ${e}`)
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: setImageURI ::: ${ e }`)
 
             return 500
         }
     },
-    setGallery : async (info) =>{
-        try {
+    setGallery: async (info) =>
+    {
+        try
+        {
             await prisma.Profile.update({
                 where: {
-                    wallet_id: info['wallet_id'],
+                    wallet_id: info[ 'wallet_id' ],
                 },
                 data: {
-                    gallery: info['gallery'],
+                    gallery: info[ 'gallery' ],
                 },
             })
 
-            logger.info(`[Service] ${service_name} ::: setGallery ::: ${JSON.stringify(info)}`)
+            logger.info(`[Service] ${ service_name } ::: setGallery ::: ${ JSON.stringify(info) }`)
 
             return 200
-        } catch (e) {
-            logger.error(`[Service] ${service_name} ::: setGallery ::: ${e}`)
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: setGallery ::: ${ e }`)
 
             return 500
         }

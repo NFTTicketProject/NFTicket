@@ -37,7 +37,6 @@ router.post("/:wallet_address", async (req, res) =>
 
       result = await profile.createProfile(newInfo)
       status_code = 201
-      return
     }
   } catch (e)
   {
