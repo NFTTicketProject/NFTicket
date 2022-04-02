@@ -724,11 +724,11 @@ router.put("/:show_id/show-schedule", async (req, res, err) =>
       return
     }
 
-    status_code = await show.addShowScheduleAddress(
+    result = await show.addShowScheduleAddress(
       req.params.show_id,
       req.body
     )
-    result = {}
+    status_code = 201
   } catch (e)
   {
     logger.error(
