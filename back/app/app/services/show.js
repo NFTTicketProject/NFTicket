@@ -21,19 +21,23 @@ module.exports = {
                 data,
             })
 
-            const staffs = info[ 'staff' ].split(',')
-            for (let i = 0; i < staffs.length; i++)
+            if (info[ 'staff' ])
             {
-                const { staff_id } = await staff.createStaff({
-                    name: staffs[ i ],
-                    image_uri: null
-                })
+                const staffs = info[ 'staff' ].split(',')
 
-                await role.createRole({
-                    occupation: "스태프",
-                    staff_id,
-                    show_id: result.show_id
-                })
+                for (let i = 0; i < staffs.length; i++)
+                {
+                    const { staff_id } = await staff.createStaff({
+                        name: staffs[ i ],
+                        image_uri: null
+                    })
+
+                    await role.createRole({
+                        occupation: "스태프",
+                        staff_id,
+                        show_id: result.show_id
+                    })
+                }
             }
 
             logger.info(`[Service] ${ service_name } ::: createShow ::: ${ JSON.stringify(info) }`)
