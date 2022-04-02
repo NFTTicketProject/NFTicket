@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "127.0.0.1:3000",
-  "basePath": "/",
+  "host": "j6a102.p.ssafy.io",
+  "basePath": "/api/v1",
   "tags": [
     {
       "name": "Account",
@@ -66,7 +66,7 @@
     }
   ],
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/account/{wallet_address}": {
