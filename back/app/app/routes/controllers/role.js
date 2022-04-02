@@ -12,6 +12,13 @@ router.post("/", async (req, res, err) =>
 
   try
   {
+    if (Object.keys(req.body).length == 0)
+    {
+      status_code = 400
+      result = { message: "Invaild request" }
+      return
+    }
+
     result = await role.createRole(req.body)
     if (!result)
     {

@@ -20,8 +20,15 @@ router.post("/", async (req, res, err) =>
       return
     }
 
-    status_code = await staff.createStaff(req.body)
-    result = {}
+    result = await staff.createStaff(req.body)
+    if (!result)
+    {
+      status_code = 400
+      result = { message: "Invalid request" }
+      return
+    }
+
+    status_code = 201
   } catch (e)
   {
     logger.error(
