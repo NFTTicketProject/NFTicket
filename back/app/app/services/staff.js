@@ -1,13 +1,16 @@
+const service_name = "Staff"
 const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
 module.exports = {
     createStaff : async (info) =>{
-        await prisma.Staff.create({
+        const result = await prisma.Staff.create({
             data: info,
         })
 
         logger.info('[Service] staff ::: createStaff ::: ' + JSON.stringify(info))
+        
+        return result;
     },
     setStaff : async (info) =>{
         try {

@@ -1,5 +1,8 @@
+const service_name = "Show"
 const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
+const role = require('../services/role')
+const staff = require('../services/staff')
 
 module.exports = {
     createShow : async (info) =>{
@@ -17,6 +20,21 @@ module.exports = {
             const result = await prisma.Show.create({
                 data,
             })
+
+            const staffs = info['staff'].split(',')
+            for (let i = 0; i < staffs.length; i++)
+            {
+                const { staff_id } = await staff.createStaff({
+                    name: staffs[i],
+                    image_uri: null
+                })
+                
+                await role.createRole({
+                    occupation: "스태프",
+                    staff_id,
+                    show_id: result.show_id
+                })
+            }
 
             return result
         }
@@ -377,6 +395,26 @@ module.exports = {
         ret = result.reduce((prev, cur) => { prev.push(info['verbose'] ? cur : cur['address']); return prev; }, []);
 
         logger.info('[Service] show ::: getShowScheduleAddress ::: ' + JSON.stringify(ret))
+
+        return ret
+    },
+    getRole : async (showId) =>{
+        let ret
+
+        const result = await prisma.Role.findMany({
+            where: { show_id: Number(showId) },
+            include: {
+                Staff: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        })
+        
+        ret = result
+
+        logger.info('[Service] show ::: getRole ::: ' + JSON.stringify(ret))
 
         return ret
     },

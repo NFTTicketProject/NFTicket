@@ -1,3 +1,4 @@
+const service_name = 'Profile'
 const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
@@ -7,7 +8,7 @@ module.exports = {
             data : info,
         })
 
-        logger.info('[Service] profile ::: createProfile ::: ' + JSON.stringify(info))
+        logger.info(`[Service] ${service_name} ::: createProfile ::: ${JSON.stringify(info)}`)
 
         return result
     },
@@ -18,12 +19,12 @@ module.exports = {
             },
         })
 
-        logger.info('[Service] profile ::: getProfile ::: ' + JSON.stringify(result))
+        logger.info(`[Service] ${service_name} ::: getProfile ::: ${JSON.stringify(result)}`)
 
         return result
     },
     getNickname : async (walletId) =>{
-        const result = await prisma.Profile.findFirst({
+        const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
             },
@@ -32,12 +33,12 @@ module.exports = {
             },
         })
 
-        logger.info('[Service] profile ::: getNickname ::: ' + JSON.stringify(result))
+        logger.info(`[Service] ${service_name} ::: getNickname ::: ${JSON.stringify(result)}`)
 
         return result
     },
     getCreatedAt : async (walletId) =>{
-        const result = await prisma.Profile.findFirst({
+        const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
             },
@@ -46,12 +47,12 @@ module.exports = {
             },
         })
 
-        logger.info('[Service] profile ::: getCreatedAt ::: ' + JSON.stringify(result))
+        logger.info(`[Service] ${service_name} ::: getCreatedAt ::: ${JSON.stringify(result)}`)
 
         return result
     },
     getDescription : async (walletId) =>{
-        const result = await prisma.Profile.findFirst({
+        const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
             },
@@ -60,12 +61,12 @@ module.exports = {
             },
         })
 
-        logger.info('[Service] profile ::: getDescription ::: ' + JSON.stringify(result))
+        logger.info(`[Service] ${service_name} ::: getDescription ::: ${JSON.stringify(result)}`)
 
         return result
     },
     getImageURI : async (walletId) =>{
-        const result = await prisma.Profile.findFirst({
+        const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
             },
@@ -74,12 +75,12 @@ module.exports = {
             },
         })
 
-        logger.info('[Service] profile ::: getImageURI ::: ' + JSON.stringify(result))
+        logger.info(`[Service] ${service_name} ::: getImageURI ::: ${JSON.stringify(result)}`)
 
         return result
     },
     getGallery : async (walletId) =>{
-        const result = await prisma.Profile.findFirst({
+        const result = await prisma.Profile.findUnique({
             where: {
                 wallet_id: walletId,
             },
@@ -88,7 +89,7 @@ module.exports = {
             },
         })
 
-        logger.info('[Service] profile ::: getImageURI ::: ' + JSON.stringify(result))
+        logger.info(`[Service] ${service_name} ::: getImageURI ::: ${JSON.stringify(result)}`)
 
         return result
     },
@@ -123,11 +124,11 @@ module.exports = {
                 data
             })
 
-            logger.error('[Service] profile ::: setProfile ::: ' + JSON.stringify(info))
+            logger.info(`[Service] ${service_name} ::: setProfile ::: ${JSON.stringify(info)}`)
 
             return 200
         } catch (e) {
-            logger.error('[Service] profile ::: setProfile ::: ' + e)
+            logger.error(`[Service] ${service_name} ::: setProfile ::: ${e}`)
 
             return 500
         }
@@ -143,11 +144,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] profile ::: setNickname ::: ' + JSON.stringify(info))
+            logger.info(`[Service] ${service_name} ::: setNickname ::: ${JSON.stringify(info)}`)
 
             return 200
         } catch (e) {
-            logger.error('[Service] profile ::: setNickname ::: ' + e)
+            logger.error(`[Service] ${service_name} ::: setNickname ::: ${e}`)
 
             return 500
         }
@@ -163,11 +164,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] profile ::: setDescription ::: ' + JSON.stringify(info))
+            logger.info(`[Service] ${service_name} ::: setDescription ::: ${JSON.stringify(info)}`)
 
             return 200
         } catch (e) {
-            logger.error('[Service] profile ::: setDescription ::: ' + e)
+            logger.error(`[Service] ${service_name} ::: setDescription ::: ${e}`)
 
             return 500
         }
@@ -183,11 +184,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] profile ::: setImageURI ::: ' + JSON.stringify(info))
+            logger.info(`[Service] ${service_name} ::: setImageURI ::: ${JSON.stringify(info)}`)
 
             return 200
         } catch (e) {
-            logger.error('[Service] profile ::: setImageURI ::: ' + e)
+            logger.error(`[Service] ${service_name} ::: setImageURI ::: ${e}`)
 
             return 500
         }
@@ -203,11 +204,11 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] profile ::: setGallery ::: ' + JSON.stringify(info))
+            logger.info(`[Service] ${service_name} ::: setGallery ::: ${JSON.stringify(info)}`)
 
             return 200
         } catch (e) {
-            logger.error('[Service] profile ::: setGallery ::: ' + e)
+            logger.error(`[Service] ${service_name} ::: setGallery ::: ${e}`)
 
             return 500
         }

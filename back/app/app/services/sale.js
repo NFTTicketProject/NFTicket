@@ -1,13 +1,25 @@
+const service_name = 'Sale'
 const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
 module.exports = {
     createSale : async (info) =>{
-        await prisma.Sale.create({
-            data: info,
+        const params = ['show_schedule_id', 'description', 'started_at', 'ended_at']
+        let data = {}
+
+        for (var param of params)
+        {
+            if (info[param]) data[param] = info[param]
+            else return
+        }
+
+        const result = await prisma.Sale.create({
+            data
         })
 
-        logger.info('[Service] sale ::: createSale ::: ' + JSON.stringify(info))
+        logger.info(`[Service] ${service_name} ::: createSale ::: ${JSON.stringify(info)}`)
+
+        return result
     },
     setSale : async (info) =>{
         try {
@@ -26,7 +38,7 @@ module.exports = {
                 data
             })
 
-            logger.error('[Service] sale ::: setSale ::: ' + JSON.stringify(info))
+            logger.info('[Service] sale ::: setSale ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
@@ -46,7 +58,7 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] sale ::: setShowScheduleId ::: ' + JSON.stringify(info))
+            logger.info('[Service] sale ::: setShowScheduleId ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
@@ -66,7 +78,7 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] sale ::: setDescription ::: ' + JSON.stringify(info))
+            logger.info('[Service] sale ::: setDescription ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
@@ -86,7 +98,7 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] sale ::: setStartedAt ::: ' + JSON.stringify(info))
+            logger.info('[Service] sale ::: setStartedAt ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
@@ -106,7 +118,7 @@ module.exports = {
                 },
             })
 
-            logger.error('[Service] sale ::: setEndedAt ::: ' + JSON.stringify(info))
+            logger.info('[Service] sale ::: setEndedAt ::: ' + JSON.stringify(info))
 
             return 200
         } catch (e) {
