@@ -1,3 +1,4 @@
+const controller_name = 'Staff';
 const staff = require("../../services/staff");
 const express = require("express");
 const router = express.Router();

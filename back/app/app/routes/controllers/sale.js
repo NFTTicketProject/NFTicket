@@ -1,3 +1,4 @@
+const controller_name = 'Sale';
 const sale = require("../../services/sale");
 const express = require("express");
 const router = express.Router();

@@ -1,3 +1,4 @@
+const controller_name = 'Account';
 const profile = require("../../services/profile")
 const auth = require('../../services/auth')
 const {logger} = require('../../utils/winston')
@@ -34,9 +35,9 @@ router.post('/:wallet_address', async (req, res) => {
             return
         }
     } catch (e) {
-        logger.error('[Controller] account ::: POST /:wallet_address ::: ' + e);
+        logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] account ::: POST /:wallet_address ::: ' + JSON.stringify(result));
+        logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -180,9 +181,9 @@ router.patch('/:wallet_address', async (req, res) => {
         status_code = await profile.setProfile(newInfo)
         result = {}
     } catch (e) {
-        logger.error('[Controller] account ::: PATCH /:wallet_address ::: ' + e);
+        logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] account ::: PATCH /:wallet_address ::: ' + JSON.stringify(result));
+        logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -222,9 +223,9 @@ router.patch('/:wallet_address/nickname', async (req, res) => {
         status_code = await profile.setNickname(newInfo)
         result = {}
     } catch (e) {
-        logger.error('[Controller] account ::: PATCH /:wallet_address/nickname ::: ' + e);
+        logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] account ::: PATCH /:wallet_address/nickname ::: ' + JSON.stringify(result));
+        logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -264,9 +265,9 @@ router.patch('/:wallet_address/description', async (req, res) => {
         status_code = await profile.setDescription(newInfo)
         result = {}
     } catch (e) {
-        logger.error('[Controller] account ::: PATCH /:wallet_address/description ::: ' + e);
+        logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] account ::: PATCH /:wallet_address/description ::: ' + JSON.stringify(result));
+        logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -306,9 +307,9 @@ router.patch('/:wallet_address/image-uri', async (req, res) => {
         status_code = await profile.setImageURI(newInfo)
         result = {}
     } catch (e) {
-        logger.error('[Controller] account ::: PATCH /:wallet_address/image-uri ::: ' + e);
+        logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] account ::: PATCH /:wallet_address/image-uri ::: ' + JSON.stringify(result));
+        logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -348,9 +349,9 @@ router.patch('/:wallet_address/gallery', async (req, res) => {
         status_code = await profile.setGallery(newInfo)
         result = {}
     } catch (e) {
-        logger.error('[Controller] account ::: PATCH /:wallet_address/gallery ::: ' + e);
+        logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] account ::: PATCH /:wallet_address/gallery ::: ' + JSON.stringify(result));
+        logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }

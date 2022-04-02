@@ -1,3 +1,4 @@
+const controller_name = 'Show';
 const show = require("../../services/show");
 const express = require("express");
 const router = express.Router();

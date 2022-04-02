@@ -1,3 +1,4 @@
+const controller_name = 'Profile';
 const profile = require("../../services/profile")
 const {logger} = require('../../utils/winston')
 const express = require('express')
@@ -19,9 +20,9 @@ router.get('/:wallet_address', async (req, res) => {
 
         status_code = 200
     } catch (e) {
-        logger.error('[Controller] profile ::: GET /:wallet_address ::: ' + e);
+      logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] profile ::: GET /:wallet_address ::: ' + JSON.stringify(result));
+      logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -99,9 +100,9 @@ router.get('/:wallet_address/nickname', async (req, res) => {
 
         status_code = 200
     } catch (e) {
-        logger.error('[Controller] profile ::: GET /:wallet_address/nickname ::: ' + e);
+      logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] profile ::: GET /:wallet_address/nickname ::: ' + JSON.stringify(result));
+      logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -122,9 +123,9 @@ router.get('/:wallet_address/description', async (req, res) => {
 
         status_code = 200
     } catch (e) {
-        logger.error('[Controller] profile ::: GET /:wallet_address/description ::: ' + e);
+      logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] profile ::: GET /:wallet_address/description ::: ' + JSON.stringify(result));
+      logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -145,9 +146,9 @@ router.get('/:wallet_address/image-uri', async (req, res) => {
 
         status_code = 200
     } catch (e) {
-        logger.error('[Controller] profile ::: GET /:wallet_address/image-uri ::: ' + e);
+      logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] profile ::: GET /:wallet_address/image-uri ::: ' + JSON.stringify(result));
+      logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -168,9 +169,9 @@ router.get('/:wallet_address/created-at', async (req, res) => {
 
         status_code = 200
     } catch (e) {
-        logger.error('[Controller] profile ::: GET /:wallet_address/created-at ::: ' + e);
+      logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] profile ::: GET /:wallet_address/created-at ::: ' + JSON.stringify(result));
+      logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
@@ -191,9 +192,9 @@ router.get('/:wallet_address/gallery', async (req, res) => {
 
         status_code = 200
     } catch (e) {
-        logger.error('[Controller] profile ::: GET /:wallet_address/gallery ::: ' + e);
+      logger.error(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)} ::: ${e}`);
     } finally {
-        logger.info('[Controller] profile ::: GET /:wallet_address/gallery ::: ' + JSON.stringify(result));
+      logger.info(`[Controller] ${controller_name} ::: ${req.method} ${req.path} ::: ${JSON.stringify(result)}`);
         res.status(status_code)
         res.json(result)
     }
