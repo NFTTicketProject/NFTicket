@@ -1,3 +1,4 @@
+const service_name = 'Role'
 const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 
@@ -16,7 +17,7 @@ module.exports = {
             data
         })
 
-        logger.info('[Service] role ::: createRole ::: ' + JSON.stringify(info))
+        logger.info(`[Service] ${service_name} ::: createRole ::: ${JSON.stringify(info)}`)
 
         return result
     },
@@ -40,11 +41,11 @@ module.exports = {
                 data
             })
 
-            logger.error('[Service] role ::: setRole ::: ' + JSON.stringify(info))
+            logger.info(`[Service] ${service_name} ::: setRole ::: ${JSON.stringify(info)}`)
 
             return 200
         } catch (e) {
-            logger.error('[Service] role ::: setRole ::: ' + e)
+            logger.error(`[Service] ${service_name} ::: setRole ::: ${e}`)
 
             return 500
         }
@@ -79,7 +80,7 @@ module.exports = {
             occupation: result["occupation"]
         }
 
-        logger.info('[Service] role ::: getRole ::: ' + JSON.stringify(ret))
+        logger.info(`[Service] ${service_name} ::: getRole ::: ${JSON.stringify(ret)}`)
 
         return ret
     }
