@@ -28,7 +28,6 @@ router.post("/", async (req, res, err) =>
     }
 
     status_code = 201
-    result = {}
   } catch (e)
   {
     logger.error(
