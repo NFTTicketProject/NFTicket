@@ -1209,6 +1209,44 @@
             "description": "서버 오류"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 정보 전체 반환",
+        "description": "",
+        "operationId": "getSale",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sale"
+              }
+            }
+          },
+          "500": {
+            "description": "티켓 판매 정보 없음 | 서버 오류"
+          }
+        }
       }
     },
     "/sale/{sale_id}": {
