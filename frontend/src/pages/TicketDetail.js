@@ -148,7 +148,7 @@ const TicketDetail = () => {
         endedAt,
       });
       const showInfo = await axios.get(
-        `https://j6a102.p.ssafy.io/api/v1/show/${showId}`,
+        `https://nfticket.plus/api/v1/show/${showId}`,
       );
       console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
@@ -161,7 +161,7 @@ const TicketDetail = () => {
   const getUserNickname = async () => {
     try {
       const response = await axios.get(
-        `https://j6a102.p.ssafy.io/api/v1/profile/nickname/${userData.account}`,
+        `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`,
       );
       console.log("data.nickname", response.data.nickname);
     } catch (err) {
@@ -173,7 +173,7 @@ const TicketDetail = () => {
   const getShowInfo = async () => {
     try {
       const showInfo = await axios.get(
-        `https://j6a102.p.ssafy.io/api/v1/show/${showDetail.showId}`,
+        `https://nfticket.plus/api/v1/v1/show/${showDetail.showId}`,
       );
       console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
@@ -216,7 +216,7 @@ const TicketDetail = () => {
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
-              <TopRight></TopRight>
+              <TopRight seatInfo={ticketDetail}></TopRight>
             </TopRightFixed>
           ) : (
             <TopRight></TopRight>
