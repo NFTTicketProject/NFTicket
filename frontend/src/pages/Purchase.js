@@ -6,7 +6,13 @@ import Seat from "../components/Purchase/Seat";
 import SeatInfo from "../components/Purchase/SeatInfo";
 
 // import { web3, showScheduleAbi, myTicketContract, IERC20ABI } from "../utils/web3";
-import { web3, showScheduleAbi, myTicketContract, IERC20ABI } from "../utils/web3Config";
+import {
+  web3,
+  showScheduleAbi,
+  myTicketContract,
+  IERC20ABI,
+  IERC20Contract,
+} from "../utils/web3Config";
 
 styled.div`
   display: flex;
@@ -17,10 +23,38 @@ const Purchase = () => {
   const [myTicket, SetMyTicket] = useState([]);
 
   // 이걸 사면 된다 (예시)
-  const scheduleAddress = "0xFB6C2b34EDDBF4adD5E9F3a98E1AF29a81AB7a80";
+  const scheduleAddress = "0x084bcbACCC96c8026D25609431ec867Eeb035f78";
   const showScheduleContract = new web3.eth.Contract(showScheduleAbi, scheduleAddress);
   const myAddresss = "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679";
   const SSAFYTokenAddr = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
+
+  //티켓 등록
+  const enrollTicket = async () => {
+    try {
+      const createMyTicket = await myTicketContract.methods
+        .create(
+          "https://gateway.pinata.cloud/ipfs/QmXMWiTGZRN2LBUWLqVgWimWFzsECXSjNM6TTwwpSnNYF5/1/1.json",
+          1,
+          0
+        )
+        .send({ from: myAddresss });
+      console.log(createMyTicket);
+      if (createMyTicket.status) {
+        // approve
+        const approval = await IERC20Contract.methods
+          .approve(scheduleAddress, 500)
+          .send({ from: myAddresss });
+        if (approval.status) {
+          const register = await showScheduleContract.methods
+            .registerTicket(0, 2, 1)
+            .send({ from: myAddresss });
+          console.log(register);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // 공연 발매 페이지에서 티켓 구매
   const registerTicket = async () => {
@@ -71,6 +105,9 @@ const Purchase = () => {
     <div style={{ justifyContent: "center" }}>
       <h1>Purchase 페이지</h1>
       <div>구매할 공연 : {scheduleAddress}</div>
+      <div>
+        <button onClick={enrollTicket}>등록 테스트</button>
+      </div>
       <Button variant="contained" onClick={registerTicket}>
         구매
       </Button>

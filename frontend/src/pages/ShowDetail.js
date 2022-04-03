@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import TradeTicket from "../components/TradeTicket";
 // import { web3, showScheduleAbi, myTicketContract } from "../utils/web3";
-import { web3, showScheduleAbi, myTicketContract } from "../utils/web3Config";
+import { web3, showScheduleAbi, myTicketContract, IERC20Contract } from "../utils/web3Config";
 
 function ShowDetail() {
+  const ticket = useRef(1);
   const navigate = useNavigate();
   const { showScheduleAddress } = useParams();
   const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
@@ -11,6 +13,16 @@ function ShowDetail() {
   const [showDetail, setShowDetail] = useState({});
   const [ticketDetail, setTicketDetail] = useState([]);
   const userData = JSON.parse(localStorage.getItem("userAccount"));
+  const showScheduleId = localStorage.getItem(`${showScheduleAddress}`);
+  const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });
+  const [register, setRegister] = useState({});
+
+  const handleTicket = (e) => {
+    setMyTicket({ ...myTicket, [e.target.name]: e.target.value });
+  };
+  const handleRegister = (e) => {
+    setRegister({ ...register, [e.target.name]: e.target.value });
+  };
 
   // contract 통해서 show detail 정보 가져오기
   const callShowDetail = async () => {
@@ -77,9 +89,76 @@ function ShowDetail() {
     }
   };
 
+  //ticketId
+  // const myTicketId = myTicketContract.methods.tokenOfOwnerByIndex(1, 2).call();
+
+  //티켓 등록
+  const enrollTicket = async () => {
+    // console.log(register);
+    try {
+      const createMyTicket = await myTicketContract.methods
+        // .create(
+        //   "https://gateway.pinata.cloud/ipfs/QmXMWiTGZRN2LBUWLqVgWimWFzsECXSjNM6TTwwpSnNYF5/1/1.json",
+        //   3,
+        //   0
+        // )
+        .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
+        .send({ from: userData.account });
+      // console.log(createMyTicket);
+      if (createMyTicket.status) {
+        // approve
+        const approval = await IERC20Contract.methods
+          .approve(showScheduleAddress, 500)
+          .send({ from: userData.account });
+        if (approval.status) {
+          alert(`티켓 발급 완료`);
+          // register
+          const registerTicket = await showScheduleContract.methods
+            // .registerTicket(0, 2, 1)
+            .registerTicket(
+              parseInt(myTicket.classId),
+              parseInt(register.seatIndex),
+              parseInt(ticket.current)
+            )
+            .send({ from: userData.account });
+          // console.log(registerTicket);
+          if (registerTicket.status) {
+            alert(`${ticket.current}번 티켓 등록 성공`);
+            ticket.current++;
+            navigate("/MyPage");
+          }
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // const onRegister = async () => {
+  //   try {
+  //     const registerTicket = await showScheduleContract.methods
+  //       // .registerTicket(0, 2, 1)
+  //       .registerTicket(
+  //         parseInt(myTicket.classId),
+  //         parseInt(register.seatIndex),
+  //         parseInt(register.ticketId)
+  //       )
+  //       .send({ from: userData.account });
+  //     // console.log(registerTicket);
+  //     if (registerTicket.status) {
+  //       alert(`${register.ticketId}번 티켓 등록 성공`);
+  //       navigate("/TicketSale");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
   useEffect(() => {
     callShowDetail();
   }, []);
+
+  // console.log(register);
 
   return (
     <div>
@@ -112,6 +191,56 @@ function ShowDetail() {
       <div>
         <button onClick={onWithdraw}>Withdraw</button>
       </div>
+      <hr />
+      <h2>티켓 발급</h2>
+      <div>
+        ticketURI:
+        <input type="text" name="ticketURI" value={myTicket.ticketURI} onChange={handleTicket} />
+      </div>
+      <div>
+        showScheduleId:
+        <input
+          type="text"
+          name="showScheduleId"
+          value={myTicket.showScheduleId}
+          onChange={handleTicket}
+          disabled={true}
+        />
+      </div>
+      <div>
+        classId:
+        <input
+          type="number"
+          name="classId"
+          value={myTicket.classId}
+          onChange={handleTicket}
+          // maxLength={ticketDetail.length}
+          min="0"
+          max={ticketDetail.length - 1}
+        />
+      </div>
+      {myTicket.classId && <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>}
+
+      {/* <div>{ticketDetail[myTicket.classId].ticketClassPrice}</div> */}
+
+      <hr />
+      <h2>티켓 등록</h2>
+      <div>
+        seatIndex:
+        <input type="text" name="seatIndex" value={register.seatIndex} onChange={handleRegister} />
+      </div>
+      <div>
+        <button onClick={enrollTicket}>Enroll Ticket</button>
+      </div>
+      <hr />
+
+      {showDetail.isResellAvailable ? (
+        <div>
+          <TradeTicket showScheduleAddress={showScheduleAddress} userData={userData} />
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
