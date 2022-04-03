@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ShowList({ contractSchedule }) {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ function ShowList({ contractSchedule }) {
           ) : (
             <>
               <div>showScheduleAddress = {it}</div>
+              {/* <Link to={`/Detail/${it}`}>정보</Link> */}
               <button
                 onClick={() => {
                   navigate(`/Detail/${it}`);

@@ -1,14 +1,35 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   web3,
   ticketSaleAbi,
   myTicketContract,
   IERC20Contract,
   ticketSaleManagerContract,
+  showScheduleManagerContract,
 } from "../utils/web3Config";
 
 function TicketSale() {
   const userData = JSON.parse(localStorage.getItem("userAccount"));
+  const { ticketId } = useParams();
+
+  useEffect(() => {
+    getTicketInfo();
+  }, []);
+
+  // 해당 티켓의 정보를 최대한 받아와보자
+  const getTicketInfo = async () => {
+    try {
+      const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
+      const showScheduleAddress = await showScheduleManagerContract.methods
+        .getShowSchedule(showScheduleId)
+        .call();
+
+      console.log("티켓주소", showScheduleAddress);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const getSale = async () => {
     try {
@@ -27,7 +48,7 @@ function TicketSale() {
 
   return (
     <div>
-      <h1>TicketSale</h1>
+      <h1>TicketSale {ticketId}</h1>
       <button onClick={getSale}>구매</button>
     </div>
   );
