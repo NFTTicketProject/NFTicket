@@ -19,6 +19,9 @@ import "./ShowScheduleManager.sol";
 
 contract TicketSaleManager is Ownable {
     using Counters for Counters.Counter;
+
+    event Withdrawal(address indexed to, uint256 amount);
+    event SaleCreated(uint256 indexed saleId, address saleAddr, uint256 ticketId);
     
     // 거래 생성 시 마다 1씩 증가하는 ID
     Counters.Counter private _saleIds;
@@ -86,6 +89,8 @@ contract TicketSaleManager is Ownable {
         _saleOwners[newTicketSaleId] = msg.sender;
         _saleIdsByWallet[msg.sender].push(newTicketSaleId);
         _saleCountOfTicket[ticketId].increment();
+
+        emit SaleCreated(newTicketSaleId, address(newTicketSale), ticketId);
     }
 
     /*
@@ -99,6 +104,7 @@ contract TicketSaleManager is Ownable {
     function withdrawRoyalty() public payable onlyOwner {
         uint256 contractBalance = IERC20(_currencyContractAddress).balanceOf(address(this));
         IERC20(_currencyContractAddress).transfer(owner(), contractBalance);
+        emit Withdrawal(owner(), contractBalance);
     }
 
     /*
