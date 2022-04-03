@@ -103,6 +103,23 @@ module.exports = {
             return 500
         }
     },
+    getAllStaff: async () =>
+    {
+        try
+        {
+            const result = await prisma.Staff.findMany({
+            })
+
+            logger.info(`[Service] ${ service_name } ::: getAllStaff ::: ${ JSON.stringify(result) }`)
+
+            return result
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: getAllStaff ::: ${ e }`)
+
+            return 500
+        }
+    },
     getStaff: async (staffId) =>
     {
         try
