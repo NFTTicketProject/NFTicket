@@ -293,9 +293,10 @@ module.exports = {
         try
         {
             let ret
-            let include
-
-            if (query[ 'include_address' ]) include = { Address: { select: { address: true } } }
+            let include = { 
+                Role: { select: { staff_id: true } },
+                Address: { select: { address: true } }
+            }
 
             const result = await prisma.Show.findUnique({
                 where: {
@@ -304,7 +305,18 @@ module.exports = {
                 include
             })
 
-            ret = query[ 'include_address' ] ? [ result ].map(({ Address, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address) })) : result
+            ret = (({ Address, Role, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address), staffs: Role.map(el => el.staff_id) }))(result)
+            if (!query.is_raw) 
+            {
+                let staff_names = []
+
+                for (const staff_id of ret['staffs']){
+                    const {name} = await staff.getName(staff_id)
+                    staff_names.push(name)
+                }
+
+                ret['staffs'] = staff_names.join(',')
+            }
 
             logger.info(`[Service] ${ service_name } ::: getShow ::: ${ JSON.stringify(ret) }`)
 
@@ -321,15 +333,30 @@ module.exports = {
         try
         {
             let ret
-            let include
-
-            if (query[ 'include_address' ]) include = { Address: { select: { address: true } } }
+            let include = { 
+                Role: { select: { staff_id: true } },
+                Address: { select: { address: true } }
+            }
 
             const result = await prisma.Show.findMany({
                 include
             })
 
-            ret = query[ 'include_address' ] ? result.map(({ Address, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address) })) : result
+            ret = result.map(({ Address, Role, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address), staffs: Role.map(el => el.staff_id) }))
+            if (!query.is_raw) 
+            {
+                for (const el of ret)
+                {
+                    let staff_names = []
+    
+                    for (const staff_id of el['staffs']){
+                        const {name} = await staff.getName(staff_id)
+                        staff_names.push(name)
+                    }
+    
+                    el['staffs'] = staff_names.join(',')
+                }
+            }
 
             logger.info(`[Service] ${ service_name } ::: getAllShow ::: ${ JSON.stringify(ret) }`)
 
