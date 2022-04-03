@@ -49,7 +49,7 @@ function Settings() {
     const sign = await signMessage(JSON.stringify(data));
     const sendData = { info: data, hash_sign: sign };
     axios
-      .patch(`https://j6a102.p.ssafy.io/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
+      .patch(`https://nfticket.plus/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
       .then((res) => {
         console.log(res);
         if (res.status) {
@@ -66,7 +66,7 @@ function Settings() {
       const userData = JSON.parse(localStorage.getItem("userAccount"));
       // .get
       axios
-        .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userData.account}`)
+        .get(`https://nfticket.plus/api/v1/profile/${userData.account}`)
         .then((res) => {
           setUserInfo(res.data);
         })

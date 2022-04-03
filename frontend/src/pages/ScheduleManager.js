@@ -32,7 +32,7 @@ function ScheduleManager() {
     description: "",
     running_time: 0,
     age_limit: 0,
-    poster_uri: "",
+    poster_uri: "none",
     video_uri: "none",
     default_ticket_image_uri: "none",
   });
@@ -91,6 +91,7 @@ function ScheduleManager() {
 
   // 민트 관련 함수
   const handleMint = async () => {
+    console.log(detailInfo);
     try {
       const response = await showScheduleManagerContract.methods
         .create(
@@ -106,8 +107,8 @@ function ScheduleManager() {
           parseInt(detailInfo.resellRoyaltyRatePercent),
           parseInt(detailInfo.resellPriceLimit)
         )
-        // .send({ from: userData.account });
-        .send({ from: account });
+        .send({ from: userData.account });
+      // .send({ from: account });
       console.log(response);
       if (response.status) {
         // console.log("helo");
@@ -121,9 +122,9 @@ function ScheduleManager() {
   };
 
   const handleApi = () => {
-    console.log(apiData);
+    // console.log(apiData);
     axios
-      .post(`https://j6a102.p.ssafy.io/api/v1/show/`, {
+      .post(`https://nfticket.plus/api/v1/show/`, {
         category_name: apiData.category_name,
         name: apiData.name,
         description: apiData.description,
