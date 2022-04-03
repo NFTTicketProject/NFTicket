@@ -53,7 +53,7 @@ const ButtonBoxCss = styled.div`
   margin-top: 10px;
 `;
 
-const TopRight = () => {
+const TopRight = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [time, setTime] = React.useState();
 
@@ -87,7 +87,7 @@ const TopRight = () => {
     },
   ];
 
-  const casting = ["박은태", "선민", "조정은"];
+  const casting = "박은태, 선민, 조정은";
 
   return (
     <div>
@@ -103,34 +103,22 @@ const TopRight = () => {
 
         <ColorHr></ColorHr>
 
-        <SmallTitleCss>회차</SmallTitleCss>
-        <ToggleButtonCss>
-          <ToggleButtonGroup value={time} exclusive onChange={handleTime}>
-            {showTimes.map((showTime, index) => (
-              <ToggleButton key={index} value={showTime}>
-                {showTime}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </ToggleButtonCss>
+        <SmallTitleCss>좌석</SmallTitleCss>
 
         <SeatCss>
-          {time === "19:30" ? (
-            <div>좌석 수 : 192</div>
-          ) : (
-            <div>좌석 수 : 239</div>
-          )}
+          {/* {props.seatInfo.map((it, idx) => (
+            <div key={idx}>
+              <div>{props.seatInfo.ticketClassName}</div>
+              <div>{props.seatInfo.ticketClassPrice}</div>
+              <div>{props.seatInfo.ticketClassMaxMintCount}</div>
+            </div>
+          ))} */}
         </SeatCss>
 
         <ColorHr></ColorHr>
 
         <SmallTitleCss>캐스팅</SmallTitleCss>
-        <CastingDivCss>
-          {casting.map((name, index) => (
-            <CastingCss key={index}>{name}</CastingCss>
-            // <div key={index}>{name}</div>;
-          ))}
-        </CastingDivCss>
+        <CastingDivCss>{casting}</CastingDivCss>
       </CoverBox>
 
       <ButtonBoxCss>
