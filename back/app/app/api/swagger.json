@@ -1644,6 +1644,49 @@
             "description": "서버 오류"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 정보 전체 반환",
+        "description": "",
+        "operationId": "getAllShow",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Show"
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
       }
     },
     "/show/search": {
