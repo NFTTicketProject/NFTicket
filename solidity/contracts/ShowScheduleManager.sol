@@ -18,6 +18,8 @@ import "./ITicketClass.sol";
 contract ShowScheduleManager is IResellPolicy, ITicketClass {
     using Counters for Counters.Counter;
 
+    event ShowScheduleCreated(uint256 indexed showScheduleId, address showScheduleAddr);
+
     // 공연 스케줄 ID
     Counters.Counter private _showScheduleId;
     // 생성된 공연 스케줄 Contract의 주소
@@ -109,6 +111,8 @@ contract ShowScheduleManager is IResellPolicy, ITicketClass {
         _showScheduleAddrs[newShowScheduleId] = address(newShowSchedule);
         _showScheduleOwners[newShowScheduleId] = msg.sender;
         _showScheduleIdsByOwner[msg.sender].push(newShowScheduleId);
+
+        emit ShowScheduleCreated(newShowScheduleId, address(newShowSchedule));
     }
 
     /*

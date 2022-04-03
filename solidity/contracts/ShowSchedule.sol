@@ -19,6 +19,12 @@ import "./ITicketClass.sol";
 contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     using Counters for Counters.Counter;
 
+    event TicketRegistered(uint256 indexed ticketId, address from, uint256 classId, uint256 seatIndex);
+    event TicketRevoked(uint256 indexed ticketId, address to, uint256 classId, uint256 seatIndex);
+    event TicketRefunded(uint256 indexed ticketId, address to, uint256 classId, uint256 seatIndex);
+    event Withdrawal(address indexed to, uint256 amount);
+    event Cancelled();
+
     // 공연 관리자(기획자) 주소
     address private _admin;
     // 공연 정보(Backend) ID
@@ -106,6 +112,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     */
     function cancel() public notEnded onlyAdmin {
         _isCancelled = true;
+        emit Cancelled();
     }
 
     /*
@@ -148,6 +155,8 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         // 전체 및 해당 등급의 발행 티켓 수를 증가
         _mintCount.increment();
         _mintCountByClassId[classId].increment();
+
+        emit TicketRegistered(ticketId, msg.sender, classId, seatIndex);
     }
 
     /*
@@ -189,6 +198,8 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         // 전체 및 해당 등급의 발행 티켓 수를 감소
         _mintCount.decrement();
         _mintCountByClassId[classId].decrement();
+
+        emit TicketRevoked(ticketId, msg.sender, classId, seatIndex);
     }
 
     /*
@@ -232,6 +243,8 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         // 전체 및 해당 등급의 발행 티켓 수를 감소
         _mintCount.decrement();
         _mintCountByClassId[classId].decrement();
+
+        emit TicketRefunded(ticketId, msg.sender, classId, seatIndex);
     }
 
     /*
@@ -250,6 +263,8 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
 
         // 공연 관리자에게 금액만큼 토큰을 Contract의 잔액를 전액 전송
         _currencyContract.transfer(_admin, contractBalance);
+
+        emit Withdrawal(_admin, contractBalance);
     }
 
     function _setAdmin(address admin) private onlyOwner {
