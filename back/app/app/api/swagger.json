@@ -2137,6 +2137,17 @@
         ],
         "parameters": [
           {
+            "in": "query",
+            "name": "is_raw",
+            "description": "스태프 정보를 Join하여 이름 문자열(콤마로 구분)로 가져오지않고 스태프 ID 배열로 가져옵니다.",
+            "required": false,
+            "type": "boolean",
+            "enum": [
+              true,
+              false
+            ]
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "생성할 공연 정보",
@@ -2292,17 +2303,6 @@
             "required": false,
             "type": "integer",
             "format": "int64"
-          },
-          {
-            "in": "query",
-            "name": "include_address",
-            "description": "공연 스케줄 Contract Address 목록 포함 여부",
-            "required": false,
-            "type": "boolean",
-            "enum": [
-              true,
-              false
-            ]
           },
           {
             "in": "query",

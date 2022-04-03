@@ -668,7 +668,10 @@ module.exports = {
             }
             console.log(where)
 
-            if (query[ 'include_address' ]) include = { Address: { select: { address: true } } }
+            include = { 
+                Role: { select: { staff_id: true } },
+                Address: { select: { address: true } }
+            }
 
             if (query[ 'sort_by' ])
             {
@@ -690,8 +693,9 @@ module.exports = {
                 {
                     orderBy = { [ query[ 'sort_by' ] ]: query[ 'order_by' ] ? query[ 'order_by' ] : 'asc' }
                 }
+            } else {
+                orderBy = { 'show_id': 'desc' }
             }
-            console.log(orderBy)
 
             if (query[ 'offset' ]) skip = Number(query[ 'offset' ])
             if (query[ 'limit' ]) take = Number(query[ 'limit' ])
@@ -704,7 +708,21 @@ module.exports = {
                 take,
             })
 
-            ret = query[ 'include_address' ] ? result.map(({ Address, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address) })) : result
+            ret = result.map(({ Address, Role, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address), staffs: Role.map(el => el.staff_id) }))
+            if (!query.is_raw) 
+            {
+                for (const el of ret)
+                {
+                    let staff_names = []
+    
+                    for (const staff_id of el['staffs']){
+                        const {name} = await staff.getName(staff_id)
+                        staff_names.push(name)
+                    }
+    
+                    el['staffs'] = staff_names.join(',')
+                }
+            }
 
             logger.info(`[Service] ${ service_name } ::: search ::: ${ JSON.stringify(ret) }`)
 
