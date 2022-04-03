@@ -1519,14 +1519,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "in": "path",
-            "name": "sale_id",
-            "description": "티켓 판매 정보 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
         ],
         "responses": {
           "200": {
