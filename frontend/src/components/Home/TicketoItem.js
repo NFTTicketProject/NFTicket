@@ -25,8 +25,7 @@ const TicketoItem = ()=>{
       <TicketoImgContainer 
         src='images/posterImg1.png' 
         alt='poster img' 
-        style={{ width: "280px" }}
-        
+        style={{ width: "280px" }}  
       >
         
       </TicketoImgContainer>
