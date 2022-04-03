@@ -3474,6 +3474,129 @@
         }
       }
     },
+    "/show/{show_id}/show-schedule": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 스케줄 CA 목록 반환",
+        "description": "",
+        "operationId": "getShowShowScheduleAddressList",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "address",
+                "description": "공연 스케줄 Contract Address",
+                "example": "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679"
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 스케줄 정보 추가",
+        "description": "",
+        "operationId": "addShowShowSchedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "추가 할 공연 스케줄 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowShowSchedule"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
     "/staff": {
       "post": {
         "tags": [
@@ -4445,6 +4568,24 @@
         }
       }
     },
+    "ShowShowSchedule": {
+      "type": "object",
+      "description": "공연 스케줄 정보",
+      "properties": {
+        "show_schedule_id": {
+          "description": "공연 스케줄 ID",
+          "type": "integer",
+          "format": "contract_id",
+          "example": 123
+        },
+        "address": {
+          "description": "공연 스케줄 주소",
+          "type": "string",
+          "format": "contract_address",
+          "example": "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679"
+        }
+      }
+    },
     "Show": {
       "type": "object",
       "description": "공연 정보",
@@ -4579,6 +4720,12 @@
             "type": "string",
             "example": "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679"
           }
+        },
+        "staffs": {
+          "description": "공연 스태프 이름 목록",
+          "type": "string",
+          "format": "comma_separated_list",
+          "example": "김범수,조권"
         }
       }
     },
