@@ -1511,7 +1511,7 @@
         ],
         "summary": "티켓 판매 정보 전체 반환",
         "description": "",
-        "operationId": "getSale",
+        "operationId": "getAllSale",
         "consumes": [
           "application/json"
         ],
