@@ -68,7 +68,7 @@ function App() {
         <Route path="/Guide" element={<Guide />} />
         <Route path="/Detail" element={<Detail />} />
         <Route path="/Detail/:showScheduleAddress" element={<ShowDetail />} />
-        <Route path="/TicketSale" element={<TicketSale />} />
+        <Route path="/Ticket/:ticketId" element={<TicketSale />} />
         <Route path="/Schedule%20Manager" element={<ScheduleManager />}></Route>
         {/* <Route path='/Profile' element={<Profile />} /> */}
         <Route path="/MyPage" element={<MyPage />} />

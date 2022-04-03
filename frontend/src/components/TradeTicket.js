@@ -7,14 +7,27 @@ import {
   ticketSaleManagerAddress,
 } from "../utils/web3Config";
 
-function TradeTicket({ showScheduleAddress, userData }) {
+function TradeTicket({ showScheduleAddress, userData, register }) {
+  // console.log(register.ticketID);
   const [saleStatus, setSaleStatus] = useState(false);
   const [tradeDetail, setTradeDetail] = useState({});
+  const [isBuyable, setIsBuyable] = useState(false);
+
+  const getTicketOwner = async () => {
+    try {
+      const res = await ticketSaleManagerContract.methods.ownerOf(userData.account).call();
+      setIsBuyable(res.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
+      console.log(isBuyable);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleTicketTrade = (e) => {
     setTradeDetail({ ...tradeDetail, [e.target.name]: e.target.value });
   };
 
+  // approve
   const approveToggle = async () => {
     try {
       const res = await myTicketContract.methods
@@ -29,12 +42,13 @@ function TradeTicket({ showScheduleAddress, userData }) {
     }
   };
 
+  // 거래 발급
   const mintTrade = async () => {
     console.log(tradeDetail);
     try {
       const res = await ticketSaleManagerContract.methods
         .create(
-          parseInt(tradeDetail.ticketId),
+          parseInt(register.ticketID),
           tradeDetail.description,
           parseInt(tradeDetail.price),
           parseInt(tradeDetail.startedAt),
@@ -50,6 +64,10 @@ function TradeTicket({ showScheduleAddress, userData }) {
     }
   };
 
+  useEffect(() => {
+    getTicketOwner();
+  }, []);
+
   return (
     <div>
       <h1>TradeTicket</h1>
@@ -62,9 +80,10 @@ function TradeTicket({ showScheduleAddress, userData }) {
               ticketId:
               <input
                 type="number"
-                name="ticketId"
-                value={tradeDetail.ticketId}
+                name="ticketID"
+                value={register.ticketID}
                 onChange={handleTicketTrade}
+                disabled={true}
               />
             </div>
             <div>
