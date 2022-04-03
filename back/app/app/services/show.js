@@ -316,6 +316,31 @@ module.exports = {
             return 500
         }
     },
+    getAllShow: async (query) =>
+    {
+        try
+        {
+            let ret
+            let include
+
+            if (query[ 'include_address' ]) include = { Address: { select: { address: true } } }
+
+            const result = await prisma.Show.findMany({
+                include
+            })
+
+            ret = query[ 'include_address' ] ? result.map(({ Address, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address) })) : result
+
+            logger.info(`[Service] ${ service_name } ::: getAllShow ::: ${ JSON.stringify(ret) }`)
+
+            return ret
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: getAllShow ::: ${ e }`)
+
+            return 500
+        }
+    },
     getCategoryName: async (showId) =>
     {
         try
