@@ -1051,6 +1051,49 @@
             "description": "서버 오류"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "역할 정보 전체 반환",
+        "description": "",
+        "operationId": "getAllRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Role"
+              }
+            }
+          },
+          "404": {
+            "description": "역할 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
       }
     },
     "/role/{show_id}/{staff_id}": {
