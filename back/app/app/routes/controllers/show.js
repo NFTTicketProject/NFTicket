@@ -44,6 +44,38 @@ router.post("/", async (req, res, err) =>
 })
 
 // 공연 조회
+router.get("/", async (req, res, err) =>
+{
+  let status_code = 500
+  let result
+
+  try
+  {
+    result = await show.getAllShow(req.query)
+    if (!result)
+    {
+      status_code = 404
+      result = { message: `${ controller_name } doesn't exist` }
+      return
+    }
+
+    status_code = 200
+  } catch (e)
+  {
+    logger.error(
+      `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) } ::: ${ e }`
+    )
+  } finally
+  {
+    logger.info(
+      `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) }`
+    )
+    res.status(status_code)
+    res.json(result)
+  }
+})
+
+// 공연 조회
 router.get("/:show_id", async (req, res, err) =>
 {
   let status_code = 500
