@@ -89,7 +89,7 @@ module.exports = {
                     staff_id: info[ 'staff_id' ],
                 },
                 data: {
-                    imageURL: info[ 'image_uri' ],
+                    image_uri: info[ 'image_uri' ],
                 },
             })
 
@@ -114,7 +114,7 @@ module.exports = {
                 select: {
                     staff_id: true,
                     name: true,
-                    imageURL: true
+                    image_uri: true
                 },
             })
 
