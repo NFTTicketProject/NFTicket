@@ -74,7 +74,7 @@
         "tags": [
           "Account"
         ],
-        "summary": "지갑 소유자의 프로필 생성",
+        "summary": "지갑 소유자의 프로필 정보 생성",
         "description": "",
         "operationId": "createProfile",
         "consumes": [
@@ -94,13 +94,29 @@
         ],
         "responses": {
           "200": {
-            "description": "기존에 존재하던 프로필"
+            "description": "기존에 존재하던 프로필",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
           },
           "201": {
-            "description": "새로운 프로필 생성"
+            "description": "새로운 프로필 생성",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
           },
           "400": {
-            "description": "잘못된 지갑 주소 입력"
+            "description": "잘못된 지갑 주소",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid address"
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류"
@@ -143,13 +159,43 @@
             "description": "성공"
           },
           "400": {
-            "description": "잘못된 요청"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
           },
           "403": {
-            "description": "프로필 수정 권한 없음"
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류"
@@ -237,13 +283,43 @@
             "description": "성공"
           },
           "400": {
-            "description": "잘못된 요청"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
           },
           "403": {
-            "description": "프로필 수정 권한 없음"
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류"
@@ -331,13 +407,43 @@
             "description": "성공"
           },
           "400": {
-            "description": "잘못된 요청"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
           },
           "403": {
-            "description": "프로필 수정 권한 없음"
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류"
@@ -425,13 +531,43 @@
             "description": "성공"
           },
           "400": {
-            "description": "잘못된 요청"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
           },
           "403": {
-            "description": "프로필 수정 권한 없음"
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류"
@@ -519,13 +655,43 @@
             "description": "성공"
           },
           "400": {
-            "description": "잘못된 요청"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
           },
           "403": {
-            "description": "프로필 수정 권한 없음"
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
             "description": "서버 오류"
@@ -607,10 +773,20 @@
             }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "서버 에러"
+            "description": "서버 오류"
           }
         }
       }
@@ -646,10 +822,20 @@
             }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "서버 에러"
+            "description": "서버 오류"
           }
         }
       }
@@ -722,10 +908,20 @@
             }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "서버 에러"
+            "description": "서버 오류"
           }
         }
       }
@@ -798,10 +994,20 @@
             }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "서버 에러"
+            "description": "서버 오류"
           }
         }
       }
@@ -874,10 +1080,20 @@
             }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "서버 에러"
+            "description": "서버 오류"
           }
         }
       }
@@ -950,10 +1166,20 @@
             }
           },
           "404": {
-            "description": "프로필 없음"
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "서버 에러"
+            "description": "서버 오류"
           }
         }
       }
@@ -1021,28 +1247,21 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "성공",
             "schema": {
-              "type": "object",
-              "properties": {
-                "role_id": {
-                  "type": "integer",
-                  "format": "int64",
-                  "description": "새로 생성된 역할 정보 ID"
-                }
-              }
+              "$ref": "#/definitions/Role"
             }
           },
           "400": {
-            "description": "잘못요청",
+            "description": "잘못된 요청",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
                   "format": "string",
-                  "description": "Invalid Params"
+                  "description": "Invalid request"
                 }
               }
             }
@@ -1092,11 +1311,8 @@
               "$ref": "#/definitions/Role"
             }
           },
-          "400": {
-            "description": "잘못된 요청"
-          },
           "404": {
-            "description": "일치하는 롤 없음",
+            "description": "역할 정보 없음",
             "schema": {
               "type": "object",
               "properties": {
@@ -1109,7 +1325,7 @@
             }
           },
           "500": {
-            "description": "역할 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1158,10 +1374,33 @@
             "description": "성공"
           },
           "400": {
-            "description": "잘못된 요청"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "역할 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
           },
           "500": {
-            "description": "역할 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1192,7 +1431,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "성공",
             "schema": {
               "type": "object",
@@ -1200,7 +1439,20 @@
                 "sale_id": {
                   "type": "integer",
                   "format": "int64",
-                  "description": "새로 생성된 판매 정보 ID"
+                  "description": "새로 생성된 티켓 판매 정보 ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
                 }
               }
             }
@@ -1242,8 +1494,21 @@
               "$ref": "#/definitions/Sale"
             }
           },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1283,8 +1548,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1320,8 +1611,21 @@
               "$ref": "#/definitions/SaleShowScheduleId"
             }
           },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1361,8 +1665,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1398,8 +1728,21 @@
               "$ref": "#/definitions/SaleDescription"
             }
           },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1439,8 +1782,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1476,8 +1845,21 @@
               "$ref": "#/definitions/SaleStartedAt"
             }
           },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1517,8 +1899,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1554,8 +1962,21 @@
               "$ref": "#/definitions/SaleEndedAt"
             }
           },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1595,8 +2016,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "티켓 판매 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1627,7 +2074,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "성공",
             "schema": {
               "type": "object",
@@ -1636,6 +2083,19 @@
                   "type": "integer",
                   "format": "int64",
                   "description": "새로 생성된 공연 정보 ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
                 }
               }
             }
@@ -1780,8 +2240,21 @@
               }
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1813,8 +2286,21 @@
               }
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1850,8 +2336,21 @@
               "$ref": "#/definitions/Show"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1891,8 +2390,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -1928,8 +2453,21 @@
               "$ref": "#/definitions/ShowCategoryName"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -1969,8 +2507,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2006,8 +2570,21 @@
               "$ref": "#/definitions/ShowName"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2047,8 +2624,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2084,8 +2687,21 @@
               "$ref": "#/definitions/ShowDescription"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2125,8 +2741,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2162,8 +2804,21 @@
               "$ref": "#/definitions/ShowRunningTime"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2203,8 +2858,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2240,8 +2921,21 @@
               "$ref": "#/definitions/ShowAgeLimit"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2281,8 +2975,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2318,8 +3038,21 @@
               "$ref": "#/definitions/ShowPosterURI"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2359,8 +3092,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2396,8 +3155,21 @@
               "$ref": "#/definitions/ShowVideoURI"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2437,8 +3209,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2474,8 +3272,21 @@
               "$ref": "#/definitions/ShowDefaultTicketImageURI"
             }
           },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2515,8 +3326,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "공연 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2547,7 +3384,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "성공",
             "schema": {
               "type": "object",
@@ -2556,6 +3393,19 @@
                   "type": "integer",
                   "format": "int64",
                   "description": "새로 생성된 스태프 정보 ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
                 }
               }
             }
@@ -2597,8 +3447,21 @@
               "$ref": "#/definitions/Staff"
             }
           },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "스태프 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2638,8 +3501,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "스태프 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -2675,8 +3564,21 @@
               "$ref": "#/definitions/StaffName"
             }
           },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "스태프 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2716,20 +3618,46 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "스태프 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
     },
-    "/staff/{staff_id}/photo": {
+    "/staff/{staff_id}/image-uri": {
       "get": {
         "tags": [
           "Staff"
         ],
         "summary": "스태프 사진 URI 반환",
         "description": "",
-        "operationId": "getStaffPhoto",
+        "operationId": "getStaffImageURI",
         "consumes": [
           "application/json"
         ],
@@ -2750,11 +3678,24 @@
           "200": {
             "description": "성공",
             "schema": {
-              "$ref": "#/definitions/StaffPhoto"
+              "$ref": "#/definitions/StaffImageURI"
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
             }
           },
           "500": {
-            "description": "스태프 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       },
@@ -2764,7 +3705,7 @@
         ],
         "summary": "스태프 사진 URI 수정",
         "description": "",
-        "operationId": "editStaffPhoto",
+        "operationId": "editStaffImageURI",
         "consumes": [
           "application/json"
         ],
@@ -2786,7 +3727,7 @@
             "description": "갱신할 스태프 사진 URI 정보",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/StaffPhoto"
+              "$ref": "#/definitions/StaffImageURI"
             }
           }
         ],
@@ -2794,8 +3735,34 @@
           "200": {
             "description": "성공"
           },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
           "500": {
-            "description": "스태프 정보 없음 | 서버 오류"
+            "description": "서버 오류"
           }
         }
       }
@@ -3481,11 +4448,11 @@
         }
       }
     },
-    "StaffPhoto": {
+    "StaffImageURI": {
       "type": "object",
       "description": "스태프 사진 URI",
       "properties": {
-        "photo": {
+        "image_uri": {
           "description": "스태프 사진 URI",
           "type": "string",
           "format": "uri",
@@ -3498,7 +4465,7 @@
       "description": "스태프 정보",
       "required": [
         "name",
-        "photo"
+        "image_uri"
       ],
       "properties": {
         "name": {
@@ -3507,7 +4474,7 @@
           "format": "string",
           "example": "지킬"
         },
-        "photo": {
+        "image_uri": {
           "description": "스태프 사진 URI",
           "type": "string",
           "format": "uri",
