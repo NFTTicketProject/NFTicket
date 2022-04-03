@@ -28,6 +28,11 @@ const Purchase = () => {
   const myAddresss = "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679";
   const SSAFYTokenAddr = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
 
+      // <div style={{ justifyContent: "center" }}>
+      //   <h1>Purchase 페이지</h1>
+        
+      //   <SeatInfo></SeatInfo>
+      //   <Seat></Seat>
   //티켓 등록
   const enrollTicket = async () => {
     try {

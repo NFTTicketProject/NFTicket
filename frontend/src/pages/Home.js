@@ -13,13 +13,10 @@ import Footer from "../components/Footer";
 
 const Home = ()=>{
 
-
     styled.div`
       display: flex;
       justifyContent: center;
     `;
-
-  
     
     return (
       <div style={{ justifyContent: "center" }}>
