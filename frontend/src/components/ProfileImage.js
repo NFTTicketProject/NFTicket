@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 function ProfileImage({ userInfo, setUserInfo }) {
   const IPFS = require("ipfs-api");
-  const ipfs = new IPFS({ host: "j6a102.p.ssafy.io", port: "/ipfs", protocol: "https" });
+  const ipfs = new IPFS({ host: "nfticket.plus", port: "/ipfs", protocol: "https" });
 
   const [info, setInfo] = useState({
     ipfsHash: null,

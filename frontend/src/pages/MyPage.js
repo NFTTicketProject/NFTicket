@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import TicketCollection from "../components/TicketCollection";
 import { myTicketContract } from "../utils/web3Config";
+import TicketOnSale from "../components/MyPage/TicketOnSale";
+import MyTicket from "../components/MyPage/MyTicket";
+// import { myTicketContract } from "../utils/web3";
 
 const UnconnectedContainer = styled.div`
   display: flex;
@@ -53,8 +56,42 @@ const LogInButton = styled.button`
 const UserInfo = styled.div`
   border: none;
 `;
+//
+const NavList = styled.div`
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #939393;
+`;
+
+const NavListItem = styled.div`
+  margin: 12px;
+  margin-left: 30px;
+  margin-right: 30px;
+  cursor: pointer;
+`;
+
+const NavListItemSelected = styled.div`
+  margin: 12px;
+  margin-left: 30px;
+  margin-right: 30px;
+  cursor: pointer;
+  font-weight: bold;
+`;
+const TitleText = styled.h2`
+  margin-left: 20px;
+`;
+
+const DescriptionDiv = styled.div`
+  margin-left: 20px;
+  margin-bottom: 20px;
+`;
 
 function MyPage() {
+  const [pageNum, setPageNum] = useState(1);
+  const handlePageNum = (page) => {
+    setPageNum(page);
+  };
+  //
   const [userInfo, setUserInfo] = useState();
   const [isConnected, setIsConnected] = useState(false);
   const [walletInfo, setWalletInfo] = useState({
@@ -102,7 +139,7 @@ function MyPage() {
 
         // post
         axios
-          .post(`https://j6a102.p.ssafy.io/api/v1/account/${account}`)
+          .post(`https://nfticket.plus/api/v1/account/${account}`)
           .then((res) => {
             // console.log(res);
             if (res.status === 200) {
@@ -145,7 +182,7 @@ function MyPage() {
       // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
       // .get
       axios
-        .get(`https://j6a102.p.ssafy.io/api/v1/profile/${userData.account}`)
+        .get(`https://nfticket.plus/api/v1/profile/${userData.account}`)
         .then((res) => {
           setWalletInfo(res.data);
           console.log(res);
@@ -340,21 +377,46 @@ function MyPage() {
               <Button onClick={onDisconnect}>로그아웃</Button>
             </div> */}
           </ConnectedContainer>
-          <h2 style={{ marginLeft: "2rem" }}>Collected Tickets</h2>
 
-          {ticketArray &&
-            ticketArray.map((v, i) => {
-              return (
-                <div key={i}>
-                  <div>ticketId = {v.ticketId}</div>
-                  <div>showScheduleId = {v.showScheduleId}</div>
-                  <div>classId = {v.classId}</div>
-                  <div>ticketUri = {v.ticketUri}</div>
-                  <hr />
-                </div>
-              );
-            })}
-          <div
+          <div>
+            <NavList>
+              {pageNum === 1 ? (
+                <NavListItemSelected onClick={() => handlePageNum(1)}>
+                  나의 티켓
+                </NavListItemSelected>
+              ) : (
+                <NavListItem onClick={() => handlePageNum(1)}>나의 티켓</NavListItem>
+              )}
+              {pageNum === 2 ? (
+                <NavListItemSelected onClick={() => handlePageNum(2)}>
+                  판매중인 티켓
+                </NavListItemSelected>
+              ) : (
+                <NavListItem onClick={() => handlePageNum(2)}>판매중인 티켓</NavListItem>
+              )}
+            </NavList>
+
+            {pageNum === 1 && (
+              <div>
+                <TitleText>나의 티켓</TitleText>
+                <DescriptionDiv>
+                  {ticketArray &&
+                    ticketArray.map((v, i) => {
+                      return <MyTicket key={i} {...v} />;
+                    })}
+                </DescriptionDiv>
+              </div>
+            )}
+            {pageNum === 2 && (
+              <div>
+                <TitleText>판매중인 티켓</TitleText>
+                <DescriptionDiv>
+                  <TicketOnSale />
+                </DescriptionDiv>
+              </div>
+            )}
+          </div>
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -364,7 +426,7 @@ function MyPage() {
           >
             <TicketCollection />
             <TicketCollection />
-          </div>
+          </div> */}
         </>
       ) : (
         <UnconnectedContainer>

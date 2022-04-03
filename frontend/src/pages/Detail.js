@@ -18,6 +18,8 @@ function Detail() {
       for (let i = 1; i <= scheduleCount; i++) {
         const showSchedule = await showScheduleManagerContract.methods.getShowSchedule(i).call();
         tmpContractArray.push(showSchedule);
+        // localStorage에 showScheduleId를 저장해둔다. - myTicket.sol에서 create하기 위해
+        localStorage.setItem(showSchedule, `${i}`);
       }
       setContractSchedule(tmpContractArray);
     } catch (err) {
