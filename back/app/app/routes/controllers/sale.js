@@ -43,6 +43,38 @@ router.post("/", async (req, res, err) =>
   }
 })
 
+// 판매글 전체 조회
+router.get("/", async (req, res, err) =>
+{
+  let status_code = 500
+  let result
+
+  try
+  {
+    result = await sale.getAllSale(req.params.sale_id)
+    if (!result)
+    {
+      status_code = 404
+      result = { message: `${ controller_name } doesn't exist` }
+      return
+    }
+
+    status_code = 200
+  } catch (e)
+  {
+    logger.error(
+      `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) } ::: ${ e }`
+    )
+  } finally
+  {
+    logger.info(
+      `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) }`
+    )
+    res.status(status_code)
+    res.json(result)
+  }
+})
+
 // 판매글 조회
 router.get("/:sale_id", async (req, res, err) =>
 {

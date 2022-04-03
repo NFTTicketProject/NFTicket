@@ -60,6 +60,43 @@ module.exports = {
             return 500
         }
     },
+    getAllRole: async () =>
+    {
+        try
+        {
+            const result = await prisma.Role.findMany({
+                include: {
+                    Show: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    Staff: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            })
+
+            const ret = result.map(el => {
+                return {
+                    staff_id: el[ "staff_id" ],
+                    staff_name: el[ "Staff" ][ "name" ],
+                    show_id: el[ "show_id" ],
+                    show_name: el[ "Show" ][ "name" ],
+                    occupation: el[ "occupation" ]
+                }
+            });
+
+            logger.info(`[Service] ${ service_name } ::: getAllRole ::: ${ JSON.stringify(ret) }`)
+
+            return ret
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: getAllRole ::: ${ e }`)
+        }
+    },
     getRole: async (showId, staffId) =>
     {
         try

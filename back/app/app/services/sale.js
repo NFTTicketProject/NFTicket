@@ -149,6 +149,24 @@ module.exports = {
             return 500
         }
     },
+    getAllSale: async (saleId) =>
+    {
+        try
+        {
+
+            const result = await prisma.Sale.findMany({
+            })
+
+            logger.info(`[Service] ${ service_name } ::: getAllSale ::: ${ JSON.stringify(result) }`)
+
+            return result
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: getAllSale ::: ${ e }`)
+
+            return 500
+        }
+    },
     getSale: async (saleId) =>
     {
         try
