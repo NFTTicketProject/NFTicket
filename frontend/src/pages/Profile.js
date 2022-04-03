@@ -31,7 +31,7 @@ function Profile() {
     }
 
     axios
-      .post(`https://j6a102.p.ssafy.io/api/v1/account/${accounts[0]}`)
+      .post(`https://nfticket.plus/api/v1/account/${accounts[0]}`)
       .then((res) => {
         console.log(res);
       })
@@ -43,7 +43,7 @@ function Profile() {
   // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
   const getWalletInfo = () => {
     axios
-      .get(`https://j6a102.p.ssafy.io/api/v1/profile/${account}`)
+      .get(`https://nfticket.plus/api/v1/profile/${account}`)
       .then((res) => {
         console.log(res.data);
         setWalletInfo(res.data);
