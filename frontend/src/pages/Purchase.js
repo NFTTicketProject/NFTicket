@@ -17,8 +17,8 @@ const Purchase = ()=>{
       <div style={{ justifyContent: "center" }}>
         <h1>Purchase 페이지</h1>
         
-        <Seat></Seat>
         <SeatInfo></SeatInfo>
+        <Seat></Seat>
     
       </div>
       
