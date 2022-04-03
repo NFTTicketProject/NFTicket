@@ -4,7 +4,7 @@
     "description": "`NFTicket` 프로젝트 백엔드 API 문서",
     "version": "1.0.0",
     "title": "NFTicket API Documentation",
-    "termsOfService": "https://j6a102.p.ssafy.io",
+    "termsOfService": "https://nfticket.plus",
     "contact": {
       "email": "nfticket@gmail.com"
     },
@@ -13,7 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "j6a102.p.ssafy.io",
+  "host": "nfticket.plus",
   "basePath": "/api/v1",
   "tags": [
     {
