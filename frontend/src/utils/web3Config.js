@@ -527,6 +527,7 @@ const saleAnimalTokenAbi = [
     type: "function",
   },
 ];
+//
 const myTicketAbi = [
   {
     inputs: [],
@@ -1029,22 +1030,6 @@ const showScheduleManagerAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "currencyContractAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "ticketContractAddress",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint64",
         name: "showId",
         type: "uint64",
@@ -1104,6 +1089,22 @@ const showScheduleManagerAbi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "currencyContractAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "ticketContractAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
     inputs: [],
@@ -1811,6 +1812,205 @@ const ticketSaleManagerAbi = [
     type: "function",
   },
 ];
+export const ticketSaleAbi = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "ticketId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "seller",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "startedAt",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "endedAt",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "showScheduleManagerContractAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "currencyContractAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "ticketContractAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "cancel",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getEndTimeLeft",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getStartTimeLeft",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_operator",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_from",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "_data",
+        type: "bytes",
+      },
+    ],
+    name: "onERC721Received",
+    outputs: [
+      {
+        internalType: "bytes4",
+        name: "",
+        type: "bytes4",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "purchase",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+];
 export const IERC20ABI = [
   {
     anonymous: false,
@@ -1999,10 +2199,13 @@ export const IERC20ABI = [
 
 const mintAnimalTokenAddress = "0xdDCdECe6524be448D1d2609D5430754bB06d835e";
 export const saleAnimalTokenAddress = "0xB30199f422DEc42ac5782d2D05777AD640f81447";
-const myTicketAddress = "0xA6e4738ecE6dCAaBce3889024b417061b2125a03";
-const showScheduleManagerAddress = "0x225E1b7e5DFa2F7294Dd4D594C36B060d606c615";
+//
+const myTicketAddress = "0x05cF7339eB7a4C6eeBc194aecec084C9237987CA";
+const showScheduleManagerAddress = "0xa4EE678Ef3e66383941765E1C603d72F88e8909F";
 const showScheduleAddress = "";
-const ticketSaleManagerAddress = "0x013B6e829aa11Ff44d49badcf6A9D7076CA82B70";
+export const ticketSaleManagerAddress = "0xB49FB630485Db6355d55926fC0e0E29BA4A42C64";
+const ticketSaleAddress = "";
+const IERC20Address = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
 
 export const web3 = new Web3(window.ethereum);
 
@@ -2024,3 +2227,5 @@ export const ticketSaleManagerContract = new web3.eth.Contract(
   ticketSaleManagerAbi,
   ticketSaleManagerAddress
 );
+export const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, ticketSaleAddress);
+export const IERC20Contract = new web3.eth.Contract(IERC20ABI, IERC20Address);
