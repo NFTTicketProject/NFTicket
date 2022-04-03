@@ -29,6 +29,8 @@ contract TicketSaleManager is Ownable {
     mapping(uint256 => address) private _saleAddrs;
     // 생성된 거래 Contract의 소유자
     mapping(uint256 => address) private _saleOwners;
+    // 해당 티켓의 현재 거래 ID
+    mapping(uint256 => address) private _ticketSaleAddrs;
     // 어떤 주소가 생성한 거래 ID 목록
     mapping(address => uint256[]) private _saleIdsByWallet;
     // 어떤 티켓 ID(NFT)의 총 거래 횟수
@@ -87,6 +89,7 @@ contract TicketSaleManager is Ownable {
 
         _saleAddrs[newTicketSaleId] = address(newTicketSale);
         _saleOwners[newTicketSaleId] = msg.sender;
+        _ticketSaleAddrs[ticketId] = address(newTicketSale);
         _saleIdsByWallet[msg.sender].push(newTicketSaleId);
         _saleCountOfTicket[ticketId].increment();
 
@@ -129,6 +132,18 @@ contract TicketSaleManager is Ownable {
     */
     function getSale(uint256 saleId) public view returns(address) {
         return _saleAddrs[saleId];
+    }
+
+    /*
+    * getSaleOfTicket
+    * 해당 티켓의 현재 Contract 주소를 반환
+    *
+    * @ param uint256 saleId 거래 ID
+    * @ return address 거래 Contract address
+    * @ exception None
+    */
+    function getSaleOfTicket(uint256 ticketId) public view returns(address) {
+        return _ticketSaleAddrs[ticketId];
     }
 
     /*
