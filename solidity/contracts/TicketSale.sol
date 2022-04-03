@@ -21,6 +21,11 @@ import "./ShowScheduleManager.sol";
 contract TicketSale is Ownable, IERC721Receiver {
     using SafeMath for uint256;
 
+    event Purchase(uint256 indexed ticketId, address seller, address buyer);
+    event Withdrawal(address indexed to, uint256 amount);
+    event Cancelled(uint256 indexed ticketId);
+    event Ended(uint256 indexed ticketId);
+
     // 판매할 티켓 ID
     uint256 private _ticketId;
     // 판매자의 Wallet Address
@@ -95,6 +100,7 @@ contract TicketSale is Ownable, IERC721Receiver {
     */
     function end() private {
         _isEnded = true;
+        emit Ended(_ticketId);
     }
 
     /*
@@ -108,6 +114,7 @@ contract TicketSale is Ownable, IERC721Receiver {
     */
     function cancel() public onlySeller {
         _isCancelled = true;
+        emit Cancelled(_ticketId);
     }
 
     /*
@@ -152,6 +159,8 @@ contract TicketSale is Ownable, IERC721Receiver {
         // 구매자에게서 CA로 토큰 지불
         _currencyContract.transferFrom(msg.sender, address(this), classPrice);
 
+        emit Purchase(_ticketId, _seller, msg.sender);
+
         // 판매 종료 처리
         end();
     }
@@ -183,6 +192,8 @@ contract TicketSale is Ownable, IERC721Receiver {
         uint256 contractBalanceAfterTransfer = _currencyContract.balanceOf(address(this));
         // 계약주소로부터 계약 소유자(판매 관리 계약 주소)로 로열티를 전송
         _currencyContract.transfer(owner(), contractBalanceAfterTransfer);
+
+        emit Withdrawal(_seller, sellerAmount);
     }
 
     /*
@@ -223,7 +234,7 @@ contract TicketSale is Ownable, IERC721Receiver {
     }
 
     modifier ActiveSale() {
-        require(_startedAt > block.timestamp, "This sale is not started yet");
+        require(_startedAt < block.timestamp, "This sale is not started yet");
         require(_endedAt > block.timestamp, "This sale is already ended");
         require(!_isCancelled);
         require(!_isEnded);
