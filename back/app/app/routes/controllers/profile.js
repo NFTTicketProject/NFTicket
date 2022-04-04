@@ -4,6 +4,38 @@ const { logger } = require("../../utils/winston")
 const express = require("express")
 const router = express.Router()
 
+// 닉네임에 해당하는 지갑주소 반환
+router.post("/address-by-nickname", async (req, res) =>
+{
+  let status_code = 500
+  let result
+
+  try
+  {
+    result = await profile.getAddressByNickname(req.body.nickname)
+    if (!result.length)
+    {
+      status_code = 404
+      result = { message: `${ controller_name } doesn't exist` }
+      return
+    }
+
+    status_code = 200
+  } catch (e)
+  {
+    logger.error(
+        `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) } ::: ${ e }`
+    )
+  } finally
+  {
+    logger.info(
+        `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) }`
+    )
+    res.status(status_code)
+    res.json(result)
+  }
+})
+
 // 프로필 전체 조회
 router.get("/:wallet_address", async (req, res) =>
 {
