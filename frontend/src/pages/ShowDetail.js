@@ -76,6 +76,7 @@ function ShowDetail() {
   const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });
   const [register, setRegister] = useState({});
   const [occupied, setOccupied] = useState([]);
+  // 예약된 좌석은 1로 표시
   const [seatInfo, setSeatInfo] = useState([]);
 
   const handleTicket = (e) => {
@@ -155,7 +156,7 @@ function ShowDetail() {
     }
   };
 
-  // test
+  // 좌석 예약 관련, 예약된 좌석 걸러내는 용도
   const test = async () => {
     try {
       const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
