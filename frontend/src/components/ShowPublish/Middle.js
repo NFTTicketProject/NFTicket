@@ -23,11 +23,7 @@ const Middle = (props) => {
     <div>
       <ContainMiddle>
         <MiddleLeftCss>
-          <MiddleLeft
-            description={props.description}
-            casting={props.casting}
-            hallDescription={`${props.hallDescription}`}
-          ></MiddleLeft>
+          <MiddleLeft></MiddleLeft>
         </MiddleLeftCss>
 
         <MiddleRightCss>

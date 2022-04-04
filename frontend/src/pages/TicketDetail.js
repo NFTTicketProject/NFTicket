@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useParams } from "react-router-dom";
 import {
   web3,
@@ -36,10 +38,11 @@ const TopRightFixed = styled.div`
   width: 330px;
   top: 90px;
   position: fixed;
+  margin-left: 50px;
 `;
 
 const MiddleCss = styled.div`
-  width: 1000px;
+  width: 1200px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -58,8 +61,9 @@ const unixTimeToDate = (unixTime) => {
 
 const TicketDetail = () => {
   // 스크롤 고정시키기 위한 변수들
+  // 원래 어느 부분 내려가면 scrollActive가 false나 true로 변하면서 딱 걸쳐지게 만들려고 했는데 잘 안되네요 기각해도 될듯하
   // const [scrollY, setScrollY] = useState(0);
-  const [scrollActive, setScrollActive] = useState(false);
+  const [scrollActive, setScrollActive] = useState(true);
   // function handleScroll() {
   //   if (scrollY > 300) {
   //     setScrollY(window.pageYOffset);
@@ -91,6 +95,11 @@ const TicketDetail = () => {
   const [ticketDetail, setTicketDetail] = useState([]);
   const [showDetailBack, setShowDetailBack] = useState({});
   const userData = JSON.parse(localStorage.getItem("userAccount"));
+
+  // 임시로 캐스팅 정보 삽입
+  const casting = "박은태, 선민, 조정은";
+  const hallDescription =
+    "경기도 남양주시 화도읍사무소 2층에서 진행합니다. 찾아오시는 길: 알아서 버스타고 오세요";
 
   const callShowDetail = async () => {
     try {
@@ -145,7 +154,7 @@ const TicketDetail = () => {
         startedAt,
         endedAt,
       });
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
       console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
     } catch (err) {
@@ -182,8 +191,6 @@ const TicketDetail = () => {
 
   return (
     <div>
-      <div>{showDetail.showId}</div>
-      <div>{showDetailBack.poster_uri}</div>
       <TopCss>
         <TopLeftCss>
           <TopLeft
@@ -203,16 +210,20 @@ const TicketDetail = () => {
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
-              <TopRight></TopRight>
+              <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
             </TopRightFixed>
           ) : (
-            <TopRight></TopRight>
+            <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
           )}
         </TopRightCss>
       </TopCss>
 
       <MiddleCss>
-        <Middle description={`${showDetailBack.description}`}></Middle>
+        <Middle
+          description={`${showDetailBack.description}`}
+          casting={`${casting}`}
+          hallDescription={`${hallDescription}`}
+        ></Middle>
       </MiddleCss>
 
       <BottomCss>

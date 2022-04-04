@@ -14,7 +14,7 @@ const PosterImgContainer = styled.img`
   background-color: gray;
 `;
 
-const Perform2 = ({
+const Perform3 = ({
   name,
   show_id,
   poster_uri,
@@ -46,4 +46,4 @@ const Perform2 = ({
   );
 };
 
-export default Perform2;
+export default Perform3;

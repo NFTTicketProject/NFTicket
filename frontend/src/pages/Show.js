@@ -8,73 +8,29 @@ import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
-import {
-  web3,
-  showScheduleAbi,
-  showScheduleManagerContract,
-  ticketSaleManagerContract,
-  myTicketContract,
-} from "../utils/web3Config";
+import { web3, showScheduleAbi, showScheduleManagerContract } from "../utils/web3Config";
 
-const Market = () => {
+const Show = () => {
   const [category, SetCategory] = useState("전체");
-  const [saleTicketArray, setSaleTicketArray] = useState([]);
+  const [currentSelling, SetCurrentSelling] = useState("전체");
+  const [showList, SetShowList] = useState([]);
+  const [showListSearch, SetShowListSearch] = useState([]);
 
   const categories = ["전체", "SF", "옵션1", "test"];
 
-  const getTicketOnSale = async () => {
-    try {
-      const cnt = await ticketSaleManagerContract.methods.getCount().call();
-      console.log(cnt);
-      const tempAddress = [];
-      for (let i = 1; i < parseInt(cnt) + 1; i++) {
-        const saleAddr = await ticketSaleManagerContract.methods.getSale(i).call();
-        tempAddress.push({ saleAddr });
-      }
-      console.log("tempaddress", tempAddress);
-      setSaleTicketArray(tempAddress);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getTicketOnSale2 = async () => {
-    try {
-      const cnt = await myTicketContract.methods.totalSupply().call();
-      console.log(cnt);
-      const tempAddress = [];
-      for (let i = 1; i < parseInt(cnt) + 1; i++) {
-        const saleAddr = await ticketSaleManagerContract.methods.getSaleOfTicket(i).call();
-        if (saleAddr != "0x0000000000000000000000000000000000000000") {
-          const showScheduleId = await myTicketContract.methods.getShowScheduleId(i).call();
-          const showScheduleAddress = await showScheduleManagerContract.methods
-            .getShowSchedule(showScheduleId)
-            .call();
-          const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
-          const showId = await showScheduleContract.methods.getShowId().call();
-          const stageName = await showScheduleContract.methods.getStageName().call();
-          const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
-          const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
-          const categoryName = showInfo.category_name;
-          var cate = category;
-          if (cate === "전체") cate = "";
-          console.log("정보", categoryName, cate, categoryName.includes(cate));
-          // if (!categoryName.includes(cate)) continue;
-          console.log("showInfo", showInfo);
-
-          tempAddress.push({ ticketId: i, saleAddr, showId, stageName, ticketUri });
-        }
-      }
-      console.log("tempaddress", tempAddress);
-      setSaleTicketArray(tempAddress);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   // 초기정보
   useEffect(() => {
-    getTicketOnSale2();
+    axios
+      // .get(`https://nfticket.plus/api/v1/show/search`)
+      .get(`https://nfticket.plus/api/v1/show/search?include_address=1`)
+      .then((res) => {
+        for (let show of res.data) {
+          var address = show.show_schedule_address[0];
+          if (!address) address = "0x7fda176A47EBa05A4fD2F6C95339164ab2817883";
+          callShowDetail(address, show.show_id, show.name, show.poster_uri);
+        }
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   const getUserNickname = async (wallet) => {
@@ -160,9 +116,26 @@ const Market = () => {
     }
   };
 
+  const onSubmitCategory = async (newValue) => {
+    if (newValue === "전체") newValue = "";
+    axios
+      // .get(`http://localhost:3000/show/search?category_name=${newValue}`)
+      .get(`https://nfticket.plus/api/v1/show/search?include_address=1&category_name=${newValue}`)
+      .then((res) => {
+        SetShowList([]);
+        SetShowListSearch([]);
+        for (let show of res.data) {
+          var address = show.show_schedule_address[0];
+          if (!address) address = "0x7fda176A47EBa05A4fD2F6C95339164ab2817883";
+          callShowDetail(address, show.show_id, show.name, show.poster_uri);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div>
-      <h1 style={{ justifyContent: "center" }}>개인 티켓 거래 시장</h1>
+      <h1 style={{ justifyContent: "center" }}>공연 페이지</h1>
       <Grid container spacing={2}>
         <Grid item container spacing={0} xs={2} direction="column">
           <Grid item container direction="row">
@@ -195,14 +168,36 @@ const Market = () => {
               size="small"
             />
           </div>
+          <div>
+            <div style={{ padding: "10px" }}>판매상태</div>
+            <Autocomplete
+              value={currentSelling}
+              onChange={(event, newValue) => {
+                SetCurrentSelling(newValue);
+                onSubmitCategory(newValue);
+              }}
+              id="controllable-states-demo"
+              options={categories}
+              renderInput={(params) => <TextField {...params} label="판매상태" />}
+              size="small"
+            />
+          </div>
         </Grid>
         <Grid container xs={10}>
-          {saleTicketArray.map((ticket) => (
+          {showListSearch.map((show) => (
             <Grid item xs={3}>
-              <div>{ticket.ticketId}</div>
-              <div>{ticket.saleAddr}</div>
-              <div>{ticket.showId}</div>
-              <div>{ticket.stageName}</div>
+              <Perform2
+                key={show.id}
+                name={show.name}
+                show_id={show.id}
+                poster_uri={show.poster_uri}
+                stageSellerName={show.stageSellerName}
+                stageName={show.stageName}
+                dateStartString={show.dateStartString}
+                dateEndString={show.dateEndString}
+                price={show.price}
+                address={show.address}
+              />
             </Grid>
           ))}
         </Grid>
@@ -211,4 +206,4 @@ const Market = () => {
   );
 };
 
-export default Market;
+export default Show;

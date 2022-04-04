@@ -12,9 +12,12 @@ const DatepickerComponent = ({ detailInfo, setDetailInfo }) => {
   useEffect(() => {
     setDetailInfo({
       ...detailInfo,
-      startedAt: startDate.getTime() - new Date().getTime(),
-      endedAt: endDate.getTime() - new Date().getTime(),
+      startedAt: parseInt((startDate.getTime() - new Date().getTime()) / 1000), // - new Date().getTime(),
+      // startedAt: parseInt(startDate.getTime() / 1000),
+      endedAt: parseInt((endDate.getTime() - new Date().getTime()) / 1000), // - new Date().getTime(),
+      // endedAt: parseInt(endDate.getTime() / 1000), // - new Date().getTime(),
     });
+    console.log("보낸값 : ", (startDate.getTime() - new Date().getTime()) / 1000);
   }, [startDate, endDate]);
   // useEffect(() => {
   //   handleDate(
@@ -32,7 +35,7 @@ const DatepickerComponent = ({ detailInfo, setDetailInfo }) => {
       startedAt:
       <DatePicker
         selected={startDate}
-        onChange={(date: Date) => setStartDate(date)}
+        onChange={(date) => setStartDate(date)}
         showTimeSelect // 시간 나오게 하기
         timeFormat="HH:mm" //시간 포맷
         timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
@@ -42,7 +45,7 @@ const DatepickerComponent = ({ detailInfo, setDetailInfo }) => {
       endedAt:
       <DatePicker
         selected={endDate}
-        onChange={(date: Date) => setEndDate(date)}
+        onChange={(date) => setEndDate(date)}
         showTimeSelect // 시간 나오게 하기
         timeFormat="HH:mm" //시간 포맷
         timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
