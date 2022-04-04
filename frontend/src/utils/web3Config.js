@@ -1217,13 +1217,6 @@ const showScheduleManagerAbi = [
 ];
 export const showScheduleAbi = [
   {
-    inputs: [],
-    name: "cancel",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -1339,72 +1332,6 @@ export const showScheduleAbi = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "classId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "seatIndex",
-        type: "uint256",
-      },
-    ],
-    name: "refundTicket",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "classId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "seatIndex",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "ticketId",
-        type: "uint256",
-      },
-    ],
-    name: "registerTicket",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "classId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "seatIndex",
-        type: "uint256",
-      },
-    ],
-    name: "revokeTicket",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -1498,26 +1425,6 @@ export const showScheduleAbi = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -1538,15 +1445,9 @@ export const showScheduleAbi = [
   },
   {
     inputs: [],
-    name: "getCreatedAt",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
+    name: "cancel",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1755,6 +1656,92 @@ export const showScheduleAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "classId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "seatIndex",
+        type: "uint256",
+      },
+    ],
+    name: "refundTicket",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "classId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "seatIndex",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "ticketId",
+        type: "uint256",
+      },
+    ],
+    name: "registerTicket",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "classId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "seatIndex",
+        type: "uint256",
+      },
+    ],
+    name: "revokeTicket",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
 ];
@@ -2027,13 +2014,6 @@ const ticketSaleManagerAbi = [
 ];
 export const ticketSaleAbi = [
   {
-    inputs: [],
-    name: "cancel",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -2130,13 +2110,6 @@ export const ticketSaleAbi = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "purchase",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -2160,33 +2133,6 @@ export const ticketSaleAbi = [
     ],
     name: "Purchase",
     type: "event",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
   },
   {
     anonymous: false,
@@ -2218,6 +2164,13 @@ export const ticketSaleAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "cancel",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -2291,6 +2244,40 @@ export const ticketSaleAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "purchase",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
 ];
@@ -2483,10 +2470,10 @@ export const IERC20ABI = [
 const mintAnimalTokenAddress = "0xdDCdECe6524be448D1d2609D5430754bB06d835e";
 export const saleAnimalTokenAddress = "0xB30199f422DEc42ac5782d2D05777AD640f81447";
 //
-const myTicketAddress = "0x7d4bcfe0CD9b159d7d92AaC0Bc5fe6355cED28Bd";
-const showScheduleManagerAddress = "0xF1128803B45c6C21F8BBd67CB6307Dd816237F7B";
+const myTicketAddress = "0x38898FdFBe32aa7Cc1b5d724e9ab746f3584aF3b";
+const showScheduleManagerAddress = "0x5aBDf5d6520CF0174645E4b474302a660C024ff7";
 const showScheduleAddress = "";
-export const ticketSaleManagerAddress = "0xF9B2636Ae83ce69ADe3eCD418Ae3c56889d236f8";
+export const ticketSaleManagerAddress = "0x466d0A748E5373994D7913d13CACbd0DeEce95E6";
 const ticketSaleAddress = "";
 const IERC20Address = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
 

@@ -78,6 +78,7 @@ function ShowDetail() {
   // 티켓 발급을 위해 필요한 정보
   const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });  // 좌석 등급, 공연 id
   const [register, setRegister] = useState({});  // 티켓 등록 정보
+  const [occupied, setOccupied] = useState([]);
 
   const handleTicket = (e) => {
     setMyTicket({ ...myTicket, [e.target.name]: e.target.value });
@@ -105,6 +106,7 @@ function ShowDetail() {
       // console.log(maxMintCount);
       // 티켓 좌석 정보저장
       const tmp = [];
+
       for (let i = 0; i < ticketClassCount; i++) {
         const ticketClassName = await showScheduleContract.methods.getTicketClassName(i).call();
         const tmpTicketClassPrice = await showScheduleContract.methods
@@ -115,20 +117,23 @@ function ShowDetail() {
         const ticketClassMaxMintCount = await showScheduleContract.methods
           .getTicketClassMaxMintCount(i)
           .call();
+        const occ = [];
+        for (let j = 0; j < ticketClassMaxMintCount; j++) {
+          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
+          if (getTicketId > 0) {
+            console.log("🎃", getTicketId);
+            occ.push([i, j]);
+            setOccupied(occ);
+          }
+        }
+
         tmp.push({
           ticketClassName,
           ticketClassPrice,
           ticketClassMaxMintCount,
         });
       }
-      for (let i = 0; i < ticketClassCount; i++) {
-        for (let j = 0; j < tmp.ticketClassMaxMintCount; j++) {
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(parseInt(i), parseInt(j))
-            .call();
-          console.log(getTicketId);
-        }
-      }
+
       setTicketDetail(tmp);
       setShowDetail({
         ...showDetail,
@@ -226,9 +231,8 @@ function ShowDetail() {
 
   useEffect(() => {
     callShowDetail();
-    console.log("🐸", myTicket);
   }, []);
-
+  console.log("🐸", occupied);
   return (
     <div>
       <TopCss>
