@@ -218,7 +218,7 @@ function ShowDetail() {
       if (getTicketId < 1) {
         // 1. 티켓 발급
         const createMyTicket = await myTicketContract.methods
-          .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
+          .create(showDetailBack.poster_uri, parseInt(showScheduleId), parseInt(myTicket.classId))
           .send({ from: userData.account });
         // ticketID 받아오기
         var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
@@ -310,7 +310,7 @@ function ShowDetail() {
       </BottomCss>
       <hr />
       <h2>티켓 발급</h2>
-      <div>
+      {/* <div>
         ticketURI:
         <input type="text" name="ticketURI" value={myTicket.ticketURI} onChange={handleTicket} />
       </div>
@@ -323,7 +323,7 @@ function ShowDetail() {
           onChange={handleTicket}
           disabled={true}
         />
-      </div>
+      </div> */}
       <div>
         classId:
         <input
