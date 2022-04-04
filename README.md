@@ -220,7 +220,7 @@ NFTicket
 - [아키텍처](./docs/서비스_아키텍처.md) [수정 필요]
 - [와이어프레임](docs/docs/와이어프레임.md)
 - [컨벤션](./docs/컨벤션.md) [수정 필요]
-- [API](./docs/API.md) [수정 필요]
+- [API](docs/docs/apidocs.pdf)
 - [ERD](docs/docs/ERD.md)
 - [회의록](./docs/회의록.md) [수정 필요]
 - [시스템기술서](./docs/TUPLI_시스템_기술서.docx) [수정 필요]
