@@ -12,7 +12,8 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
   const [saleStatus, setSaleStatus] = useState(false);
   const [tradeDetail, setTradeDetail] = useState({});
   const [isBuyable, setIsBuyable] = useState(false);
-
+  const [saleAddr, setSaleAddr] = useState();
+  // console.log(isBuyable);
   const getTicketOwner = async () => {
     try {
       const res = await ticketSaleManagerContract.methods.ownerOf(userData.account).call();
@@ -48,14 +49,16 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
     try {
       const res = await ticketSaleManagerContract.methods
         .create(
-          parseInt(register.ticketID),
+          // parseInt(register.ticketID),
+          parseInt(tradeDetail.ticketID),
           tradeDetail.description,
           parseInt(tradeDetail.price),
           parseInt(tradeDetail.startedAt),
           parseInt(tradeDetail.endedAt)
         )
         .send({ from: userData.account });
-      console.log(res);
+      console.log("🐸", res);
+      // setSaleAddr(res.events[0].returnValues.saleAddr);
       if (res.status) {
         alert("판매 등록 완료");
       }
@@ -81,9 +84,9 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
               <input
                 type="number"
                 name="ticketID"
-                value={register.ticketID}
+                // value={register.ticketID}
+                value={tradeDetail.ticketID}
                 onChange={handleTicketTrade}
-                disabled={true}
               />
             </div>
             <div>
@@ -124,7 +127,9 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
             </div>
           </div>
 
-          <button onClick={mintTrade}>거래 발급</button>
+          <button disabled={isBuyable} onClick={mintTrade}>
+            거래 발급
+          </button>
         </div>
       ) : (
         <div>

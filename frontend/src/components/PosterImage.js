@@ -61,14 +61,14 @@ const PosterImage = ({ apiData, setApiData }) => {
   // console.log(`hash: ${info.ipfsHash}`);
 
   useEffect(() => {
-    setApiData({ ...apiData, poster: `https://ipfs.io/ipfs/${info.ipfsHash}` });
+    setApiData({ ...apiData, poster: info.ipfsHash });
   }, [info]);
 
   return (
     <div className="App">
       <div>
         <img
-          src={apiData.poster}
+          src={`https://ipfs.io/ipfs/${apiData.poster}`}
           alt="sample"
           style={{
             width: "150px",
