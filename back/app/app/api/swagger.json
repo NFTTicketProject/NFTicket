@@ -1253,8 +1253,19 @@
               "$ref": "#/definitions/ProfileAddresses"
             }
           },
-          "500": {
-            "description": "사용자 없음 | 서버"
+          "404": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "No Data",
+                  "example": "Profile doesn't exist"
+                }
+              }
+            }
           }
         }
       }
@@ -4358,6 +4369,17 @@
       }
     },
     "ProfileAddresses": {
+      "type": "array",
+      "description": "지갑주소 배열",
+      "items": {
+        "type": "object",
+        "properties": {
+          "wallet_id": {
+            "type": "string",
+            "example": "0xD823e14ed981f56Ca624D2d6FeE99Fa89af8Be31"
+          }
+        }
+      }
     },
     "SignedProfileGallery": {
       "type": "object",
