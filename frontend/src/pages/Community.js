@@ -3,6 +3,13 @@ import React, { useState, useEffect } from "react";
 import Unity, { UnityContext } from "react-unity-webgl";
 import Button from '@mui/material/Button';
 import { Container, Grid } from "@mui/material";
+import axios from "axios";
+import {
+  myTicketContract,
+  showScheduleAbi,
+  showScheduleManagerContract,
+  web3,
+} from "../utils/web3Config";
 
 // Develop_mode
 const unityContext = new UnityContext({
@@ -19,46 +26,209 @@ const unityContext = new UnityContext({
 const Community = () => {
   const [speed, SetSpeed] = useState(0);
   const [nickname, SetNickname] = useState("Noname");
+  const [members, SetMembers] = useState([]);  // 입장용
   const [roomName, SetRoomName] = useState("입장중");
   const [image, Setimage] = useState("https://docs.unity3d.com/uploads/Main/ShadowIntro.png");
+  const [ticketArray, setTicketArray] = useState([]);  // 티켓 정보 최신순
   // 사용가능횟수 = 1000회/하루?? : https://www.youtube.com/watch?v=L3wJi7dvH2I
   // const imageSERVER = "https://cdn.filestackcontent.com/AM9o5lgXYR1uvQX2NaAqnz/output=secure:true/"
-  const imageSERVER = "https://j6a102.p.ssafy.io/showipfs/ipfs/"
+  const imageSERVEROrigin = "https://ipfs.io/ipfs/"
+  const imageSERVER = "https://nfticket.plus/showipfs/ipfs/"
 
   const FileSaver = require('file-saver')
 
   // 지갑 내지 닉네임으로 정보를 얻어와서 필요한 이미지와 관련 정보를 세팅함
-  function loadTickets() {
+  const loadTickets = () => {
     var image1, image2, image3, image4, image5;
     var title1, title2;
     var desc1, desc2;
-    image1 = "https://ipfs.io/ipfs/QmUwEVMbMCsW2ZJxVx2qXrvtJC6i4KVs9DCw6kgEQsVnVw";
-    image2 = "https://ipfs.io/ipfs/QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV";
-    image3 = "https://ipfs.io/ipfs/QmPufqDQgKCaLNVDqyYbdGVnZduEFt9VY5wq46t6kiiL7x";
-    image4 = "https://ipfs.io/ipfs/Qme2ufsSCBHdFDWTzS8fTfWRcXRq9HMhdN1MMX8dajedLb";
-    image5 = "https://ipfs.io/ipfs/Qma6KCK95FdQ3g5Ai8owWxbm14qKjz2d8YBWdFcj3QirLf";
-    title1 = "티켓10";
-    desc1 = "기본적인 설명2";
-    title2 = "Ticket2";
-    desc2 = " 띄어쓰기와 \n 엔터 테스트 등의 기본적인 정보 보내기"
+    image1 = imageSERVER + "QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV";
+    image2 = imageSERVER + "QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV";
+    image3 = imageSERVER + "QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV";
+    image4 = imageSERVER + "QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV";
+    image5 = imageSERVER + "QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV";
+    title1 = "NFTicket";
+    desc1 = "좌석 등급 : None\n공연 설명 : NFTicket에서 더 많은 티켓을 구매하고, 전시하세요!";
+    title2 = "NFTicket";
+    desc2 = "좌석 등급 : None\n공연 설명 : NFTicket에서 더 많은 티켓을 구매하고, 전시하세요!";
+
+    if (ticketArray[0]) {
+      image1 = imageSERVER + ticketArray[0].ticketUri
+      if (ticketArray[0].title) {
+        title1 = ticketArray[0].title
+      }
+      desc1 = ticketArray[0].desc
+    }
+
+    if (ticketArray[1]) {
+      image2 = imageSERVER + ticketArray[1].ticketUri
+      if (ticketArray[1].title) {
+        title1 = ticketArray[1].title
+      }
+      desc2 = ticketArray[1].desc
+    }
+
+    if (ticketArray[2]) {
+      image3 = imageSERVER + ticketArray[2].ticketUri
+    }
+
+    if (ticketArray[3]) {
+      image4 = imageSERVER + ticketArray[3].ticketUri
+    }
+
+    if (ticketArray[4]) {
+      image5 = imageSERVER + ticketArray[4].ticketUri
+    }
   
-    unityContext.send("Image1", "SetUrl", image1);
-    unityContext.send("Image2", "SetUrl", image2);
-    unityContext.send("Image3", "SetUrl", image3);
-    unityContext.send("Window1", "SetUrl", image4);
-    unityContext.send("Window2", "SetUrl", image5);
+    unityContext.send("Image1", "SetUrl", image3);
+    unityContext.send("Image2", "SetUrl", image4);
+    unityContext.send("Image3", "SetUrl", image5);
+    unityContext.send("Window1", "SetUrl", image1);
+    unityContext.send("Window2", "SetUrl", image2);
     unityContext.send("Zone1", "SetTitle", title1);
     unityContext.send("Zone2", "SetTitle", title2);
     unityContext.send("Zone1", "SetDesc", desc1);
     unityContext.send("Zone2", "SetDesc", desc2);
   }
 
+  // 닉네임을 wallet 으로
+  const nicknameToWallet = async (name) => {
+    try {
+      const response = await axios.post(`https://nfticket.plus/api/v1/profile/address-by-nickname`, {
+        nickname: name
+      })
+      if (response) {
+        return response.data[0].wallet_id;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+    // wallet을 nickname 으로
+    const walletToNickname = async (wallet) => {
+      try {
+        const response = await axios.get('https://nfticket.plus/api/v1/profile/'+wallet+'/nickname')
+        if (response) {
+          return response.data.nickname;
+        } else {
+          return null;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+  // 해당 지갑 소유자가 가지고 있는 모든 티켓 다 긁어오기
+  const getTicketsByWallet = async (wallet) => {
+    try {
+      // wallet : 해당 지갑 소유자
+      // 해당 지갑 주소 소유자가 가지고있는 티켓 수
+      const balanceLength = await myTicketContract.methods.balanceOf(wallet).call();
+      console.log('총 갯수', balanceLength)
+
+      const tempArray = [];
+      for (let i = 0; i < parseInt(balanceLength, 10); i++) {
+        // 거꾸로 가자
+        var j = parseInt(balanceLength, 10) - i - 1
+        console.log('j', j)
+        // ticketId: 1부터 시작
+        const ticketId = await myTicketContract.methods
+          .tokenOfOwnerByIndex(wallet, j)
+          .call();
+        // showScheduleId: 1부터 시작
+        const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
+        // clasId: 1부터 시작 => className(좌석 등급으로 변환)
+        const classId = await myTicketContract.methods.getClassId(ticketId).call();
+        const showScheduleAddress = await showScheduleManagerContract.methods
+          .getShowSchedule(showScheduleId)
+          .call();
+        const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+        const className = await showScheduleContract.methods.getTicketClassName(classId).call();
+        // 공연 이름 ??????????????????
+        const showId = await showScheduleContract.methods.getShowId().call();
+        const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+        // console.log("공연 번호", showId);
+        // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showScheduleId}`);
+        // 티켓 이미지 주소
+        const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+        // console.log("티켓 주소", ticketId, ticketUri);
+        // console.log("공연정보", showInfo);
+        const desc = "좌석 등급 : " + className + "\n공연 설명 : " + showInfo.data.description
+        tempArray.push({
+          title: showInfo.data.name,
+          desc,
+          ticketUri
+        });
+      }
+      setTicketArray(tempArray);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getGalleryFromWallet = async (walletAddr) => {     
+    try {
+      const response = await axios.get('https://nfticket.plus/api/v1/profile/'+ walletAddr + '/gallery')
+      if (response) {
+        return response.data.gallery
+      } else {
+        return null
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // useEffect 내부에서 async 쓰는 법!
   // 방 이름 얻어오고 각종 정보 확보하고 이미지 세팅하기
   useEffect(() => {
+    // 닉네임 입장 : nickname만 있을 경우 wallet 정보 가져오고 입장
+    const nicknameControll = async (name) => {
+      var wallet = await nicknameToWallet(name) 
+      await getTicketsByWallet(wallet);  // array에 세팅해놓고 입장해야 순서 안 꼬임...
+      var galleryType = "galleryS" 
+      if (wallet) {
+        galleryType = await getGalleryFromWallet(wallet)
+        // 예외 처리
+        if (galleryType != "galleryS" && galleryType != "galleryM") galleryType = "galleryS"
+        // 특수 조건
+        if (name === "Noname") galleryType = "galleryM"   
+        // 입장
+        unityContext.send("NetworkManager", "CreateRoomWebGL", galleryType)
+      } else {
+        // 입장 불가
+        unityContext.send("NetworkManager", "SetErrorMessage", "해당 유저는 존재하지 않습니다.")
+      }  
+    }
+
+    // wallet 입장 : wallet만 있을 경우 nickname 정보 가져오고 입장
+    const walletControll = async (wallet) => {
+      await getTicketsByWallet(wallet);  // array에 세팅해놓고 입장해야 순서 안 꼬임...
+      var name = await walletToNickname(wallet)
+      var galleryType = "galleryS" 
+      if (name) {
+        SetRoomName(name);
+        galleryType = await getGalleryFromWallet(wallet)
+        // 예외 처리
+        if (galleryType != "galleryS" && galleryType != "galleryM") galleryType = "galleryS"
+        // 특수 조건
+        if (name === "Noname") galleryType = "galleryM"   
+        // 입장
+        unityContext.send("NetworkManager", "CreateRoomWebGL", galleryType)
+      } else {
+        // 입장 불가
+        unityContext.send("NetworkManager", "SetErrorMessage", "해당 유저는 존재하지 않습니다.")
+      }        
+    }
+
     unityContext.on("GetRoomName", function(name) {
       // Unity->React로 방을 만들었다는 내용을 보낸다
       if (name === "입장완료") {
         // 입장 완료시 티켓 정보를 보내줌
+        console.log("순서 측정 3", ticketArray)
         loadTickets();
       // 커뮤니티 입장하겠다는 선언
       } else if (name === "commuSSAFY") {
@@ -74,23 +244,16 @@ const Community = () => {
       // 방 입장하겠다는 선언 : 방을 만들기 위한 정보로 사용할 닉네임 내지 지갑 주소를 받는다
       } else {
         // 입력 정보가 지갑일 경우, 닉네임으로 변경 (현재 임시 함수)
-        if (name.length < 10) SetRoomName(name);
-
-        // 기본 방
-        var galleryType = "GalleryS"
-        // 특정 유닛을 위한 중간 방
-        if (name === "Noname") galleryType = "galleryM"   
-        // 예시용 조건
-        if (name === "Guest") {
-          // 입장 불가
-          unityContext.send("NetworkManager", "SetErrorMessage", "해당 유저는 존재하지 않습니다.")
-        } else {          
-          // 입장 가능
-          unityContext.send("NetworkManager", "CreateRoomWebGL", galleryType)
-        }  
+        if (name.length < 20) {
+          // 아마 닉네임
+          nicknameControll(name)
+        } else {
+          // 아마 지갑
+          walletControll(name)
+        }
       }      
     });
-  }, [nickname])
+  }, [nickname, ticketArray])
 
   useEffect(function() {
     unityContext.on("GetSpeed", function(speed) {
@@ -100,14 +263,23 @@ const Community = () => {
 
   useEffect(function() {
     unityContext.on("GetNickName", function(name) {
-      console.log("닉넴", name)
       if (name === "start") {
-        unityContext.send("NetworkManager", "SetNickNameReact", "초기닉네임");
+        unityContext.send("NetworkManager", "SetNickNameReact", "손님");
       } else {
         SetNickname(name);
       }
     });
   }, []);
+
+  // 초기 값 세팅
+  useEffect(() => {
+    getMembers()
+  }, []);
+
+  const getMembers = async() => {
+    const response = await axios.get(`https://nfticket.plus/api/v1/profile`);
+    SetMembers(response.data);
+  }
 
   function handleOnClickFullscreen() {
     unityContext.setFullscreen(true);
@@ -146,8 +318,12 @@ const Community = () => {
       </Grid>
     </Grid>
     <hr/>
-    방문자를 위한 안내 :  <br/>
-    닉네임을 Guest로 변경하실 경우, SSAFY NFT 티켓이 없으셔도 커뮤니티에 들어가실 수 있게 열어두었습니다.
+    <h3>SSAFY 티켓 NFT 미보유 방문자를 위한 안내</h3>
+    닉네임을 Guest(대소문자 구별)로 변경하실 경우, SSAFY NFT 티켓이 없으셔도 커뮤니티에 들어가실 수 있게 열어두었습니다.
+    <h3>입장 가능한 닉네임/방 (티켓 미구매 포함 전체 계정 리스트)</h3>
+    {members.map((member) => (
+      <div>{member.nickname}</div>
+    ))}
   </Container>
   );
 };

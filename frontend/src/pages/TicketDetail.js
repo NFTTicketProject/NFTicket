@@ -7,6 +7,9 @@ import {
   showScheduleAbi,
   myTicketContract,
   showScheduleManagerContract,
+  ticketSaleManagerContract,
+  IERC20Contract,
+  ticketSaleAbi,
 } from "../utils/web3Config";
 
 import axios from "axios";
@@ -170,6 +173,17 @@ const TicketDetail = () => {
       console.error(err);
     }
   };
+  // // 내 지갑 주소로 닉네임 가져오기
+  // const getUserNickname = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
+  //     );
+  //     console.log("data.nickname", response.data.nickname);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   // // 내 지갑 주소로 닉네임 가져오기
   // const getUserNickname = async () => {
@@ -196,7 +210,43 @@ const TicketDetail = () => {
 
   useEffect(() => {
     callShowDetail();
+    getTicketAddr();
   }, []);
+  console.log(showDetail);
+
+  // // 구매
+  const [saleAddr, setSaleAddr] = useState();
+  const getTicketAddr = async () => {
+    try {
+      const getSale = await ticketSaleManagerContract.methods.getSale(parseInt(ticketId)).call();
+      console.log(getSale);
+      setSaleAddr(getSale);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+  const buyTicket = async () => {
+    try {
+      // 1. gatSale()통해 contract 주소
+      // 2. approve
+      const approval = await IERC20Contract.methods
+        .approve(saleAddr, 500)
+        .send({ from: userData.account });
+      console.log(approval);
+      // 3. ticketSale.sol 발행
+      if (approval.status) {
+        const purchase = await ticketSaleContract.methods
+          .purchase()
+          .send({ from: userData.account });
+        if (purchase.status) {
+          alert("구매 완료");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
  console.log('showDetail', showDetail);
  console.log('ticketDetail', ticketDetail);
@@ -242,8 +292,13 @@ const TicketDetail = () => {
                 seatInfo={ticketDetail}
                 casting={`${showDetailBack.staffs}`}
                 ticketId={ticketId}
+<<<<<<< HEAD
               ></TopRight>
               
+=======
+                buyTicket={buyTicket}
+              ></TopRight>
+>>>>>>> dev-front
             </TopRightFixed>
           ) : (
             <TopRight

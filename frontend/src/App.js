@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Page1 from "./pages/Page1";
 import Page2 from "./pages/Page2";
-import Page3 from "./pages/Page3";
+import Decorate from "./pages/Decorate";
 import Page4 from "./pages/Page4";
 import Community from "./pages/Community";
 // import MyAnimal from "./pages/MyAnimal";
@@ -60,7 +60,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Redux1" element={<Page1 />} />
         <Route path="/Redux2" element={<Page2 />} />
-        <Route path="/Toast%20UI" element={<Page3 />} />
+        <Route path="/decorate/:ticketId" element={<Decorate />} />
         <Route path="/Wallet%20Info" element={<Page4 />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/Guide" element={<Guide />} />
