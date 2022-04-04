@@ -438,7 +438,7 @@ function MyPage() {
                       ticketArray.map((v, i) => {
                         return (
                           <Grid item xs={3}>
-                            <MyTicketItem key={i} {...v} />;
+                            <MyTicketItem key={i} {...v} />
                           </Grid>
                         );
                       })}

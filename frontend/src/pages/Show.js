@@ -197,7 +197,7 @@ const Show = () => {
                 size="small"
               />
             </div>
-            <div>
+            {/* <div>
               <div style={{ padding: "10px" }}>판매상태</div>
               <Autocomplete
                 value={currentSelling}
@@ -210,7 +210,7 @@ const Show = () => {
                 renderInput={(params) => <TextField {...params} label="판매상태" />}
                 size="small"
               />
-            </div>
+            </div> */}
           </Grid>
           <Grid container xs={10}>
             {showListSearch.map((show) => (
