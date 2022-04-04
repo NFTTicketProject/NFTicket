@@ -1221,6 +1221,44 @@
         "deprecated": true
       }
     },
+    "/profile/address-by-nickname": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "닉네임 소유자의 지갑주소 반환",
+        "description": "",
+        "operationId": "getAddressByNickname",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "닉네임",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProfileAddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileAddresses"
+            }
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        }
+      }
+    },
     "/role": {
       "post": {
         "tags": [
@@ -4303,6 +4341,23 @@
           "example": 1648433785800
         }
       }
+    },
+    "ProfileAddress": {
+      "type": "object",
+      "description": "사용자 주소",
+      "required": [
+        "nickname"
+      ],
+      "properties": {
+        "nickname": {
+          "description": "닉네임",
+          "type": "string",
+          "format": "size",
+          "example": "닉네임"
+        }
+      }
+    },
+    "ProfileAddresses": {
     },
     "SignedProfileGallery": {
       "type": "object",

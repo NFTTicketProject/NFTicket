@@ -40,6 +40,21 @@ module.exports = {
 
         return result
     },
+    getAddressByNickname: async (nickname) =>
+    {
+        const result = await prisma.Profile.findMany({
+            where: {
+                nickname: nickname
+            },
+            select: {
+                wallet_id: true,
+            },
+        })
+
+        logger.info(`[Service] ${ service_name } ::: getAddressByNickname ::: ${ JSON.stringify(result) }`)
+
+        return result
+    },
     getCreatedAt: async (walletId) =>
     {
         const result = await prisma.Profile.findUnique({
