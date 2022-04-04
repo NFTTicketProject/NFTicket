@@ -58,7 +58,7 @@ function ShowDetail() {
     "경기도 남양주시 화도읍사무소 2층에서 진행합니다. 찾아오시는 길: 알아서 버스타고 오세요";
   const [showDetailBack, setShowDetailBack] = useState({});
 
-  ///
+  ////
 
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -76,9 +76,11 @@ function ShowDetail() {
   const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });
   const [register, setRegister] = useState({});
   const [occupied, setOccupied] = useState([]);
+  const [seatInfo, setSeatInfo] = useState([]);
 
   const handleTicket = (e) => {
     setMyTicket({ ...myTicket, [e.target.name]: e.target.value });
+    setOccupied([myTicket.classId, ...occupied]);
   };
   const handleRegister = (e) => {
     setRegister({ ...register, [e.target.name]: e.target.value });
@@ -118,7 +120,7 @@ function ShowDetail() {
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
           const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
           if (getTicketId > 0) {
-            console.log("🎃", getTicketId);
+            // console.log("🎃", getTicketId);
             occ.push([i, j]);
             setOccupied(occ);
           }
@@ -153,6 +155,34 @@ function ShowDetail() {
     }
   };
 
+  // test
+  const test = async () => {
+    try {
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
+      const arr = [];
+      for (let i = 0; i < ticketClassCount; i++) {
+        const ticketClassMaxMintCount = await showScheduleContract.methods
+          .getTicketClassMaxMintCount(i)
+          .call();
+        const tmp = [];
+        for (let j = 0; j < ticketClassMaxMintCount; j++) {
+          tmp.push(0);
+          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
+          if (getTicketId > 0) {
+            tmp[j] = 1;
+          } else {
+            console.log(i, j);
+          }
+        }
+        const newItem = { grade: i, info: tmp };
+        arr.push(newItem);
+      }
+      setSeatInfo(arr);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // show 등록 취소 버튼
   const cancelShow = async () => {
     try {
@@ -182,25 +212,31 @@ function ShowDetail() {
   //티켓 등록
   const enrollTicket = async () => {
     try {
-      // 1. 티켓 발급
-      const createMyTicket = await myTicketContract.methods
-        .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
-        .send({ from: userData.account });
-      // ticketID 받아오기
-      var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
-      setRegister({ ...register, ticketID });
-      if (createMyTicket.status) {
-        // 2. approve
-        const approval = await IERC20Contract.methods
-          .approve(showScheduleAddress, 500)
+      // 좌석 등록 여부 확인 - 0이면 등록 안돼있고, 1 이상이면 등록 되어있는 상태
+      const getTicketId = await showScheduleContract.methods
+        .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))
+        .call();
+      console.log(getTicketId);
+      if (getTicketId < 1) {
+        // 1. 티켓 발급
+        const createMyTicket = await myTicketContract.methods
+          .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
           .send({ from: userData.account });
-        if (approval.status) {
-          alert(`티켓 발급 완료`);
-          // 좌석 등록 여부 확인
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))
-            .call();
-          if (getTicketId === 0) {
+        // ticketID 받아오기
+        var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
+        setRegister({ ...register, ticketID });
+        if (createMyTicket.status) {
+          // 2. approve
+          const approval = await IERC20Contract.methods
+            .approve(showScheduleAddress, 500)
+            .send({ from: userData.account });
+          if (approval.status) {
+            alert(`티켓 발급 완료`);
+            // // 좌석 등록 여부 확인 - 0이면 등록 안돼있고, 1 이상이면 등록 되어있는 상태
+            // const getTicketId = await showScheduleContract.methods
+            //   .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))
+            //   .call();
+            // console.log(getTicketId);
             // 3. register
             const registerTicket = await showScheduleContract.methods
               .registerTicket(
@@ -210,16 +246,19 @@ function ShowDetail() {
               )
               .send({ from: userData.account });
             if (registerTicket.status) {
+              // 초기화
+              setMyTicket({ classId: 0, showScheduleId });
+              setRegister({});
               alert(`${ticketID}번 티켓 등록 성공`);
               // // 티켓 발급, 등록 완료되면 /Ticket/:ticketId로 이동
               // navigate(`/Ticket/${ticketID}`);
               // // 티켓 발급, 등록 완료되면 /MyPage로 이동
               // navigate("/MyPage");
             }
-          } else {
-            alert("이미 예약된 좌석입니다.");
           }
         }
+      } else {
+        alert(`이미 예약된 좌석입니다.`);
       }
     } catch (err) {
       console.error(err);
@@ -228,8 +267,9 @@ function ShowDetail() {
 
   useEffect(() => {
     callShowDetail();
+    test();
   }, []);
-  console.log("🐸", occupied);
+  console.log("🐸", seatInfo);
   return (
     <div>
       <TopCss>
