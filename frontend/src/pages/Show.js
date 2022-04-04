@@ -2,7 +2,7 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-import Perform2 from "../components/Home/Perform2"; // 임시
+import PerformShow from "../components/Home/PerformShow";
 
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
@@ -60,7 +60,7 @@ const Show = () => {
       var dateEnd = new Date(endAt * 1000);
       var dateEndString =
         dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
-      var now = new Date();
+      // var now = new Date();
       // console.log("날짜비교", now.getTime(), dateEnd.getTime(), dateStart.getTime())
 
       var price = 987654321;
@@ -186,7 +186,7 @@ const Show = () => {
         <Grid container xs={10}>
           {showListSearch.map((show) => (
             <Grid item xs={3}>
-              <Perform2
+              <PerformShow
                 key={show.id}
                 name={show.name}
                 show_id={show.id}

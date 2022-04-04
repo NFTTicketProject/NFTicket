@@ -48,6 +48,7 @@ function ScheduleManager() {
   const handleInfoChange = (e) => {
     setDetailInfo({ ...detailInfo, [e.target.name]: e.target.value });
   };
+
   // 아이템 배열에 새로운 아이템 추가
   const onCreate = (grade, price, seats) => {
     const newItem = { grade, price, seats, id: dataId.current };
@@ -56,9 +57,29 @@ function ScheduleManager() {
     setTicketClassNames([newItem.grade, ...ticketClassNames]);
     setTicketClassPrices([newItem.price, ...ticketClassPrices]);
     setTicketClassMaxMintCounts([newItem.seats, ...ticketClassMaxMintCounts]);
+    // console.log(newItem.seats);
+    // const mintCnt = ticketClassMaxMintCounts.reduce(function add(sum, currValue) {
+    //   return sum + currValue;
+    // }, 0);
+    // console.log(mintCnt);
   };
-  const userData = JSON.parse(localStorage.getItem("userAccount"));
+  // console.log("🐸", ticketClassMaxMintCounts);
+  // const mintCnt = ticketClassMaxMintCounts.reduce(function add(sum, currValue) {
+  //   return sum + currValue;
+  // }, 0);
+  const setMaxMintCount = () => {
+    const mintCnt = ticketClassMaxMintCounts.reduce(function add(
+      sum,
+      currValue,
+    ) {
+      return sum + currValue;
+    },
+    0);
+    setDetailInfo({ ...detailInfo, maxMintCount: mintCnt });
+    console.log("🐸", detailInfo);
+  };
 
+  const userData = JSON.parse(localStorage.getItem("userAccount"));
   //Redux 사용 account
   const account = useSelector((state) => state.wallet.accountInfo);
   // console.log(`acc: ${userData.account}`);
@@ -94,13 +115,22 @@ function ScheduleManager() {
   const handleMint = async () => {
     console.log(detailInfo);
     try {
+      const mintCnt = await ticketClassMaxMintCounts.reduce(function add(
+        sum,
+        currValue,
+      ) {
+        return sum + currValue;
+      },
+      0);
+      console.log(mintCnt);
       const response = await showScheduleManagerContract.methods
         .create(
           parseInt(detailInfo.showId),
           detailInfo.stageName,
           detailInfo.startedAt,
           detailInfo.endedAt,
-          parseInt(detailInfo.maxMintCount),
+          // parseInt(detailInfo.maxMintCount),
+          parseInt(mintCnt),
           ticketClassNames,
           ticketClassPrices,
           ticketClassMaxMintCounts,
@@ -293,7 +323,7 @@ function ScheduleManager() {
           setDetailInfo={setDetailInfo}
         />
         {/* <DatepickerComponent handleDate={handleDate} /> */}
-        <div>
+        {/* <div>
           총 발행 갯수:
           <input
             name='maxMintCount'
@@ -302,7 +332,7 @@ function ScheduleManager() {
             onChange={handleInfoChange}
             placeholder='maxMintCount'
           />
-        </div>
+        </div> */}
 
         <div>
           좌석 관련 정보:
