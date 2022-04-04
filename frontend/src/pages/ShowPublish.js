@@ -19,6 +19,15 @@ import Checkbox from "@mui/material/Checkbox";
 import { showScheduleManagerContract } from "../utils/web3Config";
 import axios from "axios";
 
+const TotalWrapDiv = styled.div`
+  position: relative;
+  min-height: 100vh;
+`;
+
+const ContentWrapDiv = styled.div`
+  padding-bottom: 16rem;
+`;
+
 const TopCss = styled.div`
   display: flex;
   justify-content: center;
@@ -352,293 +361,295 @@ const ShowPublish = () => {
   }, [info]);
 
   return (
-    <div>
-      <TopCss>
-        <TopLeftCss>
-          <TypeAndLeft>
-            <Stack direction='row' spacing={1}>
-              {apiData.category_name !== "" && (
-                <Chip label={apiData.category_name} color='default' />
-              )}
-              {apiData.age_limit !== null && apiData.age_limit !== "" && (
-                <Chip
-                  label={`${apiData.age_limit}세 이상 이용가`}
-                  variant='outlined'
-                />
-              )}
-            </Stack>
-          </TypeAndLeft>
-
-          <TicketTitle>
-            <TextField
-              name='name'
-              type='text'
-              label='공연타이틀'
-              placeholder='공연 타이틀'
-              variant='standard'
-              value={apiData.name}
-              onChange={handleApiChange}
-              style={{ width: 600 }}
-              inputProps={{ style: { fontSize: 36, fontWeight: "bold" } }} // font size of input text
-              InputLabelProps={{ style: { fontSize: 20 } }} // font size of input label
-            />
-          </TicketTitle>
-
-          <UnderTitle>
-            <form onSubmit={onSubmitPoster}>
-              <PosterArea>
-                {info.ipfsHash === null ? (
-                  <Poster
-                    src='images/default_profile.png'
-                    alt='포스터를 업로드해주세요.'
-                  ></Poster>
-                ) : isUploadImg ? (
-                  <Poster
-                    src={`https://ipfs.io/ipfs/${apiData.poster}`}
-                    alt='등록 버튼을 눌러주세요.'
-                  ></Poster>
-                ) : (
-                  <ButtonDescArea>
-                    파일선택 후 등록 버튼을 눌러주세요.
-                  </ButtonDescArea>
+    <TotalWrapDiv>
+      <ContentWrapDiv>
+        <TopCss>
+          <TopLeftCss>
+            <TypeAndLeft>
+              <Stack direction='row' spacing={1}>
+                {apiData.category_name !== "" && (
+                  <Chip label={apiData.category_name} color='default' />
                 )}
-              </PosterArea>
-              <SubmitButtonArea>
-                {/* <input type='file' onChange={captureFile} /> */}
-                <Button
-                  sx={{
-                    color: "text.primary",
-                    borderColor: "text.secondary",
-                    borderRadius: 3,
-                    py: 0.5,
-                    mr: 2,
-                  }}
-                  variant='outlined'
-                  component='label' // 이거 안해주면 작동을 안하네요..
-                >
-                  파일선택
-                  <input type='file' onChange={captureFile} hidden />
-                </Button>
-                {/* <button type='submit'>등록</button> */}
-                <Button
-                  type='submit'
-                  sx={{
-                    color: "text.primary",
-                    borderColor: "text.secondary",
-                    borderRadius: 3,
-                    py: 0.5,
-                  }}
-                  variant='outlined'
-                >
-                  등록
-                </Button>
-              </SubmitButtonArea>
-            </form>
-            <TicketInfoArea>
-              <table>
-                <tbody>
-                  <tr>
-                    <th>장소</th>
+                {apiData.age_limit !== null && apiData.age_limit !== "" && (
+                  <Chip
+                    label={`${apiData.age_limit}세 이상 이용가`}
+                    variant='outlined'
+                  />
+                )}
+              </Stack>
+            </TypeAndLeft>
+
+            <TicketTitle>
+              <TextField
+                name='name'
+                type='text'
+                label='공연타이틀'
+                placeholder='공연 타이틀'
+                variant='standard'
+                value={apiData.name}
+                onChange={handleApiChange}
+                style={{ width: 600 }}
+                inputProps={{ style: { fontSize: 36, fontWeight: "bold" } }} // font size of input text
+                InputLabelProps={{ style: { fontSize: 20 } }} // font size of input label
+              />
+            </TicketTitle>
+
+            <UnderTitle>
+              <form onSubmit={onSubmitPoster}>
+                <PosterArea>
+                  {info.ipfsHash === null ? (
+                    <Poster
+                      src='images/default_profile.png'
+                      alt='포스터를 업로드해주세요.'
+                    ></Poster>
+                  ) : isUploadImg ? (
+                    <Poster
+                      src={`https://ipfs.io/ipfs/${apiData.poster}`}
+                      alt='등록 버튼을 눌러주세요.'
+                    ></Poster>
+                  ) : (
+                    <ButtonDescArea>
+                      파일선택 후 등록 버튼을 눌러주세요.
+                    </ButtonDescArea>
+                  )}
+                </PosterArea>
+                <SubmitButtonArea>
+                  {/* <input type='file' onChange={captureFile} /> */}
+                  <Button
+                    sx={{
+                      color: "text.primary",
+                      borderColor: "text.secondary",
+                      borderRadius: 3,
+                      py: 0.5,
+                      mr: 2,
+                    }}
+                    variant='outlined'
+                    component='label' // 이거 안해주면 작동을 안하네요..
+                  >
+                    파일선택
+                    <input type='file' onChange={captureFile} hidden />
+                  </Button>
+                  {/* <button type='submit'>등록</button> */}
+                  <Button
+                    type='submit'
+                    sx={{
+                      color: "text.primary",
+                      borderColor: "text.secondary",
+                      borderRadius: 3,
+                      py: 0.5,
+                    }}
+                    variant='outlined'
+                  >
+                    등록
+                  </Button>
+                </SubmitButtonArea>
+              </form>
+              <TicketInfoArea>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>장소</th>
+                      <td>
+                        {" "}
+                        <TextField
+                          name='stageName'
+                          type='text'
+                          label='장소'
+                          variant='standard'
+                          value={detailInfo.stageName}
+                          onChange={handleInfoChange}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody>
+                    <tr>
+                      <th>공연시간</th>
+                      <td>
+                        <TextField
+                          name='running_time'
+                          type='number'
+                          label='공연시간(분)'
+                          variant='standard'
+                          value={apiData.running_time}
+                          onChange={handleApiChange}
+                        />{" "}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody>
+                    <tr>
+                      <th>공연 정보</th>
+                      <td>
+                        <TextField
+                          name='description'
+                          type='text'
+                          label='공연 정보'
+                          rows={2}
+                          multiline
+                          value={apiData.description}
+                          onChange={handleApiChange}
+                        />{" "}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody>
+                    <tr>
+                      <th>관람연령</th>
+                      <td>
+                        <TextField
+                          name='age_limit'
+                          type='number'
+                          label='관람연령'
+                          variant='standard'
+                          value={apiData.age_limit}
+                          onChange={handleApiChange}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody>
+                    <th>카테고리</th>
                     <td>
-                      {" "}
                       <TextField
-                        name='stageName'
+                        name='category_name'
                         type='text'
-                        label='장소'
+                        label='카테고리'
                         variant='standard'
-                        value={detailInfo.stageName}
+                        value={apiData.category_name}
+                        onChange={handleApiChange}
+                      />
+                    </td>
+                  </tbody>
+                  <tbody>
+                    <th>발행 갯수</th>
+                    <td>
+                      <TextField
+                        name='maxMintCount'
+                        type='number'
+                        label='최대 발행 갯수'
+                        variant='standard'
+                        value={detailInfo.maxMintCount}
                         onChange={handleInfoChange}
                       />
                     </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <th>공연시간</th>
-                    <td>
-                      <TextField
-                        name='running_time'
-                        type='number'
-                        label='공연시간(분)'
-                        variant='standard'
-                        value={apiData.running_time}
-                        onChange={handleApiChange}
-                      />{" "}
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <th>공연 정보</th>
-                    <td>
-                      <TextField
-                        name='description'
-                        type='text'
-                        label='공연 정보'
-                        rows={2}
-                        multiline
-                        value={apiData.description}
-                        onChange={handleApiChange}
-                      />{" "}
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <th>관람연령</th>
-                    <td>
-                      <TextField
-                        name='age_limit'
-                        type='number'
-                        label='관람연령'
-                        variant='standard'
-                        value={apiData.age_limit}
-                        onChange={handleApiChange}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <th>카테고리</th>
-                  <td>
-                    <TextField
-                      name='category_name'
-                      type='text'
-                      label='카테고리'
-                      variant='standard'
-                      value={apiData.category_name}
-                      onChange={handleApiChange}
-                    />
-                  </td>
-                </tbody>
-                <tbody>
-                  <th>발행 갯수</th>
-                  <td>
-                    <TextField
-                      name='maxMintCount'
-                      type='number'
-                      label='최대 발행 갯수'
-                      variant='standard'
-                      value={detailInfo.maxMintCount}
-                      onChange={handleInfoChange}
-                    />
-                  </td>
-                </tbody>
-              </table>
-            </TicketInfoArea>
-          </UnderTitle>
-        </TopLeftCss>
+                  </tbody>
+                </table>
+              </TicketInfoArea>
+            </UnderTitle>
+          </TopLeftCss>
 
-        <TopRightCss>
-          <CoverBox>
-            <SmallTitleCss>관람기간 선택</SmallTitleCss>
-            <DatePickerBox>
-              <MyDatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                showTimeSelect // 시간 나오게 하기
-                timeFormat='HH:mm' //시간 포맷
-                timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
-                timeCaption='time'
-                dateFormat='yyyy-MM-dd h:mm aa'
-              />
-              ~
-              <MyDatePicker
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                showTimeSelect // 시간 나오게 하기
-                timeFormat='HH:mm' //시간 포맷
-                timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
-                timeCaption='time'
-                dateFormat='yyyy-MM-dd h:mm aa'
-              />
-            </DatePickerBox>
-            <ColorHr></ColorHr>
+          <TopRightCss>
+            <CoverBox>
+              <SmallTitleCss>관람기간 선택</SmallTitleCss>
+              <DatePickerBox>
+                <MyDatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  showTimeSelect // 시간 나오게 하기
+                  timeFormat='HH:mm' //시간 포맷
+                  timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
+                  timeCaption='time'
+                  dateFormat='yyyy-MM-dd h:mm aa'
+                />
+                ~
+                <MyDatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  showTimeSelect // 시간 나오게 하기
+                  timeFormat='HH:mm' //시간 포맷
+                  timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
+                  timeCaption='time'
+                  dateFormat='yyyy-MM-dd h:mm aa'
+                />
+              </DatePickerBox>
+              <ColorHr></ColorHr>
 
-            <SmallTitleCss>좌석</SmallTitleCss>
-            <div>
-              <InputEditor onCreate={onCreate} />
-              <InputList inputList={seatData} />
-            </div>
+              <SmallTitleCss>좌석</SmallTitleCss>
+              <div>
+                <InputEditor onCreate={onCreate} />
+                <InputList inputList={seatData} />
+              </div>
 
-            <ColorHr></ColorHr>
+              <ColorHr></ColorHr>
 
-            <SmallTitleCss>캐스팅</SmallTitleCss>
-            <CastingDivCss>
-              <TextField
-                name='staff'
-                type='text'
-                variant='outlined'
-                placeholder='출연 배우'
-                value={apiData.staff}
-                onChange={handleApiChange}
-                style={{ width: 290 }}
-              />
-            </CastingDivCss>
+              <SmallTitleCss>캐스팅</SmallTitleCss>
+              <CastingDivCss>
+                <TextField
+                  name='staff'
+                  type='text'
+                  variant='outlined'
+                  placeholder='출연 배우'
+                  value={apiData.staff}
+                  onChange={handleApiChange}
+                  style={{ width: 290 }}
+                />
+              </CastingDivCss>
 
-            <ColorHr></ColorHr>
+              <ColorHr></ColorHr>
 
-            <SmallTitleCss>
-              재판매 가능 여부{" "}
-              <Checkbox
-                onClick={() =>
-                  setDetailInfo({
-                    ...detailInfo,
-                    isResellAvailable: !detailInfo.isResellAvailable,
-                  })
-                }
-              />
-            </SmallTitleCss>
+              <SmallTitleCss>
+                재판매 가능 여부{" "}
+                <Checkbox
+                  onClick={() =>
+                    setDetailInfo({
+                      ...detailInfo,
+                      isResellAvailable: !detailInfo.isResellAvailable,
+                    })
+                  }
+                />
+              </SmallTitleCss>
 
-            <ColorHr></ColorHr>
+              <ColorHr></ColorHr>
 
-            <SmallTitleCss>로열티 설정</SmallTitleCss>
-            <div>
-              <StyledSpan>로열티: </StyledSpan>
-              <SmallInputBox
-                type='number'
-                name='resellRoyaltyRatePercent'
-                placeholder='로열티(%)'
-                disabled={!detailInfo.isResellAvailable}
-                value={detailInfo.resellRoyaltyRatePercent}
-                onChange={handleInfoChange}
-              ></SmallInputBox>
-            </div>
-            <div>
-              <StyledSpan>최대 판매 금액: </StyledSpan>
-              <SmallInputBox
-                type='number'
-                name='resellPriceLimit'
-                placeholder='최대 판매 금액(SSF)'
-                value={detailInfo.resellPriceLimit}
-                onChange={handleInfoChange}
-                disabled={!detailInfo.isResellAvailable}
-              ></SmallInputBox>
-            </div>
-          </CoverBox>
+              <SmallTitleCss>로열티 설정</SmallTitleCss>
+              <div>
+                <StyledSpan>로열티: </StyledSpan>
+                <SmallInputBox
+                  type='number'
+                  name='resellRoyaltyRatePercent'
+                  placeholder='로열티(%)'
+                  disabled={!detailInfo.isResellAvailable}
+                  value={detailInfo.resellRoyaltyRatePercent}
+                  onChange={handleInfoChange}
+                ></SmallInputBox>
+              </div>
+              <div>
+                <StyledSpan>최대 판매 금액: </StyledSpan>
+                <SmallInputBox
+                  type='number'
+                  name='resellPriceLimit'
+                  placeholder='최대 판매 금액(SSF)'
+                  value={detailInfo.resellPriceLimit}
+                  onChange={handleInfoChange}
+                  disabled={!detailInfo.isResellAvailable}
+                ></SmallInputBox>
+              </div>
+            </CoverBox>
 
-          <ButtonBoxCss>
-            <Stack spacing={1}>
-              <Button
-                onClick={registerShow}
-                sx={{
-                  fontWeight: "bold",
-                  color: "secondary.main",
-                  borderColor: "text.secondary",
-                  borderRadius: 3,
-                  py: 1.5,
-                }}
-                variant='outlined'
-              >
-                공연등록
-              </Button>
-            </Stack>
-          </ButtonBoxCss>
-        </TopRightCss>
-      </TopCss>
+            <ButtonBoxCss>
+              <Stack spacing={1}>
+                <Button
+                  onClick={registerShow}
+                  sx={{
+                    fontWeight: "bold",
+                    color: "secondary.main",
+                    borderColor: "text.secondary",
+                    borderRadius: 3,
+                    py: 1.5,
+                  }}
+                  variant='outlined'
+                >
+                  공연등록
+                </Button>
+              </Stack>
+            </ButtonBoxCss>
+          </TopRightCss>
+        </TopCss>
+      </ContentWrapDiv>
 
       <Footer></Footer>
-    </div>
+    </TotalWrapDiv>
   );
 };
 
