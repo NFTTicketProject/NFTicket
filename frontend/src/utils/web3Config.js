@@ -2548,10 +2548,10 @@ export const IERC20ABI = [
 const mintAnimalTokenAddress = "0xdDCdECe6524be448D1d2609D5430754bB06d835e";
 export const saleAnimalTokenAddress = "0xB30199f422DEc42ac5782d2D05777AD640f81447";
 //
-const myTicketAddress = "0xae39dA90FF3BEB66BAF35191160612Cd33ae2F5F";
-const showScheduleManagerAddress = "0xDb2e0128573dfe28E8b2233ceaB0E7D316ce0B12";
+const myTicketAddress = "0x2518eC78895b4b6070281fa1e119493a8884B61e";
+const showScheduleManagerAddress = "0xA3461A235d54B8BA0502cf9D26D3b3a7D6b1937C";
 const showScheduleAddress = "";
-export const ticketSaleManagerAddress = "0xB361F991231Bf049fb0219665cAf778E30CA382f";
+export const ticketSaleManagerAddress = "0xf851DF553d949ee2B9e39F328dA8d52Ae66e7881";
 const ticketSaleAddress = "";
 const IERC20Address = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
 
