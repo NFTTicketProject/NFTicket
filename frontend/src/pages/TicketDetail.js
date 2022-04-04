@@ -18,6 +18,11 @@ import Middle from "../components/TicketDetail/Middle";
 import Bottom from "../components/TicketDetail/Bottom";
 import Footer from "../components/Footer";
 
+import PurchaseTicket from "../components/TicketDetail/PurchaseTicket";
+import TicketImage from "../components/TicketDetail/TicketImage";
+import TicketInfo from "../components/TicketDetail/TicketInfo";
+
+
 const TopCss = styled.div`
   display: flex;
   justify-content: center;
@@ -36,7 +41,7 @@ const TopRightCss = styled.div`
 
 const TopRightFixed = styled.div`
   width: 330px;
-  top: 90px;
+  top: 190px;
   position: fixed;
   margin-left: 50px;
 `;
@@ -53,6 +58,7 @@ const BottomCss = styled.div`
   margin-right: auto;
 `;
 
+
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
   const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
@@ -64,6 +70,7 @@ const TicketDetail = () => {
   // 원래 어느 부분 내려가면 scrollActive가 false나 true로 변하면서 딱 걸쳐지게 만들려고 했는데 잘 안되네요 기각해도 될듯하
   // const [scrollY, setScrollY] = useState(0);
   const [scrollActive, setScrollActive] = useState(true);
+
   // function handleScroll() {
   //   if (scrollY > 300) {
   //     setScrollY(window.pageYOffset);
@@ -96,8 +103,6 @@ const TicketDetail = () => {
   const [showDetailBack, setShowDetailBack] = useState({});
   const userData = JSON.parse(localStorage.getItem("userAccount"));
 
-  // 임시로 캐스팅 정보 삽입
-  const casting = "박은태, 선민, 조정은";
   const hallDescription =
     "경기도 남양주시 화도읍사무소 2층에서 진행합니다. 찾아오시는 길: 알아서 버스타고 오세요";
 
@@ -109,6 +114,10 @@ const TicketDetail = () => {
         .call();
       const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
       const showId = await showScheduleContract.methods.getShowId().call();
+      // 백에서 정보 가져오기
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+      console.log("showInfo", showInfo);
+      setShowDetailBack(showInfo.data);
       const stageName = await showScheduleContract.methods.getStageName().call();
       const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
@@ -154,66 +163,94 @@ const TicketDetail = () => {
         startedAt,
         endedAt,
       });
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
+      // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
+      // console.log("showInfo", showInfo);
+      // setShowDetailBack(showInfo.data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // 내 지갑 주소로 닉네임 가져오기
-  const getUserNickname = async () => {
-    try {
-      const response = await axios.get(
-        `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
-      );
-      console.log("data.nickname", response.data.nickname);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // // 내 지갑 주소로 닉네임 가져오기
+  // const getUserNickname = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
+  //     );
+  //     console.log("data.nickname", response.data.nickname);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  // 공연 정보 백엔드에서 가져오기
-  const getShowInfo = async () => {
-    try {
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // // 공연 정보 백엔드에서 가져오기
+  // const getShowInfo = async () => {
+  //   try {
+  //     const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
+  //     console.log("showInfo", showInfo);
+  //     setShowDetailBack(showInfo.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   useEffect(() => {
     callShowDetail();
   }, []);
 
+ console.log('showDetail', showDetail);
+ console.log('ticketDetail', ticketDetail);
+ console.log('showDetailBack', showDetailBack);
+ 
+
   return (
     <div>
-      <TopCss>
-        <TopLeftCss>
-          <TopLeft
-            showId={`${showDetail.showId}`}
-            stageName={`${showDetail.stageName}`}
-            startedAt={`${showDetail.startedAt}`}
-            endedAt={`${showDetail.endedAt}`}
-            allowedAge={`${showDetailBack.age_limit}`}
-            showDuration={`${showDetailBack.running_time}`}
-            showTitle={`${showDetailBack.name}`}
-            catetory={`${showDetailBack.category_name}`}
-            posterUri={`${showDetailBack.poster_uri}`}
-            seatInfo={ticketDetail}
-          ></TopLeft>
-        </TopLeftCss>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItem: 'center'}}>
+        <TicketImage
+          showId={`${showDetail.showId}`}
+          stageName={`${showDetail.stageName}`}
+          startedAt={`${showDetail.startedAt}`}
+          endedAt={`${showDetail.endedAt}`}
+          allowedAge={`${showDetailBack.age_limit}`}
+          showDuration={`${showDetailBack.running_time}`}
+          showTitle={`${showDetailBack.name}`}
+          catetory={`${showDetailBack.category_name}`}
+          posterUri={`${showDetailBack.poster_uri}`}
+          seatInfo={ticketDetail}
+        >
+        </TicketImage>
+      </div>
 
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem: 'start'}}>
+        <TicketInfo
+          description={`${showDetailBack.description}`}
+          casting={`${showDetailBack.staffs}`}
+          hallDescription={`${hallDescription}`}
+        ></TicketInfo>
+        <PurchaseTicket
+          seatInfo={ticketDetail}
+          casting={`${showDetailBack.staffs}`}
+          ticketId={ticketId}
+        ></PurchaseTicket>
+      </div>
+      {/* <TopCss>
+        
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
-              <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
+              <TopRight
+                seatInfo={ticketDetail}
+                casting={`${showDetailBack.staffs}`}
+                ticketId={ticketId}
+              ></TopRight>
+              
             </TopRightFixed>
           ) : (
-            <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
+            <TopRight
+              seatInfo={ticketDetail}
+              casting={`${showDetailBack.staffs}`}
+              ticketId={ticketId}
+            ></TopRight>
           )}
         </TopRightCss>
       </TopCss>
@@ -221,14 +258,14 @@ const TicketDetail = () => {
       <MiddleCss>
         <Middle
           description={`${showDetailBack.description}`}
-          casting={`${casting}`}
+          casting={`${showDetailBack.staffs}`}
           hallDescription={`${hallDescription}`}
         ></Middle>
       </MiddleCss>
 
       <BottomCss>
         <Bottom></Bottom>
-      </BottomCss>
+      </BottomCss> */}
 
       <Footer></Footer>
     </div>
