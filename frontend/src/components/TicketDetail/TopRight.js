@@ -11,7 +11,11 @@ import { Link, useNavigate } from "react-router-dom";
 // import DatePicker from "@mui/lab/DatePicker";
 // import { DatePicker } from "@material-ui/pickers";
 import DatePicker from "react-datepicker";
-import { ticketSaleManagerContract, myTicketContract } from "../../utils/web3Config";
+import {
+  ticketSaleManagerContract,
+  myTicketContract,
+  ticketSaleManagerAddress,
+} from "../../utils/web3Config";
 
 // Modal
 import Box from "@mui/material/Box";
@@ -92,20 +96,27 @@ const TopRight = (props) => {
   const mintTrade = async () => {
     console.log(tradeDetail);
     try {
-      const res = await ticketSaleManagerContract.methods
-        .create(
-          parseInt(tradeDetail.ticketId),
-          tradeDetail.description,
-          parseInt(tradeDetail.price),
-          parseInt(tradeDetail.startedAt),
-          parseInt(tradeDetail.endedAt)
-        )
+      // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
+      const val = await myTicketContract.methods
+        .setApprovalForAll(ticketSaleManagerAddress, true)
         .send({ from: userData.account });
-      console.log("🐸", res);
-      // setSaleAddr(res.events[0].returnValues.saleAddr);
-      if (res.status) {
-        alert("판매 등록 완료");
-        navigate("/Market");
+      if (val.status) {
+        // create
+        const res = await ticketSaleManagerContract.methods
+          .create(
+            parseInt(tradeDetail.ticketId),
+            tradeDetail.description,
+            parseInt(tradeDetail.price),
+            parseInt(tradeDetail.startedAt),
+            parseInt(tradeDetail.endedAt)
+          )
+          .send({ from: userData.account });
+        console.log("🐸", res);
+        // setSaleAddr(res.events[0].returnValues.saleAddr);
+        if (res.status) {
+          alert("판매 등록 완료");
+          navigate("/Market");
+        }
       }
     } catch (err) {
       console.error(err);

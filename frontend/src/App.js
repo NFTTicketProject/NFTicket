@@ -70,6 +70,7 @@ function App() {
         <Route path='/MyPage' element={<MyPage />} />
         <Route path='/MyPage/Settings' element={<Settings />} />
         <Route path='/Ticket/:ticketId' element={<TicketDetail />} />
+
         {/* <Route path="/Ticket/:showScheduleAddress" element={<TicketDetail />} /> */}
 
         <Route
