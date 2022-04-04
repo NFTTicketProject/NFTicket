@@ -15,18 +15,21 @@ import MenuItem from "@mui/material/MenuItem";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 
+// import logoImg from "../images/logo.png";
+
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
   // "Profile",
-  "Detail",
-  "Schedule Manager",
-  "Toast UI",
-  "Community",
-  "Market",
-  "Guide",
-  "Detail-Handover",
-  "Barcode",
-  "Purchase",
+  { name: "상세인무언가", link: "Detail" },
+  { name: "공연임시", link: "ShowPublish" },
+  { name: "이미지수정", link: "Toast UI" },
+  { name: "커뮤니티", link: "Community" },
+  { name: "공연", link: "Show" },
+  { name: "Guide", link: "Guide" },
+  // { name: "무언가작업중", link: "Detail-Handover" },
+  { name: "바코드", link: "Barcode" },
+  { name: "구매", link: "Purchase" },
+  { name: "마켓", link: "Market" },
 ];
 const settings = ["MyPage", "Account", "Dashboard", "Logout"];
 
@@ -61,22 +64,23 @@ const ResponsiveAppBar = () => {
 
   return (
     <AppBar
-      position="sticky"
+      position='sticky'
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant='h6'
             noWrap
-            component="div"
+            component='div'
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
             }}
           >
-            <Link to="/">
-              <Logo src="images/logo.png"></Logo>
+            <Link to='/'>
+              <Logo src='images/logo.png'></Logo>
+              {/* <Logo src={require("../images/logo.png")}></Logo> */}
             </Link>
           </Typography>
 
@@ -87,19 +91,19 @@ const ResponsiveAppBar = () => {
             }}
           >
             <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
               onClick={handleOpenNavMenu}
               // color='inherit'
               // inherit 흰색 default 회색 primary 파랑 secondary 보라 error 빨강 info 파랑 success 초록 warning 주황 string 적용안됨
-              color="default"
+              color='default'
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
@@ -119,8 +123,8 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem
-                  key={page}
-                  onClick={() => navigate(`/${page}`)}
+                  key={page.name}
+                  onClick={() => navigate(`/${page.link}`)}
                   sx={{
                     ":hover": {
                       color: "#FFC600",
@@ -128,22 +132,22 @@ const ResponsiveAppBar = () => {
                   }}
                   // onClick={handleCloseNavMenu}
                 >
-                  <Typography textAlign="center">
+                  <Typography textAlign='center'>
                     {/* <Link to={`/${page}`}>{page}</Link> */}
-                    {page}
+                    {page.name}
                   </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Typography
-            variant="h6"
+            variant='h6'
             noWrap
-            component="div"
+            component='div'
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            <Link to="/">
-              <Logo src="images/logo.png"></Logo>
+            <Link to='/'>
+              <Logo src='images/logo.png'></Logo>
             </Link>
           </Typography>
           <Box
@@ -155,9 +159,9 @@ const ResponsiveAppBar = () => {
             {/* 바로 아래 sx 수정하여 버튼 속성 수정 */}
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 // onClick={handleCloseNavMenu}
-                onClick={() => navigate(`/${page}`)}
+                onClick={() => navigate(`/${page.link}`)}
                 sx={{
                   textAlign: "center",
                   mx: 1,
@@ -171,20 +175,20 @@ const ResponsiveAppBar = () => {
                 }}
               >
                 {/* <Link to={`/${page}`}>{page}</Link> */}
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
@@ -200,7 +204,7 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">
+                  <Typography textAlign='center'>
                     <Link to={`/${setting}`}>{setting}</Link>
                   </Typography>
                 </MenuItem>
