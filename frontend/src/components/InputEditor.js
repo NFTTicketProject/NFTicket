@@ -16,7 +16,6 @@ function InputEditor({ onCreate }) {
       seats: "",
     });
   };
-
   return (
     <>
       <div>
