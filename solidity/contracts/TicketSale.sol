@@ -78,17 +78,16 @@ contract TicketSale is Ownable, IERC721Receiver {
         address ticketContractAddress
     ) {
         require(price > 0);
-        _ticketId = ticketId;
-        _seller = seller;
-        _description = description;
-        _price = price;
-        _startedAt = block.timestamp + startedAt;
-        _endedAt = block.timestamp + endedAt;
+        _setTicketId(ticketId);
+        _setSeller(seller);
+        _setDescription(description);
+        _setPrice(price);
+        _setStartedAt(block.timestamp + startedAt);
+        _setEndedAt(block.timestamp + endedAt);
         _showScheduleManagerContract = ShowScheduleManager(showScheduleManagerContractAddress);
         _currencyContract = IERC20(currencyContractAddress);
         _ticketContract = MyTicket(ticketContractAddress);
     }
-
     /*
     * end
     * 판매 종료 여부를 '종료' 로 변경
@@ -226,6 +225,66 @@ contract TicketSale is Ownable, IERC721Receiver {
     function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) external pure returns(bytes4)
     {
         return this.onERC721Received.selector;
+    }
+
+    function _setTicketId(uint256 ticketId) private
+    {
+        _ticketId = ticketId;
+    }
+
+    function _setSeller(address seller) private
+    {
+        _seller = seller;
+    }
+
+    function _setDescription(string memory description) private
+    {
+        _description = description;
+    }
+
+    function _setPrice(uint256 price) private
+    {
+        _price = price;
+    }
+
+    function _setStartedAt(uint256 startedAt) private
+    {
+        _startedAt = startedAt;
+    }
+
+    function _setEndedAt(uint256 endedAt) private
+    {
+        _endedAt = endedAt;
+    }
+
+    function getTicketId() public view returns (uint256 ticketId) 
+    {
+        return _ticketId;
+    }
+
+    function getSeller() public view returns (address seller) 
+    {
+        return _seller;
+    }
+
+    function getDescription() public view returns (string memory description) 
+    {
+        return _description;
+    }
+
+    function getPrice() public view returns (uint256 price) 
+    {
+        return _price;
+    }
+
+    function getStartedAt() public view returns (uint256 startedAt) 
+    {
+        return _startedAt;
+    }
+
+    function getEndedAt() public view returns (uint256 endedAt) 
+    {
+        return _endedAt;
     }
 
     modifier onlySeller() {
