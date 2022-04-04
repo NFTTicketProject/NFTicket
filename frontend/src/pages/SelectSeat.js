@@ -18,6 +18,8 @@ function SelectSeat () {
   // 티켓 발급을 위해 설정해야하는 showScheduleId
   const showScheduleId = localStorage.getItem(`${showScheduleAddress}`);
   
+   // 주소에 맞는 공연 관련 정보
+   const [showDetail, setShowDetail] = useState({});
   // 공연에 해당하는 티켓 정보
   const [ticketDetail, setTicketDetail] = useState([]);
 

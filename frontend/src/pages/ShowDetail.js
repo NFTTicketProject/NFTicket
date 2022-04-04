@@ -69,7 +69,7 @@ function ShowDetail() {
   const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);  // showScheduleAddress를 통해서 공연 정보 받아오기
   // 주소에 맞는 공연 관련 정보
   const [showDetail, setShowDetail] = useState({});
-  // 공연에 해당하는 티켓 정보
+  // 공연에 해당하는 티켓 정보 - showDetail 안에 있는 데이터를 리스트로 사용하기 위해 새로 만듦.
   const [ticketDetail, setTicketDetail] = useState([]);
 
   // 티켓 발급을 위해 설정해야하는 showScheduleId
