@@ -68,9 +68,13 @@ function ScheduleManager() {
   //   return sum + currValue;
   // }, 0);
   const setMaxMintCount = () => {
-    const mintCnt = ticketClassMaxMintCounts.reduce(function add(sum, currValue) {
+    const mintCnt = ticketClassMaxMintCounts.reduce(function add(
+      sum,
+      currValue,
+    ) {
       return sum + currValue;
-    }, 0);
+    },
+    0);
     setDetailInfo({ ...detailInfo, maxMintCount: mintCnt });
     console.log("🐸", detailInfo);
   };
@@ -111,9 +115,13 @@ function ScheduleManager() {
   const handleMint = async () => {
     console.log(detailInfo);
     try {
-      const mintCnt = await ticketClassMaxMintCounts.reduce(function add(sum, currValue) {
+      const mintCnt = await ticketClassMaxMintCounts.reduce(function add(
+        sum,
+        currValue,
+      ) {
         return sum + currValue;
-      }, 0);
+      },
+      0);
       console.log(mintCnt);
       const response = await showScheduleManagerContract.methods
         .create(
@@ -128,20 +136,30 @@ function ScheduleManager() {
           ticketClassMaxMintCounts,
           detailInfo.isResellAvailable,
           parseInt(detailInfo.resellRoyaltyRatePercent),
-          parseInt(detailInfo.resellPriceLimit)
+          parseInt(detailInfo.resellPriceLimit),
         )
         .send({ from: userData.account });
       // .send({ from: account });
       console.log(response);
       if (response.status) {
         console.log("계약주소", response.events[0].address);
-        console.log("계약번호", response.events.ShowScheduleCreated.returnValues.showScheduleId);
+        console.log(
+          "계약번호",
+          response.events.ShowScheduleCreated.returnValues.showScheduleId,
+        );
         console.log("계약번호", response.events.ShowScheduleCreated);
-        console.log("계약번호", response.events.ShowScheduleCreated.returnValues);
-        axios.put(`https://nfticket.plus/api/v1/show/${detailInfo.showId}/show-schedule`, {
-          show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
-          address: response.events[0].address,
-        });
+        console.log(
+          "계약번호",
+          response.events.ShowScheduleCreated.returnValues,
+        );
+        axios.put(
+          `https://nfticket.plus/api/v1/show/${detailInfo.showId}/show-schedule`,
+          {
+            show_schedule_id:
+              response.events.ShowScheduleCreated.returnValues.showScheduleId,
+            address: response.events[0].address,
+          },
+        );
         // console.log("helo");
         // handleSubmit();
         // handleApi();
@@ -207,34 +225,44 @@ function ScheduleManager() {
         <div>
           카테고리
           <input
-            type="text"
-            name="category_name"
+            type='text'
+            name='category_name'
             value={apiData.category_name}
             onChange={handleApiChange}
           />
         </div>
         <div>
           공연명
-          <input type="text" name="name" value={apiData.name} onChange={handleApiChange} />
+          <input
+            type='text'
+            name='name'
+            value={apiData.name}
+            onChange={handleApiChange}
+          />
         </div>
         <div>
           공연설명
           <input
-            type="text"
-            name="description"
+            type='text'
+            name='description'
             value={apiData.description}
             onChange={handleApiChange}
           />
         </div>
         <div>
           캐스팅
-          <input type="text" name="staff" value={apiData.staff} onChange={handleApiChange} />
+          <input
+            type='text'
+            name='staff'
+            value={apiData.staff}
+            onChange={handleApiChange}
+          />
         </div>
         <div>
           공연시간:
           <input
-            type="number"
-            name="running_time"
+            type='number'
+            name='running_time'
             value={apiData.running_time}
             onChange={handleApiChange}
           />
@@ -242,8 +270,8 @@ function ScheduleManager() {
         <div>
           관람연령:
           <input
-            type="number"
-            name="age_limit"
+            type='number'
+            name='age_limit'
             value={apiData.age_limit}
             onChange={handleApiChange}
           />
@@ -283,23 +311,26 @@ function ScheduleManager() {
         <div>
           공연 장소:
           <input
-            name="stageName"
-            type="text"
+            name='stageName'
+            type='text'
             value={detailInfo.stageName}
             onChange={handleInfoChange}
-            placeholder="stageName"
+            placeholder='stageName'
           />
         </div>
-        <DatepickerComponent detailInfo={detailInfo} setDetailInfo={setDetailInfo} />
+        <DatepickerComponent
+          detailInfo={detailInfo}
+          setDetailInfo={setDetailInfo}
+        />
         {/* <DatepickerComponent handleDate={handleDate} /> */}
         {/* <div>
           총 발행 갯수:
           <input
-            name="maxMintCount"
-            type="number"
+            name='maxMintCount'
+            type='number'
             value={detailInfo.maxMintCount}
             onChange={handleInfoChange}
-            placeholder="maxMintCount"
+            placeholder='maxMintCount'
           />
         </div> */}
 
@@ -311,16 +342,19 @@ function ScheduleManager() {
         <div>
           재판매 가능 여부:
           <input
-            type="checkbox"
+            type='checkbox'
             onClick={() =>
-              setDetailInfo({ ...detailInfo, isResellAvailable: !detailInfo.isResellAvailable })
+              setDetailInfo({
+                ...detailInfo,
+                isResellAvailable: !detailInfo.isResellAvailable,
+              })
             }
           />
           <div>
             로열티 퍼센트:
             <input
-              type="number"
-              name="resellRoyaltyRatePercent"
+              type='number'
+              name='resellRoyaltyRatePercent'
               value={detailInfo.resellRoyaltyRatePercent}
               onChange={handleInfoChange}
               disabled={!detailInfo.isResellAvailable}
@@ -329,8 +363,8 @@ function ScheduleManager() {
           <div>
             최대 판매 금액:
             <input
-              type="number"
-              name="resellPriceLimit"
+              type='number'
+              name='resellPriceLimit'
               value={detailInfo.resellPriceLimit}
               onChange={handleInfoChange}
               disabled={!detailInfo.isResellAvailable}
