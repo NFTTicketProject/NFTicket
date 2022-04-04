@@ -184,7 +184,7 @@ function SelectSeat () {
           alert(`티켓 발급 완료`);
           // 좌석 등록 여부 확인
           const getTicketId = await showScheduleContract.methods
-            .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))  // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
+            .getTicketId(parseInt(myTicket.data[0]), parseInt(register.seatIndex))  // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
             .call();
           if (getTicketId === 0) {  // 아직 팔리지 않은 좌석이라면
             // 3. register
