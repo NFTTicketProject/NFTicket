@@ -1,5 +1,6 @@
 const controller_name = "Show"
 const show = require("../../services/show")
+const address = require("../../services/address")
 const express = require("express")
 const { logger } = require("../../utils/winston")
 const router = express.Router()
@@ -740,14 +741,21 @@ router.put("/:show_id/show-schedule", async (req, res, err) =>
 
   try
   {
-    if (Object.keys(req.body).length == 0)
+    if (Object.keys(req.body).length == 0 || !req.body.address)
     {
       status_code = 400
       result = { message: "Invaild request" }
       return
     }
 
-    result = await show.getShow(req.params.show_id)
+    if (await address.isAddressExist(req.body.address))
+    {
+      status_code = 400
+      result = { message: "Invaild request" }
+      return
+    }
+
+    result = await show.getShow(req.params.show_id, req.query)
     if (!result)
     {
       status_code = 404
