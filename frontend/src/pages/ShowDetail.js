@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import TradeTicket from "../components/TradeTicket";
 import styled from "styled-components";
 import TopLeft from "../components/TicketDetail/TopLeft";
-import TopRight from "../components/TicketDetail/TopRight";
+import TopRight from "../components/ShowDetail/TopRight";
 import Middle from "../components/TicketDetail/Middle";
 import Bottom from "../components/TicketDetail/Bottom";
 import Footer from "../components/Footer";
