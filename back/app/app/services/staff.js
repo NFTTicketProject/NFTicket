@@ -13,7 +13,6 @@ module.exports = {
             for (let param of params)
             {
                 if (info[ param ]) data[ param ] = info[ param ]
-                else return
             }
 
             const result = await prisma.Staff.create({

@@ -25,10 +25,10 @@ module.exports = {
             {
                 const staffs = info[ 'staff' ].split(',')
 
-                for (let i = 0; i < staffs.length; i++)
+                for (let staff_name of staffs)
                 {
                     const { staff_id } = await staff.createStaff({
-                        name: staffs[ i ],
+                        name: staff_name.trim(),
                         image_uri: null
                     })
 
@@ -270,7 +270,7 @@ module.exports = {
             }
 
             if (info[ 'address' ]) data[ 'address' ] = info[ 'address' ]
-            if (info[ 'show_schedule_id' ]) data[ 'show_schedule_id' ] = info[ 'show_schedule_id' ]
+            if (info[ 'show_schedule_id' ]) data[ 'show_schedule_id' ] = Number(info[ 'show_schedule_id' ])
 
             if (!data[ 'address' ]) return 400
 
