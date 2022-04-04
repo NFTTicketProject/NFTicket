@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -14,7 +15,7 @@ const PosterImgContainer = styled.img`
   background-color: gray;
 `;
 
-const Perform3 = ({
+const PerformShow = ({
   name,
   show_id,
   poster_uri,
@@ -46,4 +47,4 @@ const Perform3 = ({
   );
 };
 
-export default Perform3;
+export default PerformShow;
