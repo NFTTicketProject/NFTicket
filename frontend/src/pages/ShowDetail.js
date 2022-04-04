@@ -45,11 +45,13 @@ const BottomCss = styled.div`
   margin-right: auto;
 `;
 
-const unixTimeToDate = (unixTime) => {
+// 시간 단위 변경 (unixTime)
+const unixTimeToDate = (unixTime) => {  
   const date = new Date(unixTime * 1000);
   const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
+
 
 function ShowDetail() {
   const [scrollActive, setScrollActive] = useState(true);
@@ -61,20 +63,21 @@ function ShowDetail() {
   ///
 
   const navigate = useNavigate();
-  const userData = JSON.parse(localStorage.getItem("userAccount"));
+  const userData = JSON.parse(localStorage.getItem("userAccount"));  // 유저 정보 (티켓 구매, 발급 등에서 사용)
   // Detail에서 클릭해 받아온 공연 주소
-  const { showScheduleAddress } = useParams();
-  const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+  const { showScheduleAddress } = useParams();  // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
+  const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);  // showScheduleAddress를 통해서 공연 정보 받아오기
   // 주소에 맞는 공연 관련 정보
   const [showDetail, setShowDetail] = useState({});
   // 공연에 해당하는 티켓 정보
   const [ticketDetail, setTicketDetail] = useState([]);
+
   // 티켓 발급을 위해 설정해야하는 showScheduleId
   const showScheduleId = localStorage.getItem(`${showScheduleAddress}`);
 
   // 티켓 발급을 위해 필요한 정보
-  const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });
-  const [register, setRegister] = useState({});
+  const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });  // 좌석 등급, 공연 id
+  const [register, setRegister] = useState({});  // 티켓 등록 정보
 
   const handleTicket = (e) => {
     setMyTicket({ ...myTicket, [e.target.name]: e.target.value });
@@ -185,7 +188,7 @@ function ShowDetail() {
       var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
       setRegister({ ...register, ticketID });
       if (createMyTicket.status) {
-        // 2. approve
+        // 2. approve - 토큰 이동
         const approval = await IERC20Contract.methods
           .approve(showScheduleAddress, 500)
           .send({ from: userData.account });
@@ -193,9 +196,9 @@ function ShowDetail() {
           alert(`티켓 발급 완료`);
           // 좌석 등록 여부 확인
           const getTicketId = await showScheduleContract.methods
-            .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))
+            .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))  // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
             .call();
-          if (getTicketId === 0) {
+          if (getTicketId === 0) {  // 아직 팔리지 않은 좌석이라면
             // 3. register
             const registerTicket = await showScheduleContract.methods
               .registerTicket(
@@ -247,7 +250,7 @@ function ShowDetail() {
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
-              <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
+              <TopRight showScheduleAddress={showScheduleAddress} seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
             </TopRightFixed>
           ) : (
             <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
@@ -312,6 +315,7 @@ function ShowDetail() {
       </div>
       <hr />
 
+      {/* 티켓 재판매 */}
       {showDetail.isResellAvailable ? (
         <div>
           <TradeTicket

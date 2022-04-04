@@ -26,6 +26,7 @@ import Show from "./pages/Show";
 import Market from "./pages/Market";
 import ShowDetail from "./pages/ShowDetail";
 import ShowPublish from "./pages/ShowPublish";
+import SelectSeat from "./pages/SelectSeat";
 
 function App() {
   // const [account, setAccount] = useState("");
@@ -78,6 +79,7 @@ function App() {
         <Route path="/Show" element={<Show />} />
         <Route path="/Market" element={<Market />} />
         <Route path="/ShowPublish" element={<ShowPublish />} />
+        <Route path="/SelectSeat/:showScheduleAddress" element={<SelectSeat />} />
       </Routes>
     </div>
   );
