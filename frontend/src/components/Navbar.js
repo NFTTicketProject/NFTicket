@@ -15,18 +15,22 @@ import MenuItem from "@mui/material/MenuItem";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 
+// import logoImg from "../images/logo.png";
+
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
   // "Profile",
-  "Detail",
-  "Schedule Manager",
-  "Toast UI",
-  "Community",
-  "Market",
-  "Guide",
-  "Detail-Handover",
-  "Barcode",
-  "Purchase",
+  { name: "상세인무언가", link: "Detail" },
+  { name: "공연발매", link: "Schedule Manager" },
+  { name: "공연임시", link: "ShowPublish" },
+  { name: "이미지수정", link: "Toast UI" },
+  { name: "커뮤니티", link: "Community" },
+  { name: "공연", link: "Show" },
+  { name: "Guide", link: "Guide" },
+  { name: "무언가작업중", link: "Detail-Handover" },
+  { name: "바코드", link: "Barcode" },
+  { name: "구매", link: "Purchase" },
+  { name: "마켓", link: "Market" },
 ];
 const settings = ["MyPage", "Account", "Dashboard", "Logout"];
 
@@ -77,6 +81,7 @@ const ResponsiveAppBar = () => {
           >
             <Link to="/">
               <Logo src="images/logo.png"></Logo>
+              {/* <Logo src={require("../images/logo.png")}></Logo> */}
             </Link>
           </Typography>
 
@@ -119,8 +124,8 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem
-                  key={page}
-                  onClick={() => navigate(`/${page}`)}
+                  key={page.name}
+                  onClick={() => navigate(`/${page.link}`)}
                   sx={{
                     ":hover": {
                       color: "#FFC600",
@@ -130,7 +135,7 @@ const ResponsiveAppBar = () => {
                 >
                   <Typography textAlign="center">
                     {/* <Link to={`/${page}`}>{page}</Link> */}
-                    {page}
+                    {page.name}
                   </Typography>
                 </MenuItem>
               ))}
@@ -155,9 +160,9 @@ const ResponsiveAppBar = () => {
             {/* 바로 아래 sx 수정하여 버튼 속성 수정 */}
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 // onClick={handleCloseNavMenu}
-                onClick={() => navigate(`/${page}`)}
+                onClick={() => navigate(`/${page.link}`)}
                 sx={{
                   textAlign: "center",
                   mx: 1,
@@ -171,7 +176,7 @@ const ResponsiveAppBar = () => {
                 }}
               >
                 {/* <Link to={`/${page}`}>{page}</Link> */}
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
