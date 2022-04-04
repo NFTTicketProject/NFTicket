@@ -14,6 +14,7 @@ const unixTimeToDate = (unixTime) => {
 };
 
 function SelectSeat() {
+  const navigate = useNavigate();
   // Detail에서 클릭해 받아온 공연 주소
   const { showScheduleAddress } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
   const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress); // showScheduleAddress를 통해서 공연 정보 받아오기
@@ -162,6 +163,12 @@ function SelectSeat() {
   const enrollTicket = async () => {
     try {
       // 1. 티켓 발급
+      console.log(
+        "1",
+        showDetailBack.poster_uri,
+        parseInt(showScheduleId),
+        parseInt(myTicket.data[0])
+      );
       const createMyTicket = await myTicketContract.methods
         .create(showDetailBack.poster_uri, parseInt(showScheduleId), parseInt(myTicket.data[0]))
         .send({ from: userData.account });
@@ -170,35 +177,33 @@ function SelectSeat() {
       setRegister({ ...register, ticketID });
       if (createMyTicket.status) {
         // 2. approve - 토큰 이동
+        console.log("2", showScheduleAddress);
         const approval = await IERC20Contract.methods
           .approve(showScheduleAddress, 500)
           .send({ from: userData.account });
         if (approval.status) {
           alert(`티켓 발급 완료`);
-          // 좌석 등록 여부 확인
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(parseInt(myTicket.data[0]), parseInt(register.seatIndex)) // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
-            .call();
-          if (getTicketId === 0) {
-            // 아직 팔리지 않은 좌석이라면
-            // 3. register
-            const registerTicket = await showScheduleContract.methods
-              .registerTicket(
-                parseInt(myTicket.data[0]),
-                parseInt(register.seatIndex),
-                parseInt(ticketID)
-              )
-              .send({ from: userData.account });
-            if (registerTicket.status) {
-              alert(`${ticketID}번 티켓 등록 성공`);
-              // // 티켓 발급, 등록 완료되면 /Ticket/:ticketId로 이동
-              // navigate(`/Ticket/${ticketID}`);
-              // // 티켓 발급, 등록 완료되면 /MyPage로 이동
-              // navigate("/MyPage");
-            }
-          } else {
-            alert("이미 예약된 좌석입니다.");
+          // // 좌석 등록 여부 확인
+          // const getTicketId = await showScheduleContract.methods
+          //   .getTicketId(parseInt(myTicket.data[0]), parseInt(seatData[1])) // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
+          //   .call();
+          // if (getTicketId === 0) {
+          // 아직 팔리지 않은 좌석이라면
+          // 3. register
+          console.log("3", parseInt(myTicket.data[0]), parseInt(seatData[1]), parseInt(ticketID));
+          const registerTicket = await showScheduleContract.methods
+            .registerTicket(parseInt(myTicket.data[0]), parseInt(seatData[1]), parseInt(ticketID))
+            .send({ from: userData.account });
+          if (registerTicket.status) {
+            alert(`${ticketID}번 티켓 등록 성공`);
+            // // 티켓 발급, 등록 완료되면 /Ticket/:ticketId로 이동
+            // navigate(`/Ticket/${ticketID}`);
+            // 티켓 발급, 등록 완료되면 /MyPage로 이동
+            navigate(`/Ticket/${ticketID}`);
           }
+          // } else {
+          //   alert("이미 예약된 좌석입니다.");
+          // }
         }
       }
     } catch (err) {
@@ -216,7 +221,7 @@ function SelectSeat() {
   // console.log('showDetail', showDetail);
   // console.log('register', register);
 
-  console.log("myTicket", myTicket);
+  // console.log("myTicket", myTicket);
 
   return (
     <div>

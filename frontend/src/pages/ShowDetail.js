@@ -295,7 +295,7 @@ function ShowDetail() {
 
   // console.log("🐸", occupied);
   // console.log('seatInfo', seatInfo)
-  console.log("showDetail", showDetailBack.poster_uri);
+  // console.log("showDetail", showDetailBack.poster_uri);
   // console.log('showDetailBack', showDetailBack)
 
   return (
@@ -393,7 +393,7 @@ function ShowDetail() {
       <hr /> */}
 
       {/* 티켓 재판매 */}
-      {showDetail.isResellAvailable ? (
+      {/* {showDetail.isResellAvailable ? (
         <div>
           <TradeTicket
             showScheduleAddress={showScheduleAddress}
@@ -403,7 +403,7 @@ function ShowDetail() {
         </div>
       ) : (
         <div></div>
-      )}
+      )} */}
 
       <Footer></Footer>
       {/* <h1>Show Detail</h1>

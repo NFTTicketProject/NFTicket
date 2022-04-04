@@ -14,11 +14,13 @@ import {
   myTicketContract,
   showScheduleAbi,
   showScheduleManagerContract,
+  ticketSaleManagerContract,
   web3,
 } from "../utils/web3Config";
 import TicketOnSale from "../components/MyPage/TicketOnSale";
 import MyTicket from "../components/MyPage/MyTicket";
 import MyTicketItem from "../components/MyPage/MyTicketItem";
+import Tmp from "../components/MyPage/Tmp";
 // import { myTicketContract } from "../utils/web3";
 
 const UnconnectedContainer = styled.div`
@@ -93,6 +95,7 @@ const DescriptionDiv = styled.div`
 `;
 
 function MyPage() {
+  const userData = JSON.parse(localStorage.getItem("userAccount"));
   const [pageNum, setPageNum] = useState(1);
   const handlePageNum = (page) => {
     setPageNum(page);
@@ -191,7 +194,7 @@ function MyPage() {
         .get(`https://nfticket.plus/api/v1/profile/${userData.account}`)
         .then((res) => {
           setWalletInfo(res.data);
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => console.error(err));
     }
@@ -203,6 +206,7 @@ function MyPage() {
 
   ////
   const [ticketArray, setTicketArray] = useState([]);
+  const [myTicketArray, setMyTicketArray] = useState([]);
   const [saleStatus, setSaleStatus] = useState(false);
   // const account = userInfo.account;
   // console.log(account);
@@ -235,8 +239,8 @@ function MyPage() {
         // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showScheduleId}`);
         // 티켓 이미지 주소
         const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
-        console.log("티켓 주소", ticketId, ticketUri);
-        console.log("공연정보", showInfo);
+        // console.log("티켓 주소", ticketId, ticketUri);
+        // console.log("공연정보", showInfo);
         tempArray.push({
           ticketId,
           showScheduleId,
@@ -251,29 +255,34 @@ function MyPage() {
     }
   };
 
-  // const getIsApprovedForAll = async () => {
-  //   try {
-  //      const userData = JSON.parse(localStorage.getItem("userAccount"));
-  //     const response = await myTicketContract.methods
-  //       .isApprovedForAll(userData.account, saleAnimalTokenAddress)
-  //       .call();
-
-  //     // console.log(response);
-  //     if (response.status) {
-  //       setSaleStatus(response);
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
-
+  const getMyTicketsOnSale = async () => {
+    try {
+      const cnt = await ticketSaleManagerContract.methods
+        .getSaleIdsByWallet(userData.account)
+        .call();
+      // console.log("myTicket", cnt.length);
+      // console.log("cnt", cnt);
+      const tempAddress = [];
+      for (let i = 0; i < parseInt(cnt.length); i++) {
+        const saleAddr = await ticketSaleManagerContract.methods.getSale(parseInt(cnt[i])).call();
+        // console.log("🎃", saleAddr);
+        tempAddress.push({ saleAddr });
+      }
+      setMyTicketArray(tempAddress);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  console.log(myTicketArray);
+  // console.log(userInfo.account);
   useEffect(() => {
     checkConnectedWallet();
+    getMyTicketsOnSale();
   }, []);
 
   useEffect(() => {
     getMyTickets();
-    console.log(ticketArray);
+    // console.log(ticketArray);
   }, [walletInfo.nickname]);
 
   return (
@@ -404,12 +413,19 @@ function MyPage() {
               ) : (
                 <NavListItem onClick={() => handlePageNum(1)}>나의 티켓</NavListItem>
               )}
-              {pageNum === 2 ? (
+              {/* {pageNum === 2 ? (
                 <NavListItemSelected onClick={() => handlePageNum(2)}>
                   판매중인 티켓
                 </NavListItemSelected>
               ) : (
                 <NavListItem onClick={() => handlePageNum(2)}>판매중인 티켓</NavListItem>
+              )} */}
+              {pageNum === 3 ? (
+                <NavListItemSelected onClick={() => handlePageNum(2)}>
+                  판매 티켓
+                </NavListItemSelected>
+              ) : (
+                <NavListItem onClick={() => handlePageNum(3)}>판매 티켓</NavListItem>
               )}
             </NavList>
 
@@ -430,15 +446,30 @@ function MyPage() {
                 </DescriptionDiv>
               </div>
             )}
-            {pageNum === 2 && (
+
+            {/* {pageNum === 2 && (
               <div>
                 <TitleText>판매중인 티켓</TitleText>
                 <DescriptionDiv>
-                  {/* {ticketArray &&
-                    ticketArray.map((v, i) => {
-                      return <TicketOnSale key={i} {...v} />;
-                    })} */}
                   <TicketOnSale />
+                </DescriptionDiv>
+              </div>
+            )} */}
+
+            {pageNum === 3 && (
+              <div>
+                <TitleText>판매중인 티켓</TitleText>
+                <DescriptionDiv>
+                  <Grid container>
+                    {myTicketArray &&
+                      myTicketArray.map((v, i) => {
+                        return (
+                          <Grid item xs={3}>
+                            <Tmp key={i} {...v} />
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
                 </DescriptionDiv>
               </div>
             )}

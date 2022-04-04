@@ -7,6 +7,9 @@ import {
   showScheduleAbi,
   myTicketContract,
   showScheduleManagerContract,
+  ticketSaleManagerContract,
+  IERC20Contract,
+  ticketSaleAbi,
 } from "../utils/web3Config";
 
 import axios from "axios";
@@ -36,7 +39,7 @@ const TopRightCss = styled.div`
 
 const TopRightFixed = styled.div`
   width: 330px;
-  top: 90px;
+  top: 190px;
   position: fixed;
   margin-left: 50px;
 `;
@@ -188,7 +191,43 @@ const TicketDetail = () => {
 
   useEffect(() => {
     callShowDetail();
+    getTicketAddr();
   }, []);
+  console.log(showDetail);
+
+  // // 구매
+  const [saleAddr, setSaleAddr] = useState();
+  const getTicketAddr = async () => {
+    try {
+      const getSale = await ticketSaleManagerContract.methods.getSale(parseInt(ticketId)).call();
+      console.log(getSale);
+      setSaleAddr(getSale);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+  const buyTicket = async () => {
+    try {
+      // 1. gatSale()통해 contract 주소
+      // 2. approve
+      const approval = await IERC20Contract.methods
+        .approve(saleAddr, 500)
+        .send({ from: userData.account });
+      console.log(approval);
+      // 3. ticketSale.sol 발행
+      if (approval.status) {
+        const purchase = await ticketSaleContract.methods
+          .purchase()
+          .send({ from: userData.account });
+        if (purchase.status) {
+          alert("구매 완료");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>
@@ -215,6 +254,7 @@ const TicketDetail = () => {
                 seatInfo={ticketDetail}
                 casting={`${showDetailBack.staffs}`}
                 ticketId={ticketId}
+                buyTicket={buyTicket}
               ></TopRight>
             </TopRightFixed>
           ) : (
