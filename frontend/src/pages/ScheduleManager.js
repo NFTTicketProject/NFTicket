@@ -35,7 +35,7 @@ function ScheduleManager() {
     poster_uri: "none",
     video_uri: "none",
     default_ticket_image_uri: "none",
-    // staff: "",
+    staff: "",
   });
   const handleApiChange = (e) => {
     setApiData({ ...apiData, [e.target.name]: e.target.value });
@@ -142,7 +142,7 @@ function ScheduleManager() {
         poster_uri: apiData.poster,
         video_uri: apiData.video_uri,
         default_ticket_image_uri: apiData.default_ticket_image_uri,
-        // staff: apiData.staff,
+        staff: apiData.staff,
       })
       .then((res) => {
         console.log(res);
@@ -204,10 +204,10 @@ function ScheduleManager() {
             onChange={handleApiChange}
           />
         </div>
-        {/* <div>
+        <div>
           캐스팅
           <input type="text" name="staff" value={apiData.staff} onChange={handleApiChange} />
-        </div> */}
+        </div>
         <div>
           공연시간:
           <input
