@@ -60,15 +60,25 @@ const BoldSpan = styled.span`
   font-weight: bold;
 `;
 
+// 시간 단위 변경 (unixTime)
+const unixTimeToDate = (unixTime) => {
+  const date = new Date(unixTime);
+  const dateString =
+    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  return dateString;
+};
+
 const TopRight = (props) => {
   const [startDate, setStartDate] = useState(new Date());
-  const [time, setTime] = React.useState();
 
   const navigate = useNavigate();
 
   // 예매하기 버튼 클릭 시
   const doBook = () => {
-    navigate(`/SelectSeat/${props.showScheduleAddress}`);
+    console.log(startDate);
+    const date = unixTimeToDate(startDate);
+    console.log("date", date);
+    navigate(`/SelectSeat/${props.showScheduleAddress}/${date}`);
     // console.log('props정보', props);
   };
 
@@ -77,14 +87,18 @@ const TopRight = (props) => {
   return (
     <div>
       <CoverBox>
-        <SmallTitleCss>관람일</SmallTitleCss>
+        <SmallTitleCss>관람일 선택</SmallTitleCss>
         <DatePickerCss>
-          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} inline />
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            inline
+          />
         </DatePickerCss>
 
         <ColorHr></ColorHr>
 
-        <SmallTitleCss>좌석</SmallTitleCss>
+        <SmallTitleCss>잔여 좌석</SmallTitleCss>
 
         <SeatCss>
           {props.seatInfo.map((it, idx) => (
@@ -113,7 +127,7 @@ const TopRight = (props) => {
               borderRadius: 3,
               py: 1.5,
             }}
-            variant="outlined"
+            variant='outlined'
           >
             예매하기
           </Button>
