@@ -7,7 +7,7 @@ import Page1 from "./pages/Page1";
 import Page2 from "./pages/Page2";
 import Page3 from "./pages/Page3";
 import Page4 from "./pages/Page4";
-import Page5 from "./pages/Page5";
+import Community from "./pages/Community";
 // import MyAnimal from "./pages/MyAnimal";
 // import SaleAnimal from "./pages/SaleAnimal";
 // import Mint from "./pages/Mint";
@@ -61,7 +61,7 @@ function App() {
         <Route path="/Redux2" element={<Page2 />} />
         <Route path="/Toast%20UI" element={<Page3 />} />
         <Route path="/Wallet%20Info" element={<Page4 />} />
-        <Route path="/Community" element={<Page5 />} />
+        <Route path="/Community" element={<Community />} />
         <Route path="/Guide" element={<Guide />} />
         <Route path="/Detail" element={<Detail />} />
         <Route path="/Detail/:showScheduleAddress" element={<ShowDetail />} />

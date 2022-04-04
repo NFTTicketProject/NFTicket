@@ -16,13 +16,14 @@ const unityContext = new UnityContext({
   }
 });
 
-const Page5 = () => {
+const Community = () => {
   const [speed, SetSpeed] = useState(0);
   const [nickname, SetNickname] = useState("Noname");
   const [roomName, SetRoomName] = useState("입장중");
   const [image, Setimage] = useState("https://docs.unity3d.com/uploads/Main/ShadowIntro.png");
   // 사용가능횟수 = 1000회/하루?? : https://www.youtube.com/watch?v=L3wJi7dvH2I
-  const imageSERVER = "https://cdn.filestackcontent.com/AM9o5lgXYR1uvQX2NaAqnz/output=secure:true/"
+  // const imageSERVER = "https://cdn.filestackcontent.com/AM9o5lgXYR1uvQX2NaAqnz/output=secure:true/"
+  const imageSERVER = "https://j6a102.p.ssafy.io/showipfs/ipfs/"
 
   const FileSaver = require('file-saver')
 
@@ -99,7 +100,12 @@ const Page5 = () => {
 
   useEffect(function() {
     unityContext.on("GetNickName", function(name) {
-      SetNickname(name);
+      console.log("닉넴", name)
+      if (name === "start") {
+        unityContext.send("NetworkManager", "SetNickNameReact", "초기닉네임");
+      } else {
+        SetNickname(name);
+      }
     });
   }, []);
 
@@ -147,4 +153,4 @@ const Page5 = () => {
 };
 
 
-export default Page5;
+export default Community;
