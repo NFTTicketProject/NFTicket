@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 const PosterImage = ({ apiData, setApiData }) => {
   const IPFS = require("ipfs-api");
   // const ipfs = new IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
-  const ipfs = new IPFS({ host: "nfticket.plus", port: "/ipfs", protocol: "https" });
+  const ipfs = new IPFS({
+    host: "nfticket.plus",
+    port: "/ipfs",
+    protocol: "https",
+  });
 
   const [info, setInfo] = useState({
     ipfsHash: null,
@@ -65,11 +69,11 @@ const PosterImage = ({ apiData, setApiData }) => {
   }, [info]);
 
   return (
-    <div className="App">
+    <div className='App'>
       <div>
         <img
           src={`https://ipfs.io/ipfs/${apiData.poster}`}
-          alt="sample"
+          alt='sample'
           style={{
             width: "150px",
             height: "150px",
@@ -78,8 +82,8 @@ const PosterImage = ({ apiData, setApiData }) => {
         />
 
         <form onSubmit={onSubmit}>
-          <input type="file" onChange={captureFile} />
-          <button bsstyle="primary" type="submit">
+          <input type='file' onChange={captureFile} />
+          <button bsstyle='primary' type='submit'>
             등록
           </button>
         </form>
