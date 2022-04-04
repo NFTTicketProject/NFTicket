@@ -6,6 +6,7 @@ import NFTInfo from "./NFTInfo";
 
 const NotificationCss = styled.div`
   margin-top: 20px;
+  width: 670px;
 `;
 
 const NFTInfoCss = styled.div`

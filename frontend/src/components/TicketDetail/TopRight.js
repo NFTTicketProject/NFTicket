@@ -53,20 +53,17 @@ const ButtonBoxCss = styled.div`
   margin-top: 10px;
 `;
 
+const BoldSpan = styled.span`
+  font-weight: bold;
+`;
+
 const TopRight = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [time, setTime] = React.useState();
 
-  const handleTime = (event, time) => {
-    setTime(time);
-  };
-
   const doBook = () => {
-    if (time === undefined) {
-      alert("시간을 선택해주세요.");
-    } else {
-      alert(startDate + " " + time + " " + "예매하기누름");
-    }
+    alert(startDate + " " + time + " " + "예매하기누름");
+    console.log(props.seatInfo);
   };
 
   const showTimes = ["19:30", "20:30"];
@@ -87,18 +84,12 @@ const TopRight = (props) => {
     },
   ];
 
-  const casting = "박은태, 선민, 조정은";
-
   return (
     <div>
       <CoverBox>
         <SmallTitleCss>관람일</SmallTitleCss>
         <DatePickerCss>
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            inline
-          />
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} inline />
         </DatePickerCss>
 
         <ColorHr></ColorHr>
@@ -106,19 +97,19 @@ const TopRight = (props) => {
         <SmallTitleCss>좌석</SmallTitleCss>
 
         <SeatCss>
-          {/* {props.seatInfo.map((it, idx) => (
-            <div key={idx}>
-              <div>{props.seatInfo.ticketClassName}</div>
-              <div>{props.seatInfo.ticketClassPrice}</div>
-              <div>{props.seatInfo.ticketClassMaxMintCount}</div>
-            </div>
-          ))} */}
+          {props.seatInfo.map((it, idx) => (
+            <span key={idx}>
+              <span>{it.ticketClassName} </span>
+              <BoldSpan>{it.ticketClassMaxMintCount}석</BoldSpan>
+              <span> / </span>
+            </span>
+          ))}
         </SeatCss>
 
         <ColorHr></ColorHr>
 
         <SmallTitleCss>캐스팅</SmallTitleCss>
-        <CastingDivCss>{casting}</CastingDivCss>
+        <CastingDivCss>{props.casting}</CastingDivCss>
       </CoverBox>
 
       <ButtonBoxCss>
@@ -132,7 +123,7 @@ const TopRight = (props) => {
               borderRadius: 3,
               py: 1.5,
             }}
-            variant='outlined'
+            variant="outlined"
           >
             예매하기
           </Button>
@@ -143,7 +134,7 @@ const TopRight = (props) => {
               borderRadius: 3,
               py: 1.5,
             }}
-            variant='outlined'
+            variant="outlined"
           >
             대기하기
           </Button>

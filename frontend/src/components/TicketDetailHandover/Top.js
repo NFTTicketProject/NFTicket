@@ -21,16 +21,17 @@ const TopRightCss = styled.div`
   background-color: #bfc9ca;
 `;
 
-const Top = () => {
+const Top = (props) => {
   return (
     <div>
+      {props.category}
       <TopCss>
         <TopLeftCss>
           <TopLeft></TopLeft>
         </TopLeftCss>
 
         <TopRightCss>
-          <TopRight></TopRight>
+          <TopRight category={props.category}></TopRight>
         </TopRightCss>
       </TopCss>
     </div>
