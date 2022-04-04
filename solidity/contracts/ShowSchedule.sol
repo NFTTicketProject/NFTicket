@@ -31,8 +31,6 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     uint64 private _showId;
     // 공연장 이름
     string private _stageName;
-    // 공연 스케줄 생성 시간
-    uint256 private _createdAt;
     // 공연 스케줄 시작 시간
     uint256 private _startedAt;
     // 공연 스케줄 종료 시간
@@ -91,9 +89,8 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         _setAdmin(admin);
         _setShowId(showId);
         _setStageName(stageName);
-        _setCreatedAt(block.timestamp);
-        _setStartedAt(startedAt);
-        _setEndedAt(endedAt);
+        _setStartedAt(block.timestamp + startedAt);
+        _setEndedAt(block.timestamp + endedAt);
         _setMaxMintCount(maxMintCount);
         _setResellPolicy(resellPolicy);
         _setTicketClasses(ticketClasses);
@@ -282,10 +279,6 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         _stageName = stageName;
     }
 
-    function _setCreatedAt(uint256 createdAt) private onlyOwner {
-        _createdAt = createdAt;
-    }
-
     function _setStartedAt(uint256 startedAt) private onlyOwner {
         _startedAt = startedAt;
     }
@@ -315,10 +308,6 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
 
     function getStageName() public view returns(string memory) {
         return _stageName;
-    }
-
-    function getCreatedAt() public view returns(uint256) {
-        return _createdAt;
     }
 
     function getStartedAt() public view returns(uint256) {
@@ -386,22 +375,22 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     }
 
     modifier Started() {
-        require(_createdAt + _startedAt < block.timestamp, "This schedule is not started yet");
+        require(_startedAt < block.timestamp, "This schedule is not started yet");
         _;
     }
 
     modifier notStarted() {
-        require(_createdAt + _startedAt >= block.timestamp, "This schedule is already started");
+        require(_startedAt >= block.timestamp, "This schedule is already started");
         _;
     }
 
     modifier Ended() {
-        require(_createdAt + _endedAt < block.timestamp, "This schedule is not ended yet");
+        require(_endedAt < block.timestamp, "This schedule is not ended yet");
         _;
     }
 
     modifier notEnded() {
-        require(_createdAt + _endedAt >= block.timestamp, "This schedule is already ended");
+        require(_endedAt >= block.timestamp, "This schedule is already ended");
         _;
     }
 
