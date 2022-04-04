@@ -6,9 +6,13 @@ import Chip from "@mui/material/Chip";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
+import { useNavigate } from "react-router-dom";
+
+
 // import DatePicker from "@mui/lab/DatePicker";
 // import { DatePicker } from "@material-ui/pickers";
 import DatePicker from "react-datepicker";
+
 
 const SmallTitleCss = styled.div`
   font-size: 14px;
@@ -61,9 +65,12 @@ const TopRight = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [time, setTime] = React.useState();
 
+  const navigate = useNavigate();
+
+  // 예매하기 버튼 클릭 시
   const doBook = () => {
-    alert(startDate + " " + time + " " + "예매하기누름");
-    console.log(props.seatInfo);
+    navigate(`/SelectSeat/${props.showScheduleAddress}`);
+    // console.log('props정보', props);
   };
 
   const showTimes = ["19:30", "20:30"];

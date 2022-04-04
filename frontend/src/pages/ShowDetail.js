@@ -50,12 +50,14 @@ const BottomCss = styled.div`
   margin-right: auto;
 `;
 
-const unixTimeToDate = (unixTime) => {
+// 시간 단위 변경 (unixTime)
+const unixTimeToDate = (unixTime) => {  
   const date = new Date(unixTime * 1000);
   const dateString =
     date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
+
 
 function ShowDetail() {
   const [scrollActive, setScrollActive] = useState(true);
@@ -67,7 +69,7 @@ function ShowDetail() {
   ////
 
   const navigate = useNavigate();
-  const userData = JSON.parse(localStorage.getItem("userAccount"));
+  const userData = JSON.parse(localStorage.getItem("userAccount"));  // 유저 정보 (티켓 구매, 발급 등에서 사용)
   // Detail에서 클릭해 받아온 공연 주소
   const { showScheduleAddress } = useParams();
   const showScheduleContract = new web3.eth.Contract(
@@ -76,15 +78,17 @@ function ShowDetail() {
   );
   // 주소에 맞는 공연 관련 정보
   const [showDetail, setShowDetail] = useState({});
-  // 공연에 해당하는 티켓 정보
+  // 공연에 해당하는 티켓 정보 - showDetail 안에 있는 데이터를 리스트로 사용하기 위해 새로 만듦.
   const [ticketDetail, setTicketDetail] = useState([]);
+
   // 티켓 발급을 위해 설정해야하는 showScheduleId
   const showScheduleId = localStorage.getItem(`${showScheduleAddress}`);
 
   // 티켓 발급을 위해 필요한 정보
-  const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });
-  const [register, setRegister] = useState({});
-  const [occupied, setOccupied] = useState([]);
+  const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });  // 좌석 등급, 공연 id
+  const [register, setRegister] = useState({});  // 티켓 등록 정보
+  const [occupied, setOccupied] = useState([]);  // 좌석 판매 여부
+
   // 예약된 좌석은 1로 표시
   const [seatInfo, setSeatInfo] = useState([]);
 
@@ -95,6 +99,8 @@ function ShowDetail() {
   const handleRegister = (e) => {
     setRegister({ ...register, [e.target.name]: e.target.value });
   };
+
+  console.log('showScheduleAddress', showScheduleAddress)
 
   // contract 통해서 show detail 정보 가져오기
   const callShowDetail = async () => {
@@ -245,12 +251,31 @@ function ShowDetail() {
   //티켓 등록
   const enrollTicket = async () => {
     try {
+      // // 1. 티켓 발급
+      // const createMyTicket = await myTicketContract.methods
+      //   .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
+      //   .send({ from: userData.account });
+      // // ticketID 받아오기
+      // var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
+      // setRegister({ ...register, ticketID });
+      // if (createMyTicket.status) {
+      //   // 2. approve - 토큰 이동
+      //   const approval = await IERC20Contract.methods
+      //     .approve(showScheduleAddress, 500)
+      //     .send({ from: userData.account });
+      //   if (approval.status) {
+      //     alert(`티켓 발급 완료`);
+      //     // 좌석 등록 여부 확인
+      //     const getTicketId = await showScheduleContract.methods
+      //       .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))  // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
+      //       .call();
+      //     if (getTicketId === 0) {  // 아직 팔리지 않은 좌석이라면
       // 좌석 등록 여부 확인 - 0이면 등록 안돼있고, 1 이상이면 등록 되어있는 상태
       const getTicketId = await showScheduleContract.methods
-        .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))
+        .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))  // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
         .call();
       console.log(getTicketId);
-      if (getTicketId < 1) {
+      if (getTicketId < 1) {  // 아직 팔리지 않은 좌석이라면
         // 1. 티켓 발급
         const createMyTicket = await myTicketContract.methods
           .create(
@@ -306,7 +331,13 @@ function ShowDetail() {
     callShowDetail();
     test();
   }, []);
-  console.log("🐸", seatInfo);
+  
+  // console.log("🐸", occupied);
+  // console.log('seatInfo', seatInfo)
+  console.log('showDetail', showDetail)
+  // console.log('showDetailBack', showDetailBack)
+
+
   return (
     <div>
       <TopCss>
@@ -379,8 +410,8 @@ function ShowDetail() {
           value={myTicket.classId}
           onChange={handleTicket}
           // maxLength={ticketDetail.length}
-          min='0'
-          max={ticketDetail.length - 1}
+          // min="0"
+          // max={ticketDetail.length - 1}
         />
       </div>
       {myTicket.classId && (
@@ -408,6 +439,7 @@ function ShowDetail() {
       </div>
       <hr />
 
+      {/* 티켓 재판매 */}
       {showDetail.isResellAvailable ? (
         <div>
           <TradeTicket
