@@ -26,7 +26,7 @@ const pages = [
   { name: "커뮤니티", link: "Community" },
   { name: "공연", link: "Show" },
   { name: "Guide", link: "Guide" },
-  { name: "무언가작업중", link: "Detail-Handover" },
+  // { name: "무언가작업중", link: "Detail-Handover" },
   { name: "바코드", link: "Barcode" },
   { name: "구매", link: "Purchase" },
   { name: "마켓", link: "Market" },
