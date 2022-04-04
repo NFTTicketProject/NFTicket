@@ -75,14 +75,15 @@ function SeatLine(props) {
     setSelectSeats(selectSeatList => data)
     console.log('넘어온 data list로 묶음', data)
     if (data) {
-      console.log('선택한 좌석', [data])
-      console.log(selectSeatList, '선택되었습니다.')
+      console.log('선택한 좌석', data)
       props.getData(data);
     }
     else {
       console.log('선택 취소한 좌석')
     }
   }
+
+  // console.log('seatInfo3', props);
 
 
   return (
@@ -93,28 +94,28 @@ function SeatLine(props) {
           <div className="seat-item" style={{ display: 'flex', flexDirection: 'column', margin: '10px'}}>
           {(() => {
             switch (props.grade) {
-              case "VIP":
+              case 0:
                 return (
                   <div>
-                    <SeatItem grade={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
+                    <SeatItem grade={"VIP"} gradeId={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
                   </div>  
                 )
-              case "R":
+              case 1:
                 return (
                   <div>
-                    <SeatItem grade={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
+                    <SeatItem grade={"R"} gradeId={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
                   </div>  
                 )
-              case "S":
+              case 2:
                 return (
                   <div>
-                    <SeatItem grade={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
+                    <SeatItem grade={"S"} gradeId={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
                   </div>  
                 )
-                case "A":
+                case 3:
                   return (
                     <div>
-                      <SeatItem grade={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
+                      <SeatItem grade={"A"} gradeId={props.grade} num={seatNum} id={key} seatCheck1={props.data} selectSeats={selectSeats}></SeatItem>
                     </div>  
                   )
               default:

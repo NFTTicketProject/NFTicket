@@ -296,8 +296,10 @@ function ShowDetail() {
     test();
   }, []);
   
-  console.log("🐸", occupied);
-  console.log('🐸🐸', showDetail)
+  // console.log("🐸", occupied);
+  // console.log('seatInfo', seatInfo)
+  console.log('showDetail', showDetail)
+  // console.log('showDetailBack', showDetailBack)
 
 
   return (
@@ -364,8 +366,8 @@ function ShowDetail() {
           value={myTicket.classId}
           onChange={handleTicket}
           // maxLength={ticketDetail.length}
-          min="0"
-          max={ticketDetail.length - 1}
+          // min="0"
+          // max={ticketDetail.length - 1}
         />
       </div>
       {myTicket.classId && <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>}

@@ -54,7 +54,7 @@ function SeatItem(props) {
       // setSelected(selected => selected1)
       setSelected(selected => selected1) 
       console.log('다른 자리다$$$$', selected1)
-      props.selectSeats(props.grade, props.id)  // 자리값 갱신
+      props.selectSeats(props.gradeId, props.id)  // 자리값 갱신
       
       if (selected1) {  // 값이 다른데 true
         // 선택된 색 + 값 바꾸기
@@ -158,7 +158,7 @@ function SeatItem(props) {
           >
         </div>
         <div>
-          <span style={{ fontSize: '14px'}}>{ props.grade }-{ props.id }-{ props.num } </span> 
+          <span style={{ fontSize: '14px'}}>{ props.grade }-{ props.gradeId }-{ props.id }-{ props.num } </span> 
         </div>
         </div>
 
