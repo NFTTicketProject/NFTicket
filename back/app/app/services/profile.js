@@ -13,6 +13,14 @@ module.exports = {
 
         return result
     },
+    getAllProfile: async function ()
+    {
+        const result = await prisma.Profile.findMany();
+
+        logger.info(`[Service] ${ service_name } ::: getAllProfile ::: ${ JSON.stringify(result) }`)
+
+        return result
+    },
     getProfile: async function (walletId)
     {
         const result = await prisma.Profile.findUnique({
