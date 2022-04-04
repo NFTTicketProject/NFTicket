@@ -60,7 +60,7 @@ const Show = () => {
       var dateEnd = new Date(endAt * 1000);
       var dateEndString =
         dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
-      var now = new Date();
+      // var now = new Date();
       // console.log("날짜비교", now.getTime(), dateEnd.getTime(), dateStart.getTime())
 
       var price = 987654321;

@@ -46,9 +46,9 @@ const TopLeft = (props) => {
   return (
     <div>
       <TypeAndLeft>
-        <Stack direction='row' spacing={1}>
-          <Chip label={props.catetory} color='default' />
-          <Chip label={totalRemainText} variant='outlined' />
+        <Stack direction="row" spacing={1}>
+          <Chip label={props.catetory} color="default" />
+          <Chip label={totalRemainText} variant="outlined" />
         </Stack>
       </TypeAndLeft>
 
@@ -56,7 +56,7 @@ const TopLeft = (props) => {
 
       <UnderTitle>
         <PosterArea>
-          <Poster src={props.posterUri} alt='poster img'></Poster>
+          <Poster src={`https://ipfs.io/ipfs/${props.posterUri}`} alt="poster img"></Poster>
         </PosterArea>
         <TicketInfoArea>
           <table>
@@ -88,7 +88,7 @@ const TopLeft = (props) => {
             </tbody>
             <tbody>
               <tr>
-                <th valign='top'>가격</th>
+                <th valign="top">가격</th>
                 {props.seatInfo.map((it, idx) => (
                   <tr key={idx}>
                     <th>{it.ticketClassName}</th>
