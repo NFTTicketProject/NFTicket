@@ -71,7 +71,7 @@ const TopLeft = (props) => {
             </tbody>
             <tbody>
               <tr>
-                <th>공연기간</th>
+                <th>관람기간</th>
                 <td>
                   {props.startedAt} ~ {props.endedAt}
                 </td>

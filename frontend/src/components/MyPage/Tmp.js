@@ -29,6 +29,7 @@ function Tmp(props) {
   const [ticketInfo, setTicketInfo] = useState({});
   const getTicketData = async () => {
     try {
+      const seller = await ticketSaleManagerContract.methods.owner().call()
       const ticketId = await ticketSaleContract.methods.getTicketId().call();
       const price = await ticketSaleContract.methods.getPrice().call(); // 리셀가격
       const description = await ticketSaleContract.methods.getDescription().call(); // 상세 정보
