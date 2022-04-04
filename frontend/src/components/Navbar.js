@@ -21,7 +21,7 @@ import { Link, useNavigate } from "react-router-dom";
 const pages = [
   // "Profile",
   { name: "상세인무언가", link: "Detail" },
-  { name: "공연임시", link: "ShowPublish" },
+  { name: "공연등록", link: "ShowPublish" },
   { name: "이미지수정", link: "Toast UI" },
   { name: "커뮤니티", link: "Community" },
   { name: "공연", link: "Show" },
