@@ -245,9 +245,12 @@ function MyPage() {
 
   useEffect(() => {
     checkConnectedWallet();
+  }, []);
+
+  useEffect(() => {
     getMyTickets();
     console.log(ticketArray);
-  }, []);
+  }, [walletInfo.nickname]);
 
   return (
     <>
@@ -411,6 +414,10 @@ function MyPage() {
               <div>
                 <TitleText>판매중인 티켓</TitleText>
                 <DescriptionDiv>
+                  {/* {ticketArray &&
+                    ticketArray.map((v, i) => {
+                      return <TicketOnSale key={i} {...v} />;
+                    })} */}
                   <TicketOnSale />
                 </DescriptionDiv>
               </div>
