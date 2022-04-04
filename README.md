@@ -217,7 +217,7 @@ NFTicket
 - [디자인&컨셉기획](./docs/디자인&컨셉기획.md) [수정 필요]
 - [스토리보드](./docs/스토리보드.md) [수정 필요]
 - [시퀀스다이어그램](./docs/시퀀스다이어그램.md) [수정 필요]
-- [아키텍처](docs/images/architecture.jpg)
+- [아키텍처](docs/docs/아키텍처.md)
 - [와이어프레임](docs/docs/와이어프레임.md)
 - [컨벤션](./docs/컨벤션.md) [수정 필요]
 - [API](docs/docs/apidocs.pdf)
