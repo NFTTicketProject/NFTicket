@@ -1,10 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import Ticket from './Ticket';
+import React from "react";
+import styled from "styled-components";
+import Ticket from "./Ticket";
 
-
-const SpecialTicket = ()=>{
-
+const SpecialTicket = () => {
   styled.div`
     display: flex;
     justify-content: center;
@@ -17,12 +15,12 @@ const SpecialTicket = ()=>{
 
   return (
     <div>
-      <Title style={{ display: "flex", justifyContent: "center", fontSize: "24px" }}>나만의 티켓</Title>
+      <Title style={{ display: "flex", justifyContent: "center", fontSize: "40px" }}>
+        나만의 티켓
+      </Title>
       <Ticket></Ticket>
     </div>
-      
   );
+};
 
-}
-
-export default SpecialTicket
+export default SpecialTicket;
