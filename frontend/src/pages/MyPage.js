@@ -10,9 +10,15 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import TicketCollection from "../components/TicketCollection";
-import { myTicketContract } from "../utils/web3Config";
+import {
+  myTicketContract,
+  showScheduleAbi,
+  showScheduleManagerContract,
+  web3,
+} from "../utils/web3Config";
 import TicketOnSale from "../components/MyPage/TicketOnSale";
 import MyTicket from "../components/MyPage/MyTicket";
+import MyTicketItem from "../components/MyPage/MyTicketItem";
 // import { myTicketContract } from "../utils/web3";
 
 const UnconnectedContainer = styled.div`
@@ -215,11 +221,29 @@ function MyPage() {
           .call();
         // showScheduleId: 1부터 시작
         const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
-        // clasId: 1부터 시작
+        // clasId: 1부터 시작 => className(좌석 등급으로 변환)
         const classId = await myTicketContract.methods.getClassId(ticketId).call();
-        //
+        const showScheduleAddress = await showScheduleManagerContract.methods
+          .getShowSchedule(showScheduleId)
+          .call();
+        const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+        const className = await showScheduleContract.methods.getTicketClassName(classId).call();
+        // 공연 이름 ??????????????????
+        const showId = await showScheduleContract.methods.getShowId().call();
+        const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+        // console.log("공연 번호", showId);
+        // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showScheduleId}`);
+        // 티켓 이미지 주소
         const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
-        tempArray.push({ ticketId, showScheduleId, classId, ticketUri });
+        console.log("티켓 주소", ticketId, ticketUri);
+        console.log("공연정보", showInfo);
+        tempArray.push({
+          ticketId,
+          showScheduleId,
+          ticketUri,
+          className,
+          name: showInfo.data.name,
+        });
       }
       setTicketArray(tempArray);
     } catch (err) {
@@ -282,32 +306,22 @@ function MyPage() {
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  {walletInfo.image_uri !== null ? (
-                    <img
-                      src={walletInfo.image_uri}
-                      alt=""
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        borderRadius: "50%",
-                        border: "3px solid white",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    <img
-                      src="images/MetaMask_Fox.svg.png"
-                      alt=""
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        borderRadius: "50%",
-                        border: "3px solid white",
-                        objectFit: "cover",
-                        background: "grey",
-                      }}
-                    />
-                  )}
+                  <img
+                    src={walletInfo.image_uri}
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = "images/MetaMask_Fox.svg.png";
+                    }}
+                    alt=""
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      borderRadius: "50%",
+                      border: "3px solid white",
+                      objectFit: "cover",
+                      background: "grey",
+                    }}
+                  />
                 </div>
               </Grid>
               <Grid
@@ -403,10 +417,16 @@ function MyPage() {
               <div>
                 <TitleText>나의 티켓</TitleText>
                 <DescriptionDiv>
-                  {ticketArray &&
-                    ticketArray.map((v, i) => {
-                      return <MyTicket key={i} {...v} />;
-                    })}
+                  <Grid container>
+                    {ticketArray &&
+                      ticketArray.map((v, i) => {
+                        return (
+                          <Grid item xs={3}>
+                            <MyTicketItem key={i} {...v} />;
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
                 </DescriptionDiv>
               </div>
             )}

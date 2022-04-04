@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -6,12 +6,9 @@ import Chip from "@mui/material/Chip";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-import { useNavigate } from "react-router-dom";
-
 // import DatePicker from "@mui/lab/DatePicker";
 // import { DatePicker } from "@material-ui/pickers";
 import DatePicker from "react-datepicker";
-import { ticketSaleManagerContract } from "../../utils/web3Config";
 
 const SmallTitleCss = styled.div`
   font-size: 14px;
@@ -63,21 +60,11 @@ const BoldSpan = styled.span`
 const TopRight = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [time, setTime] = React.useState();
-  const [isOwner, setIsOwner] = useState(true);
-  const [isBuyable, setIsBuyable] = useState(false);
-  const userData = JSON.parse(localStorage.getItem("userAccount"));
-  console.log(props.ticketId);
-  const doBook = ({}) => {
+
+  const doBook = () => {
     alert(startDate + " " + time + " " + "예매하기누름");
     console.log(props.seatInfo);
   };
-
-  // const toggleBuy = async () => {
-  //   // 구매자랑 판매자랑 다른지 확인 - 같으면 구매 불가
-  //   const res = await ticketSaleManagerContract.methods.ownerOf(parseInt(props.ticketId)).call();
-  //   console.log(res);
-  //   setIsBuyable(res.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
-  // };
 
   const showTimes = ["19:30", "20:30"];
 
@@ -96,10 +83,6 @@ const TopRight = (props) => {
       A: 67,
     },
   ];
-
-  // useEffect(() => {
-  //   toggleBuy();
-  // }, []);
 
   return (
     <div>
@@ -130,62 +113,32 @@ const TopRight = (props) => {
       </CoverBox>
 
       <ButtonBoxCss>
-        {/* 티켓 주인이면 꾸미기 버튼, 주인이 아니면 구매하기 */}
-        {isOwner ? (
-          <Stack spacing={1}>
-            <Button
-              onClick={doBook}
-              sx={{
-                fontWeight: "bold",
-                color: "secondary.main",
-                borderColor: "text.secondary",
-                borderRadius: 3,
-                py: 1.5,
-              }}
-              variant="outlined"
-            >
-              꾸미기
-            </Button>
-            <Button
-              sx={{
-                color: "text.primary",
-                borderColor: "text.secondary",
-                borderRadius: 3,
-                py: 1.5,
-              }}
-              variant="outlined"
-            >
-              판매하기
-            </Button>
-          </Stack>
-        ) : (
-          <Stack spacing={1}>
-            <Button
-              onClick={doBook}
-              sx={{
-                fontWeight: "bold",
-                color: "secondary.main",
-                borderColor: "text.secondary",
-                borderRadius: 3,
-                py: 1.5,
-              }}
-              variant="outlined"
-            >
-              구매하기
-            </Button>
-            {/* <Button
-              sx={{
-                color: "text.primary",
-                borderColor: "text.secondary",
-                borderRadius: 3,
-                py: 1.5,
-              }}
-              variant="outlined"
-            >
-              대기하기
-            </Button> */}
-          </Stack>
-        )}
+        <Stack spacing={1}>
+          <Button
+            onClick={doBook}
+            sx={{
+              fontWeight: "bold",
+              color: "secondary.main",
+              borderColor: "text.secondary",
+              borderRadius: 3,
+              py: 1.5,
+            }}
+            variant="outlined"
+          >
+            예매하기
+          </Button>
+          <Button
+            sx={{
+              color: "text.primary",
+              borderColor: "text.secondary",
+              borderRadius: 3,
+              py: 1.5,
+            }}
+            variant="outlined"
+          >
+            대기하기
+          </Button>
+        </Stack>
       </ButtonBoxCss>
     </div>
   );
