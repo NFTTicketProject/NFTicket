@@ -243,7 +243,7 @@ function ShowDetail() {
         // 아직 팔리지 않은 좌석이라면
         // 1. 티켓 발급
         const createMyTicket = await myTicketContract.methods
-          .create(showDetailBack.poster_uri, parseInt(showScheduleId), parseInt(myTicket.classId))
+          .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
           .send({ from: userData.account });
         // ticketID 받아오기
         var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
@@ -292,7 +292,12 @@ function ShowDetail() {
     callShowDetail();
     test();
   }, []);
-  console.log("🐸", showDetailBack);
+
+  // console.log("🐸", occupied);
+  // console.log('seatInfo', seatInfo)
+  // console.log("showDetail", showDetailBack.poster_uri);
+  // console.log('showDetailBack', showDetailBack)
+
   return (
     <div>
       <TopCss>
@@ -314,10 +319,18 @@ function ShowDetail() {
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
-              <TopRight seatInfo={ticketDetail} casting={`${showDetailBack.staffs}`}></TopRight>
+              <TopRight
+                seatInfo={ticketDetail}
+                casting={`${showDetailBack.staffs}`}
+                showScheduleAddress={showScheduleAddress}
+              ></TopRight>
             </TopRightFixed>
           ) : (
-            <TopRight seatInfo={ticketDetail} casting={`${showDetailBack.staffs}`}></TopRight>
+            <TopRight
+              seatInfo={ticketDetail}
+              casting={`${showDetailBack.staffs}`}
+              showScheduleAddress={showScheduleAddress}
+            ></TopRight>
           )}
         </TopRightCss>
       </TopCss>
@@ -333,9 +346,9 @@ function ShowDetail() {
       <BottomCss>
         <Bottom></Bottom>
       </BottomCss>
-      <hr />
+      {/* <hr />
       <h2>티켓 발급</h2>
-      {/* <div>
+      <div>
         ticketURI:
         <input type="text" name="ticketURI" value={myTicket.ticketURI} onChange={handleTicket} />
       </div>
@@ -348,7 +361,7 @@ function ShowDetail() {
           onChange={handleTicket}
           disabled={true}
         />
-      </div> */}
+      </div>
       <div>
         classId:
         <input
@@ -361,14 +374,14 @@ function ShowDetail() {
           // max={ticketDetail.length - 1}
         />
       </div>
-      {myTicket.classId && <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>}
+      {myTicket.classId && <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>} */}
       {/* {myTicket.classId === 0 ? (
         <div>금액: {ticketDetail[0].ticketClassPrice} SSF</div>
       ) : (
         <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>
       )} */}
 
-      <h2>티켓 등록</h2>
+      {/* <h2>티켓 등록</h2>
       <div>
         seatIndex:
         <input type="text" name="seatIndex" value={register.seatIndex} onChange={handleRegister} />
@@ -377,10 +390,10 @@ function ShowDetail() {
       <div>
         <button onClick={enrollTicket}>Enroll Ticket</button>
       </div>
-      <hr />
+      <hr /> */}
 
       {/* 티켓 재판매 */}
-      {showDetail.isResellAvailable ? (
+      {/* {showDetail.isResellAvailable ? (
         <div>
           <TradeTicket
             showScheduleAddress={showScheduleAddress}
@@ -390,7 +403,7 @@ function ShowDetail() {
         </div>
       ) : (
         <div></div>
-      )}
+      )} */}
 
       <Footer></Footer>
       {/* <h1>Show Detail</h1>

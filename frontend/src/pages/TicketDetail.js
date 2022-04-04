@@ -7,6 +7,9 @@ import {
   showScheduleAbi,
   myTicketContract,
   showScheduleManagerContract,
+  ticketSaleManagerContract,
+  IERC20Contract,
+  ticketSaleAbi,
 } from "../utils/web3Config";
 
 import axios from "axios";
@@ -36,7 +39,7 @@ const TopRightCss = styled.div`
 
 const TopRightFixed = styled.div`
   width: 330px;
-  top: 90px;
+  top: 190px;
   position: fixed;
   margin-left: 50px;
 `;
@@ -101,17 +104,16 @@ const TicketDetail = () => {
 
   const callShowDetail = async () => {
     try {
-      ////
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
-      ////
       const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
       const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
       const showId = await showScheduleContract.methods.getShowId().call();
+      // 백에서 정보 가져오기
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+      console.log("showInfo", showInfo);
+      setShowDetailBack(showInfo.data);
       const stageName = await showScheduleContract.methods.getStageName().call();
       const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
@@ -164,34 +166,68 @@ const TicketDetail = () => {
       console.error(err);
     }
   };
-  console.log("🐸", showDetail);
-  // 내 지갑 주소로 닉네임 가져오기
-  const getUserNickname = async () => {
-    try {
-      const response = await axios.get(
-        `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
-      );
-      console.log("data.nickname", response.data.nickname);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // // 내 지갑 주소로 닉네임 가져오기
+  // const getUserNickname = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
+  //     );
+  //     console.log("data.nickname", response.data.nickname);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  // 공연 정보 백엔드에서 가져오기
-  const getShowInfo = async () => {
-    try {
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // // 공연 정보 백엔드에서 가져오기
+  // const getShowInfo = async () => {
+  //   try {
+  //     const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
+  //     console.log("showInfo", showInfo);
+  //     setShowDetailBack(showInfo.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   useEffect(() => {
     callShowDetail();
-    // getShowInfo();
+    getTicketAddr();
   }, []);
+  console.log(showDetail);
+
+  // // 구매
+  const [saleAddr, setSaleAddr] = useState();
+  const getTicketAddr = async () => {
+    try {
+      const getSale = await ticketSaleManagerContract.methods.getSale(parseInt(ticketId)).call();
+      console.log(getSale);
+      setSaleAddr(getSale);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+  const buyTicket = async () => {
+    try {
+      // 1. gatSale()통해 contract 주소
+      // 2. approve
+      const approval = await IERC20Contract.methods
+        .approve(saleAddr, 500)
+        .send({ from: userData.account });
+      console.log(approval);
+      // 3. ticketSale.sol 발행
+      if (approval.status) {
+        const purchase = await ticketSaleContract.methods
+          .purchase()
+          .send({ from: userData.account });
+        if (purchase.status) {
+          alert("구매 완료");
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>
@@ -218,6 +254,7 @@ const TicketDetail = () => {
                 seatInfo={ticketDetail}
                 casting={`${showDetailBack.staffs}`}
                 ticketId={ticketId}
+                buyTicket={buyTicket}
               ></TopRight>
             </TopRightFixed>
           ) : (
