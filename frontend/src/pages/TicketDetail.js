@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   web3,
   showScheduleAbi,
@@ -63,6 +63,7 @@ const unixTimeToDate = (unixTime) => {
 };
 
 const TicketDetail = () => {
+  const navigate = useNavigate();
   // 스크롤 고정시키기 위한 변수들
   // 원래 어느 부분 내려가면 scrollActive가 false나 true로 변하면서 딱 걸쳐지게 만들려고 했는데 잘 안되네요 기각해도 될듯하
   // const [scrollY, setScrollY] = useState(0);
@@ -126,6 +127,8 @@ const TicketDetail = () => {
       startedAt = unixTimeToDate(startedAt);
       endedAt = unixTimeToDate(endedAt);
       window.localStorage.setItem("isCancelled", isCancelled);
+      // 티켓 uri 정보
+      const ticketImage = await myTicketContract.methods.getTokenURI(ticketId).call();
       // console.log(maxMintCount);
       // 티켓 좌석 정보저장
       const tmp = [];
@@ -158,6 +161,7 @@ const TicketDetail = () => {
         resellPriceLimit: resellPolicy[2],
         startedAt,
         endedAt,
+        ticketImage,
       });
       // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
       // console.log("showInfo", showInfo);
@@ -199,7 +203,9 @@ const TicketDetail = () => {
   const [saleAddr, setSaleAddr] = useState();
   const getTicketAddr = async () => {
     try {
-      const getSale = await ticketSaleManagerContract.methods.getSale(parseInt(ticketId)).call();
+      const getSale = await ticketSaleManagerContract.methods
+        .getSaleOfTicket(parseInt(ticketId))
+        .call();
       console.log(getSale);
       setSaleAddr(getSale);
     } catch (err) {
@@ -209,6 +215,10 @@ const TicketDetail = () => {
   const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
   const buyTicket = async () => {
     try {
+      // // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
+      // const val = await myTicketContract.methods
+      //   .setApprovalForAll(saleAddr, true)
+      //   .send({ from: userData.account });
       // 1. gatSale()통해 contract 주소
       // 2. approve
       const approval = await IERC20Contract.methods
@@ -222,6 +232,7 @@ const TicketDetail = () => {
           .send({ from: userData.account });
         if (purchase.status) {
           alert("구매 완료");
+          navigate("/MyPage");
         }
       }
     } catch (err) {
@@ -242,7 +253,7 @@ const TicketDetail = () => {
             showDuration={`${showDetailBack.running_time}`}
             showTitle={`${showDetailBack.name}`}
             catetory={`${showDetailBack.category_name}`}
-            posterUri={`${showDetailBack.poster_uri}`}
+            posterUri={`${showDetail.ticketImage}`}
             seatInfo={ticketDetail}
           ></TopLeft>
         </TopLeftCss>
