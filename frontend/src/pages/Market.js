@@ -13,36 +13,22 @@ import {
   showScheduleAbi,
   showScheduleManagerContract,
   ticketSaleManagerContract,
+  ticketSaleAbi,
   myTicketContract,
 } from "../utils/web3Config";
 
 const Market = () => {
   const [category, SetCategory] = useState("전체");
   const [saleTicketArray, setSaleTicketArray] = useState([]);
+  const [saleTicketSearchArray, setSaleTicketSearchArray] = useState([]);
 
   const categories = ["전체", "SF", "옵션1", "test"];
 
   const getTicketOnSale = async () => {
     try {
-      const cnt = await ticketSaleManagerContract.methods.getCount().call();
-      console.log(cnt);
-      const tempAddress = [];
-      for (let i = 1; i < parseInt(cnt) + 1; i++) {
-        const saleAddr = await ticketSaleManagerContract.methods.getSale(i).call();
-        tempAddress.push({ saleAddr });
-      }
-      console.log("tempaddress", tempAddress);
-      setSaleTicketArray(tempAddress);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getTicketOnSale2 = async () => {
-    try {
       const cnt = await myTicketContract.methods.totalSupply().call();
       console.log(cnt);
-      const tempAddress = [];
+      const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
         const saleAddr = await ticketSaleManagerContract.methods.getSaleOfTicket(i).call();
         if (saleAddr != "0x0000000000000000000000000000000000000000") {
@@ -61,23 +47,101 @@ const Market = () => {
           const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
           const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
           const categoryName = showInfo.data.category_name;
+          const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+          const price = await ticketSaleContract.methods.getPrice().call();
+          const startAt = await ticketSaleContract.methods.getStartedAt().call();
+          var dateStart = new Date(startAt * 1000);
+          var dateStartString =
+            dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
+          const endAt = await ticketSaleContract.methods.getEndedAt().call();
+          var dateEnd = new Date(endAt * 1000);
+          var dateEndString =
+            dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
+
           var cate = category;
           if (cate === "전체") cate = "";
+          // console.log("이후", cate);
           // console.log("정보", categoryName, cate, categoryName.includes(cate));
           if (!categoryName.includes(cate)) continue;
-          console.log("showInfo", showInfo);
+          // console.log("showInfo", showInfo);
 
-          // var price = 987654321;
-          // for (let i = 0; i < ticketClassCount; i++) {
-          //   const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(i).call();
-          //   if (ticketClassPrice <= price) price = ticketClassPrice;
-          // }
-
-          tempAddress.push({ ticketId: i, saleAddr, showId, stageSellerName, ticketSellerName, ticketUri, name: showInfo.data.name });
+          ticketInfos.push({
+            ticketId: i,
+            saleAddr,
+            showId,
+            stageSellerName,
+            ticketSellerName,
+            ticketUri,
+            name: showInfo.data.name,
+            price,
+            dateStartString,
+            dateEndString,
+          });
         }
       }
-      console.log("tempaddress", tempAddress);
-      setSaleTicketArray(tempAddress);
+      setSaleTicketArray(ticketInfos);
+      setSaleTicketSearchArray(ticketInfos);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getTicketOnSaleCategory = async (category) => {
+    try {
+      const cnt = await myTicketContract.methods.totalSupply().call();
+      console.log(cnt);
+      const ticketInfos = [];
+      for (let i = 1; i < parseInt(cnt) + 1; i++) {
+        const saleAddr = await ticketSaleManagerContract.methods.getSaleOfTicket(i).call();
+        if (saleAddr != "0x0000000000000000000000000000000000000000") {
+          const showScheduleId = await myTicketContract.methods.getShowScheduleId(i).call();
+          const showScheduleAddress = await showScheduleManagerContract.methods
+            .getShowSchedule(showScheduleId)
+            .call();
+          const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+          const showId = await showScheduleContract.methods.getShowId().call();
+          // 공연 발매자
+          const stageSeller = await showScheduleManagerContract.methods.ownerOf(showId).call();
+          var stageSellerName = await getUserNickname(stageSeller);
+          // 티켓 소유자
+          const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
+          var ticketSellerName = await getUserNickname(ticketSeller);
+          const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+          const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
+          const categoryName = showInfo.data.category_name;
+          const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+          const price = await ticketSaleContract.methods.getPrice().call();
+          const startAt = await ticketSaleContract.methods.getStartedAt().call();
+          var dateStart = new Date(startAt * 1000);
+          var dateStartString =
+            dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
+          const endAt = await ticketSaleContract.methods.getEndedAt().call();
+          var dateEnd = new Date(endAt * 1000);
+          var dateEndString =
+            dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
+
+          var cate = category;
+          console.log("카테고리", cate);
+          if ((cate === "전체") | !cate) cate = "";
+          console.log("카테고리 이후", cate);
+          if (!categoryName.includes(cate)) continue;
+
+          ticketInfos.push({
+            ticketId: i,
+            saleAddr,
+            showId,
+            stageSellerName,
+            ticketSellerName,
+            ticketUri,
+            name: showInfo.data.name,
+            price,
+            dateStartString,
+            dateEndString,
+          });
+        }
+      }
+      setSaleTicketArray(ticketInfos);
+      setSaleTicketSearchArray(ticketInfos);
     } catch (err) {
       console.error(err);
     }
@@ -85,7 +149,7 @@ const Market = () => {
 
   // 초기정보
   useEffect(() => {
-    getTicketOnSale2();
+    getTicketOnSale();
   }, []);
 
   const getUserNickname = async (wallet) => {
@@ -97,77 +161,18 @@ const Market = () => {
     }
   };
 
-  const callShowDetail = async (address, id, name, poster_uri) => {
-    try {
-      const stageSeller = await showScheduleManagerContract.methods.ownerOf(id).call();
-      var stageSellerName = await getUserNickname(stageSeller);
-      const showScheduleContract = new web3.eth.Contract(showScheduleAbi, address);
-      // const showId = await showScheduleContract.methods.getShowId().call();
-      const stageName = await showScheduleContract.methods.getStageName().call();
-      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
-      // const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
-      // const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
-      const startAt = await showScheduleContract.methods.getStartedAt().call();
-      var dateStart = new Date(startAt * 1000);
-      var dateStartString =
-        dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
-      const endAt = await showScheduleContract.methods.getEndedAt().call();
-      var dateEnd = new Date(endAt * 1000);
-      var dateEndString =
-        dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
-      var now = new Date();
-      // console.log("날짜비교", now.getTime(), dateEnd.getTime(), dateStart.getTime())
-
-      var price = 987654321;
-      for (let i = 0; i < ticketClassCount; i++) {
-        const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(i).call();
-        if (ticketClassPrice <= price) price = ticketClassPrice;
-      }
-      SetShowList((showList) => [
-        ...showList,
-        {
-          stageSellerName,
-          stageName,
-          dateStartString,
-          dateEndString,
-          price,
-          id,
-          name,
-          poster_uri,
-          address,
-        },
-      ]);
-      SetShowListSearch((showListSearch) => [
-        ...showListSearch,
-        {
-          stageSellerName,
-          stageName,
-          dateStartString,
-          dateEndString,
-          price,
-          id,
-          name,
-          poster_uri,
-          address,
-        },
-      ]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const searchKeyword = (e) => {
     var keyword = e.target.value;
     if (keyword) {
       var tmp = [];
-      for (let show of showList) {
-        if (show.name.includes(keyword) | show.stageSellerName.includes(keyword)) {
-          tmp.push(show);
+      for (let ticket of saleTicketArray) {
+        if (ticket.name.includes(keyword) | ticket.stageSellerName.includes(keyword)) {
+          tmp.push(ticket);
         }
       }
-      SetShowListSearch(tmp);
+      setSaleTicketSearchArray(tmp);
     } else {
-      SetShowListSearch(showList);
+      setSaleTicketSearchArray(saleTicketArray);
     }
   };
 
@@ -196,9 +201,14 @@ const Market = () => {
             <div style={{ padding: "10px" }}>카테고리</div>
             <Autocomplete
               value={category}
-              onChange={(event, newValue) => {
-                SetCategory(newValue);
-                onSubmitCategory(newValue);
+              // onChange={(event, newValue) => {
+              //   SetCategory(newValue);
+              //   getTicketOnSaleCategory(newValue);
+              // }}
+              inputValue={category}
+              onInputChange={(event, newInputValue) => {
+                SetCategory(newInputValue);
+                getTicketOnSaleCategory(newInputValue);
               }}
               id="controllable-states-demo"
               options={categories}
@@ -208,7 +218,7 @@ const Market = () => {
           </div>
         </Grid>
         <Grid container xs={10}>
-          {saleTicketArray.map((ticket) => (
+          {saleTicketSearchArray.map((ticket) => (
             <Grid item xs={3}>
               <PerformTicket
                 key={ticket.ticketId}
@@ -218,6 +228,9 @@ const Market = () => {
                 stageSellerName={ticket.stageSellerName}
                 ticketSellerName={ticket.ticketSellerName}
                 name={ticket.name}
+                price={ticket.price}
+                dateStartString={ticket.dateStartString}
+                dateEndString={ticket.dateEndString}
               />
             </Grid>
           ))}
