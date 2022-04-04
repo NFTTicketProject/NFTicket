@@ -117,7 +117,7 @@ const TopRight = (props) => {
           >
             예매하기
           </Button>
-          <Button
+          {/* <Button
             sx={{
               color: "text.primary",
               borderColor: "text.secondary",
@@ -127,7 +127,7 @@ const TopRight = (props) => {
             variant="outlined"
           >
             대기하기
-          </Button>
+          </Button> */}
         </Stack>
       </ButtonBoxCss>
     </div>

@@ -20,9 +20,9 @@ const Bottom = () => {
         <Notification></Notification>
       </NotificationCss>
 
-      <NFTInfoCss>
+      {/* <NFTInfoCss>
         <NFTInfo></NFTInfo>
-      </NFTInfoCss>
+      </NFTInfoCss> */}
     </div>
   );
 };
