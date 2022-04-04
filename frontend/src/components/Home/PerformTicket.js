@@ -26,10 +26,10 @@ const PerformTicket = (props) => {
         <PosterImgContainer src={props.ticketUri} onError={handleError} alt="poster img" />
       </Link>
       <p style={{ fontSize: "11px" }}>
-        시작날짜 ~ 종료날짜
+        {props.dateStartString} ~ {props.dateEndString}
       </p>
       <p style={{ fontSize: "14px" }}>{props.name}</p>
-      <p style={{ fontSize: "14px", fontWeight: "700" }}>가격 SSF ~</p>
+      <p style={{ fontSize: "14px", fontWeight: "700" }}>가격 : {props.price} SSF</p>
       <hr />
       <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p>
       <p style={{ fontSize: "14px", color: "gray" }}>발매자 : {props.stageSellerName}</p>
