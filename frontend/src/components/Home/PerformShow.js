@@ -33,7 +33,11 @@ const PerformShow = ({
   return (
     <PerformContainer>
       <Link to={`/Detail/${address}`}>
-        <PosterImgContainer src={poster_uri} onError={handleError} alt="poster img" />
+        <PosterImgContainer
+          src={`https://nfticket.plus/showipfs/ipfs/${poster_uri}`}
+          onError={handleError}
+          alt="poster img"
+        />
       </Link>
       <p style={{ fontSize: "11px" }}>
         {dateStartString} ~ {dateEndString}
