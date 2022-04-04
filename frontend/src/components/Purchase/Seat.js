@@ -12,7 +12,6 @@ const Seat = (props) => {
   const [info, setInfo] = React.useState();
   const [seatNum, setSeatNum] = React.useState(0);
 
-  var a = "hi"
 
   // seatInfo 받아오기
   // seatFunction = (info) => {
@@ -46,24 +45,25 @@ const Seat = (props) => {
   // }
 
   // 등급 별 좌석 정보
-  const seatInfo = [
-      {
-        grade: "VIP",
-        info: [0, 0, 0, 0, 1, 0, 0],
-      },
-      {
-        grade: "R",
-        info: [0, 0, 0, 1, 0, 0, 0, 0],
-      },
-      {
-        grade: "S",
-        info: [0, 0, 0, 0, 1, 1, 1, 0, 0],
-      },
-      {
-        grade: "A",
-        info: [1, 1, 0, 0, 0, 0, 0, 0],
-      },
-    ];
+  const seatInfo = props.seatInfo;
+  // const seatInfo = [
+  //   {
+  //     grade: "VIP",
+  //     info: [0, 0, 0, 0, 1, 0, 0],
+  //   },
+  //   {
+  //     grade: "R",
+  //     info: [0, 0, 0, 1, 0, 0, 0, 0],
+  //   },
+  //   {
+  //     grade: "S",
+  //     info: [0, 0, 0, 0, 1, 1, 1, 0, 0],
+  //   },
+  //   {
+  //     grade: "A",
+  //     info: [1, 1, 0, 0, 0, 0, 0, 0],
+  //   },
+  // ];
 
 
   // 객체 값 불러오기 -> map으로 해결
@@ -102,8 +102,6 @@ const Seat = (props) => {
     // console.log('id', id);
     setData(data => index);
     // console.log('dataaaaa추가', data);
-    a = index
-    console.log(a, 'a')
   }
 
   const deleteData = (id) => {
@@ -114,7 +112,14 @@ const Seat = (props) => {
 
   // 좌석 정보 보내기
   const seatInfoSend = () => {
-    
+    console.log('data', data);
+    if (data.length) {
+      props.changeSeatData(data); // 좌석 정보를 상위 컴포넌트인 SelectSeat로 넘겨줌
+      // console.log('상위로 좌석 정보 넘겨줌')
+    }
+    else {
+      alert("좌석을 선택해주세요.");
+    }
   }
 
     return (
@@ -142,11 +147,7 @@ const Seat = (props) => {
           </div>
         </div>
 
-        <p className="text">
-          You have selected <span id="count">0</span> seats for a price of $<span
-            id="total"
-            >0</span>
-        </p>
+        
         <button onClick={seatInfoSend}>선택 완료</button>
         <br></br>
         <span>좌석 data 값 : {data}</span>
