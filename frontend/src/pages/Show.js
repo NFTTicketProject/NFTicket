@@ -2,7 +2,7 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-import Perform2 from "../components/Home/Perform2"; // 임시
+import PerformShow from "../components/Home/PerformShow";
 
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
@@ -186,7 +186,7 @@ const Show = () => {
         <Grid container xs={10}>
           {showListSearch.map((show) => (
             <Grid item xs={3}>
-              <Perform2
+              <PerformShow
                 key={show.id}
                 name={show.name}
                 show_id={show.id}

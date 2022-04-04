@@ -2,7 +2,7 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-import Perform2 from "../components/Home/Perform2"; // 임시
+import PerformTicket from "../components/Home/PerformTicket"; // 임시
 
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
@@ -52,17 +52,28 @@ const Market = () => {
             .call();
           const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
           const showId = await showScheduleContract.methods.getShowId().call();
-          const stageName = await showScheduleContract.methods.getStageName().call();
+          // 공연 발매자
+          const stageSeller = await showScheduleManagerContract.methods.ownerOf(showId).call();
+          var stageSellerName = await getUserNickname(stageSeller);
+          // 티켓 소유자
+          const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
+          var ticketSellerName = await getUserNickname(ticketSeller);
           const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
           const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
-          const categoryName = showInfo.category_name;
+          const categoryName = showInfo.data.category_name;
           var cate = category;
           if (cate === "전체") cate = "";
-          console.log("정보", categoryName, cate, categoryName.includes(cate));
-          // if (!categoryName.includes(cate)) continue;
+          // console.log("정보", categoryName, cate, categoryName.includes(cate));
+          if (!categoryName.includes(cate)) continue;
           console.log("showInfo", showInfo);
 
-          tempAddress.push({ ticketId: i, saleAddr, showId, stageName, ticketUri });
+          // var price = 987654321;
+          // for (let i = 0; i < ticketClassCount; i++) {
+          //   const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(i).call();
+          //   if (ticketClassPrice <= price) price = ticketClassPrice;
+          // }
+
+          tempAddress.push({ ticketId: i, saleAddr, showId, stageSellerName, ticketSellerName, ticketUri, name: showInfo.data.name });
         }
       }
       console.log("tempaddress", tempAddress);
@@ -199,10 +210,15 @@ const Market = () => {
         <Grid container xs={10}>
           {saleTicketArray.map((ticket) => (
             <Grid item xs={3}>
-              <div>{ticket.ticketId}</div>
-              <div>{ticket.saleAddr}</div>
-              <div>{ticket.showId}</div>
-              <div>{ticket.stageName}</div>
+              <PerformTicket
+                key={ticket.ticketId}
+                id={ticket.ticketId}
+                ticketUri={ticket.ticketUri}
+                saleAddr={ticket.saleAddr}
+                stageSellerName={ticket.stageSellerName}
+                ticketSellerName={ticket.ticketSellerName}
+                name={ticket.name}
+              />
             </Grid>
           ))}
         </Grid>
