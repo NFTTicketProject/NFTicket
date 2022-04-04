@@ -21,7 +21,7 @@ function SelectSeat () {
   // 공연에 해당하는 티켓 정보
   const [ticketDetail, setTicketDetail] = useState([]);
 
-  console.log('🦄', ticketDetail)
+  // console.log('🦄', ticketDetail)
 
   // 티켓 발급을 위해 필요한 정보
   const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });  // 좌석 등급, 공연 id
@@ -34,7 +34,12 @@ function SelectSeat () {
     setRegister({ ...register, [e.target.name]: e.target.value });
   };
 
-  //티켓 등록
+  // 정보 저장
+  // const saveInfo = () => {
+
+  // }
+
+  // 티켓 등록
   const enrollTicket = async () => {
     try {
       // 1. 티켓 발급

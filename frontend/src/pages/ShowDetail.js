@@ -78,7 +78,7 @@ function ShowDetail() {
   // 티켓 발급을 위해 필요한 정보
   const [myTicket, setMyTicket] = useState({ classId: 0, showScheduleId });  // 좌석 등급, 공연 id
   const [register, setRegister] = useState({});  // 티켓 등록 정보
-  const [occupied, setOccupied] = useState([]);
+  const [occupied, setOccupied] = useState([]);  // 좌석 판매 여부
 
   const handleTicket = (e) => {
     setMyTicket({ ...myTicket, [e.target.name]: e.target.value });
@@ -86,6 +86,8 @@ function ShowDetail() {
   const handleRegister = (e) => {
     setRegister({ ...register, [e.target.name]: e.target.value });
   };
+
+  console.log('showScheduleAddress', showScheduleAddress)
 
   // contract 통해서 show detail 정보 가져오기
   const callShowDetail = async () => {
@@ -232,7 +234,11 @@ function ShowDetail() {
   useEffect(() => {
     callShowDetail();
   }, []);
+  
   console.log("🐸", occupied);
+  console.log('🐸🐸', showDetail)
+
+
   return (
     <div>
       <TopCss>
