@@ -20,7 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
   // "Profile",
-  { name: "상세인무언가", link: "Detail" },
+  // { name: "상세인무언가", link: "Detail" },
   { name: "공연등록", link: "ShowPublish" },
   // { name: "이미지수정", link: "Toast UI" },
   { name: "커뮤니티", link: "Community" },
@@ -31,7 +31,10 @@ const pages = [
   { name: "구매", link: "Purchase" },
   { name: "마켓", link: "Market" },
 ];
-const settings = ["MyPage", "Account", "Dashboard", "Logout"];
+const settings = [
+  "MyPage",
+  //  "Account", "Dashboard", "Logout"
+];
 
 const Logo = styled.img`
   width: 107px;
@@ -79,7 +82,8 @@ const ResponsiveAppBar = () => {
             }}
           >
             <Link to="/">
-              <Logo src="images/logo.png"></Logo>
+              {/* <Logo src="images/logo.png"></Logo> */}
+              <Logo src="https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN"></Logo>
               {/* <Logo src={require("../images/logo.png")}></Logo> */}
             </Link>
           </Typography>
@@ -147,7 +151,8 @@ const ResponsiveAppBar = () => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
             <Link to="/">
-              <Logo src="images/logo.png"></Logo>
+              {/* <Logo src="images/logo.png"></Logo> */}
+              <Logo src="https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN"></Logo>
             </Link>
           </Typography>
           <Box

@@ -157,8 +157,8 @@ const ShowPublish = () => {
     endedAt: "", // 판매 종료 시점
     maxMintCount: "",
     isResellAvailable: false,
-    resellRoyaltyRatePercent: null,
-    resellPriceLimit: null,
+    resellRoyaltyRatePercent: 0,
+    resellPriceLimit: 100,
     ticketInfo: [], // 티켓 설정
   });
   const [apiData, setApiData] = useState({
