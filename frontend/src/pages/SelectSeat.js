@@ -1,23 +1,82 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { web3, showScheduleAbi, myTicketContract, IERC20Contract } from "../utils/web3Config";
+import {
+  web3,
+  showScheduleAbi,
+  myTicketContract,
+  IERC20Contract,
+} from "../utils/web3Config";
+
+import styled from "styled-components";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 import Seat from "../components/Purchase/Seat";
 import SeatInfo from "../components/Purchase/SeatInfo";
 import axios from "axios";
 
+const ContainAll = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const WidthSettingDiv = styled.div`
+  width: 1200px;
+`;
+
+const PageTitleDiv = styled.div`
+  font-size: 32px;
+  font-weight: bold;
+  margin: 50px 0px 10px 50px;
+`;
+
+const ContainSeatAreaAndInfo = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const ChooseSeatArea = styled.div`
+  width: 800px;
+`;
+
+const SeatAndButtonArea = styled.div``;
+
+const SeatInfoArea = styled.div`
+  width: 300px;
+  height: 540px;
+  margin-left: 30px;
+  border: 1px solid #7f8c8d;
+  border-radius: 20px;
+`;
+
+const ButtonArea = styled.div`
+  margin-left: 30px;
+  margin-top: 10px;
+`;
+
+const BoldSpan = styled.span`
+  font-weight: bold;
+  margin-right: 5px;
+`;
+
+const MyButton = styled(Button)``;
+
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
-  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString =
+    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
 function SelectSeat() {
   const navigate = useNavigate();
   // Detail에서 클릭해 받아온 공연 주소
-  const { showScheduleAddress } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
-  const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress); // showScheduleAddress를 통해서 공연 정보 받아오기
+  const { showScheduleAddress, date } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
+  const showScheduleContract = new web3.eth.Contract(
+    showScheduleAbi,
+    showScheduleAddress,
+  ); // showScheduleAddress를 통해서 공연 정보 받아오기
 
   // const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -68,11 +127,21 @@ function SelectSeat() {
   const callShowDetail = async () => {
     try {
       const showId = await showScheduleContract.methods.getShowId().call();
-      const stageName = await showScheduleContract.methods.getStageName().call();
-      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
-      const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
-      const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
-      const isCancelled = await showScheduleContract.methods.isCancelled().call();
+      const stageName = await showScheduleContract.methods
+        .getStageName()
+        .call();
+      const ticketClassCount = await showScheduleContract.methods
+        .getTicketClassCount()
+        .call();
+      const resellPolicy = await showScheduleContract.methods
+        .getResellPolicy()
+        .call();
+      const maxMintCount = await showScheduleContract.methods
+        .getMaxMintCount()
+        .call();
+      const isCancelled = await showScheduleContract.methods
+        .isCancelled()
+        .call();
       // 한길 추가, 공연시작과 끝 가져오기
       let startedAt = await showScheduleContract.methods.getStartedAt().call();
       let endedAt = await showScheduleContract.methods.getEndedAt().call();
@@ -85,18 +154,23 @@ function SelectSeat() {
       const tmp = [];
 
       for (let i = 0; i < ticketClassCount; i++) {
-        const ticketClassName = await showScheduleContract.methods.getTicketClassName(i).call();
+        const ticketClassName = await showScheduleContract.methods
+          .getTicketClassName(i)
+          .call();
         const tmpTicketClassPrice = await showScheduleContract.methods
           .getTicketClassPrice(i)
           .call();
         // 가격은 3자리마다 콤마 붙여주었습니다.
-        const ticketClassPrice = Number(tmpTicketClassPrice).toLocaleString("ko-KR");
+        const ticketClassPrice =
+          Number(tmpTicketClassPrice).toLocaleString("ko-KR");
         const ticketClassMaxMintCount = await showScheduleContract.methods
           .getTicketClassMaxMintCount(i)
           .call();
         const occ = [];
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
-          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
+          const getTicketId = await showScheduleContract.methods
+            .getTicketId(i, j)
+            .call();
           if (getTicketId > 0) {
             // console.log("🎃", getTicketId);
             occ.push([i, j]);
@@ -125,7 +199,9 @@ function SelectSeat() {
         startedAt,
         endedAt,
       });
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+      const showInfo = await axios.get(
+        `https://nfticket.plus/api/v1/show/${showId}`,
+      );
       // console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
     } catch (err) {
@@ -136,7 +212,9 @@ function SelectSeat() {
   // 좌석 예약 관련, 예약된 좌석 걸러내는 용도
   const test = async () => {
     try {
-      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
+      const ticketClassCount = await showScheduleContract.methods
+        .getTicketClassCount()
+        .call();
       const arr = [];
       for (let i = 0; i < ticketClassCount; i++) {
         const ticketClassMaxMintCount = await showScheduleContract.methods
@@ -145,7 +223,9 @@ function SelectSeat() {
         const tmp = [];
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
           tmp.push(0);
-          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
+          const getTicketId = await showScheduleContract.methods
+            .getTicketId(i, j)
+            .call();
           if (getTicketId > 0) {
             tmp[j] = 1;
           }
@@ -167,10 +247,14 @@ function SelectSeat() {
         "1",
         showDetailBack.poster_uri,
         parseInt(showScheduleId),
-        parseInt(myTicket.data[0])
+        parseInt(myTicket.data[0]),
       );
       const createMyTicket = await myTicketContract.methods
-        .create(showDetailBack.poster_uri, parseInt(showScheduleId), parseInt(myTicket.data[0]))
+        .create(
+          showDetailBack.poster_uri,
+          parseInt(showScheduleId),
+          parseInt(myTicket.data[0]),
+        )
         .send({ from: userData.account });
       // ticketID 받아오기
       var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
@@ -190,9 +274,18 @@ function SelectSeat() {
           // if (getTicketId === 0) {
           // 아직 팔리지 않은 좌석이라면
           // 3. register
-          console.log("3", parseInt(myTicket.data[0]), parseInt(seatData[1]), parseInt(ticketID));
+          console.log(
+            "3",
+            parseInt(myTicket.data[0]),
+            parseInt(seatData[1]),
+            parseInt(ticketID),
+          );
           const registerTicket = await showScheduleContract.methods
-            .registerTicket(parseInt(myTicket.data[0]), parseInt(seatData[1]), parseInt(ticketID))
+            .registerTicket(
+              parseInt(myTicket.data[0]),
+              parseInt(seatData[1]),
+              parseInt(ticketID),
+            )
             .send({ from: userData.account });
           if (registerTicket.status) {
             alert(`${ticketID}번 티켓 등록 성공`);
@@ -212,6 +305,9 @@ function SelectSeat() {
   };
 
   useEffect(() => {
+    console.log("머쉬맘", date);
+    console.log("머머쉬맘", showScheduleAddress);
+    console.log("머머머쉬맘", showScheduleId);
     callShowDetail();
     test();
   }, []);
@@ -225,72 +321,110 @@ function SelectSeat() {
 
   return (
     <div>
-      <h1>티켓 선택 페이지</h1>
-      <h2>티켓 발급</h2>
-      <div>
-        ticketURI:
-        <input
-          type="text"
-          name="ticketURI"
-          value={showDetailBack.poster_uri}
-          onChange={handleTicket}
-          disabled={true}
-        />
-      </div>
-      <div>
-        showScheduleId:
-        <input
-          type="text"
-          name="showScheduleId"
-          value={myTicket.showScheduleId}
-          onChange={handleTicket}
-          disabled={true}
-        />
-      </div>
-      <div>
-        classId:
-        <input
-          type="number"
-          name="classId"
-          value={seatData[0]}
-          // value={myTicket.classId}
-          onChange={handleTicket}
-          // maxLength={ticketDetail.length}
-          // min="0"
-          // max={ticketDetail.length - 1}
-          disabled={true}
-        />
-      </div>
-      {myTicket.data && <div>금액: {ticketDetail[myTicket.data[0]].ticketClassPrice} SSF</div>}
-      {/* {myTicket.classId === 0 ? (
+      <ContainAll>
+        <WidthSettingDiv>
+          <PageTitleDiv>티켓 구매</PageTitleDiv>
+
+          <ContainSeatAreaAndInfo>
+            <ChooseSeatArea>
+              <hr></hr>
+              <h4>좌석을 선택하세요.</h4>
+              <Seat seatInfo={seatInfo} changeSeatData={changeSeatData}></Seat>
+            </ChooseSeatArea>
+            <SeatAndButtonArea>
+              <SeatInfoArea>
+                <div style={{ margin: "30px" }}>
+                  <SeatInfo showDetail={showDetail} date={date}></SeatInfo>
+                  <hr></hr>
+                  <h2>티켓 발급</h2>
+                  {/* <div>
+                  ticketURI:
+                  <input
+                    type='text'
+                    name='ticketURI'
+                    value={showDetailBack.poster_uri}
+                    onChange={handleTicket}
+                    disabled={true}
+                  />
+                </div>
+                <div>
+                  showScheduleId:
+                  <input
+                    type='text'
+                    name='showScheduleId'
+                    value={myTicket.showScheduleId}
+                    onChange={handleTicket}
+                    disabled={true}
+                  />
+                </div>
+                <div>
+                  classId:
+                  <input
+                    type='number'
+                    name='classId'
+                    value={seatData[0]}
+                    // value={myTicket.classId}
+                    onChange={handleTicket}
+                    // maxLength={ticketDetail.length}
+                    // min="0"
+                    // max={ticketDetail.length - 1}
+                    disabled={true}
+                  />
+                </div> */}
+                  {myTicket.data && (
+                    <div>
+                      <BoldSpan>티켓 가격: </BoldSpan>
+                      <span>
+                        {ticketDetail[myTicket.data[0]].ticketClassPrice} SSF
+                      </span>
+                    </div>
+                  )}
+                  <div style={{ margin: "5px 0 0 0" }}>
+                    <BoldSpan>좌석 행 번호: </BoldSpan>
+                    <span>{seatData[1]}</span>
+                  </div>
+                </div>
+              </SeatInfoArea>
+              <ButtonArea>
+                <Stack spacing={1}>
+                  <Button
+                    onClick={enrollTicket}
+                    sx={{
+                      fontWeight: "bold",
+                      color: "secondary.main",
+                      borderColor: "text.secondary",
+                      borderRadius: 3,
+                      py: 1.5,
+                    }}
+                    variant='outlined'
+                  >
+                    예매하기
+                  </Button>
+                </Stack>
+              </ButtonArea>
+            </SeatAndButtonArea>
+          </ContainSeatAreaAndInfo>
+
+          {/* {myTicket.classId === 0 ? (
           <div>금액: {ticketDetail[0].ticketClassPrice} SSF</div>
         ) : (
           <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>
         )} */}
 
-      <h2>티켓 등록</h2>
-      <div>
-        seatIndex:
-        <input
-          type="text"
-          name="seatIndex"
-          value={seatData[1]}
-          // value={register.seatIndex}
-          onChange={handleRegister}
-          disabled={true}
-        />
-      </div>
-
-      <div>
-        <button onClick={enrollTicket}>Enroll Ticket</button>
-      </div>
-      <hr />
-
-      <div style={{ margin: "30px" }}>
-        <h1>좌석 선택</h1>
-        <SeatInfo showDetail={showDetail}></SeatInfo>
-        <Seat seatInfo={seatInfo} changeSeatData={changeSeatData}></Seat>
-      </div>
+          {/* <h2>티켓 등록</h2>
+          <div>
+            seatIndex:
+            <input
+              type='text'
+              name='seatIndex'
+              value={seatData[1]}
+              // value={register.seatIndex}
+              onChange={handleRegister}
+              disabled={true}
+            />
+          </div> */}
+        </WidthSettingDiv>
+      </ContainAll>
     </div>
   );
 }
