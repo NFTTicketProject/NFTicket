@@ -96,13 +96,16 @@ const TicketDetail = () => {
   const [showDetailBack, setShowDetailBack] = useState({});
   const userData = JSON.parse(localStorage.getItem("userAccount"));
 
-  // 임시로 캐스팅 정보 삽입
-  const casting = "박은태, 선민, 조정은";
   const hallDescription =
     "경기도 남양주시 화도읍사무소 2층에서 진행합니다. 찾아오시는 길: 알아서 버스타고 오세요";
 
   const callShowDetail = async () => {
     try {
+      ////
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
+      console.log("showInfo", showInfo);
+      setShowDetailBack(showInfo.data);
+      ////
       const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
@@ -154,14 +157,14 @@ const TicketDetail = () => {
         startedAt,
         endedAt,
       });
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
+      // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
+      // console.log("showInfo", showInfo);
+      // setShowDetailBack(showInfo.data);
     } catch (err) {
       console.error(err);
     }
   };
-
+  console.log("🐸", showDetail);
   // 내 지갑 주소로 닉네임 가져오기
   const getUserNickname = async () => {
     try {
@@ -187,6 +190,7 @@ const TicketDetail = () => {
 
   useEffect(() => {
     callShowDetail();
+    // getShowInfo();
   }, []);
 
   return (
@@ -210,10 +214,18 @@ const TicketDetail = () => {
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
-              <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
+              <TopRight
+                seatInfo={ticketDetail}
+                casting={`${showDetailBack.staffs}`}
+                ticketId={ticketId}
+              ></TopRight>
             </TopRightFixed>
           ) : (
-            <TopRight seatInfo={ticketDetail} casting={`${casting}`}></TopRight>
+            <TopRight
+              seatInfo={ticketDetail}
+              casting={`${showDetailBack.staffs}`}
+              ticketId={ticketId}
+            ></TopRight>
           )}
         </TopRightCss>
       </TopCss>
@@ -221,7 +233,7 @@ const TicketDetail = () => {
       <MiddleCss>
         <Middle
           description={`${showDetailBack.description}`}
-          casting={`${casting}`}
+          casting={`${showDetailBack.staffs}`}
           hallDescription={`${hallDescription}`}
         ></Middle>
       </MiddleCss>

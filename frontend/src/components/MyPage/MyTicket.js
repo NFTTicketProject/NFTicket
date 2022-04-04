@@ -22,6 +22,7 @@ function MyTicket({ ticketUri, ticketId, showScheduleId, classId }) {
       console.error(err);
     }
   };
+
   return (
     <div>
       <img src={ticketUri} alt="image" />

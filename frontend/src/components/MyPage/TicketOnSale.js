@@ -3,9 +3,11 @@ import {
   web3,
   showScheduleAbi,
   myTicketContract,
+  IERC20Contract,
   ticketSaleManagerContract,
   ticketSaleManagerAddress,
 } from "../../utils/web3Config";
+import SellTicket from "./SellTicket";
 
 function TicketOnSale() {
   const [saleStatus, setSaleStatus] = useState(false);
@@ -41,7 +43,7 @@ function TicketOnSale() {
       const tempAddress = [];
       for (let i = 0; i < parseInt(cnt.length); i++) {
         const saleAddr = await ticketSaleManagerContract.methods.getSale(parseInt(cnt[i])).call();
-        console.log(saleAddr);
+        // console.log("🎃", saleAddr);
         tempAddress.push({ saleAddr });
       }
       setMyTicketArray(tempAddress);
@@ -49,16 +51,20 @@ function TicketOnSale() {
       console.error(err);
     }
   };
+  console.log(myTicketArray);
 
   useEffect(() => {
-    // getTicketOnSale();
     getMyTicketsOnSale();
   }, []);
+
+  console.log("🐸", myTicketArray);
 
   return (
     <div>
       {myTicketArray.map((v, i) => (
-        <div key={i}>bello</div>
+        <div key={i}>
+          <SellTicket saleAddr={v.saleAddr} userData={userData} />
+        </div>
       ))}
       {/* <button disabled={isBuyable}>구매</button> */}
     </div>

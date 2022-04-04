@@ -56,7 +56,10 @@ const TopLeft = (props) => {
 
       <UnderTitle>
         <PosterArea>
-          <Poster src={`https://ipfs.io/ipfs/${props.posterUri}`} alt="poster img"></Poster>
+          <Poster
+            src={`https://nfticket.plus/showipfs/ipfs/${props.posterUri}`}
+            alt="poster img"
+          ></Poster>
         </PosterArea>
         <TicketInfoArea>
           <table>
