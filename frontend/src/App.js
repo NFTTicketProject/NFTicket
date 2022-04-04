@@ -22,9 +22,10 @@ import MyPage from "./pages/MyPage";
 import Settings from "./components/Settings";
 import ScheduleManager from "./pages/ScheduleManager";
 import Purchase from "./pages/Purchase";
+import Show from "./pages/Show";
 import Market from "./pages/Market";
 import ShowDetail from "./pages/ShowDetail";
-import TicketSale from "./components/TicketSale";
+import ShowPublish from "./pages/ShowPublish";
 
 function App() {
   // const [account, setAccount] = useState("");
@@ -61,24 +62,22 @@ function App() {
         <Route path="/Toast%20UI" element={<Page3 />} />
         <Route path="/Wallet%20Info" element={<Page4 />} />
         <Route path="/Community" element={<Page5 />} />
-        {/* <Route path="/Wansoo" element={<Page4 />} /> */}
-        {/* <Route path="/Mint" element={<Mint />} /> */}
-        {/* <Route path="/My%20Animal" element={<MyAnimal account={account} />} />
-        <Route path="/Sale%20Animal" element={<SaleAnimal account={account} />} /> */}
         <Route path="/Guide" element={<Guide />} />
         <Route path="/Detail" element={<Detail />} />
         <Route path="/Detail/:showScheduleAddress" element={<ShowDetail />} />
-        <Route path="/Ticket/:ticketId" element={<TicketSale />} />
         <Route path="/Schedule%20Manager" element={<ScheduleManager />}></Route>
-        {/* <Route path='/Profile' element={<Profile />} /> */}
         <Route path="/MyPage" element={<MyPage />} />
         <Route path="/MyPage/Settings" element={<Settings />} />
-        <Route path="/Ticket-Detail" element={<TicketDetail />} />
-        <Route path="/Detail-Handover" element={<TicketDetailHandover />} />
+        <Route path="/Ticket/:ticketId" element={<TicketDetail />} />
+        {/* <Route path="/Ticket/:showScheduleAddress" element={<TicketDetail />} /> */}
+
+        <Route path="/Detail-Handover/:ticketId" element={<TicketDetailHandover />} />
         <Route path="/Barcode" element={<Page4 />} />
         <Route path="/Purchase" element={<Purchase />} />
         <Route path="/*" element={<NotFound />} />
+        <Route path="/Show" element={<Show />} />
         <Route path="/Market" element={<Market />} />
+        <Route path="/ShowPublish" element={<ShowPublish />} />
       </Routes>
     </div>
   );

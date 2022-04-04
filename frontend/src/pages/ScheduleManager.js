@@ -35,6 +35,7 @@ function ScheduleManager() {
     poster_uri: "none",
     video_uri: "none",
     default_ticket_image_uri: "none",
+    // staff: "",
   });
   const handleApiChange = (e) => {
     setApiData({ ...apiData, [e.target.name]: e.target.value });
@@ -111,6 +112,14 @@ function ScheduleManager() {
       // .send({ from: account });
       console.log(response);
       if (response.status) {
+        console.log("계약주소", response.events[0].address);
+        console.log("계약번호", response.events.ShowScheduleCreated.returnValues.showScheduleId);
+        console.log("계약번호", response.events.ShowScheduleCreated);
+        console.log("계약번호", response.events.ShowScheduleCreated.returnValues);
+        axios.put(`https://nfticket.plus/api/v1/show/${detailInfo.showId}/show-schedule`, {
+          show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
+          address: response.events[0].address,
+        });
         // console.log("helo");
         // handleSubmit();
         // handleApi();
@@ -122,7 +131,7 @@ function ScheduleManager() {
   };
 
   const handleApi = () => {
-    // console.log(apiData);
+    console.log(apiData);
     axios
       .post(`https://nfticket.plus/api/v1/show/`, {
         category_name: apiData.category_name,
@@ -133,6 +142,7 @@ function ScheduleManager() {
         poster_uri: apiData.poster,
         video_uri: apiData.video_uri,
         default_ticket_image_uri: apiData.default_ticket_image_uri,
+        // staff: apiData.staff,
       })
       .then((res) => {
         console.log(res);
@@ -161,6 +171,12 @@ function ScheduleManager() {
   //   });
   // };
 
+  // console.log(detailInfo.startedAt, detailInfo.endedAt);
+  // var sDate = new Date(detailInfo.startedAt);
+  // console.log(sDate);
+  // var eDate = new Date(detailInfo.endedAt);
+  // console.log(eDate);
+
   return (
     <>
       <h1>Schedule Manager</h1>
@@ -188,6 +204,10 @@ function ScheduleManager() {
             onChange={handleApiChange}
           />
         </div>
+        {/* <div>
+          캐스팅
+          <input type="text" name="staff" value={apiData.staff} onChange={handleApiChange} />
+        </div> */}
         <div>
           공연시간:
           <input

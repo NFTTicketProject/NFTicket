@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function ShowList({ contractSchedule }) {
   const navigate = useNavigate();
+
   return (
     <div>
       {contractSchedule.map((it, idx) => (
@@ -16,6 +17,7 @@ function ShowList({ contractSchedule }) {
               <button
                 onClick={() => {
                   navigate(`/Detail/${it}`);
+                  // navigate(`/Ticket/${it}`);
                 }}
               >
                 정보

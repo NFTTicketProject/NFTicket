@@ -37,7 +37,7 @@ function ProfileImage({ userInfo, setUserInfo }) {
       // console.log(ipfsHash[0].hash);
       setInfo({ ipfsHash: ipfsHash[0].hash });
       //
-      setUserInfo({ ...userInfo, image_uri: `https://ipfs.io/ipfs/${ipfsHash[0].hash}` });
+      setUserInfo({ ...userInfo, image_uri: ipfsHash[0].hash });
     });
   };
 
@@ -49,7 +49,7 @@ function ProfileImage({ userInfo, setUserInfo }) {
     <>
       <div>
         <img
-          src={userInfo.image_uri}
+          src={`https://ipfs.io/ipfs/${userInfo.image_uri}`}
           alt="sample"
           style={{
             display: "flex",

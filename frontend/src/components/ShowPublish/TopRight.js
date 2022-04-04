@@ -97,13 +97,13 @@ const TopRight = (props) => {
         <SmallTitleCss>좌석</SmallTitleCss>
 
         <SeatCss>
-          {props.seatInfo.map((it, idx) => (
+          {/* {props.seatInfo.map((it, idx) => (
             <span key={idx}>
               <span>{it.ticketClassName} </span>
               <BoldSpan>{it.ticketClassMaxMintCount}석</BoldSpan>
               <span> / </span>
             </span>
-          ))}
+          ))} */}
         </SeatCss>
 
         <ColorHr></ColorHr>
