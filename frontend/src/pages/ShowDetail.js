@@ -171,8 +171,6 @@ function ShowDetail() {
           const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
           if (getTicketId > 0) {
             tmp[j] = 1;
-          } else {
-            console.log(i, j);
           }
         }
         const newItem = { grade: i, info: tmp };
