@@ -101,17 +101,16 @@ const TicketDetail = () => {
 
   const callShowDetail = async () => {
     try {
-      ////
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
-      ////
       const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
       const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
       const showId = await showScheduleContract.methods.getShowId().call();
+      // 백에서 정보 가져오기
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+      console.log("showInfo", showInfo);
+      setShowDetailBack(showInfo.data);
       const stageName = await showScheduleContract.methods.getStageName().call();
       const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
@@ -164,33 +163,31 @@ const TicketDetail = () => {
       console.error(err);
     }
   };
-  console.log("🐸", showDetail);
-  // 내 지갑 주소로 닉네임 가져오기
-  const getUserNickname = async () => {
-    try {
-      const response = await axios.get(
-        `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
-      );
-      console.log("data.nickname", response.data.nickname);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // // 내 지갑 주소로 닉네임 가져오기
+  // const getUserNickname = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
+  //     );
+  //     console.log("data.nickname", response.data.nickname);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  // 공연 정보 백엔드에서 가져오기
-  const getShowInfo = async () => {
-    try {
-      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-      console.log("showInfo", showInfo);
-      setShowDetailBack(showInfo.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // // 공연 정보 백엔드에서 가져오기
+  // const getShowInfo = async () => {
+  //   try {
+  //     const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
+  //     console.log("showInfo", showInfo);
+  //     setShowDetailBack(showInfo.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   useEffect(() => {
     callShowDetail();
-    // getShowInfo();
   }, []);
 
   return (

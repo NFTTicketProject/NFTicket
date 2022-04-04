@@ -66,7 +66,6 @@ const TopRight = (props) => {
   const [isOwner, setIsOwner] = useState(true);
   const [isBuyable, setIsBuyable] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userAccount"));
-  console.log(props.ticketId);
   const doBook = ({}) => {
     alert(startDate + " " + time + " " + "예매하기누름");
     console.log(props.seatInfo);
@@ -78,24 +77,6 @@ const TopRight = (props) => {
   //   console.log(res);
   //   setIsBuyable(res.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
   // };
-
-  const showTimes = ["19:30", "20:30"];
-
-  // seat변수 사용안함
-  const seat = [
-    {
-      VIP: 41,
-      R: 206,
-      S: 67,
-      A: 94,
-    },
-    {
-      VIP: 34,
-      R: 103,
-      S: 35,
-      A: 67,
-    },
-  ];
 
   // useEffect(() => {
   //   toggleBuy();
