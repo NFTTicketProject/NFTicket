@@ -6,7 +6,6 @@ import TopLeft from "../components/TicketDetail/TopLeft";
 import TopRight from "../components/ShowDetail/TopRight";
 import Middle from "../components/TicketDetail/Middle";
 import Bottom from "../components/TicketDetail/Bottom";
-import Footer from "../components/Footer";
 import {
   web3,
   showScheduleAbi,
@@ -14,15 +13,6 @@ import {
   IERC20Contract,
 } from "../utils/web3Config";
 import axios from "axios";
-
-const TotalWrapDiv = styled.div`
-  position: relative;
-  min-height: 100vh;
-`;
-
-const ContentWrapDiv = styled.div`
-  padding-bottom: 16rem;
-`;
 
 const TopCss = styled.div`
   display: flex;
@@ -344,55 +334,54 @@ function ShowDetail() {
   // console.log('showDetailBack', showDetailBack)
 
   return (
-    <TotalWrapDiv>
-      <ContentWrapDiv>
-        <TopCss>
-          <TopLeftCss>
-            <TopLeft
-              showId={`${showDetail.showId}`}
-              stageName={`${showDetail.stageName}`}
-              startedAt={`${showDetail.startedAt}`}
-              endedAt={`${showDetail.endedAt}`}
-              allowedAge={`${showDetailBack.age_limit}`}
-              showDuration={`${showDetailBack.running_time}`}
-              showTitle={`${showDetailBack.name}`}
-              catetory={`${showDetailBack.category_name}`}
-              posterUri={`${showDetailBack.poster_uri}`}
-              seatInfo={ticketDetail}
-            ></TopLeft>
-          </TopLeftCss>
+    <div>
+      <TopCss>
+        <TopLeftCss>
+          <TopLeft
+            showId={`${showDetail.showId}`}
+            stageName={`${showDetail.stageName}`}
+            startedAt={`${showDetail.startedAt}`}
+            endedAt={`${showDetail.endedAt}`}
+            allowedAge={`${showDetailBack.age_limit}`}
+            showDuration={`${showDetailBack.running_time}`}
+            showTitle={`${showDetailBack.name}`}
+            catetory={`${showDetailBack.category_name}`}
+            posterUri={`${showDetailBack.poster_uri}`}
+            seatInfo={ticketDetail}
+          ></TopLeft>
+        </TopLeftCss>
 
-          <TopRightCss>
-            {scrollActive ? (
-              <TopRightFixed>
-                <TopRight
-                  seatInfo={ticketDetail}
-                  casting={`${showDetailBack.staffs}`}
-                  showScheduleAddress={showScheduleAddress}
-                ></TopRight>
-              </TopRightFixed>
-            ) : (
+        <TopRightCss>
+          {scrollActive ? (
+            <TopRightFixed>
               <TopRight
                 seatInfo={ticketDetail}
                 casting={`${showDetailBack.staffs}`}
                 showScheduleAddress={showScheduleAddress}
               ></TopRight>
-            )}
-          </TopRightCss>
-        </TopCss>
+            </TopRightFixed>
+          ) : (
+            <TopRight
+              seatInfo={ticketDetail}
+              casting={`${showDetailBack.staffs}`}
+              showScheduleAddress={showScheduleAddress}
+            ></TopRight>
+          )}
+        </TopRightCss>
+      </TopCss>
 
-        <MiddleCss>
-          <Middle
-            description={`${showDetailBack.description}`}
-            casting={`${showDetailBack.staffs}`}
-            hallDescription={`${hallDescription}`}
-          ></Middle>
-        </MiddleCss>
+      <MiddleCss>
+        <Middle
+          description={`${showDetailBack.description}`}
+          casting={`${showDetailBack.staffs}`}
+          hallDescription={`${hallDescription}`}
+        ></Middle>
+      </MiddleCss>
 
-        <BottomCss>
-          <Bottom></Bottom>
-        </BottomCss>
-        {/* <hr />
+      <BottomCss>
+        <Bottom></Bottom>
+      </BottomCss>
+      {/* <hr />
       <h2>티켓 발급</h2>
       <div>
         ticketURI:
@@ -421,13 +410,13 @@ function ShowDetail() {
         />
       </div>
       {myTicket.classId && <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>} */}
-        {/* {myTicket.classId === 0 ? (
+      {/* {myTicket.classId === 0 ? (
         <div>금액: {ticketDetail[0].ticketClassPrice} SSF</div>
       ) : (
         <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>
       )} */}
 
-        {/* <h2>티켓 등록</h2>
+      {/* <h2>티켓 등록</h2>
       <div>
         seatIndex:
         <input type="text" name="seatIndex" value={register.seatIndex} onChange={handleRegister} />
@@ -438,8 +427,8 @@ function ShowDetail() {
       </div>
       <hr /> */}
 
-        {/* 티켓 재판매 */}
-        {/* {showDetail.isResellAvailable ? (
+      {/* 티켓 재판매 */}
+      {/* {showDetail.isResellAvailable ? (
         <div>
           <TradeTicket
             showScheduleAddress={showScheduleAddress}
@@ -451,7 +440,7 @@ function ShowDetail() {
         <div></div>
       )} */}
 
-        {/* <h1>Show Detail</h1>
+      {/* <h1>Show Detail</h1>
       <div>showScheduleAddress = {showScheduleAddress}</div>
       <div>showId = {showDetail.showId}</div>
       <div>stageName = {showDetail.stageName}</div>
@@ -480,9 +469,7 @@ function ShowDetail() {
       <div>
         <button onClick={onWithdraw}>Withdraw</button>
       </div> */}
-      </ContentWrapDiv>
-      <Footer></Footer>
-    </TotalWrapDiv>
+    </div>
   );
 }
 

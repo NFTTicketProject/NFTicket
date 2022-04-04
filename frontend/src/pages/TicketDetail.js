@@ -19,7 +19,6 @@ import TopLeft from "../components/TicketDetail/TopLeft";
 import TopRight from "../components/TicketDetail/TopRight";
 import Middle from "../components/TicketDetail/Middle";
 import Bottom from "../components/TicketDetail/Bottom";
-import Footer from "../components/Footer";
 
 const TopCss = styled.div`
   display: flex;
@@ -312,8 +311,6 @@ const TicketDetail = () => {
       <BottomCss>
         <Bottom></Bottom>
       </BottomCss>
-
-      <Footer></Footer>
     </div>
   );
 };

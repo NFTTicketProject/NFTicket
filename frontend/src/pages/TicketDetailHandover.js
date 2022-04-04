@@ -14,7 +14,6 @@ import styled from "styled-components";
 import Top from "../components/TicketDetailHandover/Top";
 import Middle from "../components/TicketDetailHandover/Middle";
 import Bottom from "../components/TicketDetailHandover/Bottom";
-import Footer from "../components/Footer";
 
 const ContainerCss = styled.div`
   width: 1050px;
@@ -24,7 +23,8 @@ const ContainerCss = styled.div`
 
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
-  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString =
+    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
@@ -38,7 +38,6 @@ const TicketDetailHandover = () => {
 
         <Bottom></Bottom>
       </ContainerCss>
-      <Footer></Footer>
     </div>
   );
 };
