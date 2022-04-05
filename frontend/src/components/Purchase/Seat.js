@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 
 import "./Seat.css";
 import SeatLine from "./SeatLine";
+import swal from "sweetalert2";
 
 const SetButtonToLeftDiv = styled.div`
   display: flex;
@@ -119,11 +120,14 @@ const Seat = (props) => {
   // 좌석 정보 보내기
   const seatInfoSend = () => {
     console.log("data", data);
-    if (data) {
+    if (data.length !== 0) {
       props.changeSeatData(data); // 좌석 정보를 상위 컴포넌트인 SelectSeat로 넘겨줌
       // console.log('상위로 좌석 정보 넘겨줌')
     } else {
-      alert("좌석을 선택해주세요.");
+      swal.fire ({
+        icon: 'error',
+        title: '좌석을 골라주세요',
+      })
     }
   };
 
@@ -160,7 +164,7 @@ const Seat = (props) => {
       <SetButtonToLeftDiv>
         <SeatNumberSpan>좌석 번호 : {data}</SeatNumberSpan>
         <Button variant="contained" onClick={seatInfoSend} style={{ backgroundColor: "#707B7C" }}>
-          선택 완료
+          선택하기
         </Button>
       </SetButtonToLeftDiv>
     </div>
