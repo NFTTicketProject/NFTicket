@@ -15,32 +15,26 @@ const PosterImgContainer = styled.img`
   background-color: gray;
 `;
 
-const PerformTicket = (props) => {
+const HomeTicket = (props) => {
   const handleError = (e) => {
     e.target.src = "images/posterImg1.png";
   };
 
-  console.log('id', props)
-
   return (
     <PerformContainer>
-      <Link to={`/Ticket/${props.id}`}>
+      <Link to={`/Ticket/${props.ticketId}`}>
         <PosterImgContainer
           src={`https://nfticket.plus/showipfs/ipfs/${props.ticketUri}`}
           onError={handleError}
           alt="poster img"
         />
       </Link>
-      <p style={{ fontSize: "11px" }}>
-        {props.dateStartString} ~ {props.dateEndString}
-      </p>
       <p style={{ fontSize: "14px" }}>{props.name}</p>
-      <p style={{ fontSize: "14px", fontWeight: "700" }}>가격 : {props.price} SSF</p>
       <hr />
       <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p>
-      <p style={{ fontSize: "14px", color: "gray" }}>발매자 : {props.stageSellerName}</p>
+      <p style={{ fontSize: "14px", color: "gray" }}>가격 : {props.price} SSF</p>
     </PerformContainer>
   );
 };
 
-export default PerformTicket;
+export default HomeTicket;

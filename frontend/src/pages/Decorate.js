@@ -8,15 +8,26 @@ import { Container, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 
 import DrawerMain from "../components/toast/DrawerMain.js";
-import { useParams } from "react-router-dom";
-import { myTicketContract } from "../utils/web3Config";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  web3,
+  showScheduleAbi,
+  ticketSaleAbi,
+  myTicketContract,
+  IERC20Contract,
+  ticketSaleManagerContract,
+  showScheduleManagerContract,
+} from "../utils/web3Config";
 
 // 주소 있을 경우 : http://localhost:3000/Toast%20UI?ticket=https://ipfs.io/ipfs/QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV
 // 주소 없을 경우 : http://localhost:3000/Toast%20UI
 const Decorate = () => {
+  const navigate = useNavigate();
   const { ticketId } = useParams();
-  const [imagePath, SetImagePath] = useState("QmXRhj2jj3TJFHMq5C1qsxskcbTwdtAb1LSgeL6neT6MP8");
+  const [imagePath, SetImagePath] = useState("");
   const [imageSavedPath, SetImageSavedPath] = useState("");
+
+  const userData = JSON.parse(localStorage.getItem("userAccount"));
 
   const myTheme = {};
   const editorRef = useRef(null);
@@ -33,8 +44,51 @@ const Decorate = () => {
   }, []);
 
   useEffect(() => {
-    setTicket();
+    if (imagePath) setTicket();
   }, [imagePath]);
+
+  // 저장 후, 새로운 티켓 민트
+  useEffect(() => {
+    if (imageSavedPath) changeNewTicket();
+  }, [imageSavedPath]);
+
+  const changeNewTicket = async () => {
+    // 기존 정보로 새 티켓 만들기
+    const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
+    const classId = await myTicketContract.methods.getClassId(ticketId).call();
+    const createMyTicket = await myTicketContract.methods
+      .create(imageSavedPath, parseInt(showScheduleId), parseInt(classId))
+      .send({ from: userData.account });
+
+    // 새 티켓 거래를 위한 approve
+    if (createMyTicket.status) {
+      const newTicketId = createMyTicket.events.Transfer.returnValues.tokenId;
+      const showScheduleAddress = await showScheduleManagerContract.methods
+        .getShowSchedule(showScheduleId)
+        .call();
+      const approval = await IERC20Contract.methods
+        .approve(showScheduleAddress, 500)
+        .send({ from: userData.account });
+      if (approval.status) {
+        const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+        const registerTicket = await showScheduleContract.methods
+          // seatIndex 하드코딩
+          .registerTicket(parseInt(classId), parseInt(2), parseInt(newTicketId))
+          .send({ from: userData.account });
+        if (registerTicket.status) {
+          // console.log("다했으니 기존꺼 태워볼까?");
+          // const burnOldTicket = await myTicketContract.methods
+          //   ._burn(parseInt(ticketId))
+          //   .send({ from: userData.account });
+          // console.log("다탔나?", burnOldTicket);
+          navigate(`/Ticket/${newTicketId}`);
+        }
+        // } else {
+        //   alert("이미 예약된 좌석입니다.");
+        // }
+      }
+    }
+  };
 
   const getTicket = async () => {
     const response = await myTicketContract.methods.getTokenURI(ticketId).call();
@@ -46,9 +100,15 @@ const Decorate = () => {
 
   const setTicket = async () => {
     // console.log("이미지 장착", imagePath);
-    editorRef.current
-      .getInstance()
-      .loadImageFromURL("https://nfticket.plus/showipfs/ipfs/" + imagePath, "newTicket");
+    setTimeout(() => {
+      editorRef.current
+        .getInstance()
+        .loadImageFromURL("https://nfticket.plus/showipfs/ipfs/" + imagePath, "newTicket")
+        .then(() => {});
+    }, 100);
+    // editorRef.current
+    //   .getInstance()
+    //   .loadImageFromURL("https://nfticket.plus/showipfs/ipfs/" + imagePath, "newTicket");
   };
 
   // 이미지 조절 관련 이슈로 질문 올린 상태 : https://github.com/nhn/tui.image-editor/issues/741
@@ -137,7 +197,7 @@ const Decorate = () => {
                 // 기본사진 (최초 로딩 1회 있어야 작동 시작함)
                 loadImage: {
                   // path: "https://ipfs.io/ipfs/QmXRhj2jj3TJFHMq5C1qsxskcbTwdtAb1LSgeL6neT6MP8",
-                  path: "https://nfticket.plus/showipfs/ipfs/" + imagePath,
+                  path: "https://nfticket.plus/showipfs/ipfs/QmXRhj2jj3TJFHMq5C1qsxskcbTwdtAb1LSgeL6neT6MP8",
                   name: "SampleImage",
                 },
                 theme: myTheme,

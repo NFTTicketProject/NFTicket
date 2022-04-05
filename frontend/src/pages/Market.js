@@ -38,14 +38,18 @@ const Market = () => {
             .call();
           const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
           const showId = await showScheduleContract.methods.getShowId().call();
+
           // 공연 발매자
-          const stageSeller = await showScheduleManagerContract.methods.ownerOf(showId).call();
+          const stageSeller = await showScheduleManagerContract.methods.ownerOf(i).call();
           var stageSellerName = await getUserNickname(stageSeller);
           // 티켓 소유자
-          const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
+          const ticketSeller = await ticketSaleManagerContract.methods.owner().call();
+
           var ticketSellerName = await getUserNickname(ticketSeller);
           const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+          // console.log(showInfo);
           const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
+          // console.log(ticketUri);
           const categoryName = showInfo.data.category_name;
           const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
           const price = await ticketSaleContract.methods.getPrice().call();
@@ -89,11 +93,11 @@ const Market = () => {
   const getTicketOnSaleCategory = async (category) => {
     try {
       const cnt = await myTicketContract.methods.totalSupply().call();
-      console.log(cnt);
+      // console.log(cnt);
       const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
         const saleAddr = await ticketSaleManagerContract.methods.getSaleOfTicket(i).call();
-        if (saleAddr != "0x0000000000000000000000000000000000000000") {
+        if (saleAddr !== "0x0000000000000000000000000000000000000000") {
           const showScheduleId = await myTicketContract.methods.getShowScheduleId(i).call();
           const showScheduleAddress = await showScheduleManagerContract.methods
             .getShowSchedule(showScheduleId)
@@ -101,10 +105,12 @@ const Market = () => {
           const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
           const showId = await showScheduleContract.methods.getShowId().call();
           // 공연 발매자
-          const stageSeller = await showScheduleManagerContract.methods.ownerOf(showId).call();
+          const stageSeller = await showScheduleManagerContract.methods.ownerOf(i).call();
+
           var stageSellerName = await getUserNickname(stageSeller);
           // 티켓 소유자
-          const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
+          const ticketSeller = await ticketSaleManagerContract.methods.owner().call();
+
           var ticketSellerName = await getUserNickname(ticketSeller);
           const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
           const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
@@ -155,6 +161,7 @@ const Market = () => {
   const getUserNickname = async (wallet) => {
     try {
       const response = await axios.get(`https://nfticket.plus/api/v1/profile/nickname/${wallet}`);
+      // console.log(response);
       return response.data.nickname;
     } catch (err) {
       return "NFTicket";

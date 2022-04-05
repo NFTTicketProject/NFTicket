@@ -1,8 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 
+import Button from "@mui/material/Button";
+
 import "./Seat.css";
 import SeatLine from "./SeatLine";
+
+const SetButtonToLeftDiv = styled.div`
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+`;
+
+const SeatNumberSpan = styled.span`
+  margin-top: 10px;
+  margin-right: 10px;
+`;
 
 const Seat = (props) => {
   const [grade, setGrade] = React.useState("");
@@ -116,15 +129,11 @@ const Seat = (props) => {
 
   return (
     <div>
-      <h1>Seat 페이지</h1>
-
-      <div className="container">
-        <div className="screen"></div>
-
-        <p>{data}</p>
+      <div className='container'>
+        <div className='screen'>STAGE</div>
 
         {/* <p>{data}</p> */}
-        <div className="row">
+        <div className='row'>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               {seatInfo.map((seat, key) => (
@@ -145,10 +154,16 @@ const Seat = (props) => {
           </div>
         </div>
       </div>
-
-      <button onClick={seatInfoSend}>선택 완료</button>
-      <br></br>
-      <span>좌석 data 값 : {data}</span>
+      <SetButtonToLeftDiv>
+        <SeatNumberSpan>좌석 번호 : {data}</SeatNumberSpan>
+        <Button
+          variant='contained'
+          onClick={seatInfoSend}
+          style={{ backgroundColor: "#707B7C" }}
+        >
+          선택 완료
+        </Button>
+      </SetButtonToLeftDiv>
     </div>
   );
 };
