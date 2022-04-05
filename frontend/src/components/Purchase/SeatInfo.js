@@ -19,7 +19,7 @@ const SeatInfo = (props) => {
         <span>{props.showDetail.stageName}</span>
       </div>
       <div style={{ display: "flex", margin: "0 0 5px 0" }}>
-        <BoldSpan>상영 기간 : </BoldSpan>
+        <BoldSpan>발매 기간 : </BoldSpan>
         <span>
           {props.showDetail.startedAt} ~ {props.showDetail.endedAt}
         </span>
@@ -29,14 +29,17 @@ const SeatInfo = (props) => {
         <span>{props.date}</span>
       </div>
 
-      <div>
+      <div style={{margin: "0 0 5px 0"}}>
         <BoldSpan style={{ margin: "0 3px 0 0" }}>관람 시간:</BoldSpan>
         <select>
           <option value='15'>PM 3:00</option>
           <option value='19'>PM 7:00</option>
         </select>
       </div>
-      <p>좌석 등급 수 : {props.showDetail.ticketClassCount}</p>
+      <div style={{ display: "flex", margin: "0 0 5px 0" }}>
+        <BoldSpan>좌석 등급 수 : </BoldSpan>
+        <span>{props.showDetail.ticketClassCount}</span>
+      </div>
 
       <hr></hr>
 
