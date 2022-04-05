@@ -4,15 +4,38 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const PerformContainer = styled.div`
-  display: flex-column;
-  width: 203px;
-  margin: 20px;
+  width: 260px;
 `;
 
 const PosterImgContainer = styled.img`
-  width: 203px;
-  height: 270px;
-  background-color: gray;
+  width: 260px;
+  height: 260px;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const DurationDiv = styled.div`
+  font-size: 11px;
+  margin-top: 10px;
+  color: gray;
+`;
+
+const NameDiv = styled.div`
+  font-size: 14px;
+  margin-top: 5px;
+`;
+
+const PriceDiv = styled.div`
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: bold;
+`;
+
+const ShowSellerName = styled.div`
+  font-size: 14px;
+  color: gray;
+  margin-top: 5px;
 `;
 
 const PerformShow = ({
@@ -36,17 +59,23 @@ const PerformShow = ({
         <PosterImgContainer
           src={`https://nfticket.plus/showipfs/ipfs/${poster_uri}`}
           onError={handleError}
-          alt="poster img"
+          alt='poster img'
         />
       </Link>
-      <p style={{ fontSize: "11px" }}>
+      <DurationDiv>
         {dateStartString} ~ {dateEndString}
-      </p>
-      <p style={{ fontSize: "14px" }}>{name}</p>
-      <p style={{ fontSize: "14px", fontWeight: "700" }}>{price} SSF ~</p>
+      </DurationDiv>
+      <NameDiv style={{ fontSize: "14px" }}>{name}</NameDiv>
+      <PriceDiv style={{ fontSize: "14px", fontWeight: "700" }}>
+        {price} SSF ~
+      </PriceDiv>
       <hr />
-      <p style={{ fontSize: "14px", color: "gray" }}>{stageSellerName}</p>
-      <p style={{ fontSize: "14px", color: "gray" }}>{stageName}</p>
+      <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+        {stageSellerName}
+      </ShowSellerName>
+      <pShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+        {stageName}
+      </pShowSellerName>
     </PerformContainer>
   );
 };
