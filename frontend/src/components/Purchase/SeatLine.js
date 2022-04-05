@@ -85,7 +85,7 @@ function SeatLine(props) {
         {/* <p>{ props.grade } </p> */}
         {props.num.map((seatNum, key) => (
           <div
-            className='seat-item'
+            className="seat-item"
             style={{
               display: "flex",
               flexDirection: "column",

@@ -129,11 +129,11 @@ const Seat = (props) => {
 
   return (
     <div>
-      <div className='container'>
-        <div className='screen'>STAGE</div>
+      <div className="container">
+        <div className="screen">STAGE</div>
 
         {/* <p>{data}</p> */}
-        <div className='row'>
+        <div className="row">
           <div style={{ display: "flex", justifyContent: "center" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               {seatInfo.map((seat, key) => (
@@ -154,13 +154,12 @@ const Seat = (props) => {
           </div>
         </div>
       </div>
+      <div style={{ marginBottom: "1rem", color: "red" }}>
+        * 실제 좌석은 화면에 표시된 위치와 다를 수 있습니다.
+      </div>
       <SetButtonToLeftDiv>
         <SeatNumberSpan>좌석 번호 : {data}</SeatNumberSpan>
-        <Button
-          variant='contained'
-          onClick={seatInfoSend}
-          style={{ backgroundColor: "#707B7C" }}
-        >
+        <Button variant="contained" onClick={seatInfoSend} style={{ backgroundColor: "#707B7C" }}>
           선택 완료
         </Button>
       </SetButtonToLeftDiv>

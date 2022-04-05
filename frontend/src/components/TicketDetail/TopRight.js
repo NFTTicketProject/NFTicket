@@ -80,6 +80,13 @@ const BoldSpan = styled.span`
   font-weight: bold;
 `;
 
+const InputDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+`;
+
 const TopRight = (props) => {
   const navigate = useNavigate();
   // Modal
@@ -107,8 +114,8 @@ const TopRight = (props) => {
             parseInt(tradeDetail.ticketId),
             tradeDetail.description,
             parseInt(tradeDetail.price),
-            parseInt(tradeDetail.startedAt),
-            parseInt(tradeDetail.endedAt)
+            0,
+            parseInt(tradeDetail.saleTime * 60 * 60)
           )
           .send({ from: userData.account });
         console.log("🐸", res);
@@ -123,6 +130,7 @@ const TopRight = (props) => {
     }
   };
 
+  // console.log("🎃", tradeDetail, tradeDetail.saleTime * 60 * 60);
   // 일반
   const [startDate, setStartDate] = useState(new Date());
   const [time, setTime] = React.useState();
@@ -279,8 +287,10 @@ const TopRight = (props) => {
             >
               <Box sx={style}>
                 <div>
-                  <h1>TradeTicket</h1>
-                  <div>
+                  <InputDiv>
+                    <h1>TradeTicket</h1>
+                  </InputDiv>
+                  {/* <InputDiv>
                     ticketId:
                     <input
                       type="number"
@@ -290,17 +300,17 @@ const TopRight = (props) => {
                       onChange={handleTicketTrade}
                       disabled={true}
                     />
-                  </div>
-                  <div>
-                    description:
+                  </InputDiv> */}
+                  <InputDiv>
+                    판매자 한마디:
                     <input
                       type="text"
                       name="description"
                       value={tradeDetail.description}
                       onChange={handleTicketTrade}
                     />
-                  </div>
-                  <div>
+                  </InputDiv>
+                  <InputDiv>
                     price:
                     <input
                       type="text"
@@ -308,26 +318,22 @@ const TopRight = (props) => {
                       value={tradeDetail.price}
                       onChange={handleTicketTrade}
                     />
-                  </div>
-                  <div>
-                    startedAt:
+                    SSF
+                  </InputDiv>
+                  <InputDiv>
+                    판매 기간:
                     <input
                       type="text"
-                      name="startedAt"
-                      value={tradeDetail.startedAt}
+                      name="saleTime"
+                      value={tradeDetail.saleTime}
                       onChange={handleTicketTrade}
                     />
-                  </div>
-                  <div>
-                    endedAt:
-                    <input
-                      type="text"
-                      name="endedAt"
-                      value={tradeDetail.endedAt}
-                      onChange={handleTicketTrade}
-                    />
-                  </div>
-                  <button onClick={mintTrade}>거래 발급</button>
+                    HR
+                  </InputDiv>
+
+                  <InputDiv>
+                    <Button onClick={mintTrade}>거래 발급</Button>
+                  </InputDiv>
                 </div>
               </Box>
             </Modal>
