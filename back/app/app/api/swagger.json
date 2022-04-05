@@ -4811,7 +4811,7 @@
         }
       }
     },
-    "ShowStageSeler": {
+    "ShowStageSeller": {
       "type": "object",
       "description": "공연 기획자 지갑 주소",
       "properties": {
