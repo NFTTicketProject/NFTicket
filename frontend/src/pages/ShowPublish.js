@@ -395,7 +395,7 @@ const ShowPublish = () => {
                   component="label" // 이거 안해주면 작동을 안하네요..
                 >
                   파일선택
-                  <input type="file" onChange={captureFile} hidden />
+                  <input type="file" accept="image/*" onChange={captureFile} hidden />
                 </Button>
                 {/* <button type='submit'>등록</button> */}
                 <Button
