@@ -129,4 +129,8 @@ contract MyTicket is ERC721Enumerable {
     function getClassId(uint256 tokenId) public view returns (uint256) {
         return _classIds[tokenId];
     }
+
+    function burn(uint256 tokenId) public {
+        _burn(tokenId);
+    }
 }
