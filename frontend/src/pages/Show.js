@@ -10,11 +10,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
-import {
-  web3,
-  showScheduleAbi,
-  showScheduleManagerContract,
-} from "../utils/web3Config";
+import { web3, showScheduleAbi, showScheduleManagerContract } from "../utils/web3Config";
 
 const UpperTitleArea = styled.div`
   margin: 40px;
@@ -32,8 +28,27 @@ const Show = () => {
 
   const categories = ["전체", "SF", "옵션1", "test"];
 
+  const getShowScheduleAddress = async () => {
+    try {
+      const scheduleCount = await showScheduleManagerContract.methods.getCount().call();
+
+      const tmpContractArray = [];
+      for (let i = 1; i <= scheduleCount; i++) {
+        const showSchedule = await showScheduleManagerContract.methods.getShowSchedule(i).call();
+        tmpContractArray.push(showSchedule);
+        // localStorage에 showScheduleId를 저장해둔다. - myTicket.sol에서 create하기 위해
+        localStorage.setItem(showSchedule, `${i}`);
+      }
+      setContractSchedule(tmpContractArray);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // 초기정보
   useEffect(() => {
+    getShowScheduleAddress();
+
     axios
       .get(`https://nfticket.plus/api/v1/show/search`)
       .then((res) => {
@@ -50,9 +65,7 @@ const Show = () => {
 
   const getUserNickname = async (wallet) => {
     try {
-      const response = await axios.get(
-        `https://nfticket.plus/api/v1/profile/nickname/${wallet}`,
-      );
+      const response = await axios.get(`https://nfticket.plus/api/v1/profile/nickname/${wallet}`);
       return response.data.nickname;
     } catch (err) {
       return "NFTicket";
@@ -61,47 +74,28 @@ const Show = () => {
 
   const callShowDetail = async (address, id, name, poster_uri) => {
     try {
-      const stageSeller = await showScheduleManagerContract.methods
-        .ownerOf(id)
-        .call();
+      const stageSeller = await showScheduleManagerContract.methods.ownerOf(id).call();
       var stageSellerName = await getUserNickname(stageSeller);
-      const showScheduleContract = new web3.eth.Contract(
-        showScheduleAbi,
-        address,
-      );
+      const showScheduleContract = new web3.eth.Contract(showScheduleAbi, address);
       // const showId = await showScheduleContract.methods.getShowId().call();
-      const stageName = await showScheduleContract.methods
-        .getStageName()
-        .call();
-      const ticketClassCount = await showScheduleContract.methods
-        .getTicketClassCount()
-        .call();
+      const stageName = await showScheduleContract.methods.getStageName().call();
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       // const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
       // const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
       const startAt = await showScheduleContract.methods.getStartedAt().call();
       var dateStart = new Date(startAt * 1000);
       var dateStartString =
-        dateStart.getFullYear() +
-        "." +
-        (dateStart.getMonth() + 1) +
-        "." +
-        dateStart.getDate();
+        dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
       const endAt = await showScheduleContract.methods.getEndedAt().call();
       var dateEnd = new Date(endAt * 1000);
       var dateEndString =
-        dateEnd.getFullYear() +
-        "." +
-        (dateEnd.getMonth() + 1) +
-        "." +
-        dateEnd.getDate();
+        dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
       // var now = new Date();
       // console.log("날짜비교", now.getTime(), dateEnd.getTime(), dateStart.getTime())
 
       var price = 987654321;
       for (let i = 0; i < ticketClassCount; i++) {
-        const ticketClassPrice = await showScheduleContract.methods
-          .getTicketClassPrice(i)
-          .call();
+        const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(i).call();
         if (ticketClassPrice <= price) price = ticketClassPrice;
       }
       SetShowList((showList) => [
@@ -142,9 +136,7 @@ const Show = () => {
     if (keyword) {
       var tmp = [];
       for (let show of showList) {
-        if (
-          show.name.includes(keyword) | show.stageSellerName.includes(keyword)
-        ) {
+        if (show.name.includes(keyword) | show.stageSellerName.includes(keyword)) {
           tmp.push(show);
         }
       }
@@ -158,9 +150,7 @@ const Show = () => {
     if (newValue === "전체") newValue = "";
     axios
       // .get(`http://localhost:3000/show/search?category_name=${newValue}`)
-      .get(
-        `https://nfticket.plus/api/v1/show/search?include_address=1&category_name=${newValue}`,
-      )
+      .get(`https://nfticket.plus/api/v1/show/search?include_address=1&category_name=${newValue}`)
       .then((res) => {
         SetShowList([]);
         SetShowListSearch([]);
@@ -178,12 +168,12 @@ const Show = () => {
       <UpperTitleArea>공연 목록</UpperTitleArea>
       {/* <h1 style={{ justifyContent: "center" }}>공연 페이지</h1> */}
       <Grid container spacing={2}>
-        <Grid item container spacing={0} xs={2} direction='column'>
-          <Grid item container direction='row'>
+        <Grid item container spacing={0} xs={2} direction="column">
+          <Grid item container direction="row">
             <Grid item xs={2}></Grid>
             <Grid item xs={8}>
               <Paper
-                component='form'
+                component="form"
                 elevation={0}
                 sx={{
                   p: "2px 4px",
@@ -193,13 +183,13 @@ const Show = () => {
                 }}
               >
                 <TextField
-                  id='search'
-                  label='크리에이터 또는 제목'
-                  variant='standard'
+                  id="search"
+                  label="크리에이터 또는 제목"
+                  variant="standard"
                   onChange={searchKeyword}
                 />
               </Paper>
-              <IconButton type='submit' aria-label='search'>
+              <IconButton type="submit" aria-label="search">
                 <SearchIcon style={{ color: "#B2BABB" }} />
               </IconButton>
             </Grid>
@@ -214,12 +204,10 @@ const Show = () => {
                 SetCategory(newValue);
                 onSubmitCategory(newValue);
               }}
-              id='controllable-states-demo'
+              id="controllable-states-demo"
               options={categories}
-              renderInput={(params) => (
-                <TextField {...params} label='카테고리' />
-              )}
-              size='small'
+              renderInput={(params) => <TextField {...params} label="카테고리" />}
+              size="small"
             />
           </div>
           {/* <div>
