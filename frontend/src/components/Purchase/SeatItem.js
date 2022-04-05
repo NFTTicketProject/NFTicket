@@ -16,6 +16,8 @@ function SeatItem(props) {
   const [selectedD, setSelectedD] = React.useState(false);
   // const [count, setCount] = React.useState(0);
 
+  var realNum = props.id + 1  // 실제 좌석 번호 표기 = id + 1
+
   // var selected1 = '';
 
   // 좌석 선택 여부
@@ -24,6 +26,7 @@ function SeatItem(props) {
     var a = props.seatCheck1;
     var selected1 = selected;
     var selectedDesign = selectedD;
+
 
     selected1 = !selected1;
 
@@ -52,7 +55,7 @@ function SeatItem(props) {
       // setSelected(selected => selected1)
       setSelected((selected) => selected1);
       console.log("다른 자리다$$$$", selected1);
-      props.selectSeats(props.gradeId, props.id); // 자리값 갱신
+      props.selectSeats(props.gradeId, props.grade, props.id); // 자리값 갱신
 
       if (selected1) {
         // 값이 다른데 true
@@ -120,6 +123,7 @@ function SeatItem(props) {
     alert("이미 판매된 좌석입니다.");
   };
 
+
   return (
     <div>
       {props.num ? ( // 이미 예매된 좌석 분류
@@ -167,7 +171,7 @@ function SeatItem(props) {
           ></div>
           <div>
             <span style={{ fontSize: "14px" }}>
-              {props.grade}-{props.id}
+              {props.grade}-{realNum}
             </span>
           </div>
         </div>

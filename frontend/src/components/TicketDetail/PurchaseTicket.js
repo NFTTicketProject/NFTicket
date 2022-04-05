@@ -99,7 +99,7 @@ const PurchaseTicket = (props) => {
     // console.log('props정보', props);
   };
 
-  
+
 
   // 티켓 구매
   // 구매
@@ -109,45 +109,47 @@ const PurchaseTicket = (props) => {
       const getSale = await ticketSaleManagerContract.methods
         .getSaleOfTicket(parseInt(props.ticketId))
         .call();
-      console.log(getSale);
+      // console.log(getSale);
       setSaleAddr(getSale);
     } catch (err) {
       console.error(err);
     }
   };
-  const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
-  const buyTicket = async () => {
-    try {
-      // // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
-      // const val = await myTicketContract.methods
-      //   .setApprovalForAll(saleAddr, true)
-      //   .send({ from: userData.account });
-      // 1. gatSale()통해 contract 주소
-      // 2. approve
-      const approval = await IERC20Contract.methods
-        .approve(saleAddr, 500)
-        .send({ from: userData.account });
-      console.log(approval);
-      // 3. ticketSale.sol 발행
-      if (approval.status) {
-        const purchase = await ticketSaleContract.methods
-          .purchase()
-          .send({ from: userData.account });
-        if (purchase.status) {
-          alert("구매 완료");
-          navigate("/MyPage");
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+  // const buyTicket = async () => {
+  //   try {
+  //     // // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
+  //     // const val = await myTicketContract.methods
+  //     //   .setApprovalForAll(saleAddr, true)
+  //     //   .send({ from: userData.account });
+  //     // 1. gatSale()통해 contract 주소
+  //     // 2. approve
+  //     const approval = await IERC20Contract.methods
+  //       .approve(saleAddr, 500)
+  //       .send({ from: userData.account });
+  //     console.log(approval);
+  //     // 3. ticketSale.sol 발행
+  //     if (approval.status) {
+  //       const purchase = await ticketSaleContract.methods
+  //         .purchase()
+  //         .send({ from: userData.account });
+  //       if (purchase.status) {
+  //         alert("구매 완료");
+  //         navigate("/MyPage");
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  
 
   useEffect(() => {
     getTicketAddr();
   }, []);
 
-  console.log('seatInfo', props.seatInfo)
+  console.log('PurchasePage', props)
 
   return (
     <div>
@@ -158,26 +160,26 @@ const PurchaseTicket = (props) => {
         ):(
           <CoverBox>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginBottom: '12px'}}>
-              <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '10px' }}>티켓 정보</p>
+              {/* <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '10px' }}>티켓 정보</p> */}
               <div>
                 <p style={{ fontSize: '18px', fontWeight: '700', marginTop: '8px', marginBottom: '8px'}}>{ props.showTitle }</p>
                 <p style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', marginBottom: '6px'}}>공연 일자 - 2022.04.03</p>
                 <p style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px'}}>좌석 정보 - R-1</p>
                 {/* <p>{ props. }</p> */}
               </div>
-              <hr style={{ color: "#dadee2" }}></hr>
+              <hr style={{ width: "100%", border: "0.5px solid #c8c8c8", marginTop: "20px", marginBottom: "16px" }}></hr>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+            {/* <div style={{ display: 'flex', justifyContent: 'space-between'}}>
               <p style={{ fontSize: '15px', fontWeight: '400', marginBottom: '8px'}}>판매가</p>
-              <p style={{ fontSize: '15px', fontWeight: '700', marginBottom: '8px'}}>{props.price} SSE</p>
+              <p style={{ fontSize: '15px', fontWeight: '700', marginBottom: '8px'}}>{props.price} SSF</p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between'}}>
               <p style={{ fontSize: '15px', fontWeight: '400', marginBottom: '16px'}}>수수료</p>
-              <p style={{ fontSize: '15px', fontWeight: '500', marginBottom: '8px'}}>0.2 SSE</p>
-            </div>
+              <p style={{ fontSize: '15px', fontWeight: '500', marginBottom: '8px'}}>0.2 SSF</p>
+            </div> */}
             <div style={{ display: 'flex', justifyContent: 'space-between'}}>
               <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px'}}>구매가</p>
-              <p style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px'}}>2.2 SSE</p>
+              <p style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px'}}>{props.price} SSF</p>
             </div>
           </CoverBox>
         )}
@@ -290,20 +292,37 @@ const PurchaseTicket = (props) => {
           </Stack>
         ) : (
           <Stack spacing={1}>
-            <Button
-              onClick={props.buyTicket}
-              sx={{
-                fontSize: "16px",
-                fontWeight: "bold",
-                color: "secondary.main",
-                borderColor: "text.secondary",
-                borderRadius: "10px",
-                py: 1.5,
-              }}
-              variant="outlined"
-            >
-              구매하기
-            </Button>
+            {props.isEnded ? (
+              <Button
+                disabled
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "#333333",
+                  borderColor: "text.secondary",
+                  borderRadius: "10px",
+                  py: 1.5,
+                }}
+                variant="outlined"
+              >
+                판매 완료
+              </Button>
+            ):(
+              <Button
+                onClick={props.buyTicket}
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "secondary.main",
+                  borderColor: "text.secondary",
+                  borderRadius: "10px",
+                  py: 1.5,
+                }}
+                variant="outlined"
+              >
+                구매하기
+              </Button>
+            )}
             {/* <Button
               sx={{
                 color: "text.primary",

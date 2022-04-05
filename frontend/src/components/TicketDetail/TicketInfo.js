@@ -35,7 +35,7 @@ const TicketInfo = (props) => {
 
   // api 통해 판매자의 닉네임과 이미지 가져오기
   const getSellerInfo = () => {
-    if (props.owner !== "undefined") {
+    if (props.owner) {
       axios
         .get(`https://nfticket.plus/api/v1/profile/${props.owner}`)
         .then((res) => {
@@ -48,7 +48,12 @@ const TicketInfo = (props) => {
 
   useEffect(() => {
     getSellerInfo();
-  })
+  }, [props]);
+
+  console.log('sellerInfo', sellerInfo);
+  // console.log('sellerInfo', sellerInfo.nickname);
+  // console.log('sellerInfo', sellerInfo.description);
+  // console.log('sellerInfo Image', sellerInfo.image_uri);
 
 
   return (
@@ -61,13 +66,20 @@ const TicketInfo = (props) => {
               style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
             >
               <img
-                style={{ width: "60px", borderRadius: "100px", margin: "10px", marginRight: "20px" }}
-                src={sellerInfo.image_url}
-                alt="seller profile_img"
+                style={{ width: "70px", height: "70px", borderRadius: "100px", margin: "10px", marginRight: "20px" }}
+                src={`https://nfticket.plus/showipfs/ipfs/${sellerInfo.image_uri}`}
+                alt="@/images/default_profile.png"
               ></img>
-              <p
-                style={{ fontSize: "20px", fontWeight: 700 }}
-              >유저 닉네임 : {sellerInfo.nickname}</p>
+              <div
+                  style={{ display: 'flex', flexDirection: 'column', justifyContent: 'start'  }}
+              >
+                <p
+                  style={{ fontSize: "16px", color: "#a8a8a8", fontWeight: 400, marginBottom: "4px" }}
+                  >판매자</p>
+                <p
+                  style={{ fontSize: "20px", fontWeight: 700 }}
+                >{sellerInfo.nickname}</p>
+                </div>
             </div>
             <hr style={{ marginTop: "40px", border: "0.5px solid #D8D8D8" }}></hr>
           </SellerInfoBox>
@@ -75,17 +87,19 @@ const TicketInfo = (props) => {
             <p style={{ lineHeight: "200%", color: "#666" }}>{ props.description }</p>
           </TicketInfoBox>
           <NFTicketInfoBox>
-            <h2>NFTicket 정보</h2>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <p
+              style={{ fontSize: "26px", fontWeight: 600, marginBottom: '28px' }}
+            >NFTicket 정보</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
               <p>소유자</p>
               <p>{sellerInfo.nickname}</p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
               <p>컨트렉트 주소</p>
               <p>{props.saleAddr}</p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <p>토큰 ID</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <p>티켓 ID</p>
               <p>{props.ticketId}</p>
             </div>
           </NFTicketInfoBox>

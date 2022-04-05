@@ -20,6 +20,7 @@ const Poster = styled.img`
 
 const TicketData = styled.div`
   width: 315px;
+  height: 459px;
   background-color: black;
   border-radius: 20px;
   color: white;
@@ -59,6 +60,7 @@ const TicketImgInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-top: 4px;
 `;
 
 
@@ -106,12 +108,14 @@ const TicketImage = (props) => {
   return (
     <div>
       <PosterArea>
-        <Poster src={`https://ipfs.io/ipfs/${props.posterUri}`} alt="poster img"></Poster>
+        <Poster src={`https://ipfs.io/ipfs/${props.ticketUri}`} alt="poster img"></Poster>
         <TicketData>
           <TicketTitle>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '6px', marginBottom: '8px' }}>
-              <p style={{ fontSize: '12px', color: '#D8D8D8'}}>NFTicket</p>
-              <p style={{ fontSize: '12px', color: '#D8D8D8'}}>#{ props.ticketId }</p>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
+              {/* <p style={{ fontSize: '12px', color: '#D8D8D8'}}>NFTicket</p> */}
+              <img src="../../../images/TicketLogo.png" alt="" style={{ width: '14px', height: '14px', marginTop: '2px', marginBottom: '0px'  }}></img>
+              {/* <img src="../../../images/TicketDot.png" alt="" style={{ width: '20px', height: '20px' }}></img> */}
+              <p style={{ fontSize: '12px', color: '#D8D8D8', marginTop: '6px', marginBottom: '8px' }}># { props.ticketId }</p>
             </div>
             <div style={{ border: '0.5px solid #D8D8D8' }}>
               <div>
@@ -137,7 +141,7 @@ const TicketImage = (props) => {
                 <TicketImgInfoItem2>{props.startedAt}</TicketImgInfoItem2>
                 <TicketImgInfoItem2>{props.casting}</TicketImgInfoItem2>
                 <TicketImgInfoItem2>{props.stageName}</TicketImgInfoItem2>
-                <TicketImgInfoItem2>140,000 SSE</TicketImgInfoItem2>
+                <TicketImgInfoItem2>{props.price} SSF</TicketImgInfoItem2>
                 {/* <TicketImgInfoItem2>{props.showDuration}</TicketImgInfoItem2> */}
                 <TicketImgInfoItem2>{props.showDuration}</TicketImgInfoItem2>
                 <TicketImgInfoItem2>{props.allowedAge}</TicketImgInfoItem2>
@@ -156,11 +160,13 @@ const TicketImage = (props) => {
               </TicketQRBox>
             ):(
               <TicketQRBox>
-                <TicketQR></TicketQR>
+                <TicketQR>
+                </TicketQR>
               </TicketQRBox>
             )}
             
           </TicketImgInfoBox>
+            {/* <img src="../../../images/TicketLogo.png" alt="" style={{ width: '10px', height: '10px' }}></img> */}
           <p style={{ fontSize: '10px', color: '#D8D8D8' }}>NFTicket</p>
         </TicketData>
       </PosterArea>

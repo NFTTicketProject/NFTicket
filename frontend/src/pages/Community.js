@@ -305,7 +305,7 @@ const Community = () => {
       direction="column"
       alignItems="center"
       >
-      <Unity style={{width:'1080px', height:'720px', border: "5px solid black", background: "grey"}} unityContext={unityContext} />
+      <Unity style={{ width:'1080px', height:'720px', background: "grey" }} unityContext={unityContext} />
         {/* <Unity style={{width:'1920px', height:'1080px', border: "5px solid black", background: "grey"}} unityContext={unityContext} /> */}
     </Grid>
     <Grid 
