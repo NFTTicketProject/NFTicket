@@ -451,7 +451,7 @@ router.patch("/:wallet_address/gallery", async (req, res) =>
 
     const newInfo = {
       wallet_id: req.params.wallet_address,
-      ...(req.body.info.gallery && { image_uri: req.body.info.gallery }),
+      ...(req.body.info.gallery && { gallery: req.body.info.gallery }),
     }
 
     const validation = await auth.ownerCheck(
