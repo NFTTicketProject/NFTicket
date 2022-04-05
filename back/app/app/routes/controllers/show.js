@@ -783,6 +783,49 @@ router.put("/:show_id/show-schedule", async (req, res, err) =>
   }
 })
 
+// 공연 등록자 수정
+router.patch("/:show_id/stage-seller", async (req, res, err) =>
+{
+  let status_code = 500
+  let result
+
+  try
+  {
+    if (Object.keys(req.body).length == 0 || !req.body.stage_seller)
+    {
+      status_code = 400
+      result = { message: "Invaild request" }
+      return
+    }
+
+    result = await show.getShow(req.params.show_id, req.query)
+    if (!result)
+    {
+      status_code = 404
+      result = { message: `${ controller_name } doesn't exist` }
+      return
+    }
+
+    result = await show.setStageSeller(
+        req.params.show_id,
+        req.body
+    )
+    status_code = 200
+  } catch (e)
+  {
+    logger.error(
+        `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) } ::: ${ e }`
+    )
+  } finally
+  {
+    logger.info(
+        `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) }`
+    )
+    res.status(status_code)
+    res.json(result)
+  }
+})
+
 // 공연 스케줄 Contract 주소 추가
 router.get("/:show_id/show-schedule", async (req, res, err) =>
 {
@@ -841,6 +884,38 @@ router.get("/:show_id/role", async (req, res, err) =>
   {
     logger.info(
       `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) }`
+    )
+    res.status(status_code)
+    res.json(result)
+  }
+})
+
+// 공연 등록자 반환
+router.get("/:show_id/stage-seller", async (req, res, err) =>
+{
+  let status_code = 500
+  let result
+
+  try
+  {
+    result = await show.getStageSeller(req.params.show_id)
+    if (!result)
+    {
+      status_code = 404
+      result = { message: `${ controller_name } doesn't exist` }
+      return
+    }
+
+    status_code = 200
+  } catch (e)
+  {
+    logger.error(
+        `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) } ::: ${ e }`
+    )
+  } finally
+  {
+    logger.info(
+        `[Controller] ${ controller_name } ::: ${ req.method } ${ req.path } ::: ${ JSON.stringify(result) }`
     )
     res.status(status_code)
     res.json(result)

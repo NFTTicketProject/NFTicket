@@ -3,13 +3,14 @@ const prisma = require("../utils/prisma")
 const { logger } = require('../utils/winston')
 const role = require('../services/role')
 const staff = require('../services/staff')
+const address = require('../services/address')
 
 module.exports = {
     createShow: async (info) =>
     {
         try
         {
-            const params = [ 'category_name', 'name', 'description', 'running_time', 'age_limit', 'poster_uri', 'video_uri', 'default_ticket_image_uri' ]
+            const params = [ 'category_name', 'name', 'description', 'running_time', 'age_limit', 'poster_uri', 'video_uri', 'default_ticket_image_uri', 'stage_seller' ]
             let data = {}
 
             for (let param of params)
@@ -261,6 +262,29 @@ module.exports = {
             return 500
         }
     },
+    setStageSeller: async (showId, info) =>
+    {
+        try
+        {
+            await prisma.Show.update({
+                where: {
+                    show_id: Number(showId),
+                },
+                data: {
+                    stage_seller: info[ 'stage_seller' ],
+                },
+            })
+
+            logger.info(`[Service] ${ service_name } ::: setStageSeller ::: ${ JSON.stringify(info) }`)
+
+            return 200
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: setStageSeller ::: ${ e }`)
+
+            return 500
+        }
+    },
     addShowScheduleAddress: async (showId, info) =>
     {
         try
@@ -293,7 +317,7 @@ module.exports = {
         try
         {
             let ret
-            let include = { 
+            let include = {
                 Role: { select: { staff_id: true } },
                 Address: { select: { address: true } }
             }
@@ -306,7 +330,7 @@ module.exports = {
             })
 
             ret = (({ Address, Role, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address), staffs: Role.map(el => el.staff_id) }))(result)
-            if (!query.is_raw) 
+            if (!query.is_raw)
             {
                 let staff_names = []
 
@@ -333,7 +357,7 @@ module.exports = {
         try
         {
             let ret
-            let include = { 
+            let include = {
                 Role: { select: { staff_id: true } },
                 Address: { select: { address: true } }
             }
@@ -343,17 +367,17 @@ module.exports = {
             })
 
             ret = result.map(({ Address, Role, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address), staffs: Role.map(el => el.staff_id) }))
-            if (!query.is_raw) 
+            if (!query.is_raw)
             {
                 for (const el of ret)
                 {
                     let staff_names = []
-    
+
                     for (const staff_id of el['staffs']){
                         const {name} = await staff.getName(staff_id)
                         staff_names.push(name)
                     }
-    
+
                     el['staffs'] = staff_names.join(',')
                 }
             }
@@ -623,6 +647,31 @@ module.exports = {
             return 500
         }
     },
+    getStageSeller: async (showId) =>
+    {
+        try
+        {
+            let ret
+
+            const result = await prisma.Show.findUnique({
+                where: { show_id: Number(showId) },
+                select: {
+                    stage_seller: true
+                }
+            })
+
+            ret = result
+
+            logger.info(`[Service] ${ service_name } ::: getStageSeller ::: ${ JSON.stringify(ret) }`)
+
+            return ret
+        } catch (e)
+        {
+            logger.error(`[Service] ${ service_name } ::: getRole ::: ${ e }`)
+
+            return 500
+        }
+    },
     search: async (query) =>
     {
         try
@@ -668,7 +717,7 @@ module.exports = {
             }
             console.log(where)
 
-            include = { 
+            include = {
                 Role: { select: { staff_id: true } },
                 Address: { select: { address: true } }
             }
@@ -689,7 +738,7 @@ module.exports = {
                         }
                     }
                 }
-                else 
+                else
                 {
                     orderBy = { [ query[ 'sort_by' ] ]: query[ 'order_by' ] ? query[ 'order_by' ] : 'asc' }
                 }
@@ -709,17 +758,17 @@ module.exports = {
             })
 
             ret = result.map(({ Address, Role, ...result }) => ({ ...result, show_schedule_address: Address.map(el => el.address), staffs: Role.map(el => el.staff_id) }))
-            if (!query.is_raw) 
+            if (!query.is_raw)
             {
                 for (const el of ret)
                 {
                     let staff_names = []
-    
+
                     for (const staff_id of el['staffs']){
                         const {name} = await staff.getName(staff_id)
                         staff_names.push(name)
                     }
-    
+
                     el['staffs'] = staff_names.join(',')
                 }
             }
