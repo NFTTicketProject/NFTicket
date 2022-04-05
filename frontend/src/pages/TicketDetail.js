@@ -2,6 +2,9 @@ import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate, useParams } from "react-router-dom";
+
+import './TicketDetail.css'
+
 import {
   web3,
   showScheduleAbi,
@@ -19,6 +22,12 @@ import TopLeft from "../components/TicketDetail/TopLeft";
 import TopRight from "../components/TicketDetail/TopRight";
 import Middle from "../components/TicketDetail/Middle";
 import Bottom from "../components/TicketDetail/Bottom";
+import Footer from "../components/Footer";
+
+import PurchaseTicket from "../components/TicketDetail/PurchaseTicket";
+import TicketImage from "../components/TicketDetail/TicketImage";
+import TicketInfo from "../components/TicketDetail/TicketInfo";
+
 
 const TopCss = styled.div`
   display: flex;
@@ -55,6 +64,7 @@ const BottomCss = styled.div`
   margin-right: auto;
 `;
 
+
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
   const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
@@ -62,11 +72,17 @@ const unixTimeToDate = (unixTime) => {
 };
 
 const TicketDetail = () => {
-  const navigate = useNavigate();
   // 스크롤 고정시키기 위한 변수들
   // 원래 어느 부분 내려가면 scrollActive가 false나 true로 변하면서 딱 걸쳐지게 만들려고 했는데 잘 안되네요 기각해도 될듯하
   // const [scrollY, setScrollY] = useState(0);
-  const [scrollActive, setScrollActive] = useState(true);
+  const navigate = useNavigate();
+
+  
+  // console.log(walletInfo);
+
+
+  // const [scrollActive, setScrollActive] = useState(true);
+
   // function handleScroll() {
   //   if (scrollY > 300) {
   //     setScrollY(window.pageYOffset);
@@ -119,15 +135,15 @@ const TicketDetail = () => {
       const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
       const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
       const isCancelled = await showScheduleContract.methods.isCancelled().call();
+      // const isEnded = await ticketSaleContract.methods.isEnded().call();  // 티켓 판매 중인지 여부 확인 
       // 한길 추가, 공연시작과 끝 가져오기
       let startedAt = await showScheduleContract.methods.getStartedAt().call();
       let endedAt = await showScheduleContract.methods.getEndedAt().call();
+      
       // Unix Timestamp를 Date로 바꾸기
       startedAt = unixTimeToDate(startedAt);
       endedAt = unixTimeToDate(endedAt);
       window.localStorage.setItem("isCancelled", isCancelled);
-      // 티켓 uri 정보
-      const ticketImage = await myTicketContract.methods.getTokenURI(ticketId).call();
       // console.log(maxMintCount);
       // 티켓 좌석 정보저장
       const tmp = [];
@@ -160,7 +176,6 @@ const TicketDetail = () => {
         resellPriceLimit: resellPolicy[2],
         startedAt,
         endedAt,
-        ticketImage,
       });
       // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
       // console.log("showInfo", showInfo);
@@ -169,6 +184,36 @@ const TicketDetail = () => {
       console.error(err);
     }
   };
+
+  // 티켓 주소 받아오기
+  const [saleAddr, setSaleAddr] = useState();
+  const getTicketAddr = async () => {
+    try {
+      const getSale = await ticketSaleManagerContract.methods
+        .getSaleOfTicket(parseInt(ticketId))
+        .call();
+      console.log('getSale', getSale);
+      setSaleAddr(getSale);
+    
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  
+
+  // // 내 지갑 주소로 닉네임 가져오기
+  // const getUserNickname = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
+  //     );
+  //     console.log("data.nickname", response.data.nickname);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
   // // 내 지갑 주소로 닉네임 가져오기
   // const getUserNickname = async () => {
   //   try {
@@ -191,27 +236,113 @@ const TicketDetail = () => {
   //     console.error(err);
   //   }
   // };
+  
 
-  useEffect(() => {
-    callShowDetail();
-    getTicketAddr();
-  }, []);
-  console.log(showDetail);
+  
 
-  // // 구매
-  const [saleAddr, setSaleAddr] = useState();
-  const getTicketAddr = async () => {
+  // 리셀링 추가 정보 불러오기
+  const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+  const [ticketInfo, setTicketInfo] = useState({});
+  const getTicketData = async () => {
     try {
-      const getSale = await ticketSaleManagerContract.methods
-        .getSaleOfTicket(parseInt(ticketId))
-        .call();
-      console.log(getSale);
-      setSaleAddr(getSale);
+      const ticketId = await ticketSaleContract.methods.getTicketId().call();
+      const price = await ticketSaleContract.methods.getPrice().call(); // 리셀가격
+      // const description = await ticketSaleContract.methods.getDescription().call(); // 상세 정보
+      // const getStartedAt = await ticketSaleContract.methods.getStartedAt().call(); // 판매 시작시간
+      // const getEndedAt = await ticketSaleContract.methods.getEndedAt().call(); // 판매 종료시간
+      const owner = await ticketSaleManagerContract.methods.owner().call();  // 판매자 정보
+      // const startTime = new Date(getStartedAt * 1000);
+      // const endTime = new Date(getEndedAt * 1000);
+
+      // const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+      setTicketInfo({
+        ...ticketInfo,
+        ticketId,
+        // ticketUri,
+        price,
+        // description,
+        // getStartedAt,
+        // getEndedAt,
+        owner,
+      });
     } catch (err) {
       console.error(err);
     }
   };
-  const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+
+  // // 리셀링 정보 받아오기 market 페이지 참조
+  // const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+
+  // const getTicketOnSale = async () => {
+  //   try {
+  //     const cnt = await myTicketContract.methods.totalSupply().call();
+  //     console.log(cnt);
+  //     const ticketInfos = [];
+  //     for (let i = 1; i < parseInt(cnt) + 1; i++) {
+  //       const saleAddr = await ticketSaleManagerContract.methods.getSaleOfTicket(i).call();
+  //       if (saleAddr != "0x0000000000000000000000000000000000000000") {
+  //         const showScheduleId = await myTicketContract.methods.getShowScheduleId(i).call();
+  //         const showScheduleAddress = await showScheduleManagerContract.methods
+  //           .getShowSchedule(showScheduleId)
+  //           .call();
+  //         const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+  //         const showId = await showScheduleContract.methods.getShowId().call();
+  //         // 공연 발매자
+  //         const stageSeller = await showScheduleManagerContract.methods.ownerOf(showId).call();
+  //         var stageSellerName = await getUserNickname(stageSeller);
+  //         // 티켓 소유자
+  //         const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
+  //         var ticketSellerName = await getUserNickname(ticketSeller);
+  //         const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+  //         const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
+  //         const categoryName = showInfo.data.category_name;
+  //         const price = await ticketSaleContract.methods.getPrice().call();
+  //         const startAt = await ticketSaleContract.methods.getStartedAt().call();
+  //         var dateStart = new Date(startAt * 1000);
+  //         var dateStartString =
+  //           dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
+  //         const endAt = await ticketSaleContract.methods.getEndedAt().call();
+  //         var dateEnd = new Date(endAt * 1000);
+  //         var dateEndString =
+  //           dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
+
+          
+  //         ticketInfos.push({
+  //           ticketId: i,
+  //           saleAddr,
+  //           showId,
+  //           stageSellerName,
+  //           ticketSellerName,
+  //           ticketUri,
+  //           name: showInfo.data.name,
+  //           price,
+  //           dateStartString,
+  //           dateEndString,
+  //         });
+  //       }
+  //     }
+  //     setSaleTicketArray(ticketInfos);
+  //     setSaleTicketSearchArray(ticketInfos);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+
+  // // 초기정보
+  // useEffect(() => {
+  //   getTicketOnSale();
+  // }, []);
+
+  // const getUserNickname = async (wallet) => {
+  //   try {
+  //     const response = await axios.get(`https://nfticket.plus/api/v1/profile/nickname/${wallet}`);
+  //     return response.data.nickname;
+  //   } catch (err) {
+  //     return "NFTicket";
+  //   }
+  // };
+
   const buyTicket = async () => {
     try {
       // // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
@@ -239,24 +370,73 @@ const TicketDetail = () => {
     }
   };
 
+  const [isSellable, setIsSellable] = useState(false);
+
+  const checkOwner = async () => {
+    // 티켓 소유자인지 확인 - 소유자만 판매 가능
+    const owner = await myTicketContract.methods.ownerOf(parseInt(ticketId)).call();
+    setIsSellable(owner.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
+  };
+
+  useEffect(() => {
+    callShowDetail();
+    getTicketAddr();
+    getTicketData();
+    checkOwner();
+  }, []);
+
+ console.log('ticketInfo', ticketInfo);
+
+//  console.log('showDetail', showDetail);
+//  console.log('ticketDetail', ticketDetail);
+//  console.log('showDetailBack', showDetailBack);
+//  console.log('ticketInfo', ticketInfo);
+console.log('isSellable', isSellable);
+ 
+
   return (
     <div>
-      <TopCss>
-        <TopLeftCss>
-          <TopLeft
-            showId={`${showDetail.showId}`}
-            stageName={`${showDetail.stageName}`}
-            startedAt={`${showDetail.startedAt}`}
-            endedAt={`${showDetail.endedAt}`}
-            allowedAge={`${showDetailBack.age_limit}`}
-            showDuration={`${showDetailBack.running_time}`}
-            showTitle={`${showDetailBack.name}`}
-            catetory={`${showDetailBack.category_name}`}
-            posterUri={`${showDetail.ticketImage}`}
-            seatInfo={ticketDetail}
-          ></TopLeft>
-        </TopLeftCss>
+      <div className="ticket-image" style={{ display: 'flex', justifyContent: 'center', alignItem: 'center' }}>
+        <TicketImage
+          showId={`${showDetail.showId}`}
+          stageName={`${showDetail.stageName}`}
+          startedAt={`${showDetail.startedAt}`}
+          endedAt={`${showDetail.endedAt}`}
+          allowedAge={`${showDetailBack.age_limit}`}
+          showDuration={`${showDetailBack.running_time}`}
+          showTitle={`${showDetailBack.name}`}
+          catetory={`${showDetailBack.category_name}`}
+          casting={`${showDetailBack.staffs}`}
+          posterUri={`${showDetailBack.poster_uri}`}
+          seatInfo={ticketDetail}
+          ticketId={`${ticketInfo.ticketId}`}  // 티켓 id
+          ticketInfo={ticketInfo.price}
+          saleAddr={saleAddr}  // 티켓 주소
+          isSellable={isSellable}
+        >
+        </TicketImage>
+      </div>
 
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem: 'start'}}>
+        <TicketInfo
+          showTitle={`${showDetailBack.name}`}  // 제목
+          owner={`${ticketInfo.owner}`}  // 소유자
+          ticketId={`${ticketInfo.ticketId}`}  // 티켓 id
+          saleAddr={saleAddr}  // 티켓 주소
+          description={`${showDetailBack.description}`}
+          hallDescription={`${hallDescription}`}
+        ></TicketInfo>
+        <PurchaseTicket
+          showTitle={`${showDetailBack.name}`}  // 제목
+          seatInfo={ticketDetail}
+          casting={`${showDetailBack.staffs}`}
+          price={ticketInfo.price}
+          ticketId={ticketId}
+          isSellable={isSellable}
+        ></PurchaseTicket>
+      </div>
+      {/* <TopCss>
+        
         <TopRightCss>
           {scrollActive ? (
             <TopRightFixed>
@@ -287,7 +467,9 @@ const TicketDetail = () => {
 
       <BottomCss>
         <Bottom></Bottom>
-      </BottomCss>
+      </BottomCss> */}
+
+      <Footer></Footer>
     </div>
   );
 };

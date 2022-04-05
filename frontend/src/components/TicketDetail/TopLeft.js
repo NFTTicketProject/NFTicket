@@ -34,6 +34,7 @@ const TicketInfoArea = styled.div`
 `;
 
 const TopLeft = (props) => {
+
   // 전체 좌석 수 계산
   const seatGradeNum = props.seatInfo.length;
 
