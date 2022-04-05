@@ -4,6 +4,13 @@ import styled from "styled-components";
 import "./Seat.css";
 import SeatItem from "./SeatItem";
 
+const SeatBox = styled.div`
+  display: flex;
+  width: 800px;
+  flex-wrap: wrap;
+`;
+
+
 function SeatLine(props) {
   // function Seat({ grade, num, data, props }) {
   // const Seat = ( grade, num, data, props ) => {
@@ -63,10 +70,11 @@ function SeatLine(props) {
   // }
 
   // 선택된 좌석 정보
-  function selectSeats(grade, id) {
+  function selectSeats(gradeId, grade, id) {
     // var data = selectSeatList;
     // data = [grade, id];
-    var data = [grade, id];
+    var seatId =  id + 1
+    var data = [gradeId, grade, seatId];
     setSelectSeats((selectSeatList) => data);
     console.log("넘어온 data list로 묶음", data);
     if (data) {
@@ -81,7 +89,7 @@ function SeatLine(props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <div style={{ display: "flex", flexDirection: "row", border: "black" }}>
+      <div style={{ display: "flex", flexDirection: "row", border: "black", width: "800px", flexWrap: 'wrap' }}>
         {/* <p>{ props.grade } </p> */}
         {props.num.map((seatNum, key) => (
           <div
@@ -94,7 +102,7 @@ function SeatLine(props) {
           >
             {(() => {
               switch (props.grade) {
-                case 0:
+                case 0:  // VIP
                   return (
                     <div>
                       <SeatItem
@@ -107,7 +115,7 @@ function SeatLine(props) {
                       ></SeatItem>
                     </div>
                   );
-                case 1:
+                case 1:  // R
                   return (
                     <div>
                       <SeatItem
@@ -120,7 +128,7 @@ function SeatLine(props) {
                       ></SeatItem>
                     </div>
                   );
-                case 2:
+                case 2:  // S
                   return (
                     <div>
                       <SeatItem
@@ -133,7 +141,7 @@ function SeatLine(props) {
                       ></SeatItem>
                     </div>
                   );
-                case 3:
+                case 3:  // A
                   return (
                     <div>
                       <SeatItem

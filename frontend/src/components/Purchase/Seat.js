@@ -14,7 +14,6 @@ const SetButtonToLeftDiv = styled.div`
 
 const SeatNumberSpan = styled.span`
   margin-top: 10px;
-  margin-right: 10px;
 `;
 
 const Seat = (props) => {
@@ -127,6 +126,8 @@ const Seat = (props) => {
     }
   };
 
+  console.log('datadata', data, data[0], data[1])
+
   return (
     <div>
       <div className="container">
@@ -158,7 +159,12 @@ const Seat = (props) => {
         * 실제 좌석은 화면에 표시된 위치와 다를 수 있습니다.
       </div>
       <SetButtonToLeftDiv>
-        <SeatNumberSpan>좌석 번호 : {data}</SeatNumberSpan>
+        <div style={{ display: 'flex', marginRight: "20px"}}>
+          <SeatNumberSpan>좌석 번호 : </SeatNumberSpan>
+          <SeatNumberSpan>{ data[1] }</SeatNumberSpan>
+          <SeatNumberSpan>-</SeatNumberSpan>
+          <SeatNumberSpan>{ data[2] }</SeatNumberSpan>
+        </div>
         <Button variant="contained" onClick={seatInfoSend} style={{ backgroundColor: "#707B7C" }}>
           선택 완료
         </Button>

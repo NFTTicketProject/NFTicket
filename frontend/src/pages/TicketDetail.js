@@ -135,7 +135,7 @@ const TicketDetail = () => {
       const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
       const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
       const isCancelled = await showScheduleContract.methods.isCancelled().call();
-      // const isEnded = await ticketSaleContract.methods.isEnded().call();  // 티켓 판매 중인지 여부 확인 
+      const isEnded = await ticketSaleContract.methods.isEnded().call();  // 티켓 판매 중인지 여부 확인 
       // 한길 추가, 공연시작과 끝 가져오기
       let startedAt = await showScheduleContract.methods.getStartedAt().call();
       let endedAt = await showScheduleContract.methods.getEndedAt().call();
@@ -176,6 +176,7 @@ const TicketDetail = () => {
         resellPriceLimit: resellPolicy[2],
         startedAt,
         endedAt,
+        isEnded,  // 판매 여부
       });
       // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
       // console.log("showInfo", showInfo);
@@ -253,12 +254,12 @@ const TicketDetail = () => {
       const owner = await ticketSaleManagerContract.methods.owner().call();  // 판매자 정보
       // const startTime = new Date(getStartedAt * 1000);
       // const endTime = new Date(getEndedAt * 1000);
+      const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
 
-      // const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
       setTicketInfo({
         ...ticketInfo,
         ticketId,
-        // ticketUri,
+        ticketUri,
         price,
         // description,
         // getStartedAt,
@@ -381,17 +382,19 @@ const TicketDetail = () => {
   useEffect(() => {
     callShowDetail();
     getTicketAddr();
-    getTicketData();
     checkOwner();
-  }, []);
+    getTicketData();
+  }, [saleAddr]);
 
  console.log('ticketInfo', ticketInfo);
+ console.log('ticketInfo', ticketInfo.owner);
+ console.log('ticketUri', ticketInfo.ticketUri);
+
 
 //  console.log('showDetail', showDetail);
 //  console.log('ticketDetail', ticketDetail);
 //  console.log('showDetailBack', showDetailBack);
 //  console.log('ticketInfo', ticketInfo);
-console.log('isSellable', isSellable);
  
 
   return (
@@ -410,9 +413,10 @@ console.log('isSellable', isSellable);
           posterUri={`${showDetailBack.poster_uri}`}
           seatInfo={ticketDetail}
           ticketId={`${ticketInfo.ticketId}`}  // 티켓 id
-          ticketInfo={ticketInfo.price}
+          price={ticketInfo.price}
           saleAddr={saleAddr}  // 티켓 주소
           isSellable={isSellable}
+          ticketUri={`${ticketInfo.ticketUri}`}
         >
         </TicketImage>
       </div>
@@ -433,7 +437,9 @@ console.log('isSellable', isSellable);
           price={ticketInfo.price}
           ticketId={ticketId}
           isSellable={isSellable}
-        ></PurchaseTicket>
+          isEnded={`${showDetail.isEnded}`}  // 티켓 판매 중 여부
+          buyTicket={buyTicket}
+          ></PurchaseTicket>
       </div>
       {/* <TopCss>
         
