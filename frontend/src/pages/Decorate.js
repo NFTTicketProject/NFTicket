@@ -66,15 +66,11 @@ const Decorate = () => {
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
-      console.log("뭐지", showScheduleAddress);
       const approval = await IERC20Contract.methods
         .approve(showScheduleAddress, 500)
         .send({ from: userData.account });
-      console.log("괜찮", approval);
       if (approval.status) {
-        console.log("뭐지in", showScheduleAddress);
         const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
-        console.log("가즈아", showScheduleAddress);
         // const registerTicket = await showScheduleContract.methods
         //   // seatIndex 하드코딩
         // .registerTicket(parseInt(classId), parseInt(2), parseInt(newTicketId))

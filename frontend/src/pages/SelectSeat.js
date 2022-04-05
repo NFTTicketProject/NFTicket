@@ -10,6 +10,7 @@ import {
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import swal from "sweetalert2";
 
 import Seat from "../components/Purchase/Seat";
 import SeatInfo from "../components/Purchase/SeatInfo";
@@ -242,6 +243,27 @@ function SelectSeat() {
   // 티켓 등록
   const enrollTicket = async () => {
     try {
+      // 0. 좌석은 골랐는지 확인
+      if (seatData.length === 0) {
+        swal.fire ({
+          icon: 'error',
+          title: '좌석을 골라주세요',
+        })
+        return
+      }
+
+      // 0. 애초에 돈 있나 확인
+      const money = await IERC20Contract.methods.balanceOf(userData.account).call();
+      if (money < ticketDetail[myTicket.data[0]].ticketClassPrice) {
+        console.log('돈부족', ticketDetail[myTicket.data[0]].ticketClassPrice)
+        swal.fire ({
+          icon: 'error',
+          title: '싸피 코인이 부족합니다.',
+          html: `보유 코인 : ${money}<br>필요 코인 : ${ticketDetail[myTicket.data[0]].ticketClassPrice}`,
+        })
+        return;
+      }
+
       // 1. 티켓 발급
       console.log(
         "1",
