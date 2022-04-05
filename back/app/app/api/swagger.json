@@ -3572,6 +3572,123 @@
         }
       }
     },
+    "/show/{show_id}/stage-seller": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 기획자 지갑 주소 반환",
+        "description": "",
+        "operationId": "getShowStageSeller",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowStageSeller"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 기획자 지갑 주소 수정",
+        "description": "",
+        "operationId": "editShowStageSeller",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 기획자 지갑 주소",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowStageSeller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
     "/show/{show_id}/show-schedule": {
       "get": {
         "tags": [
@@ -4694,6 +4811,18 @@
         }
       }
     },
+    "ShowStageSeler": {
+      "type": "object",
+      "description": "공연 기획자 지갑 주소",
+      "properties": {
+        "default_ticket_image_uri": {
+          "description": "공연 기획자 지갑 주소",
+          "type": "string",
+          "format": "wallet_address",
+          "example": "0xD823e14ed981f56Ca624D2d6FeE99Fa89af8Be31"
+        }
+      }
+    },
     "ShowShowSchedule": {
       "type": "object",
       "description": "공연 스케줄 정보",
@@ -4723,7 +4852,8 @@
         "age_limit",
         "poster_uri",
         "video_uri",
-        "default_ticket_image_uri"
+        "default_ticket_image_uri",
+        "stage_seller"
       ],
       "properties": {
         "category_name": {
