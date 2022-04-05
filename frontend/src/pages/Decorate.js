@@ -66,22 +66,40 @@ const Decorate = () => {
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
+      console.log("뭐지", showScheduleAddress);
       const approval = await IERC20Contract.methods
         .approve(showScheduleAddress, 500)
         .send({ from: userData.account });
+      console.log("괜찮", approval);
       if (approval.status) {
+        console.log("뭐지in", showScheduleAddress);
         const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+        console.log("가즈아", showScheduleAddress);
+        // const registerTicket = await showScheduleContract.methods
+        //   // seatIndex 하드코딩
+        // .registerTicket(parseInt(classId), parseInt(2), parseInt(newTicketId))
+        // .send({ from: userData.account });
+        // seatIndex 하드코딩
         const registerTicket = await showScheduleContract.methods
-          // seatIndex 하드코딩
-          .registerTicket(parseInt(classId), parseInt(2), parseInt(newTicketId))
+          .replaceTicket(parseInt(classId), parseInt(0), parseInt(ticketId), parseInt(newTicketId))
           .send({ from: userData.account });
+
         if (registerTicket.status) {
-          // console.log("다했으니 기존꺼 태워볼까?");
+          console.log("다했으니 기존꺼 태워볼까?");
           // const burnOldTicket = await myTicketContract.methods
-          //   ._burn(parseInt(ticketId))
+          //   .transferFrom(
+          //     userData.account,
+          //     "0x0000000000000000000000000000000000000000",
+          //     parseInt(ticketId)
+          //   )
           //   .send({ from: userData.account });
-          // console.log("다탔나?", burnOldTicket);
-          navigate(`/Ticket/${newTicketId}`);
+          const burnOldTicket = await myTicketContract.methods
+            .burn(parseInt(ticketId))
+            .send({ from: userData.account });
+          console.log("다탔나?", burnOldTicket.status);
+          if (burnOldTicket.status) {
+            navigate(`/Ticket/${newTicketId}`);
+          }
         }
         // } else {
         //   alert("이미 예약된 좌석입니다.");
