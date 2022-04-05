@@ -287,6 +287,14 @@ contract TicketSale is Ownable, IERC721Receiver {
         return _endedAt;
     }
 
+    function isCancelled() public view returns (bool) {
+        return _isCancelled;
+    }
+
+    function isEnded() public view returns (bool) {
+        return _isEnded;
+    }
+
     modifier onlySeller() {
         require(msg.sender == _seller);
         _;
