@@ -156,7 +156,12 @@ const Community = () => {
         const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
         // console.log("티켓 주소", ticketId, ticketUri);
         // console.log("공연정보", showInfo);
-        const desc = "좌석 등급 : " + className + "\n공연 설명 : " + showInfo.data.description
+        var showDesc = showInfo.data.description
+        console.log(showDesc)
+        if (showDesc) {
+          if (showDesc.length>80) showDesc = showDesc.substring(0,79) + " ...";
+        }
+        const desc = "좌석 등급 : " + className + "\n공연 설명 : " + showDesc
         tempArray.push({
           title: showInfo.data.name,
           desc,
@@ -236,7 +241,7 @@ const Community = () => {
         console.log(nickname)
         if (nickname === "Guest") {
           // 입장 가능
-          unityContext.send("NetworkManager", "CreateCommu", galleryType)
+          unityContext.send("NetworkManager", "CreateCommu", "galleryS")
         } else {
           // 입장 불가
           unityContext.send("NetworkManager", "SetErrorMessage", "커뮤니티 입장 조건을 만족하지 않으셨습니다.")
