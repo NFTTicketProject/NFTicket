@@ -28,9 +28,9 @@ const Page4 = () => {
         />
       <QRCode 
         value={text}
-        bgColor="#000000"
-        fgColor="#e6e6e6"
-        size="128"
+        bgColor="#FFFFFF"
+        fgColor="#000000"
+        size="80"
       />
     </div>
   )
