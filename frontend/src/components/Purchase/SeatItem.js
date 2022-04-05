@@ -124,7 +124,7 @@ function SeatItem(props) {
     <div>
       {props.num ? ( // 이미 예매된 좌석 분류
         <div
-          className='seat-item'
+          className="seat-item"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -133,14 +133,14 @@ function SeatItem(props) {
           }}
         >
           <div
-            className='seat occupied'
+            className="seat occupied"
             onClick={() => {
               occupiedSeat();
             }}
           ></div>
           <div>
             <span style={{ fontSize: "14px" }}>
-              {props.grade}-{props.id}-{props.num}{" "}
+              {props.grade}-{props.id}
             </span>
           </div>
         </div>
@@ -149,7 +149,7 @@ function SeatItem(props) {
 
         // }
         <div
-          className='seat-item'
+          className="seat-item"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -167,7 +167,7 @@ function SeatItem(props) {
           ></div>
           <div>
             <span style={{ fontSize: "14px" }}>
-              {props.grade}-{props.gradeId}-{props.id}-{props.num}{" "}
+              {props.grade}-{props.id}
             </span>
           </div>
         </div>

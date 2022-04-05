@@ -63,12 +63,29 @@ const BoldSpan = styled.span`
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime);
-  const dateString =
-    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
 const TopRight = (props) => {
+  // 전체 좌석 수 계산
+  const seatGradeNum = props.seatInfo.length;
+  const tmp = [];
+  let totalSeat = 0;
+  // let leftSeat = 0;
+
+  for (let i = 0; i < seatGradeNum; i++) {
+    totalSeat = totalSeat + Number(props.seatInfo[i].info.length);
+    let leftSeat = Number(props.seatInfo[i].info.length);
+    tmp.push(leftSeat);
+    for (let j = 0; j < totalSeat; j++) {
+      if (props.seatInfo[i].info[j] === 1) {
+        tmp[i] = tmp[i] - 1;
+        // leftSeat = leftSeat - 1;
+      }
+    }
+  }
+  console.log("🐸", tmp);
   const [startDate, setStartDate] = useState(new Date());
 
   const navigate = useNavigate();
@@ -89,11 +106,7 @@ const TopRight = (props) => {
       <CoverBox>
         <SmallTitleCss>관람일 선택</SmallTitleCss>
         <DatePickerCss>
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            inline
-          />
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} inline />
         </DatePickerCss>
 
         <ColorHr></ColorHr>
@@ -101,10 +114,11 @@ const TopRight = (props) => {
         <SmallTitleCss>잔여 좌석</SmallTitleCss>
 
         <SeatCss>
-          {props.seatInfo.map((it, idx) => (
+          {props.ticketDetail.map((it, idx) => (
             <span key={idx}>
-              <span>{it.ticketClassName} </span>
-              <BoldSpan>{it.ticketClassMaxMintCount}석</BoldSpan>
+              <span>{it.ticketClassName}등급: </span>
+              {/* <BoldSpan>{it.ticketClassMaxMintCount}석</BoldSpan> */}
+              <BoldSpan>{tmp[idx]}석</BoldSpan>
               <span> / </span>
             </span>
           ))}
@@ -127,7 +141,7 @@ const TopRight = (props) => {
               borderRadius: 3,
               py: 1.5,
             }}
-            variant='outlined'
+            variant="outlined"
           >
             예매하기
           </Button>
