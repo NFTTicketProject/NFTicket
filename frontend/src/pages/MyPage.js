@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
+import { ethers } from "ethers";
 import { saveAccount } from "../store/WalletReducer";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
@@ -273,7 +275,7 @@ function MyPage() {
       console.error(err);
     }
   };
-  console.log(myTicketArray);
+  console.log("🎃", myTicketArray);
   // console.log(userInfo.account);
   useEffect(() => {
     checkConnectedWallet();
@@ -284,6 +286,51 @@ function MyPage() {
     getMyTickets();
     // console.log(ticketArray);
   }, [walletInfo.nickname]);
+
+  const wtRoyalty = async () => {
+    try {
+      const withdrawR = await ticketSaleManagerContract.methods
+        .withdrawRoyalty()
+        .send({ from: userData.account });
+      if (withdrawR.status) {
+        alert("SSF 회수가 완료되었습니다.");
+      }
+      // console.log(withdrawR);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 갤러리
+  const onChangeGallery = async () => {
+    try {
+      const data = {
+        gallery: "galleryM",
+        timestamp: new Date().getTime(),
+      };
+      const sign = await signMessage(JSON.stringify(data));
+      const sendData = { info: data, hash_sign: sign };
+      const res = await axios.patch(
+        `https://nfticket.plus/api/v1/account/${userInfo.account}/gallery`,
+        sendData
+      );
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  console.log("지갑주소", userInfo);
+  const signMessage = async (message) => {
+    // 메타마스크가 없으면 에러
+    if (!window.ethereum) throw new Error("No crypto wallet found. Please install it.");
+
+    await window.ethereum.send("eth_requestAccounts");
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const signature = await signer.signMessage(message);
+
+    return signature;
+  };
 
   return (
     <>
@@ -316,7 +363,7 @@ function MyPage() {
                   }}
                 >
                   <img
-                    src={walletInfo.image_uri}
+                    src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`}
                     onError={({ currentTarget }) => {
                       currentTarget.onerror = null; // prevents looping
                       currentTarget.src = "images/MetaMask_Fox.svg.png";
@@ -354,10 +401,27 @@ function MyPage() {
                     }}
                   />
                 </Link>
-
+                <PhotoLibraryIcon
+                  onClick={onChangeGallery}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "black",
+                    height: "30px",
+                    width: "30px",
+                    marginLeft: "0.4rem",
+                    cursor: "pointer",
+                  }}
+                ></PhotoLibraryIcon>
                 <LogoutIcon
                   onClick={onDisconnect}
-                  style={{ color: "black", height: "30px", width: "30px", marginLeft: "0.5rem" }}
+                  style={{
+                    color: "black",
+                    height: "30px",
+                    width: "30px",
+                    marginLeft: "0.5rem",
+                    cursor: "pointer",
+                  }}
                 />
               </Grid>
             </Grid>
@@ -368,7 +432,7 @@ function MyPage() {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: "1rem",
+                marginTop: "2rem",
               }}
             >
               {/* 닉네임 */}
@@ -398,6 +462,7 @@ function MyPage() {
               <UserInfo>
                 <p>{walletInfo.description}</p>
               </UserInfo>
+              <Button onClick={wtRoyalty}>Withdraw</Button>
             </div>
             {/* <div>
               <Button onClick={onDisconnect}>로그아웃</Button>
@@ -413,25 +478,26 @@ function MyPage() {
               ) : (
                 <NavListItem onClick={() => handlePageNum(1)}>나의 티켓</NavListItem>
               )}
-              {/* {pageNum === 2 ? (
-                <NavListItemSelected onClick={() => handlePageNum(2)}>
-                  판매중인 티켓
-                </NavListItemSelected>
-              ) : (
-                <NavListItem onClick={() => handlePageNum(2)}>판매중인 티켓</NavListItem>
-              )} */}
-              {pageNum === 3 ? (
+              {pageNum === 2 ? (
                 <NavListItemSelected onClick={() => handlePageNum(2)}>
                   판매 티켓
                 </NavListItemSelected>
               ) : (
-                <NavListItem onClick={() => handlePageNum(3)}>판매 티켓</NavListItem>
+                <NavListItem onClick={() => handlePageNum(2)}>판매 티켓</NavListItem>
+              )}
+              {pageNum === 3 ? (
+                <NavListItemSelected onClick={() => handlePageNum(2)}>
+                  등록 티켓
+                </NavListItemSelected>
+              ) : (
+                <NavListItem onClick={() => handlePageNum(3)}>등록 티켓</NavListItem>
               )}
             </NavList>
 
             {pageNum === 1 && (
               <div>
                 <TitleText>나의 티켓</TitleText>
+
                 <DescriptionDiv>
                   <Grid container>
                     {ticketArray &&
@@ -447,18 +513,10 @@ function MyPage() {
               </div>
             )}
 
-            {/* {pageNum === 2 && (
+            {pageNum === 2 && (
               <div>
-                <TitleText>판매중인 티켓</TitleText>
-                <DescriptionDiv>
-                  <TicketOnSale />
-                </DescriptionDiv>
-              </div>
-            )} */}
+                <TitleText>내가 판매중인 티켓</TitleText>
 
-            {pageNum === 3 && (
-              <div>
-                <TitleText>판매중인 티켓</TitleText>
                 <DescriptionDiv>
                   <Grid container>
                     {myTicketArray &&
@@ -470,6 +528,15 @@ function MyPage() {
                         );
                       })}
                   </Grid>
+                </DescriptionDiv>
+              </div>
+            )}
+
+            {pageNum === 3 && (
+              <div>
+                <TitleText>내가 등록한 티켓</TitleText>
+                <DescriptionDiv>
+                  <TicketOnSale />
                 </DescriptionDiv>
               </div>
             )}

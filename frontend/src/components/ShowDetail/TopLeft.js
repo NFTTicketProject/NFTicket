@@ -34,26 +34,25 @@ const TicketInfoArea = styled.div`
 `;
 
 const TopLeft = (props) => {
-
   // 전체 좌석 수 계산
   const seatGradeNum = props.seatInfo.length;
 
   let totalSeat = 0;
   let leftSeat = 0;
-  for (let i = 0; i < seatGradeNum; i++) {}
-  // for (let i = 0; i < seatGradeNum; i++) {
-  //   totalSeat = totalSeat + Number(props.seatInfo[i].info.length);
-  //   for (let j = 0; j < totalSeat; j++) {
-  //     if (props.seatInfo[i].info[j] === 1) {
-  //       leftSeat = leftSeat - 1;
-  //     }
-  //   }
-  // }
+
+  for (let i = 0; i < seatGradeNum; i++) {
+    totalSeat = totalSeat + Number(props.seatInfo[i].info.length);
+    for (let j = 0; j < totalSeat; j++) {
+      if (props.seatInfo[i].info[j] === 1) {
+        leftSeat = leftSeat - 1;
+      }
+    }
+  }
   // for (let i = 0; i < seatGradeNum; i++) {
   //   totalSeat = totalSeat + Number(props.seatInfo[i].ticketClassMaxMintCount);
   // }
 
-  const totalRemainText = "총 " + totalSeat + "장 중 " + totalSeat + "장 남음";
+  const totalRemainText = "총 " + totalSeat + "장 중 " + (totalSeat + leftSeat) + "장 남음";
 
   return (
     <div>
@@ -104,9 +103,9 @@ const TopLeft = (props) => {
             <tbody>
               <tr>
                 <th valign="top">가격</th>
-                {props.seatInfo.map((it, idx) => (
+                {props.ticketDetail.map((it, idx) => (
                   <tr key={idx}>
-                    <th>{it.ticketClassName}</th>
+                    <th>{it.ticketClassName}등급</th>
                     <td>{it.ticketClassPrice} SSF</td>
                   </tr>
                 ))}
