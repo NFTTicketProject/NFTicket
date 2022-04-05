@@ -22,6 +22,7 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
     event TicketRegistered(uint256 indexed ticketId, address from, uint256 classId, uint256 seatIndex);
     event TicketRevoked(uint256 indexed ticketId, address to, uint256 classId, uint256 seatIndex);
     event TicketRefunded(uint256 indexed ticketId, address to, uint256 classId, uint256 seatIndex);
+    event TicketReplaced(uint256 indexed oldTicketId, uint256 newTicketId, address from, uint256 classId, uint256 seatIndex);
     event Withdrawal(address indexed to, uint256 amount);
     event Cancelled();
 
@@ -245,6 +246,39 @@ contract ShowSchedule is Ownable, IResellPolicy, ITicketClass {
         _mintCountByClassId[classId].decrement();
 
         emit TicketRefunded(ticketId, msg.sender, classId, seatIndex);
+    }
+
+    /*
+    * replaceTicket
+    * 임의의 classId A, 임의의 seatIndex B, 임의의 oldTicketId X와 newTicketId Y에 대해
+    * A등급 B번째 좌석에 등록된 티켓 ID X를 새로운 티켓 ID Y로 변경
+    *
+    * @ param uint256 classId 등급 ID
+    * @ param uint256 seatIndex 좌석 Index
+    * @ param uint256 ticketId 티켓 ID
+    * @ return None
+    * @ exception A등급 B번째 좌석에 현재 oldTicketId가 등록되어 있어야 함
+    * @ exception 새로 등록할 티켓의 newTicket에 해당하는 classId와 등록할 classId가 일치해야 함
+    * @ exception msg.sender(요청자)가 기존 티켓을 소유해야 함
+    * @ exception msg.sender(요청자)가 새로운 티켓을 소유해야 함
+    */
+    function replaceTicket(uint256 classId, uint256 seatIndex, uint256 oldTicketId, uint256 newTicketId) public {
+        // 먼저 해당 자리에 기존 oldTicket이 등록되어 있는지 확인
+        require(_ticketIdsBySeat[classId][seatIndex] == oldTicketId, "This seat doesn't match with your ticket");
+        
+        // 티켓의 class와 새로 등록할 class가 일치하는지 확인
+        require(classId == _ticketContract.getClassId(newTicketId), "Class id doesn't match with your ticket");
+
+        // 등록자가 현재 등록된 티켓의 소유자인지 확인
+        require(_ticketContract.ownerOf(oldTicketId) == msg.sender, "This ticket is not yours");
+
+        // 등록자가 새로 등록할 티켓의 소유자인지 확인
+        require(_ticketContract.ownerOf(newTicketId) == msg.sender, "This ticket is not yours");
+
+        // 해당 자리에 새로운 티켓 ID를 등록
+        _ticketIdsBySeat[classId][seatIndex] = newTicketId;
+
+        emit TicketReplaced(oldTicketId, newTicketId, msg.sender, classId, seatIndex);
     }
 
     /*
