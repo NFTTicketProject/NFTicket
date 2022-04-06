@@ -15,8 +15,8 @@ module.exports = {
 
             const result = await prisma.Blockhash.create({
                 data:{
-                    ...data,
-                    'ticket_id' : Number(data['ticket_id'])
+                    'ticket_id' : Number(data['ticket_id']),
+                    'block_hash': data['block_hash'].slice(0, 50)
                 }
             })
 
