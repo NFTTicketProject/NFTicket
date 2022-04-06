@@ -63,6 +63,14 @@
         "description": "Find out more about our store",
         "url": "http://swagger.io"
       }
+    },
+    {
+      "name": "Block",
+      "description": "블록 해쉬에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
     }
   ],
   "schemes": [
@@ -4250,6 +4258,106 @@
           }
         }
       }
+    },
+    "/block": {
+      "post": {
+        "tags": [
+          "Block"
+        ],
+        "summary": "블록 해쉬와 티켓 아이디 등록",
+        "description": "블록 해쉬와 티켓 아이디 등록",
+        "operationId": "createBlockhash",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "등록할 블록 해쉬와 티켓 아이디",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "201": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/block/{ticket_id}": {
+      "get": {
+        "tags": [
+          "Block"
+        ],
+        "summary": "블록 해쉬 조회",
+        "description": "블록 해쉬 조회",
+        "operationId": "getBlockhashByTicketID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ticket_id",
+            "description": "티켓 아이디",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "201": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "404": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "example": "11 not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -5028,6 +5136,24 @@
           "type": "string",
           "format": "uri",
           "example": "http://ipfs..."
+        }
+      }
+    },
+    "BlockHash": {
+      "type": "object",
+      "description": "블록해쉬와 티켓ID",
+      "properties": {
+        "ticket_id": {
+          "description": "티켓 ID",
+          "type": "integer",
+          "format": "int64",
+          "example": 11
+        },
+        "block_hash": {
+          "description": "블록 해쉬",
+          "type": "string",
+          "format": "string",
+          "example": "8f4b5b1cef254bb017b981dc67acc5066845969c8566c3e2ed9a45f3e83e2604"
         }
       }
     }
