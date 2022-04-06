@@ -99,7 +99,7 @@ function App() {
           <Route path='/Market' element={<Market />} />
           <Route path='/ShowPublish' element={<ShowPublish />} />
           <Route
-            path='/SelectSeat/:showScheduleAddress/:date'
+            path='/SelectSeat/:showScheduleAddress'
             element={<SelectSeat />}
           />
         </Routes>
