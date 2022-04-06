@@ -44,7 +44,9 @@ const Ticketo = () => {
 
   const getUserNickname = async (wallet) => {
     try {
-      const response = await axios.get(`https://nfticket.plus/api/v1/profile/nickname/${wallet}`);
+      const response = await axios.get(
+        `https://nfticket.plus/api/v1/profile/nickname/${wallet}`,
+      );
       // console.log(response);
       return response.data.nickname;
     } catch (err) {
@@ -58,38 +60,66 @@ const Ticketo = () => {
       const cnt = await myTicketContract.methods.totalSupply().call();
       const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
-        const saleAddr = await ticketSaleManagerContract.methods.getSaleOfTicket(i).call();
+        const saleAddr = await ticketSaleManagerContract.methods
+          .getSaleOfTicket(i)
+          .call();
         if (saleAddr != "0x0000000000000000000000000000000000000000") {
           count = count - 1;
           if (count < 0) break;
-          const showScheduleId = await myTicketContract.methods.getShowScheduleId(i).call();
+          const showScheduleId = await myTicketContract.methods
+            .getShowScheduleId(i)
+            .call();
           const showScheduleAddress = await showScheduleManagerContract.methods
             .getShowSchedule(showScheduleId)
             .call();
-          const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+          const showScheduleContract = new web3.eth.Contract(
+            showScheduleAbi,
+            showScheduleAddress,
+          );
           const showId = await showScheduleContract.methods.getShowId().call();
 
           // 공연 발매자
-          const stageSeller = await showScheduleManagerContract.methods.ownerOf(i).call();
+          const stageSeller = await showScheduleManagerContract.methods
+            .ownerOf(i)
+            .call();
           var stageSellerName = await getUserNickname(stageSeller);
           // 티켓 소유자
-          const ticketSeller = await ticketSaleManagerContract.methods.owner().call();
+          const ticketSeller = await ticketSaleManagerContract.methods
+            .owner()
+            .call();
 
           var ticketSellerName = await getUserNickname(ticketSeller);
-          const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+          const showInfo = await axios.get(
+            `https://nfticket.plus/api/v1/show/${showId}`,
+          );
           // console.log(showInfo);
-          const ticketUri = await myTicketContract.methods.getTokenURI(i).call();
+          const ticketUri = await myTicketContract.methods
+            .getTokenURI(i)
+            .call();
           // console.log(ticketUri);
-          const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
+          const ticketSaleContract = new web3.eth.Contract(
+            ticketSaleAbi,
+            saleAddr,
+          );
           const price = await ticketSaleContract.methods.getPrice().call();
-          const startAt = await ticketSaleContract.methods.getStartedAt().call();
+          const startAt = await ticketSaleContract.methods
+            .getStartedAt()
+            .call();
           var dateStart = new Date(startAt * 1000);
           var dateStartString =
-            dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
+            dateStart.getFullYear() +
+            "." +
+            (dateStart.getMonth() + 1) +
+            "." +
+            dateStart.getDate();
           const endAt = await ticketSaleContract.methods.getEndedAt().call();
           var dateEnd = new Date(endAt * 1000);
           var dateEndString =
-            dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
+            dateEnd.getFullYear() +
+            "." +
+            (dateEnd.getMonth() + 1) +
+            "." +
+            dateEnd.getDate();
 
           ticketInfos.push({
             ticketId: i,
@@ -117,13 +147,17 @@ const Ticketo = () => {
   }, []);
 
   return (
-    <div style={{ background: "#f5f5f5" }}>
+    <div style={{ background: "#f5f5f5", paddingBottom: "100px" }}>
       <hr />
       <TitleContainer>
-        <div style={{ display: "flex-column", width: "70vw", fontSize: "40px" }}>
+        <div
+          style={{ display: "flex-column", width: "70vw", fontSize: "40px" }}
+        >
           {/* <div style={{ width: "1180px", display: "flex-column", justifyContent: "center"}}> */}
           <Title>개인간 티켓 거래</Title>
-          <span style={{ fontSize: "32px" }}>다른 관객들과 NFTicket을 자유롭게 거래해보세요.</span>
+          <span style={{ fontSize: "32px" }}>
+            다른 관객들과 NFTicket을 자유롭게 거래해보세요.
+          </span>
         </div>
       </TitleContainer>
       <div style={{ display: "flex", justifyContent: "center" }}>
