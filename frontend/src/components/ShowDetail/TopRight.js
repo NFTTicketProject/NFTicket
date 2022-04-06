@@ -63,7 +63,8 @@ const BoldSpan = styled.span`
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime);
-  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString =
+    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
@@ -86,28 +87,42 @@ const TopRight = (props) => {
     }
   }
   console.log("🐸", tmp);
-  const [startDate, setStartDate] = useState(new Date());
+  const startDate = new Date(props.startedAt);
+  const endDate = new Date(props.endedAt);
 
   const navigate = useNavigate();
 
   // 예매하기 버튼 클릭 시
   const doBook = () => {
-    console.log(startDate);
-    const date = unixTimeToDate(startDate);
-    console.log("date", date);
-    navigate(`/SelectSeat/${props.showScheduleAddress}/${date}`);
+    navigate(`/SelectSeat/${props.showScheduleAddress}`);
     // console.log('props정보', props);
   };
 
   // console.log(props.posterUri);
 
+  Date.prototype.addDays = function (days) {
+    const date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  };
+
   return (
     <div>
       <CoverBox>
-        <SmallTitleCss>관람일 선택</SmallTitleCss>
-        <DatePickerCss>
-          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} inline />
-        </DatePickerCss>
+        <SmallTitleCss>판매기간</SmallTitleCss>
+        {isNaN(startDate) ? (
+          <div style={{ marginLeft: "30px" }}>로딩중..</div>
+        ) : (
+          <DatePickerCss>
+            <DatePicker
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date().addDays(20000)}
+              selectsRange
+              inline
+            />
+          </DatePickerCss>
+        )}
 
         <ColorHr></ColorHr>
 
@@ -141,7 +156,7 @@ const TopRight = (props) => {
               borderRadius: 3,
               py: 1.5,
             }}
-            variant="outlined"
+            variant='outlined'
           >
             예매하기
           </Button>

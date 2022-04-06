@@ -26,7 +26,6 @@ const Middle = (props) => {
           <MiddleLeft
             description={props.description}
             casting={props.casting}
-            hallDescription={`${props.hallDescription}`}
           ></MiddleLeft>
         </MiddleLeftCss>
 
