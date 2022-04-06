@@ -19,8 +19,8 @@ const FooterContainer = styled.div`
   background: linear-gradient(
     92deg,
     rgba(0, 58, 255, 1) 0%,
-    rgba(34, 34, 34, 1) 12%,
-    rgba(34, 34, 34, 1) 88%,
+    rgba(34, 34, 34, 1) 5%,
+    rgba(34, 34, 34, 1) 95%,
     rgba(229, 0, 197, 1) 100%
   );
 `;
@@ -124,22 +124,29 @@ const Footer = () => {
           >
             SSAFY
           </MiddleTopUnits>
-          <MiddleTopUnits onClick={() => navigate("/guide")}>자주하는 질문(FAQ)</MiddleTopUnits>
+          <MiddleTopUnits onClick={() => navigate("/guide")}>
+            자주하는 질문(FAQ)
+          </MiddleTopUnits>
           <MiddleTopUnits onClick={copyEmail}>1:1 문의하기</MiddleTopUnits>
         </MiddleTop>
         <MiddleMid>
-          NFTicket는 삼성청년소프트웨어아카데미 교육 중 제작된 NFT 기반의 티켓 거래 플랫폼입니다.
-          <br></br>해당 페이지 내에서 이루어지는 모든 거래는 가상으로 지급된 토큰으로 진행되고
-          있습니다.
+          NFTicket는 삼성청년소프트웨어아카데미 교육 중 제작된 NFT 기반의 티켓
+          거래 플랫폼입니다.
+          <br></br>해당 페이지 내에서 이루어지는 모든 거래는 가상으로 지급된
+          토큰으로 진행되고 있습니다.
         </MiddleMid>
-        <MiddleBot>copyright © 2022 Non Fungible Turtles. All rights reserved</MiddleBot>
+        <MiddleBot>
+          copyright © 2022 Non Fungible Turtles. All rights reserved
+        </MiddleBot>
       </MiddleArea>
       <RightArea>
         <RightUnits>
           <GitHubIcon
             style={{ color: "#FFFFFF" }}
             onClick={() => {
-              window.open("https://lab.ssafy.com/s06-blockchain-nft-sub2/S06P22A102");
+              window.open(
+                "https://lab.ssafy.com/s06-blockchain-nft-sub2/S06P22A102",
+              );
             }}
           ></GitHubIcon>
         </RightUnits>
@@ -156,7 +163,7 @@ const Footer = () => {
             style={{ color: "#FFFFFF" }}
             onClick={() => {
               window.open(
-                "https://extreme-xylocarp-87d.notion.site/NFTicket-1cb9a09dfd064724aa90e3eec6ffab0f"
+                "https://extreme-xylocarp-87d.notion.site/NFTicket-1cb9a09dfd064724aa90e3eec6ffab0f",
               );
             }}
           ></FeedIcon>
@@ -166,7 +173,7 @@ const Footer = () => {
         open={snackBar}
         autoHideDuration={3000}
         onClose={handleClose}
-        message="관리자 메일 주소가 복사되었습니다."
+        message='관리자 메일 주소가 복사되었습니다.'
         action={action}
       />
     </FooterContainer>
