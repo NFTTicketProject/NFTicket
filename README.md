@@ -12,35 +12,40 @@ SSAFY 6기 2학기 특화프로젝트 - NFTicket
 
 </br>
 
-## 🎵 NFTicket - 배경 [수정필요]
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## 🎵 NFTicket - 배경
+공연이 끝난 뒤, 누군가와의 혹은 그 순간 나만의 소중한 추억이 담긴 티켓이 사라지는 것이 아쉽지 않으셨나요? 모아두고 싶어도 아름답지 않아 결국 사라지는 추억들.
 
+수집가처럼 앨범을 준비하고 일상을 기록하기는 힘들지만 마음만큼은, 그 순간의 추억을 간직하고 싶은 당신을 위해 준비했습니다.
 </br>
 
 ## 💜 NFTicket - 개요 [수정필요]
 *- The quick brown fox jumps over the lazy dog -*  
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+**NFTicket**은 당신의 추억의 조각을 기록하고 소유할 수 있도록, 당신의 티켓을 NFT로 만들어 드립니다.
+NFTicket은 NFT 기반 블록체인 공연 예매 시스템입니다.
 
+블록체인 기술을 이용해 대체 불가능 한 나만의 티켓을 만들고, 추억을 담아, 소유할 수 있는 NFT 기반 티켓 예매 서비스입니다.
+
+또한, 특별한 가치가 있는 티켓, 당신만의 개성을 담은 티켓을 만들어 다른 사람에게 뽐낼 수 있는 커뮤니티 기능을 제공하며,
+
+개성을 담아 만든 혹은 특별한 사연이 담긴 티켓을 거래함으로써 그 가치를 증명하고 인기 있는 티켓을 수집하고 소유 할 수 있습니다.
 </br>
 
 ## 💜 주요 기능 [수정필요]
 ---
-- ### Lorem ipsum
-    - consectetur adipiscing elit
-    - sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-    - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-    - nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+- ### 공연 관리
+    - 블록체인 기반의 안전한 공연 관리 시스템을 통해 당신의 공연을 등록해 보세요
+    - 공연 기획이 부담스러운 인디 뮤지션들도 수수료 걱정 없이 공정하고 투명한 플랫폼에서 공연 정보와 일정을 관리할 수 있습니다.
+    - 인기 있는 공연의 골칫거리 "암표", NFTicket에서 암표를 추적하고 리셀 정책을 설정하여 건전한 리셀 시장을 형성할 수 있습니다.
     <br/>
-- ### Lorem ipsum
-    - consectetur adipiscing elit
-    - sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-    - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+- ### 공연 예매
+    - 블록체인을 통해 공연을 예매하고, 당신의 티켓을 소장해보세요.
+    - 스마트 컨트랙트를 통해 중개 시스템(Middle-man) 없이도 정당하게 나의 티켓을 예매할 수 있습니다.
+    - 비대면 온라인 공연 등에도 블록체인 네트워크를 통해 티켓을 소유한 사람만 접속하도록 할 수 있습니다.
     <br/>
-- ### Lorem ipsum
-    - consectetur adipiscing elit
-    - sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-    - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+- ### 티켓 꾸미기
+    - 공연이 끝난 뒤에도 사라지지 않고 당신의 추억을 담은 메세지나 스티커를 붙여 나만의 티켓을 만들 수 있습니다.
+    <br/>
 - ### 스마트 컨트랙트에서 거래
     - 이더리움 네트워크 내 스마트 컨트랙트를 통해 NFT 토큰(티켓) 거래
     - middle-man에 대한 의존성 제거
@@ -101,11 +106,6 @@ NFTicket
 │   └── swagger.json
 ├── app.js
 ├── logs
-│   ├── NFTicket_20220328.log
-│   ├── NFTicket_20220329.log
-│   ├── NFTicket_20220330.log
-│   ├── NFTicket_20220331.log
-│   └── NFTicket_20220401.log
 ├── package-lock.json
 ├── package.json
 ├── prisma
@@ -153,10 +153,6 @@ NFTicket
 │   ├── SsafyToken.sol
 │   ├── TicketSale.sol
 │   └── TicketSaleManager.sol
-├── extra
-│   ├── TicketClass.sol
-│   ├── sol.js
-│   └── ssafy_net.js
 ├── migrations
 │   └── 1_initial_migration.js
 ├── package.json
