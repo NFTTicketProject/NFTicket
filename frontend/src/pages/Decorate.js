@@ -38,6 +38,57 @@ const Decorate = () => {
   // const ipfs = ipfsClient.create(new URL("https://j6a102.p.ssafy.io/ipfs/api/v0"));
   const ipfs = ipfsClient.create(new URL("https://nfticket.plus/ipfs/api/v0"));
 
+
+  const GetSeatIndex = async (ticketIdToFind) => {
+    // Contract 상에 등록된 공연 스케줄 개수를 가져옵니다
+    const showScheduleCount = await showScheduleManagerContract.methods.getCount().call();
+    // const showScheduleContracts = []
+    let showSchedules = {}
+
+    // 각 공연 스케줄의 정보를 가져옵니다
+    for (var i = 1; i <= showScheduleCount; i++)
+    {
+        const ShowScheduleContractAddr = await showScheduleManagerContract.methods.getShowSchedule(i).call();
+        const ShowScheduleContractInstance = new web3.eth.Contract(showScheduleAbi, ShowScheduleContractAddr);
+
+        let showSchedule = {}
+        showSchedule.address = ShowScheduleContractAddr;
+        showSchedule.ticketClasses = []
+        const ticketClassCount = await ShowScheduleContractInstance.methods.getTicketClassCount().call();
+        for (var j = 0; j < ticketClassCount; j++)
+        {
+            var ticketClass = {
+                name: await ShowScheduleContractInstance.methods.getTicketClassName(j).call(),
+                price: await ShowScheduleContractInstance.methods.getTicketClassPrice(j).call(),
+                maxMintCount: await ShowScheduleContractInstance.methods.getTicketClassMaxMintCount(j).call(),
+            }
+
+            showSchedule.ticketClasses.push(ticketClass)
+        }
+        showSchedules[i] = showSchedule
+    }
+  
+    // const ticketIdToFind = 2 // Ticket ID 3번을 찾아보자
+    let foundSeat = []
+    for (var key of Object.keys(showSchedules))
+    {
+        const ShowScheduleContractAddr = showSchedules[key].address;
+        const ShowScheduleContractInstance = new web3.eth.Contract(showScheduleAbi, ShowScheduleContractAddr);
+        
+        for (var [i, ticketClass] of showSchedules[key].ticketClasses.entries())
+        {
+            for (var j = 0; j < ticketClass.maxMintCount; j++)
+            {
+                const currentTicketId = await ShowScheduleContractInstance.methods.getTicketId(i, j).call()
+                if (ticketIdToFind == currentTicketId) foundSeat.push([i, j])
+            }
+        }
+    }
+  
+    // console.log('찾은 티켓', foundSeat[0][1])
+    return foundSeat
+  }
+
   // 각종 정보 확보하고 이미지 세팅하기
   useEffect(() => {
     getTicket();
@@ -76,8 +127,9 @@ const Decorate = () => {
         // .registerTicket(parseInt(classId), parseInt(2), parseInt(newTicketId))
         // .send({ from: userData.account });
         // seatIndex 하드코딩
+        var seatIndex = GetSeatIndex(parseInt(newTicketId))
         const registerTicket = await showScheduleContract.methods
-          .replaceTicket(parseInt(classId), parseInt(0), parseInt(ticketId), parseInt(newTicketId))
+          .replaceTicket(parseInt(classId), parseInt(0), parseInt(seatIndex), parseInt(newTicketId))
           .send({ from: userData.account });
 
         if (registerTicket.status) {
