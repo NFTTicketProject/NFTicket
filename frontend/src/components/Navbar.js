@@ -20,16 +20,16 @@ import { Link, useNavigate } from "react-router-dom";
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
   // "Profile",
-  // { name: "상세인무언가", link: "Detail" },
-  { name: "Guide", link: "Guide" },
   { name: "공연등록", link: "ShowPublish" },
-  // { name: "이미지수정", link: "Toast UI" },
   { name: "공연목록", link: "Show" },
+  { name: "마켓", link: "Market" },
+  { name: "커뮤니티", link: "Community" },
+  { name: "Guide", link: "Guide" },
+  // { name: "상세인무언가", link: "Detail" },
+  // { name: "이미지수정", link: "Toast UI" },
   // { name: "무언가작업중", link: "Detail-Handover" },
   // { name: "바코드", link: "Barcode" },
   // { name: "구매", link: "Purchase" },
-  { name: "마켓", link: "Market" },
-  { name: "커뮤니티", link: "Community" },
 ];
 const settings = [
   "MyPage",
@@ -68,6 +68,7 @@ const ResponsiveAppBar = () => {
   return (
     <AppBar
       position='sticky'
+      elevation={0}
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}
     >
       <Container maxWidth='xl'>
@@ -187,7 +188,7 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={() => navigate("/MyPage")} sx={{ p: 0 }}>
                 <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>
