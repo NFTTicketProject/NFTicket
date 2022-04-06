@@ -6,7 +6,7 @@ import GuideTitle from "../components/guide/GuideTitle";
 
 const Guide = () => {
   return (
-    <div>
+    <div style={{ paddingBottom: "100px" }}>
       <GuideHeader></GuideHeader>
       <GuideTitle></GuideTitle>
       <GuideBody></GuideBody>
