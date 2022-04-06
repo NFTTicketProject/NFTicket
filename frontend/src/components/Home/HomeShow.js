@@ -13,6 +13,20 @@ const PosterImgContainer = styled.img`
   width: 203px;
   height: 270px;
   background-color: gray;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const NameDiv = styled.div`
+  font-size: 14px;
+  margin-top: 10px;
+`;
+
+const CategoryCastingDiv = styled.div`
+  font-size: 14px;
+  color: gray;
+  margin-top: 5px;
 `;
 
 const HomeShow = (props) => {
@@ -26,13 +40,17 @@ const HomeShow = (props) => {
         <PosterImgContainer
           src={`https://nfticket.plus/showipfs/ipfs/${props.poster_uri}`}
           onError={handleError}
-          alt="poster img"
+          alt='poster img'
         />
       </Link>
-      <p style={{ fontSize: "14px" }}>{props.name}</p>
+      <NameDiv style={{ fontSize: "14px" }}>{props.name}</NameDiv>
       <hr />
-      <p style={{ fontSize: "14px", color: "gray" }}>카테고리 : {props.category_name}</p>
-      <p style={{ fontSize: "14px", color: "gray" }}>캐스팅 : {props.staffs}</p>
+      <CategoryCastingDiv style={{ fontSize: "14px", color: "gray" }}>
+        카테고리 : {props.category_name}
+      </CategoryCastingDiv>
+      <CategoryCastingDiv style={{ fontSize: "14px", color: "gray" }}>
+        캐스팅 : {props.staffs}
+      </CategoryCastingDiv>
     </PerformContainer>
   );
 };
