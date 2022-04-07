@@ -20,6 +20,7 @@ const InputForm = styled.input`
 `;
 
 function Settings() {
+  const userData = JSON.parse(localStorage.getItem("userAccount"));
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
 
@@ -39,7 +40,7 @@ function Settings() {
     return signature;
   };
 
-  console.log("🐸", userInfo)
+  console.log("🐸", userInfo);
   const editInfo = async () => {
     const data = {
       nickname: userInfo.nickname,
@@ -50,14 +51,13 @@ function Settings() {
     const sign = await signMessage(JSON.stringify(data));
     const sendData = { info: data, hash_sign: sign };
     axios
-      .patch(`https://nfticket.plus/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
+      .patch(`https://nfticket.plus/api/v1/account/edit/${userData.account}`, sendData)
       .then((res) => {
         // console.log(res);
         if (res.status) {
           navigate("/MyPage");
         }
         window.location.reload(false);
-
       })
       .catch((err) => {
         console.error(err);
