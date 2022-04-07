@@ -204,7 +204,7 @@ contract TicketSale is Ownable, IERC721Receiver {
     * @ exception None
     */
     function getStartTimeLeft() public view returns(uint256) {
-        require(_startedAt < block.timestamp, "This sale is already started");
+        require(_startedAt > block.timestamp, "This sale is already started");
         return _startedAt - block.timestamp;
     }
 
@@ -217,7 +217,7 @@ contract TicketSale is Ownable, IERC721Receiver {
     * @ exception None
     */
     function getEndTimeLeft() public view returns(uint256) {
-        require(_endedAt < block.timestamp, "This sale is already ended");
+        require(_endedAt > block.timestamp, "This sale is already ended");
         return _endedAt - block.timestamp;
     }
 
