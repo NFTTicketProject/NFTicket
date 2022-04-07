@@ -41,12 +41,11 @@ const TodayPerformance = () => {
 
   return (
     <TodayPerformContainer>
-      <hr />
-      <h1 style={{ display: "flex", justifyContent: "center", fontSize: "48px" }}>
-        최신 인기 공연
-      </h1>
+      <p style={{ display: "flex", justifyContent: "center", fontSize: "28px", fontWeight: "600", marginTop: "60px", marginBottom: "50px" }}>
+        🎪 오늘의 공연
+      </p>
       <Container style={{ display: "flex", justifyContent: "center" }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {showList.map((v, i) => {
             return (
               <Grid item xs={3}>

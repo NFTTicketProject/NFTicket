@@ -86,13 +86,16 @@ const TopRight = (props) => {
       }
     }
   }
-  console.log("🐸", tmp);
+
+  // const [startDate, setStartDate] = useState(new Date());
+  // console.log("🐸", tmp);
   const startDate = new Date(props.startedAt);
   const endDate = new Date(props.endedAt);
 
   const navigate = useNavigate();
 
   // 예매하기 버튼 클릭 시
+
   const doBook = () => {
     navigate(`/SelectSeat/${props.showScheduleAddress}`);
     // console.log('props정보', props);

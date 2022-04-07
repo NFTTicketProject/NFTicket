@@ -8,8 +8,8 @@ const Community = ()=>{
   
   const CommunityContainer = styled.div`
     display: flex-column;
-    align-content: start;
-    margin-top: 40px;
+    align-content: center;
+    margin-top: 70px;
   `;
 
   const CommunityItemContainer = styled.div`

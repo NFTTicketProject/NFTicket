@@ -12,6 +12,7 @@ const PosterArea = styled.div`
 
 const Poster = styled.img`
   width: 315px;
+  height: 459px;
   margin-right: 35px;
   display: flex;
   border-radius: 20px;
@@ -108,7 +109,7 @@ const TicketImage = (props) => {
   return (
     <div>
       <PosterArea>
-        <Poster src={`https://ipfs.io/ipfs/${props.ticketUri}`} alt="poster img"></Poster>
+        <Poster src={`https://nfticket.plus/showipfs/ipfs/${props.posterUri}`} alt="poster img"></Poster>
         <TicketData>
           <TicketTitle>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
@@ -135,7 +136,8 @@ const TicketImage = (props) => {
                 <TicketImgInfoItem>Price</TicketImgInfoItem>
                 {/* <TicketImgInfoItem>Date</TicketImgInfoItem> */}
                 <TicketImgInfoItem>Show time</TicketImgInfoItem>
-                <TicketImgInfoItem>Age limit</TicketImgInfoItem>
+                {/* <TicketImgInfoItem>Age limit</TicketImgInfoItem> */}
+                <TicketImgInfoItem>Seat</TicketImgInfoItem>
               </div>
               <div>
                 <TicketImgInfoItem2>{props.startedAt}</TicketImgInfoItem2>
@@ -144,14 +146,15 @@ const TicketImage = (props) => {
                 <TicketImgInfoItem2>{props.price} SSF</TicketImgInfoItem2>
                 {/* <TicketImgInfoItem2>{props.showDuration}</TicketImgInfoItem2> */}
                 <TicketImgInfoItem2>{props.showDuration}</TicketImgInfoItem2>
-                <TicketImgInfoItem2>{props.allowedAge}</TicketImgInfoItem2>
+                {/* <TicketImgInfoItem2>{props.allowedAge}</TicketImgInfoItem2> */}
+                <TicketImgInfoItem2>{props.ticketClassName} - {props.ticketSeatIndex}석</TicketImgInfoItem2>
               </div>
             </TicketImgInfo>
-            {props.isSeller ? (
+            {props.isSellable ? (
               <TicketQRBox>
                 <TicketQR>
                   <QRCode 
-                    value={ props.saleAddr }
+                    value={ props.ticketContractNumber }
                     bgColor="#FFFFFF00"
                     fgColor="#FFFFFF"
                     size="60"
@@ -161,6 +164,7 @@ const TicketImage = (props) => {
             ):(
               <TicketQRBox>
                 <TicketQR>
+                  {/* <div style={{ width: '60px', height: '60px', backgroundColor: 'white'}}></div> */}
                 </TicketQR>
               </TicketQRBox>
             )}

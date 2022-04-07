@@ -9,15 +9,21 @@ import SpecialTicket from "../components/Home/SpecialTicket";
 import Ticketo from "../components/Home/Ticketo";
 // import Community from "../components/Home/Community";
 
+const HomeBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+
 const Home = () => {
   return (
-    <div>
+    <HomeBox>
       <HomeSlider></HomeSlider>
       <TodayPerformance></TodayPerformance>
       <SpecialTicket></SpecialTicket>
       <Ticketo></Ticketo>
       {/* <Community></Community> */}
-    </div>
+    </HomeBox>
   );
 };
 

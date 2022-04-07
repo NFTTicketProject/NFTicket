@@ -25,14 +25,8 @@ const SeatInfo = (props) => {
         </span>
       </div>
 
-      <div style={{ margin: "0 0 5px 0" }}>
-        <BoldSpan style={{ margin: "0 3px 0 0" }}>관람 시간:</BoldSpan>
-        <select>
-          <option value='15'>PM 3:00</option>
-          <option value='19'>PM 7:00</option>
-        </select>
-      </div>
-      <div style={{ display: "flex", margin: "0 0 30px 0" }}>
+      <div style={{ display: "flex", margin: "0 0 5px 0" }}>
+
         <BoldSpan>좌석 등급 수 : </BoldSpan>
         <span>{props.showDetail.ticketClassCount}</span>
       </div>

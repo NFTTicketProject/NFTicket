@@ -23,6 +23,7 @@ import TicketOnSale from "../components/MyPage/TicketOnSale";
 import MyTicket from "../components/MyPage/MyTicket";
 import MyTicketItem from "../components/MyPage/MyTicketItem";
 import Tmp from "../components/MyPage/Tmp";
+import MyShow from "../components/MyPage/MyShow";
 // import { myTicketContract } from "../utils/web3";
 
 const UnconnectedContainer = styled.div`
@@ -109,6 +110,10 @@ function MyPage() {
     nickname: "Unnamed",
     description: "Please Write Description",
   });
+    ////
+  const [ticketArray, setTicketArray] = useState([]);
+  const [myTicketArray, setMyTicketArray] = useState([]);
+  const [saleStatus, setSaleStatus] = useState(false);
 
   // Redux
   const dispatch = useDispatch();
@@ -165,7 +170,7 @@ function MyPage() {
       console.error(err);
     }
   };
-  // console.log(walletInfo);
+
   const saveUserInfo = (ethBalance, account, chainId) => {
     const userAccount = {
       account: account,
@@ -202,17 +207,7 @@ function MyPage() {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(walletInfo);
-  // }, []);
-
-  ////
-  const [ticketArray, setTicketArray] = useState([]);
-  const [myTicketArray, setMyTicketArray] = useState([]);
-  const [saleStatus, setSaleStatus] = useState(false);
-  // const account = userInfo.account;
-  // console.log(account);
-
+  // 나의 티켓
   const getMyTickets = async () => {
     try {
       const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -247,17 +242,10 @@ function MyPage() {
           .call();
         // 공연 이름 ??????????????????
         const showId = await showScheduleContract.methods.getShowId().call();
-        const showInfo = await axios.get(
-          `https://nfticket.plus/api/v1/show/${showId}`,
-        );
-        // console.log("공연 번호", showId);
-        // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showScheduleId}`);
+        const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
         // 티켓 이미지 주소
-        const ticketUri = await myTicketContract.methods
-          .getTokenURI(ticketId)
-          .call();
-        // console.log("티켓 주소", ticketId, ticketUri);
-        // console.log("공연정보", showInfo);
+        const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+
         tempArray.push({
           ticketId,
           showScheduleId,
@@ -272,19 +260,16 @@ function MyPage() {
     }
   };
 
+  // 판매 티켓
   const getMyTicketsOnSale = async () => {
     try {
       const cnt = await ticketSaleManagerContract.methods
         .getSaleIdsByWallet(userData.account)
         .call();
-      // console.log("myTicket", cnt.length);
-      // console.log("cnt", cnt);
+
       const tempAddress = [];
       for (let i = 0; i < parseInt(cnt.length); i++) {
-        const saleAddr = await ticketSaleManagerContract.methods
-          .getSale(parseInt(cnt[i]))
-          .call();
-        // console.log("🎃", saleAddr);
+        const saleAddr = await ticketSaleManagerContract.methods.getSale(parseInt(cnt[i])).call();
         tempAddress.push({ saleAddr });
       }
       setMyTicketArray(tempAddress);
@@ -292,18 +277,22 @@ function MyPage() {
       console.error(err);
     }
   };
-  console.log("🎃", myTicketArray);
-  // console.log(userInfo.account);
+ 
+
   useEffect(() => {
     checkConnectedWallet();
     getMyTicketsOnSale();
+    getMyShows();
+    getMyTickets();
   }, []);
 
   useEffect(() => {
+    getMyTicketsOnSale();
+    getMyShows();
     getMyTickets();
-    // console.log(ticketArray);
-  }, [walletInfo.nickname]);
-
+  }, [pageNum])
+  
+  // 로열티 회수
   const wtRoyalty = async () => {
     try {
       const withdrawR = await ticketSaleManagerContract.methods
@@ -312,13 +301,32 @@ function MyPage() {
       if (withdrawR.status) {
         alert("SSF 회수가 완료되었습니다.");
       }
-      // console.log(withdrawR);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // 갤러리
+  const [showArray, setShowArray] = useState([]);
+  // show
+  const getMyShows = async () => {
+    try {
+      const myShowSchedules = await showScheduleManagerContract.methods
+        .getShowSchedulesOfOwner(userData.account)
+        .call();
+      const tmp = [];
+      for (let i = 0; i < myShowSchedules.length; i++) {
+        const getShowSchedule = await showScheduleManagerContract.methods
+          .getShowSchedule(parseInt(myShowSchedules[i]))
+          .call();
+        tmp.push({ getShowSchedule });
+      }
+      setShowArray(tmp);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 갤러리 S -> M
   const onChangeGallery = async () => {
     try {
       const data = {
@@ -336,7 +344,7 @@ function MyPage() {
       console.error(err);
     }
   };
-  console.log("지갑주소", userInfo);
+  // console.log("지갑주소", userInfo);
   const signMessage = async (message) => {
     // 메타마스크가 없으면 에러
     if (!window.ethereum)
@@ -482,9 +490,6 @@ function MyPage() {
               </UserInfo>
               <Button onClick={wtRoyalty}>Withdraw</Button>
             </div>
-            {/* <div>
-              <Button onClick={onDisconnect}>로그아웃</Button>
-            </div> */}
           </ConnectedContainer>
 
           <div>
@@ -509,12 +514,10 @@ function MyPage() {
               )}
               {pageNum === 3 ? (
                 <NavListItemSelected onClick={() => handlePageNum(2)}>
-                  등록 티켓
+                  등록 공연
                 </NavListItemSelected>
               ) : (
-                <NavListItem onClick={() => handlePageNum(3)}>
-                  등록 티켓
-                </NavListItem>
+                <NavListItem onClick={() => handlePageNum(3)}>등록 공연</NavListItem>
               )}
             </NavList>
 
@@ -558,24 +561,23 @@ function MyPage() {
 
             {pageNum === 3 && (
               <div>
-                <TitleText>내가 등록한 티켓</TitleText>
+                <TitleText>내가 등록한 공연</TitleText>
                 <DescriptionDiv>
-                  <TicketOnSale />
+                  <Grid container>
+                    {showArray &&
+                      showArray.map((v, i) => {
+                        return (
+                          <Grid item xz={3}>
+                            <MyShow key={i} {...v} />
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
                 </DescriptionDiv>
               </div>
             )}
           </div>
-          {/* <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              marginTop: "2rem",
-            }}
-          >
-            <TicketCollection />
-            <TicketCollection />
-          </div> */}
+
         </>
       ) : (
         <UnconnectedContainer>
