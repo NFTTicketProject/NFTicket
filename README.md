@@ -425,7 +425,7 @@ NFTicket
 - [명세기술서](./docs/TUPLI_명세_기술서.docx) [수정 필요]
 
 ## ✔ 프로젝트 결과물 [수정 필요]
-- [포팅메뉴얼](./exec/TUPLI_포팅_메뉴얼.docx) [수정 필요]
+- [포팅메뉴얼](docs/docs/NFTicket_포팅_메뉴얼.pdf)
 - [중간발표자료](docs/docs/NFTicket_midterm.pdf)
 - [최종발표자료](docs/docs/NFTicket - 최종.pdf)
 
