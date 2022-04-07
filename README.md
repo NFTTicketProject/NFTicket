@@ -57,12 +57,12 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 
 **Backend - Express.js**
 - Visual Studio Code
-- Node.ks 16.14
+- Node.js 16.14
 - PRISMA 2
 - ethers 5.6.2
-- dotenv
-- morgan
-- winston
+- Dotenv
+- Morgan
+- Winston
 - MariaDB
 
 **BlockChain - Ethereum**
@@ -75,18 +75,17 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 - IPFS-Cluster
 
 **Frontend**
-- Visual Studio Code IDE
-- Vue 2.6.11
-- Vuetify 2.4.0
-- Vuex 3.4.0
-- Webstomp-Client 1.2.6
-- Sock.js-Client 1.5.2
-- Firebase 9.6.6
-- sweetalert2 11.3.10
+- React
+- Redux
+- MUi
+- Toast UI Editor
+- Unity
+- Photon
+- WebGL
+- Web3.js
 
-**CI/CD**
+**Environment**
 - AWS EC2
-- Jenkins
 - NGINX
 - SSL
 - Docker
@@ -367,7 +366,7 @@ NFTicket
 ---
 - Gitlab
 - Notion
-- Gether Town
+- Gather Town
 - JIRA
 - Slack
 - MatterMost
@@ -405,6 +404,9 @@ NFTicket
   - 실시간으로 의사소통하며 받으며 함께 코딩
   - 피드백의 빠른 반영 가능
   - 집단지성을 이용해 코드의 신뢰성과 작업속도 향상
+- Swagger
+  - Swagger를 이용해 필요한 API 테스트 및 실행
+  - API 변동 사항을 한눈에 볼 수 있으며, 인수 또는 반환값 스키마를 제공
 
 ## ✔ 팀원 역할 분배
 ---
