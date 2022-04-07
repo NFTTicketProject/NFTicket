@@ -5,6 +5,8 @@
 !back/
 !solidity/
 
+solidity/extra
+
 # .gitignore 포함
 !.gitignore
 
