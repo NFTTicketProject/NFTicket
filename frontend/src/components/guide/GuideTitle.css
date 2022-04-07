@@ -1,5 +1,5 @@
 .guideTitle {
-  background-color: #E0E0E0;
+  background-color: #ebebeb;
   margin-top: 30px;
   margin-bottom: 30px;
   margin-left: 18%;
@@ -9,4 +9,5 @@
   font-size: 24px;
   font-weight: bold;
   box-shadow: 5px 5px 15px #b1b1b1;
+  border-radius: 15px;
 }

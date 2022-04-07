@@ -63,14 +63,18 @@ const Ticketo = () => {
           .getSaleOfTicket(i)
           .call();
         if (saleAddr != "0x0000000000000000000000000000000000000000") {
-          count = count - 1;
-          if (count < 0) break;
+          if (count <= 0) break;
           const showScheduleId = await myTicketContract.methods
             .getShowScheduleId(i)
             .call();
+          if (showScheduleId === 0) continue;
           const showScheduleAddress = await showScheduleManagerContract.methods
             .getShowSchedule(showScheduleId)
             .call();
+          if (
+            showScheduleAddress === "0x0000000000000000000000000000000000000000"
+          )
+            continue;
           const showScheduleContract = new web3.eth.Contract(
             showScheduleAbi,
             showScheduleAddress,
@@ -133,6 +137,7 @@ const Ticketo = () => {
             dateStartString,
             dateEndString,
           });
+          count = count - 1;
         }
       }
       SetTicketList(ticketInfos);
@@ -153,10 +158,27 @@ const Ticketo = () => {
           style={{ display: "flex-column", width: "70vw", fontSize: "40px" }}
         >
           {/* <div style={{ width: "1180px", display: "flex-column", justifyContent: "center"}}> */}
-          <p style={{ display: "flex", justifyContent: "start", fontSize: "28px", fontWeight: "600", marginTop: "40px", marginBottom: '12px' }}>
+          <p
+            style={{
+              display: "flex",
+              justifyContent: "start",
+              fontSize: "28px",
+              fontWeight: "600",
+              marginTop: "40px",
+              marginBottom: "12px",
+            }}
+          >
             리셀링 티켓몰
           </p>
-          <p style={{ display: "flex", justifyContent: "start", fontSize: "20px", fontWeight: "400", marginBottom: "30px" }}>
+          <p
+            style={{
+              display: "flex",
+              justifyContent: "start",
+              fontSize: "20px",
+              fontWeight: "400",
+              marginBottom: "30px",
+            }}
+          >
             개인 간 티켓 거래로 다른 관객들과 NFTicket을 자유롭게 거래해보세요.
           </p>
         </div>
