@@ -22,6 +22,7 @@ const TopCss = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
+  padding-bottom: 100px;
 `;
 
 // Top Left
@@ -219,9 +220,13 @@ const ShowPublish = ({getAccount}) => {
     }
 
     // 최대 발행 갯수 자동 계산용
-    const mintCnt = await ticketClassMaxMintCounts.reduce(function add(sum, currValue) {
+    const mintCnt = await ticketClassMaxMintCounts.reduce(function add(
+      sum,
+      currValue,
+    ) {
       return sum + currValue;
-    }, 0);
+    },
+    0);
     try {
       // 1. api 보내기
       const res = await axios.post(`https://nfticket.plus/api/v1/show/`, {
@@ -249,15 +254,10 @@ const ShowPublish = ({getAccount}) => {
           ticketClassMaxMintCounts,
           detailInfo.isResellAvailable,
           parseInt(detailInfo.resellRoyaltyRatePercent),
-          parseInt(detailInfo.resellPriceLimit)
+          parseInt(detailInfo.resellPriceLimit),
         )
         .send({ from: userData.account });
       if (response.status) {
-        // console.log("계약주소", response.events[0].address);
-        // console.log("계약번호", response.events.ShowScheduleCreated.returnValues.showScheduleId);
-        // console.log("계약번호", response.events.ShowScheduleCreated);
-        // console.log("계약번호", response.events.ShowScheduleCreated.returnValues);
-        // console.log("디테일인포", detailInfo);
         await axios.put(`https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`, {
           show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
           address: response.events[0].address,
@@ -327,23 +327,26 @@ const ShowPublish = ({getAccount}) => {
         <TopLeftCss>
           <UpperTitleArea>공연등록</UpperTitleArea>
           <TypeAndLeft>
-            <Stack direction="row" spacing={1}>
+            <Stack direction='row' spacing={1}>
               {apiData.category_name !== "" && (
-                <Chip label={apiData.category_name} color="default" />
+                <Chip label={apiData.category_name} color='default' />
               )}
               {apiData.age_limit !== null && apiData.age_limit !== "" && (
-                <Chip label={`${apiData.age_limit}세 이상 이용가`} variant="outlined" />
+                <Chip
+                  label={`${apiData.age_limit}세 이상 이용가`}
+                  variant='outlined'
+                />
               )}
             </Stack>
           </TypeAndLeft>
 
           <TicketTitle>
             <TextField
-              name="name"
-              type="text"
-              label="공연타이틀"
-              placeholder="공연 타이틀"
-              variant="standard"
+              name='name'
+              type='text'
+              label='공연타이틀'
+              placeholder='공연 타이틀'
+              variant='standard'
               value={apiData.name}
               onChange={handleApiChange}
               style={{ width: 600 }}
@@ -356,14 +359,19 @@ const ShowPublish = ({getAccount}) => {
             <form onSubmit={onSubmitPoster}>
               <PosterArea>
                 {info.ipfsHash === null ? (
-                  <Poster src="images/default_profile.png" alt="포스터를 업로드해주세요."></Poster>
+                  <Poster
+                    src='images/default_profile.png'
+                    alt='포스터를 업로드해주세요.'
+                  ></Poster>
                 ) : isUploadImg ? (
                   <Poster
                     src={`https://ipfs.io/ipfs/${apiData.poster}`}
-                    alt="등록 버튼을 눌러주세요."
+                    alt='등록 버튼을 눌러주세요.'
                   ></Poster>
                 ) : (
-                  <ButtonDescArea>파일선택 후 등록 버튼을 눌러주세요.</ButtonDescArea>
+                  <ButtonDescArea>
+                    파일선택 후 등록 버튼을 눌러주세요.
+                  </ButtonDescArea>
                 )}
               </PosterArea>
               <SubmitButtonArea>
@@ -375,22 +383,27 @@ const ShowPublish = ({getAccount}) => {
                     py: 0.5,
                     mr: 2,
                   }}
-                  variant="outlined"
-                  component="label" // 이거 안해주면 작동을 안하네요..
+                  variant='outlined'
+                  component='label' // 이거 안해주면 작동을 안하네요..
                 >
                   파일선택
-                  <input type="file" accept="image/*" onChange={captureFile} hidden />
+                  <input
+                    type='file'
+                    accept='image/*'
+                    onChange={captureFile}
+                    hidden
+                  />
                 </Button>
                 {/* <button type='submit'>등록</button> */}
                 <Button
-                  type="submit"
+                  type='submit'
                   sx={{
                     color: "text.primary",
                     borderColor: "text.secondary",
                     borderRadius: 3,
                     py: 0.5,
                   }}
-                  variant="outlined"
+                  variant='outlined'
                 >
                   등록
                 </Button>
@@ -403,10 +416,10 @@ const ShowPublish = ({getAccount}) => {
                     <th>장소</th>
                     <td>
                       <TextField
-                        name="stageName"
-                        type="text"
-                        label="장소"
-                        variant="standard"
+                        name='stageName'
+                        type='text'
+                        label='장소'
+                        variant='standard'
                         value={detailInfo.stageName}
                         onChange={handleInfoChange}
                       />
@@ -418,10 +431,10 @@ const ShowPublish = ({getAccount}) => {
                     <th>공연시간</th>
                     <td>
                       <TextField
-                        name="running_time"
-                        type="number"
-                        label="공연시간(분)"
-                        variant="standard"
+                        name='running_time'
+                        type='number'
+                        label='공연시간(분)'
+                        variant='standard'
                         value={apiData.running_time}
                         onChange={handleApiChange}
                       />{" "}
@@ -433,9 +446,9 @@ const ShowPublish = ({getAccount}) => {
                     <th>공연 정보</th>
                     <td>
                       <TextField
-                        name="description"
-                        type="text"
-                        label="공연 정보"
+                        name='description'
+                        type='text'
+                        label='공연 정보'
                         rows={2}
                         multiline
                         value={apiData.description}
@@ -449,10 +462,10 @@ const ShowPublish = ({getAccount}) => {
                     <th>관람연령</th>
                     <td>
                       <TextField
-                        name="age_limit"
-                        type="number"
-                        label="관람연령"
-                        variant="standard"
+                        name='age_limit'
+                        type='number'
+                        label='관람연령'
+                        variant='standard'
                         value={apiData.age_limit}
                         onChange={handleApiChange}
                       />
@@ -463,10 +476,10 @@ const ShowPublish = ({getAccount}) => {
                   <th>카테고리</th>
                   <td>
                     <TextField
-                      name="category_name"
-                      type="text"
-                      label="카테고리"
-                      variant="standard"
+                      name='category_name'
+                      type='text'
+                      label='카테고리'
+                      variant='standard'
                       value={apiData.category_name}
                       onChange={handleApiChange}
                     />
@@ -485,20 +498,20 @@ const ShowPublish = ({getAccount}) => {
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
                 showTimeSelect // 시간 나오게 하기
-                timeFormat="HH:mm" //시간 포맷
+                timeFormat='HH:mm' //시간 포맷
                 timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
-                timeCaption="time"
-                dateFormat="yyyy-MM-dd h:mm aa"
+                timeCaption='time'
+                dateFormat='yyyy-MM-dd h:mm aa'
               />
               ~
               <MyDatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 showTimeSelect // 시간 나오게 하기
-                timeFormat="HH:mm" //시간 포맷
+                timeFormat='HH:mm' //시간 포맷
                 timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
-                timeCaption="time"
-                dateFormat="yyyy-MM-dd h:mm aa"
+                timeCaption='time'
+                dateFormat='yyyy-MM-dd h:mm aa'
               />
             </DatePickerBox>
             <ColorHr></ColorHr>
@@ -514,10 +527,10 @@ const ShowPublish = ({getAccount}) => {
             <SmallTitleCss>캐스팅</SmallTitleCss>
             <CastingDivCss>
               <TextField
-                name="staff"
-                type="text"
-                variant="outlined"
-                placeholder="출연 배우"
+                name='staff'
+                type='text'
+                variant='outlined'
+                placeholder='출연 배우'
                 value={apiData.staff}
                 onChange={handleApiChange}
                 style={{ width: 290 }}
@@ -544,9 +557,9 @@ const ShowPublish = ({getAccount}) => {
             <div>
               <StyledSpan>로열티: </StyledSpan>
               <SmallInputBox
-                type="number"
-                name="resellRoyaltyRatePercent"
-                placeholder="로열티(%)"
+                type='number'
+                name='resellRoyaltyRatePercent'
+                placeholder='로열티(%)'
                 disabled={!detailInfo.isResellAvailable}
                 value={detailInfo.resellRoyaltyRatePercent}
                 onChange={handleInfoChange}
@@ -555,9 +568,9 @@ const ShowPublish = ({getAccount}) => {
             <div>
               <StyledSpan>최대 판매 금액: </StyledSpan>
               <SmallInputBox
-                type="number"
-                name="resellPriceLimit"
-                placeholder="최대 판매 금액(SSF)"
+                type='number'
+                name='resellPriceLimit'
+                placeholder='최대 판매 금액(SSF)'
                 value={detailInfo.resellPriceLimit}
                 onChange={handleInfoChange}
                 disabled={!detailInfo.isResellAvailable}
@@ -576,7 +589,7 @@ const ShowPublish = ({getAccount}) => {
                   borderRadius: 3,
                   py: 1.5,
                 }}
-                variant="outlined"
+                variant='outlined'
               >
                 공연등록
               </Button>

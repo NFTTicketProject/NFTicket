@@ -212,7 +212,9 @@ function MyPage() {
     try {
       const userData = JSON.parse(localStorage.getItem("userAccount"));
       // 해당 지갑 주소 소유자가 가지고있는 티켓 수
-      const balanceLength = await myTicketContract.methods.balanceOf(userData.account).call();
+      const balanceLength = await myTicketContract.methods
+        .balanceOf(userData.account)
+        .call();
 
       const tempArray = [];
       for (let i = 0; i < parseInt(balanceLength, 10); i++) {
@@ -221,19 +223,29 @@ function MyPage() {
           .tokenOfOwnerByIndex(userData.account, i)
           .call();
         // showScheduleId: 1부터 시작
-        const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
+        const showScheduleId = await myTicketContract.methods
+          .getShowScheduleId(ticketId)
+          .call();
         // clasId: 1부터 시작 => className(좌석 등급으로 변환)
-        const classId = await myTicketContract.methods.getClassId(ticketId).call();
+        const classId = await myTicketContract.methods
+          .getClassId(ticketId)
+          .call();
         const showScheduleAddress = await showScheduleManagerContract.methods
           .getShowSchedule(showScheduleId)
           .call();
-        const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
-        const className = await showScheduleContract.methods.getTicketClassName(classId).call();
+        const showScheduleContract = new web3.eth.Contract(
+          showScheduleAbi,
+          showScheduleAddress,
+        );
+        const className = await showScheduleContract.methods
+          .getTicketClassName(classId)
+          .call();
         // 공연 이름 ??????????????????
         const showId = await showScheduleContract.methods.getShowId().call();
         const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
         // 티켓 이미지 주소
         const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+
         tempArray.push({
           ticketId,
           showScheduleId,
@@ -325,7 +337,7 @@ function MyPage() {
       const sendData = { info: data, hash_sign: sign };
       const res = await axios.patch(
         `https://nfticket.plus/api/v1/account/${userInfo.account}/gallery`,
-        sendData
+        sendData,
       );
       console.log(res);
     } catch (err) {
@@ -335,7 +347,8 @@ function MyPage() {
   // console.log("지갑주소", userInfo);
   const signMessage = async (message) => {
     // 메타마스크가 없으면 에러
-    if (!window.ethereum) throw new Error("No crypto wallet found. Please install it.");
+    if (!window.ethereum)
+      throw new Error("No crypto wallet found. Please install it.");
 
     await window.ethereum.send("eth_requestAccounts");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -346,14 +359,14 @@ function MyPage() {
   };
 
   return (
-    <>
+    <div style={{ paddingBottom: "100px" }}>
       {isConnected ? (
         <>
           <ConnectedContainer>
             {/* 배경 */}
             <img
-              src="images/1614121632-NYAN-CAT.jpeg"
-              alt=""
+              src='images/1614121632-NYAN-CAT.jpeg'
+              alt=''
               style={{
                 height: "300px",
                 width: "100%",
@@ -381,7 +394,7 @@ function MyPage() {
                       currentTarget.onerror = null; // prevents looping
                       currentTarget.src = "images/MetaMask_Fox.svg.png";
                     }}
-                    alt=""
+                    alt=''
                     style={{
                       width: "150px",
                       height: "150px",
@@ -403,7 +416,7 @@ function MyPage() {
                   paddingRight: "4rem",
                 }}
               >
-                <Link to="/MyPage/Settings">
+                <Link to='/MyPage/Settings'>
                   <SettingsIcon
                     style={{
                       display: "flex",
@@ -465,8 +478,8 @@ function MyPage() {
                 }}
               >
                 <img
-                  src="images/ethereum.png"
-                  alt="eth"
+                  src='images/ethereum.png'
+                  alt='eth'
                   style={{ width: "20px", height: "20px" }}
                 />
                 {userInfo.account}
@@ -486,14 +499,18 @@ function MyPage() {
                   나의 티켓
                 </NavListItemSelected>
               ) : (
-                <NavListItem onClick={() => handlePageNum(1)}>나의 티켓</NavListItem>
+                <NavListItem onClick={() => handlePageNum(1)}>
+                  나의 티켓
+                </NavListItem>
               )}
               {pageNum === 2 ? (
                 <NavListItemSelected onClick={() => handlePageNum(2)}>
                   판매 티켓
                 </NavListItemSelected>
               ) : (
-                <NavListItem onClick={() => handlePageNum(2)}>판매 티켓</NavListItem>
+                <NavListItem onClick={() => handlePageNum(2)}>
+                  판매 티켓
+                </NavListItem>
               )}
               {pageNum === 3 ? (
                 <NavListItemSelected onClick={() => handlePageNum(2)}>
@@ -565,17 +582,17 @@ function MyPage() {
       ) : (
         <UnconnectedContainer>
           <h1>Connect Your Wallet</h1>
-          <LogInButton variant="contained" onClick={onConnect}>
+          <LogInButton variant='contained' onClick={onConnect}>
             <img
-              src="images/MetaMask_Fox.svg.png"
-              alt="foxie"
+              src='images/MetaMask_Fox.svg.png'
+              alt='foxie'
               style={{ width: "50px", height: "50px" }}
             />
             Metamask
           </LogInButton>
         </UnconnectedContainer>
       )}
-    </>
+    </div>
   );
 }
 

@@ -62,8 +62,6 @@ const BoldSpan = styled.span`
   margin-right: 5px;
 `;
 
-const MyButton = styled(Button)``;
-
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
@@ -75,7 +73,7 @@ const unixTimeToDate = (unixTime) => {
 function SelectSeat({getAccount}) {
   const navigate = useNavigate();
   // Detail에서 클릭해 받아온 공연 주소
-  const { showScheduleAddress, date } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
+  const { showScheduleAddress } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
   const showScheduleContract = new web3.eth.Contract(
     showScheduleAbi,
     showScheduleAddress,
@@ -248,22 +246,26 @@ function SelectSeat({getAccount}) {
     try {
       // 0. 좌석은 골랐는지 확인
       if (seatData.length === 0) {
-        swal.fire ({
-          icon: 'error',
-          title: '좌석을 골라주세요',
-        })
-        return
+        swal.fire({
+          icon: "error",
+          title: "좌석을 골라주세요",
+        });
+        return;
       }
 
       // 0. 애초에 돈 있나 확인
-      const money = await IERC20Contract.methods.balanceOf(userData.account).call();
+      const money = await IERC20Contract.methods
+        .balanceOf(userData.account)
+        .call();
       if (money < ticketDetail[myTicket.data[0]].ticketClassPrice) {
-        console.log('돈부족', ticketDetail[myTicket.data[0]].ticketClassPrice)
-        swal.fire ({
-          icon: 'error',
-          title: '싸피 코인이 부족합니다.',
-          html: `보유 코인 : ${money}<br>필요 코인 : ${ticketDetail[myTicket.data[0]].ticketClassPrice}`,
-        })
+        console.log("돈부족", ticketDetail[myTicket.data[0]].ticketClassPrice);
+        swal.fire({
+          icon: "error",
+          title: "싸피 코인이 부족합니다.",
+          html: `보유 코인 : ${money}<br>필요 코인 : ${
+            ticketDetail[myTicket.data[0]].ticketClassPrice
+          }`,
+        });
         return;
       }
 
@@ -365,7 +367,7 @@ function SelectSeat({getAccount}) {
             <SeatAndButtonArea>
               <SeatInfoArea>
                 <div style={{ margin: "30px" }}>
-                  <SeatInfo showDetail={showDetail} date={date}></SeatInfo>
+                  <SeatInfo showDetail={showDetail}></SeatInfo>
                   <hr></hr>
                   <h2>티켓 발급</h2>
                   {/* <div>

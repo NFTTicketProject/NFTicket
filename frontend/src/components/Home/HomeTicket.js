@@ -13,6 +13,20 @@ const PosterImgContainer = styled.img`
   width: 203px;
   height: 270px;
   background-color: gray;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const NameDiv = styled.div`
+  font-size: 14px;
+  margin-top: 10px;
+`;
+
+const ShowSellerName = styled.div`
+  font-size: 14px;
+  color: gray;
+  margin-top: 5px;
 `;
 
 const HomeTicket = (props) => {
@@ -26,13 +40,17 @@ const HomeTicket = (props) => {
         <PosterImgContainer
           src={`https://nfticket.plus/showipfs/ipfs/${props.ticketUri}`}
           onError={handleError}
-          alt="poster img"
+          alt='poster img'
         />
       </Link>
-      <p style={{ fontSize: "14px" }}>{props.name}</p>
+      <NameDiv style={{ fontSize: "14px" }}>{props.name}</NameDiv>
       <hr />
-      <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p>
-      <p style={{ fontSize: "14px", color: "gray" }}>가격 : {props.price} SSF</p>
+      <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+        판매자 : {props.ticketSellerName}
+      </ShowSellerName>
+      <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+        가격 : {props.price} SSF
+      </ShowSellerName>
     </PerformContainer>
   );
 };

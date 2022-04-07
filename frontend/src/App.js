@@ -34,11 +34,11 @@ import SelectSeat from "./pages/SelectSeat";
 
 const TotalWrapDiv = styled.div`
   position: relative;
-  min-height: 100vh;
+  min-height: 120vh;
 `;
 
 const ContentWrapDiv = styled.div`
-  padding-bottom: 16rem;
+  padding-bottom: 12rem;
 `;
 
 function App() {
@@ -104,8 +104,8 @@ function App() {
           <Route path='/Market' element={<Market />} />
           <Route path='/ShowPublish' element={<ShowPublish getAccount={getAccount}/>} />
           <Route
-            path='/SelectSeat/:showScheduleAddress/:date'
-            element={<SelectSeat getAccount={getAccount}/>}
+            path='/SelectSeat/:showScheduleAddress'
+            element={<SelectSeat />}
           />
         </Routes>
       </ContentWrapDiv>

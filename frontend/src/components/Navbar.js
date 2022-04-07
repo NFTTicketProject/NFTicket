@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,16 +20,16 @@ import { Link, useNavigate } from "react-router-dom";
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
   // "Profile",
-  // { name: "상세인무언가", link: "Detail" },
-  { name: "Guide", link: "Guide" },
   { name: "공연등록", link: "ShowPublish" },
-  // { name: "이미지수정", link: "Toast UI" },
   { name: "공연목록", link: "Show" },
+  { name: "마켓", link: "Market" },
+  { name: "커뮤니티", link: "Community" },
+  { name: "Guide", link: "Guide" },
+  // { name: "상세인무언가", link: "Detail" },
+  // { name: "이미지수정", link: "Toast UI" },
   // { name: "무언가작업중", link: "Detail-Handover" },
   // { name: "바코드", link: "Barcode" },
   // { name: "구매", link: "Purchase" },
-  { name: "마켓", link: "Market" },
-  { name: "커뮤니티", link: "Community" },
 ];
 const settings = [
   "MyPage",
@@ -46,8 +46,9 @@ const ResponsiveAppBar = () => {
   // react 6.0 버전 이후부터 useHistory => useNavigate 로 바뀌었다고 합니다.
   const navigate = useNavigate();
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState("Home");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -68,8 +69,10 @@ const ResponsiveAppBar = () => {
   return (
     <AppBar
       position='sticky'
+      elevation={0}
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}
     >
+      {/* 펼친 로고 */}
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
@@ -80,11 +83,12 @@ const ResponsiveAppBar = () => {
               mr: 2,
               display: { xs: "none", md: "flex" },
             }}
+            onClick={() => {
+              setCurrentPage("Home");
+            }}
           >
             <Link to='/'>
-              {/* <Logo src="images/logo.png"></Logo> */}
               <Logo src='https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN'></Logo>
-              {/* <Logo src={require("../images/logo.png")}></Logo> */}
             </Link>
           </Typography>
 
@@ -125,69 +129,128 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page.name}
-                  onClick={() => navigate(`/${page.link}`)}
-                  sx={{
-                    ":hover": {
-                      color: "#FFC600",
-                    },
-                  }}
-                  // onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign='center'>
-                    {/* <Link to={`/${page}`}>{page}</Link> */}
-                    {page.name}
-                  </Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page) => {
+                if (page.link !== currentPage)
+                  return (
+                    <MenuItem
+                      key={page.name}
+                      onClick={() => {
+                        navigate(`/${page.link}`);
+                        setCurrentPage(page.link);
+                      }}
+                      sx={{
+                        ":hover": {
+                          color: "#FFC600",
+                        },
+                      }}
+                    >
+                      <Typography textAlign='center'>{page.name}</Typography>
+                    </MenuItem>
+                  );
+                return (
+                  <MenuItem
+                    key={page.name}
+                    onClick={() => {
+                      navigate(`/${page.link}`);
+                      setCurrentPage(page.link);
+                    }}
+                    sx={{
+                      ":hover": {
+                        color: "#FFC600",
+                      },
+                      color: "#FFC600 ",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <Typography textAlign='center'>{page.name}</Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
+
+          {/* 안펼친 로고 */}
           <Typography
             variant='h6'
             noWrap
             component='div'
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            onClick={() => {
+              setCurrentPage("Home");
+            }}
           >
             <Link to='/'>
-              {/* <Logo src="images/logo.png"></Logo> */}
               <Logo src='https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN'></Logo>
             </Link>
           </Typography>
+
+          {/* 펼친 Navbar 버튼들 */}
           <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
             }}
           >
-            {/* 바로 아래 sx 수정하여 버튼 속성 수정 */}
-            {pages.map((page) => (
-              <Button
-                key={page.name}
-                // onClick={handleCloseNavMenu}
-                onClick={() => navigate(`/${page.link}`)}
-                sx={{
-                  textAlign: "center",
-                  mx: 1,
-                  my: 2,
-                  color: "black",
-                  display: "block",
-                  ":hover": {
-                    color: "#FFC600",
-                    bgcolor: "#F5F5F5",
-                  },
-                }}
-              >
-                {/* <Link to={`/${page}`}>{page}</Link> */}
-                {page.name}
-              </Button>
-            ))}
+            {pages.map((page) => {
+              if (page.link !== currentPage)
+                return (
+                  <Button
+                    key={page.name}
+                    onClick={() => {
+                      navigate(`/${page.link}`);
+                      setCurrentPage(page.link);
+                    }}
+                    sx={{
+                      textAlign: "center",
+                      mx: 1,
+                      my: 2,
+                      color: "black",
+                      display: "block",
+                      ":hover": {
+                        color: "#FFC600",
+                        bgcolor: "#F5F5F5",
+                      },
+                    }}
+                  >
+                    {page.name}
+                  </Button>
+                );
+              return (
+                <Button
+                  key={page.name}
+                  onClick={() => {
+                    navigate(`/${page.link}`);
+                    setCurrentPage(page.link);
+                  }}
+                  sx={{
+                    textAlign: "center",
+                    mx: 1,
+                    my: 2,
+                    color: "#FFC600 ",
+                    fontWeight: "bold",
+                    display: "block",
+                    ":hover": {
+                      color: "#FFC600",
+                      bgcolor: "#F5F5F5",
+                    },
+                  }}
+                >
+                  {page.name}
+                </Button>
+              );
+            })}
           </Box>
 
+          {/* 프로필로 가는 아바타 */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton
+                onClick={() => {
+                  navigate("/MyPage");
+                  setCurrentPage("MyPage");
+                }}
+                sx={{ p: 0 }}
+              >
                 <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
               </IconButton>
             </Tooltip>

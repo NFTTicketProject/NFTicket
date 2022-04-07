@@ -42,20 +42,21 @@ const MiddleLeft = (props) => {
     <div>
       <NavList>
         {pageNum === 1 ? (
-          <NavListItemSelected onClick={() => handlePageNum(1)}>공연 정보</NavListItemSelected>
+          <NavListItemSelected onClick={() => handlePageNum(1)}>
+            공연 정보
+          </NavListItemSelected>
         ) : (
           <NavListItem onClick={() => handlePageNum(1)}>공연 정보</NavListItem>
         )}
         {pageNum === 2 ? (
-          <NavListItemSelected onClick={() => handlePageNum(2)}>캐스팅 정보</NavListItemSelected>
+          <NavListItemSelected onClick={() => handlePageNum(2)}>
+            캐스팅 정보
+          </NavListItemSelected>
         ) : (
-          <NavListItem onClick={() => handlePageNum(2)}>캐스팅 정보</NavListItem>
+          <NavListItem onClick={() => handlePageNum(2)}>
+            캐스팅 정보
+          </NavListItem>
         )}
-        {/* {pageNum === 3 ? (
-          <NavListItemSelected onClick={() => handlePageNum(3)}>공연장 정보</NavListItemSelected>
-        ) : (
-          <NavListItem onClick={() => handlePageNum(3)}>공연장 정보</NavListItem>
-        )} */}
       </NavList>
 
       {pageNum === 1 && (
@@ -70,12 +71,6 @@ const MiddleLeft = (props) => {
           <DescriptionDiv>{props.casting}</DescriptionDiv>
         </div>
       )}
-      {/* {pageNum === 3 && (
-        <div>
-          <TitleText>공연장 정보</TitleText>
-          <DescriptionDiv>{props.hallDescription}</DescriptionDiv>
-        </div>
-      )} */}
     </div>
   );
 };

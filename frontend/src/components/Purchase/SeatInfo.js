@@ -24,12 +24,9 @@ const SeatInfo = (props) => {
           {props.showDetail.startedAt} ~ {props.showDetail.endedAt}
         </span>
       </div>
-      <div style={{ display: "flex", margin: "0 0 5px 0" }}>
-        <BoldSpan>관람 날짜 : </BoldSpan>
-        <span>{props.date}</span>
-      </div>
 
       <div style={{ display: "flex", margin: "0 0 5px 0" }}>
+
         <BoldSpan>좌석 등급 수 : </BoldSpan>
         <span>{props.showDetail.ticketClassCount}</span>
       </div>

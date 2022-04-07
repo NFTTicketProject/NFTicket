@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import './TicketDetail.css'
+import "./TicketDetail.css";
 
 import {
   web3,
@@ -24,14 +24,15 @@ import TicketInfo from "../components/TicketDetail/TicketInfo";
 
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
-  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString =
+    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
 const TicketDetail = ({getAccount}) => {
 
   const navigate = useNavigate();
-  
+
   const { ticketId } = useParams();
 
   // const { showScheduleAddress } = useParams();
@@ -49,17 +50,16 @@ const TicketDetail = ({getAccount}) => {
 
   const callShowDetail = async () => {
     try {
-      // const getSale = await ticketSaleManagerContract.methods
-      //   .getSaleOfTicket(parseInt(ticketId))
-      //   .call();
-      // console.log("🐸", getSale)
       const showScheduleId = await myTicketContract.methods.getShowScheduleId(ticketId).call();
       const classId = await myTicketContract.methods.getClassId(ticketId).call();
 
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
-      const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+      const showScheduleContract = new web3.eth.Contract(
+        showScheduleAbi,
+        showScheduleAddress,
+      );
       const showId = await showScheduleContract.methods.getShowId().call();
       
       // 백에서 정보 가져오기
@@ -89,14 +89,12 @@ const TicketDetail = ({getAccount}) => {
       const ticketContractNumber = apiData.data.block_hash
       console.log("🎃", ticketContractNumber)
       
-      
       // Unix Timestamp를 Date로 바꾸기
       startedAt = unixTimeToDate(startedAt);
       endedAt = unixTimeToDate(endedAt);
       window.localStorage.setItem("isCancelled", isCancelled);
       // 티켓 좌석 정보저장
       const ticketClassName = await showScheduleContract.methods.getTicketClassName(classId).call();
-      console.log('생존신고')
       const ticketSeatIndex = await GetSeatIndex(ticketId);
       console.log('민구 인덱스', ticketSeatIndex)
       const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(classId).call();
@@ -118,7 +116,6 @@ const TicketDetail = ({getAccount}) => {
         ticketSeatIndex,
         ownerOfTicket,
         ticketClassPrice, ticketContractNumber
-        // isEnded,  // 판매 여부
       });
       // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
       // console.log("showInfo", showInfo);
@@ -135,36 +132,13 @@ const TicketDetail = ({getAccount}) => {
       const getSale = await ticketSaleManagerContract.methods
         .getSaleOfTicket(parseInt(ticketId))
         .call();
-      console.log('getSale', getSale);
+      console.log("getSale", getSale);
       setSaleAddr(getSale);
-    
     } catch (err) {
       console.error(err);
     }
   };
 
-  // // 내 지갑 주소로 닉네임 가져오기
-  // const getUserNickname = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://nfticket.plus/api/v1/profile/nickname/${userData.account}`
-  //     );
-  //     console.log("data.nickname", response.data.nickname);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // // 공연 정보 백엔드에서 가져오기
-  // const getShowInfo = async () => {
-  //   try {
-  //     const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
-  //     console.log("showInfo", showInfo);
-  //     setShowDetailBack(showInfo.data);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   // 티켓ID 입력시 seatIndex 반환
   const GetSeatIndex = async (ticketIdToFind) => {
@@ -230,13 +204,14 @@ const TicketDetail = ({getAccount}) => {
       // const description = await ticketSaleContract.methods.getDescription().call(); // 상세 정보
       // const getStartedAt = await ticketSaleContract.methods.getStartedAt().call(); // 판매 시작시간
       const getEndedAt = await ticketSaleContract.methods.getEndedAt().call(); // 판매 종료시간
-
       const owner = await ticketSaleManagerContract.methods.owner().call();  // 판매자 정보
       // const owner = await myTicketContract.methods.ownerOf(ticketId).call()
       
       // const startTime = new Date(getStartedAt * 1000);
       // const endTime = new Date(getEndedAt * 1000);
-      const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+      const ticketUri = await myTicketContract.methods
+        .getTokenURI(ticketId)
+        .call();
 
       setTicketInfo({
         ...ticketInfo,
@@ -252,6 +227,7 @@ const TicketDetail = ({getAccount}) => {
       console.error(err);
     }
   };
+
 
 
   const buyTicket = async () => {
@@ -290,6 +266,7 @@ const TicketDetail = ({getAccount}) => {
     console.log(owner)
     console.log(userData.account)
     setIsSellable(owner.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
+
   };
 
 
@@ -338,8 +315,15 @@ const [toggle, setToggle] = useState(false);
   }, []);
 
   return (
-    <div>
-      <div className="ticket-image" style={{ display: 'flex', justifyContent: 'center', alignItem: 'center' }}>
+    <div style={{ paddingBottom: "100px" }}>
+      <div
+        className='ticket-image'
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItem: "center",
+        }}
+      >
         <TicketImage
           showId={`${showDetail.showId}`}
           stageName={`${showDetail.stageName}`}
@@ -363,7 +347,14 @@ const [toggle, setToggle] = useState(false);
         </TicketImage>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem: 'start'}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItem: "start",
+        }}
+      >
         <TicketInfo
           showTitle={`${showDetailBack.name}`}  // 제목
           owner={`${showDetail.ownerOfTicket}`}
@@ -385,6 +376,7 @@ const [toggle, setToggle] = useState(false);
           buyTicket={buyTicket}
           getEndedAt={ticketInfo.getEndedAt}
           ></PurchaseTicket>
+
       </div>
       
 

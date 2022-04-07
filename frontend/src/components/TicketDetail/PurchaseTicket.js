@@ -5,13 +5,14 @@ import Stack from "@mui/material/Stack";
 
 import { useNavigate } from "react-router-dom";
 
-import { 
+import {
   web3,
   ticketSaleManagerAddress,
   ticketSaleManagerContract,
   myTicketContract,
   IERC20Contract,
-  ticketSaleAbi } from "../../utils/web3Config";
+  ticketSaleAbi,
+} from "../../utils/web3Config";
 
 // Modal
 import Box from "@mui/material/Box";
@@ -49,7 +50,6 @@ const ButtonBoxCss = styled.div`
 `;
 
 const PurchaseTicket = (props) => {
-
   const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -81,7 +81,6 @@ const PurchaseTicket = (props) => {
             parseInt(tradeDetail.forSale * 60 * 60)
           )
           .send({ from: userData.account });
-        console.log("🐸", res);
         // setSaleAddr(res.events[0].returnValues.saleAddr);
         if (res.status) {
           alert("판매 등록 완료");
@@ -92,7 +91,7 @@ const PurchaseTicket = (props) => {
       console.error(err);
     }
   };
-  
+
   // 예매하기 버튼 클릭 시
   const doBook = () => {
     navigate(`/SelectSeat/${props.showScheduleAddress}`);
@@ -116,8 +115,6 @@ const PurchaseTicket = (props) => {
       ticketRender = 'justBuyer';
     }
   }
-
-
 
   // 티켓 구매
   // 구매
@@ -177,10 +174,10 @@ const PurchaseTicket = (props) => {
     isOnSale()
   }, []);
 
-  console.log('PurchasePage', props)
-  console.log('isEnded', props.isEnded)
-  console.log('isSellable', props.isSellable)
-  console.log('endedAt🐸', props.getEndedAt)
+  // console.log('PurchasePage', props)
+  // console.log('isEnded', props.isEnded)
+  // console.log('isSellable', props.isSellable)
+  // console.log('endedAt🐸', props.getEndedAt)
  
 
 
@@ -190,17 +187,57 @@ const PurchaseTicket = (props) => {
         {/* 티켓 주인이면 꾸미기, 판매하기가 가능하다는 문구, 주인이 아니면 판매가 보여주기 */}
         {props.isSellable ? (
           <p>티켓을 꾸미거나 판매만 가능합니다.</p>
-        ):(
+        ) : (
           <CoverBox>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginBottom: '12px'}}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                marginBottom: "12px",
+              }}
+            >
               {/* <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '10px' }}>티켓 정보</p> */}
               <div>
-                <p style={{ fontSize: '18px', fontWeight: '700', marginTop: '8px', marginBottom: '8px'}}>{ props.showTitle }</p>
-                <p style={{ fontSize: '16px', fontWeight: '500', marginTop: '16px', marginBottom: '6px'}}>공연 일자 - 2022.04.03</p>
-                <p style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px'}}>좌석 정보 - R-1</p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "700",
+                    marginTop: "8px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {props.showTitle}
+                </p>
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    marginTop: "16px",
+                    marginBottom: "6px",
+                  }}
+                >
+                  공연 일자 - 2022.04.03
+                </p>
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    marginBottom: "8px",
+                  }}
+                >
+                  좌석 정보 - R-1
+                </p>
                 {/* <p>{ props. }</p> */}
               </div>
-              <hr style={{ width: "100%", border: "0.5px solid #c8c8c8", marginTop: "20px", marginBottom: "16px" }}></hr>
+              <hr
+                style={{
+                  width: "100%",
+                  border: "0.5px solid #c8c8c8",
+                  marginTop: "20px",
+                  marginBottom: "16px",
+                }}
+              ></hr>
             </div>
             {/* <div style={{ display: 'flex', justifyContent: 'space-between'}}>
               <p style={{ fontSize: '15px', fontWeight: '400', marginBottom: '8px'}}>판매가</p>
@@ -210,9 +247,25 @@ const PurchaseTicket = (props) => {
               <p style={{ fontSize: '15px', fontWeight: '400', marginBottom: '16px'}}>수수료</p>
               <p style={{ fontSize: '15px', fontWeight: '500', marginBottom: '8px'}}>0.2 SSF</p>
             </div> */}
-            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-              <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px'}}>구매가</p>
-              <p style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px'}}>{props.price} SSF</p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <p
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "600",
+                  marginBottom: "8px",
+                }}
+              >
+                구매가
+              </p>
+              <p
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "700",
+                  marginBottom: "8px",
+                }}
+              >
+                {props.price} SSF
+              </p>
             </div>
           </CoverBox>
         )}
@@ -244,6 +297,30 @@ const PurchaseTicket = (props) => {
                 color: "text.primary",
                 borderColor: "text.secondary",
                 borderRadius: "10px",
+          // {/* 티켓 주인이면 꾸미기, 판매하기 버튼, 주인이 아니면 구매하기 버튼 */}
+          // {props.isSellable ? (
+          //   <Stack spacing={1}>
+          //     <Button
+          //       sx={{
+          //         fontWeight: "bold",
+          //         fontSize: "16px",
+          //         color: "secondary.main",
+          //         borderColor: "text.secondary",
+          //         borderRadius: "10px",
+          //         py: 1.5,
+          //       }}
+          //       onClick={() => {
+          //         navigate(`/decorate/${props.ticketId}`);
+          //       }}
+          //       variant='outlined'
+          //     >
+          //       꾸미기
+          //     </Button>
+          //     {/* <Button
+          //     sx={{
+          //       color: "text.primary",
+          //       borderColor: "text.secondary",
+          //       borderRadius: 3,
                 py: 1.5,
               }}
               variant="outlined"
@@ -275,6 +352,46 @@ const PurchaseTicket = (props) => {
                       <input
                         type="text"
                         name="description"
+            // </Button> */}
+
+            //   <Button
+            //     onClick={handleOpen}
+            //     sx={{
+            //       fontSize: "16px",
+            //       color: "text.primary",
+            //       borderColor: "text.secondary",
+            //       borderRadius: "10px",
+            //       py: 1.5,
+            //     }}
+            //     variant='outlined'
+            //   >
+            //     판매하기
+            //   </Button>
+            //   <Modal
+            //     open={open}
+            //     onClose={handleClose}
+            //     aria-labelledby='modal-modal-title'
+            //     aria-describedby='modal-modal-description'
+            //   >
+            //     <Box sx={style}>
+            //       <div>
+            //         <h1>TradeTicket</h1>
+            //         <div>
+            //           ticketId:
+            //           <input
+            //             type='number'
+            //             name='ticketId'
+            //             // value={register.ticketID}
+            //             value={tradeDetail.ticketId}
+            //             onChange={handleTicketTrade}
+            //             disabled={true}
+            //           />
+            //         </div>
+            //         <div>
+            //           description:
+            //           <input
+            //             type='text'
+            //             name='description'
                         value={tradeDetail.description}
                         onChange={handleTicketTrade}
                       />
@@ -319,6 +436,40 @@ const PurchaseTicket = (props) => {
             {props.isEnded ? (  // true : 판매 완료, false : 판매 중 = 구매하기
               // <h2>{props.isEnded}</h2>
               <Stack spacing={1}>
+                      {/* price:
+                      <input
+                        type='text'
+                        name='price'
+                        value={tradeDetail.price}
+                        onChange={handleTicketTrade}
+                      />
+                    </div>
+                    <div>
+                      startedAt:
+                      <input
+                        type='text'
+                        name='startedAt'
+                        value={tradeDetail.startedAt}
+                        onChange={handleTicketTrade}
+                      />
+                    </div>
+                    <div>
+                      endedAt:
+                      <input
+                        type='text'
+                        name='endedAt'
+                        value={tradeDetail.endedAt}
+                        onChange={handleTicketTrade}
+                      />
+                    </div>
+                    <button onClick={mintTrade}>거래 발급</button>
+                  </div>
+                </Box>
+              </Modal>
+            </Stack>
+          ) : (
+            <Stack spacing={1}>
+              {props.isEnded ? ( */}
                 <Button
                   disabled
                   sx={{
@@ -336,6 +487,11 @@ const PurchaseTicket = (props) => {
               </Stack>
             ):(
               <Stack spacing={1}>
+                  {/* variant='outlined'
+                >
+                  판매 완료
+                </Button>
+              ) : ( */}
                 <Button
                   onClick={props.buyTicket}
                   sx={{
@@ -355,6 +511,7 @@ const PurchaseTicket = (props) => {
             </div>
           )}
       </ButtonBoxCss>
+                 
     </div>
   );
 };
