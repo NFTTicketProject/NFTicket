@@ -4,6 +4,7 @@
 # front, exec 폴더 포함
 !front/
 !exec/
+!docs/
 
 # back, solidity 폴더 포함
 !back/
