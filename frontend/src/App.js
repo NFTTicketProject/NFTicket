@@ -42,33 +42,35 @@ const ContentWrapDiv = styled.div`
 `;
 
 function App() {
-  const navigate = useNavigate()
-  const [account, setAccount] = useState("");
-  const getAccount = async () => {
-    try {
-      // metamask가 설치되어있으면 아래 코드 실행
-      if (window.ethereum) {
-      //   swal.fire ({
-      //   icon: 'error',
-      //   title: '지갑을 연결해주세요.',
-      // })
-        // navigate("/MyPage")
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-      } else {
-        // metamask가 설치되어있지 않은 경우 alert
-        alert("Install Metamask!");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const navigate = useNavigate()
+  // const [account, setAccount] = useState("");
+  // const getAccount = async () => {
+  //   try {
+  //     // metamask가 설치되어있으면 아래 코드 실행
+  //     if (window.ethereum) {
+  //     //   swal.fire ({
+  //     //   icon: 'error',
+  //     //   title: '지갑을 연결해주세요.',
+  //     // })
+  //       // navigate("/MyPage")
+  //       const accounts = await window.ethereum.request({
+  //         method: "eth_requestAccounts",
+  //       });
+  //       setAccount(accounts[0])
+  //     } else {
+  //       // metamask가 설치되어있지 않은 경우 alert
+  //       alert("Install Metamask!");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  // // 실행 시 getAccount 함수 실행
+  // 실행 시 getAccount 함수 실행
   // useEffect(() => {
   //   getAccount();
   // }, [account]);
+  // console.log("🐸", account)
   return (
     <TotalWrapDiv>
       <ContentWrapDiv>
@@ -82,14 +84,14 @@ function App() {
           <Route path='/Community' element={<Community />} />
           <Route path='/Guide' element={<Guide />} />
           <Route path='/Detail' element={<Detail />} />
-          <Route path='/Detail/:showScheduleAddress' element={<ShowDetail getAccount={getAccount}/>} />
+          <Route path='/Detail/:showScheduleAddress' element={<ShowDetail />} />
           <Route
             path='/Schedule%20Manager'
             element={<ScheduleManager />}
           ></Route>
-          <Route path='/MyPage' element={<MyPage />} />
+          <Route path='/MyPage' element={<MyPage/>} />
           <Route path='/MyPage/Settings' element={<Settings />} />
-          <Route path='/Ticket/:ticketId' element={<TicketDetail getAccount={getAccount}/>} />
+          <Route path='/Ticket/:ticketId' element={<TicketDetail />} />
           <Route ></Route>
           {/* <Route path="/Ticket/:showScheduleAddress" element={<TicketDetail />} /> */}
 
@@ -101,8 +103,8 @@ function App() {
           <Route path='/Purchase' element={<Purchase />} />
           <Route path='/*' element={<NotFound />} />
           <Route path='/Show' element={<Show />} />
-          <Route path='/Market' element={<Market />} />
-          <Route path='/ShowPublish' element={<ShowPublish getAccount={getAccount}/>} />
+          <Route path='/Market' element={<Market/>} />
+          <Route path='/ShowPublish' element={<ShowPublish />} />
           <Route
             path='/SelectSeat/:showScheduleAddress'
             element={<SelectSeat />}

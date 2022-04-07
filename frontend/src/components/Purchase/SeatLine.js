@@ -89,7 +89,7 @@ function SeatLine(props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <div style={{ display: "flex", flexDirection: "row", border: "black", width: "800px", flexWrap: 'wrap', justifyContent: 'center', alignItem: 'center' }}>
+      <div style={{ display: "flex", flexDirection: "row", border: "black", width: "800px", height: "60px", flexWrap: 'wrap', justifyContent: 'center', alignItem: 'center' }}>
         {/* <p>{ props.grade } </p> */}
         {props.num.map((seatNum, key) => (
           <div

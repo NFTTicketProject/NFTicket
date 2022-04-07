@@ -134,7 +134,7 @@ const Seat = (props) => {
   return (
     <div>
       <div className="container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItem: 'center' }}>
-        <div className="screen">  </div>
+        <div className="screen" style={{ }}>  </div>
 
         {/* <p>{data}</p> */}
         <div className="row">
@@ -158,13 +158,13 @@ const Seat = (props) => {
           </div>
         </div>
       </div>
-      <div style={{ marginBottom: "1rem", color: "red" }}>
+      <div style={{ display: 'flex', marginBottom: "0.8rem", color: "#ababab", marginTop: "40px", justifyContent: "end", fontSize: "14px" }}>
         * 실제 좌석은 화면에 표시된 위치와 다를 수 있습니다.
       </div>
       <SetButtonToLeftDiv>
-        <div style={{ display: 'flex', marginRight: "20px"}}>
-          <SeatNumberSpan style={{ display: 'flex', marginRight: "10px", fontSize: '16px', fontWeight: 600 }}>좌석 번호 : </SeatNumberSpan>
-          <SeatNumberSpan style={{ marginRight: "10px", fontSize: '16px', fontWeight: 600 }}>{ data[1] } -</SeatNumberSpan>
+        <div style={{ display: 'flex', paddingTop: "1px", marginRight: "20px"}}>
+          <SeatNumberSpan style={{ display: 'flex', marginRight: "10px", fontSize: '16px', fontWeight: 600 }}>선택된 좌석 번호 : </SeatNumberSpan>
+          <SeatNumberSpan style={{ marginRight: "6px", fontSize: '16px', fontWeight: 600 }}>{ data[1] } -</SeatNumberSpan>
           <SeatNumberSpan style={{ fontSize: '16px', fontWeight: 600 }}>{ data[3] }</SeatNumberSpan>
         </div>
         <Button
@@ -174,9 +174,9 @@ const Seat = (props) => {
             color: "#3c3c47",
             borderColor: "#ababab",
             borderRadius: 100,
-            
           }}
           variant='outlined'
+          size='small'
         >
           선택 완료
         </Button>

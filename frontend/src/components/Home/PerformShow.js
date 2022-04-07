@@ -11,25 +11,32 @@ const PosterImgContainer = styled.img`
   width: 260px;
   height: 260px;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
   }
+  // boder-radius: "15px";
+  object-fit: cover;
 `;
 
 const DurationDiv = styled.div`
-  font-size: 11px;
-  margin-top: 10px;
+  font-size: 14px;
+  margin-top: 12px;
+  margin-bottom: 10px;
   color: gray;
 `;
 
 const NameDiv = styled.div`
-  font-size: 14px;
-  margin-top: 5px;
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  white-space: no-wrap;
+  overflow: hidden;
 `;
 
 const PriceDiv = styled.div`
-  font-size: 14px;
-  margin-top: 5px;
-  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 12px;
+  margin-top: 8px;
+  font-weight: 700;
 `;
 
 const ShowSellerName = styled.div`
@@ -52,7 +59,7 @@ const PerformShow = ({
   const handleError = (e) => {
     e.target.src = "images/posterImg1.png";
   };
-
+  // console.log(poster_uri)
   return (
     <PerformContainer>
       <Link to={`/Detail/${address}`}>
@@ -65,17 +72,17 @@ const PerformShow = ({
       <DurationDiv>
         {dateStartString} ~ {dateEndString}
       </DurationDiv>
-      <NameDiv style={{ fontSize: "14px" }}>{name}</NameDiv>
-      <PriceDiv style={{ fontSize: "14px", fontWeight: "700" }}>
+      <NameDiv>{name}</NameDiv>
+      <PriceDiv>
         {price} SSF ~
       </PriceDiv>
-      <hr />
+      <hr style={{ marginTop: "18px", marginBottom: "16px", border: "0.5px solid #c4c4c4" }} />
       <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
         {stageSellerName}
       </ShowSellerName>
-      <pShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+      <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
         {stageName}
-      </pShowSellerName>
+      </ShowSellerName>
     </PerformContainer>
   );
 };

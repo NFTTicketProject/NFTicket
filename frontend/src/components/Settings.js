@@ -20,6 +20,7 @@ const InputForm = styled.input`
 `;
 
 function Settings() {
+  const userData = JSON.parse(localStorage.getItem("userAccount"));
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
 
@@ -40,6 +41,7 @@ function Settings() {
     return signature;
   };
 
+  console.log("🐸", userInfo);
   const editInfo = async () => {
     const data = {
       nickname: userInfo.nickname,
@@ -51,7 +53,7 @@ function Settings() {
     const sendData = { info: data, hash_sign: sign };
     axios
       .patch(
-        `https://nfticket.plus/api/v1/account/edit/${userInfo.wallet_id}`,
+        `https://nfticket.plus/api/v1/account/edit/${userData.account}`,
         sendData,
       )
       .then((res) => {

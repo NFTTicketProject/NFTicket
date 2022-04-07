@@ -44,7 +44,7 @@ const HomeSlider = () => {
         </div>
       </Link>
 
-      <Link to='/Guide'>
+      {/* <Link to='/Guide'>
         <div>
           <img
             src='images/carousel2-1.png'
@@ -52,7 +52,7 @@ const HomeSlider = () => {
             style={{ width: "100vw" }}
           ></img>
         </div>
-      </Link>
+      </Link> */}
 
       <Link to='/MyPage'>
         <div>

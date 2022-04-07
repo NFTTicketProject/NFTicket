@@ -15,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import styled from "styled-components";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import logoImg from "../images/logo.png";
 
@@ -47,7 +47,6 @@ const Logo = styled.img`
 const ResponsiveAppBar = () => {
   // react 6.0 버전 이후부터 useHistory => useNavigate 로 바뀌었다고 합니다.
   const navigate = useNavigate();
-  const { state } = useLocation();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -174,7 +173,7 @@ const ResponsiveAppBar = () => {
                       }}
                       sx={{
                         ":hover": {
-                          color: "#FFC600",
+                          color: "#e605ff",
                         },
                       }}
                     >
@@ -190,9 +189,9 @@ const ResponsiveAppBar = () => {
                     }}
                     sx={{
                       ":hover": {
-                        color: "#FFC600",
+                        color: "#e605ff",
                       },
-                      color: "#FFC600 ",
+                      color: "#e605ff ",
                       fontWeight: "bold",
                     }}
                   >
@@ -242,7 +241,7 @@ const ResponsiveAppBar = () => {
                       color: "black",
                       display: "block",
                       ":hover": {
-                        color: "#FFC600",
+                        color: "#e605ff",
                         bgcolor: "#F5F5F5",
                       },
                     }}
@@ -261,11 +260,11 @@ const ResponsiveAppBar = () => {
                     textAlign: "center",
                     mx: 1,
                     my: 2,
-                    color: "#FFC600 ",
+                    color: "#e605ff ",
                     fontWeight: "bold",
                     display: "block",
                     ":hover": {
-                      color: "#FFC600",
+                      color: "#e605ff",
                       bgcolor: "#F5F5F5",
                     },
                   }}

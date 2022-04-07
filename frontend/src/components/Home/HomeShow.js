@@ -14,7 +14,7 @@ const PosterImgContainer = styled.img`
   height: 270px;
   background-color: gray;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
   }
 `;
 

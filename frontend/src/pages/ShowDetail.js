@@ -22,12 +22,12 @@ const TopCss = styled.div`
 
 const TopLeftCss = styled.div`
   width: 670px;
-  height: 700px;
+  height: 630px;
 `;
 
 const TopRightCss = styled.div`
   width: 330px;
-  height: 700px;
+  height: 630px;
 `;
 
 const TopRightFixed = styled.div`

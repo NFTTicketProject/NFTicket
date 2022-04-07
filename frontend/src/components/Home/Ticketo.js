@@ -23,7 +23,6 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 30px;
-  margin-bottom: 10px;
 `;
 
 const Title = styled.h2`
@@ -125,6 +124,7 @@ const Ticketo = () => {
             ticketId: i,
             saleAddr,
             showId,
+            ticketSeller,
             stageSellerName,
             ticketSellerName,
             ticketUri,
@@ -148,16 +148,17 @@ const Ticketo = () => {
 
   return (
     <div style={{ background: "#f5f5f5", paddingBottom: "100px" }}>
-      <hr />
       <TitleContainer>
         <div
           style={{ display: "flex-column", width: "70vw", fontSize: "40px" }}
         >
           {/* <div style={{ width: "1180px", display: "flex-column", justifyContent: "center"}}> */}
-          <Title>개인간 티켓 거래</Title>
-          <span style={{ fontSize: "32px" }}>
-            다른 관객들과 NFTicket을 자유롭게 거래해보세요.
-          </span>
+          <p style={{ display: "flex", justifyContent: "start", fontSize: "28px", fontWeight: "600", marginTop: "40px", marginBottom: '12px' }}>
+            리셀링 티켓몰
+          </p>
+          <p style={{ display: "flex", justifyContent: "start", fontSize: "20px", fontWeight: "400", marginBottom: "30px" }}>
+            개인 간 티켓 거래로 다른 관객들과 NFTicket을 자유롭게 거래해보세요.
+          </p>
         </div>
       </TitleContainer>
       <div style={{ display: "flex", justifyContent: "center" }}>

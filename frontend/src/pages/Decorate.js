@@ -6,7 +6,8 @@ import stamp1 from "../images/stamp/stamp1.png";
 
 import { Container, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
-
+import axios from "axios";
+import swal from "sweetalert2";
 import DrawerMain from "../components/toast/DrawerMain.js";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -22,6 +23,18 @@ import {
 // 주소 있을 경우 : http://localhost:3000/Toast%20UI?ticket=https://ipfs.io/ipfs/QmUQee4Cd3ECfsji4z4h46xQqoEUirJM3UiK6qCZCNjKYV
 // 주소 없을 경우 : http://localhost:3000/Toast%20UI
 const Decorate = () => {
+    // swal
+  const Toast = swal.mixin({
+  toast: true,
+  position: 'bottom-end',
+  showConfirmButton: false,
+  timer: 1000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', swal.stopTimer)
+    toast.addEventListener('mouseleave', swal.resumeTimer)
+  }
+})
   const navigate = useNavigate();
   const { ticketId } = useParams();
   const [imagePath, SetImagePath] = useState("");
@@ -85,8 +98,7 @@ const Decorate = () => {
         }
     }
   
-    // console.log('찾은 티켓', foundSeat[0][1])
-    return foundSeat
+    return foundSeat[0][1]
   }
 
   // 각종 정보 확보하고 이미지 세팅하기
@@ -110,10 +122,18 @@ const Decorate = () => {
     const createMyTicket = await myTicketContract.methods
       .create(imageSavedPath, parseInt(showScheduleId), parseInt(classId))
       .send({ from: userData.account });
-
+     
     // 새 티켓 거래를 위한 approve
     if (createMyTicket.status) {
+      Toast.fire({
+            icon: 'success',
+            title: `꾸미기 Process 1/4`
+            })
       const newTicketId = createMyTicket.events.Transfer.returnValues.tokenId;
+      // api 사용해서 백으로 일단 블록해시 넘겨주기 - 나중에 Ticket/:숫자 페이지에서 api로 받아와야 함 //
+      const blockHash = createMyTicket.blockHash;
+      const sendApi = await axios.post(`https://nfticket.plus/api/v1/block`, {ticket_id: newTicketId, block_hash: blockHash })
+
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
@@ -121,32 +141,37 @@ const Decorate = () => {
         .approve(showScheduleAddress, 500)
         .send({ from: userData.account });
       if (approval.status) {
+        Toast.fire({
+            icon: 'success',
+            title: `꾸미기 Process 2/4`
+            })
         const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
         // const registerTicket = await showScheduleContract.methods
         //   // seatIndex 하드코딩
         // .registerTicket(parseInt(classId), parseInt(2), parseInt(newTicketId))
         // .send({ from: userData.account });
         // seatIndex 하드코딩
-        var seatIndex = GetSeatIndex(parseInt(newTicketId))
+        var seatIndex = await GetSeatIndex(parseInt(ticketId))
         const registerTicket = await showScheduleContract.methods
-          .replaceTicket(parseInt(classId), parseInt(0), parseInt(seatIndex), parseInt(newTicketId))
+          .replaceTicket(parseInt(classId), parseInt(seatIndex), parseInt(ticketId), parseInt(newTicketId))
           .send({ from: userData.account });
-
+        
+        // 기존 티켓 태우기
         if (registerTicket.status) {
-          // console.log("다했으니 기존꺼 태워볼까?");
-          // const burnOldTicket = await myTicketContract.methods
-          //   .transferFrom(
-          //     userData.account,
-          //     "0x0000000000000000000000000000000000000000",
-          //     parseInt(ticketId)
-          //   )
-          //   .send({ from: userData.account });
+          Toast.fire({
+            icon: 'success',
+            title: `꾸미기 Process 3/4`
+            })
           const burnOldTicket = await myTicketContract.methods
             .burn(parseInt(ticketId))
             .send({ from: userData.account });
-          // console.log("다탔나?", burnOldTicket.status);
           if (burnOldTicket.status) {
-            navigate(`/Ticket/${newTicketId}`);
+            Toast.fire({
+            icon: 'success',
+            title: `꾸미기 완료`
+            }).then(function(){
+              navigate(`/Ticket/${newTicketId}`)
+            })
           }
         }
         // } else {
@@ -160,21 +185,16 @@ const Decorate = () => {
     const response = await myTicketContract.methods.getTokenURI(ticketId).call();
     if (response) {
       SetImagePath(response);
-      // console.log("이미지 세팅", response);
     }
   };
 
   const setTicket = async () => {
-    // console.log("이미지 장착", imagePath);
     setTimeout(() => {
       editorRef.current
         .getInstance()
         .loadImageFromURL("https://nfticket.plus/showipfs/ipfs/" + imagePath, "newTicket")
         .then(() => {});
     }, 100);
-    // editorRef.current
-    //   .getInstance()
-    //   .loadImageFromURL("https://nfticket.plus/showipfs/ipfs/" + imagePath, "newTicket");
   };
 
   // 이미지 조절 관련 이슈로 질문 올린 상태 : https://github.com/nhn/tui.image-editor/issues/741
@@ -215,11 +235,8 @@ const Decorate = () => {
 
     try {
       const result = await ipfs.add(blob);
-      // console.log("결과", result);
-      // console.log("주소", result.path);
       SetImageSavedPath(result.path);
     } catch (e) {
-      // console.log("에러 : ", e);
     }
   };
 
