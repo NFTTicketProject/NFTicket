@@ -25,7 +25,7 @@ const mushSlice = createSlice({
     setMushVal: (state, action) => {
       // 원하는 값으로 바꾸기위한 방법
       state.mushNum = Number(action.payload);
-      console.log(typeof state.mushNum);
+      // console.log(typeof state.mushNum);
     },
   },
   extraReducers: {},

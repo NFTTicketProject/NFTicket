@@ -19,7 +19,7 @@ const TicketoItem = ()=>{
   return (
     <TicketoContainer
       onMouseOver={(event) => {
-        console.log("마우스 오버 됨")
+        // console.log("마우스 오버 됨")
       }}
     >
       <TicketoImgContainer 

@@ -76,7 +76,7 @@ function ScheduleManager() {
     },
     0);
     setDetailInfo({ ...detailInfo, maxMintCount: mintCnt });
-    console.log("🐸", detailInfo);
+    // console.log("🐸", detailInfo);
   };
 
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -93,7 +93,7 @@ function ScheduleManager() {
 
   // 📤 '제출' 버튼 클릭 시 동작 - 초기화
   const handleSubmit = () => {
-    console.log(detailInfo);
+    // console.log(detailInfo);
     setDetailInfo({
       showId: 0,
       stageName: "", // 장소
@@ -113,7 +113,7 @@ function ScheduleManager() {
 
   // 민트 관련 함수
   const handleMint = async () => {
-    console.log(detailInfo);
+    // console.log(detailInfo);
     try {
       const mintCnt = await ticketClassMaxMintCounts.reduce(function add(
         sum,
@@ -122,7 +122,7 @@ function ScheduleManager() {
         return sum + currValue;
       },
       0);
-      console.log(mintCnt);
+      // console.log(mintCnt);
       const response = await showScheduleManagerContract.methods
         .create(
           parseInt(detailInfo.showId),
@@ -140,18 +140,18 @@ function ScheduleManager() {
         )
         .send({ from: userData.account });
       // .send({ from: account });
-      console.log(response);
+      // console.log(response);
       if (response.status) {
-        console.log("계약주소", response.events[0].address);
-        console.log(
-          "계약번호",
-          response.events.ShowScheduleCreated.returnValues.showScheduleId,
-        );
-        console.log("계약번호", response.events.ShowScheduleCreated);
-        console.log(
-          "계약번호",
-          response.events.ShowScheduleCreated.returnValues,
-        );
+        // console.log("계약주소", response.events[0].address);
+        // console.log(
+        //   "계약번호",
+        //   response.events.ShowScheduleCreated.returnValues.showScheduleId,
+        // );
+        // console.log("계약번호", response.events.ShowScheduleCreated);
+        // console.log(
+        //   "계약번호",
+        //   response.events.ShowScheduleCreated.returnValues,
+        // );
         axios.put(
           `https://nfticket.plus/api/v1/show/${detailInfo.showId}/show-schedule`,
           {
@@ -171,7 +171,7 @@ function ScheduleManager() {
   };
 
   const handleApi = () => {
-    console.log(apiData);
+    // console.log(apiData);
     axios
       .post(`https://nfticket.plus/api/v1/show/`, {
         category_name: apiData.category_name,
@@ -185,7 +185,7 @@ function ScheduleManager() {
         staff: apiData.staff,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setDetailInfo({ ...detailInfo, showId: parseInt(res.data.show_id) });
         // setApiData({
         //   category_name: "",

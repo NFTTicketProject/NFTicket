@@ -64,7 +64,7 @@ const PurchaseTicket = (props) => {
   };
 
   const mintTrade = async () => {
-    console.log(tradeDetail);
+    // console.log(tradeDetail);
     try {
       // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
       const val = await myTicketContract.methods

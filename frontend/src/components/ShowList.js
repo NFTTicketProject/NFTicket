@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 function ShowList({ contractSchedule }) {
   const navigate = useNavigate();
 
-  console.log('🐤', contractSchedule)
+  // console.log('🐤', contractSchedule)
 
   return (
     <div>

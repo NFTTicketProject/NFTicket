@@ -133,7 +133,7 @@ const Decorate = () => {
           .send({ from: userData.account });
 
         if (registerTicket.status) {
-          console.log("다했으니 기존꺼 태워볼까?");
+          // console.log("다했으니 기존꺼 태워볼까?");
           // const burnOldTicket = await myTicketContract.methods
           //   .transferFrom(
           //     userData.account,
@@ -144,7 +144,7 @@ const Decorate = () => {
           const burnOldTicket = await myTicketContract.methods
             .burn(parseInt(ticketId))
             .send({ from: userData.account });
-          console.log("다탔나?", burnOldTicket.status);
+          // console.log("다탔나?", burnOldTicket.status);
           if (burnOldTicket.status) {
             navigate(`/Ticket/${newTicketId}`);
           }
@@ -215,11 +215,11 @@ const Decorate = () => {
 
     try {
       const result = await ipfs.add(blob);
-      console.log("결과", result);
-      console.log("주소", result.path);
+      // console.log("결과", result);
+      // console.log("주소", result.path);
       SetImageSavedPath(result.path);
     } catch (e) {
-      console.log("에러 : ", e);
+      // console.log("에러 : ", e);
     }
   };
 

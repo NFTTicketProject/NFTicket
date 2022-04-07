@@ -25,7 +25,7 @@ function TicketSale() {
         .getShowSchedule(showScheduleId)
         .call();
 
-      console.log("티켓주소", showScheduleAddress);
+      // console.log("티켓주소", showScheduleAddress);
     } catch (err) {
       console.log(err);
     }
@@ -37,10 +37,10 @@ function TicketSale() {
       const approval = await IERC20Contract.methods
         .approve(ticketSaleAddress, 500)
         .send({ from: userData.account });
-      console.log(approval);
+      // console.log(approval);
       const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, ticketSaleAddress);
       const purchase = ticketSaleContract.methods.purchase().send({ from: userData.account });
-      console.log(purchase);
+      // console.log(purchase);
     } catch (err) {
       console.error(err);
     }

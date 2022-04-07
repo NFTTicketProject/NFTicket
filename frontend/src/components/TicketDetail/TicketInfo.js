@@ -29,7 +29,7 @@ const NFTicketInfoBox = styled.div`
 
 const TicketInfo = (props) => {
 
-  console.log('props TicketInfo', props)
+  // console.log('props TicketInfo', props)
 
   const [sellerInfo, setSellerInfo] = useState({});  // 판매자 정보
 
@@ -39,7 +39,7 @@ const TicketInfo = (props) => {
       axios
         .get(`https://nfticket.plus/api/v1/profile/${props.owner}`)
         .then((res) => {
-          console.log('getSellerInfo', res.data);
+          // console.log('getSellerInfo', res.data);
           setSellerInfo(res.data);
         })
         .catch((err) => console.error(err));
@@ -50,7 +50,7 @@ const TicketInfo = (props) => {
     getSellerInfo();
   }, [props]);
 
-  console.log('sellerInfo', sellerInfo);
+  // console.log('sellerInfo', sellerInfo);
   // console.log('sellerInfo', sellerInfo.nickname);
   // console.log('sellerInfo', sellerInfo.description);
   // console.log('sellerInfo Image', sellerInfo.image_uri);

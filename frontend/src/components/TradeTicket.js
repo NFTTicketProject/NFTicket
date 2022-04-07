@@ -18,7 +18,7 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
     try {
       const res = await ticketSaleManagerContract.methods.ownerOf(userData.account).call();
       setIsBuyable(res.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
-      console.log(isBuyable);
+      // console.log(isBuyable);
     } catch (err) {
       console.error(err);
     }
@@ -34,7 +34,7 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
       const res = await myTicketContract.methods
         .setApprovalForAll(ticketSaleManagerAddress, !saleStatus)
         .send({ from: userData.account });
-      console.log(res);
+      // console.log(res);
       if (res.status) {
         setSaleStatus(!saleStatus);
       }
@@ -45,7 +45,7 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
 
   // 거래 발급
   const mintTrade = async () => {
-    console.log(tradeDetail);
+    // console.log(tradeDetail);
     try {
       const res = await ticketSaleManagerContract.methods
         .create(
@@ -57,7 +57,7 @@ function TradeTicket({ showScheduleAddress, userData, register }) {
           parseInt(tradeDetail.endedAt)
         )
         .send({ from: userData.account });
-      console.log("🐸", res);
+      // console.log("🐸", res);
       // setSaleAddr(res.events[0].returnValues.saleAddr);
       if (res.status) {
         alert("판매 등록 완료");

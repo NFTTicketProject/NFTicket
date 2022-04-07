@@ -104,7 +104,7 @@ const TicketQR = styled.div`
 
 const TicketImage = (props) => {
 
-  console.log('props TicketImage', props)
+  // console.log('props TicketImage', props)
 
   return (
     <div>

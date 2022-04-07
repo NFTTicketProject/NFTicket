@@ -14,7 +14,7 @@ function MyTicket({ ticketUri, ticketId, showScheduleId, classId }) {
         // .registerTicket(0, 2, 1)
         .registerTicket(parseInt(classId), parseInt(seatIndex), parseInt(ticketId))
         .send({ from: userData.account });
-      console.log(registerTicket);
+      // console.log(registerTicket);
       if (registerTicket.status) {
         alert(`${ticketId}번 티켓 등록 성공`);
       }

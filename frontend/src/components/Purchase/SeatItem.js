@@ -39,7 +39,7 @@ function SeatItem(props) {
     if (a[0] === props.grade && a[1] === props.id) {
       setSelected((selected) => selected1);
       // setSelected(selected => selected1)
-      console.log("같은 값이다#####", selected1);
+      // console.log("같은 값이다#####", selected1);
       if (selected1) {
         // 값이 같은데 true
         // 계속 선택된 색
@@ -54,7 +54,7 @@ function SeatItem(props) {
     } else {
       // setSelected(selected => selected1)
       setSelected((selected) => selected1);
-      console.log("다른 자리다$$$$", selected1);
+      // console.log("다른 자리다$$$$", selected1);
       props.selectSeats(props.gradeId, props.grade, props.id); // 자리값 갱신
 
       if (selected1) {
