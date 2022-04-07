@@ -125,7 +125,7 @@ function SeatItem(props) {
 
 
   return (
-    <div>
+    <div style={{ width: "50px"}}>
       {props.num ? ( // 이미 예매된 좌석 분류
         <div
           className="seat-item"
@@ -133,7 +133,7 @@ function SeatItem(props) {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            margin: "4px",
+            margin: "2px",
           }}
         >
           <div
@@ -143,8 +143,8 @@ function SeatItem(props) {
             }}
           ></div>
           <div>
-            <span style={{ fontSize: "14px" }}>
-              {props.grade}-{props.id}
+            <span style={{ fontSize: "13px" }}>
+              {props.grade}-{realNum}
             </span>
           </div>
         </div>
@@ -158,7 +158,7 @@ function SeatItem(props) {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            margin: "4px",
+            margin: "2px",
           }}
         >
           <div
@@ -170,7 +170,7 @@ function SeatItem(props) {
             }}
           ></div>
           <div>
-            <span style={{ fontSize: "14px" }}>
+            <span style={{ fontSize: "13px" }}>
               {props.grade}-{realNum}
             </span>
           </div>

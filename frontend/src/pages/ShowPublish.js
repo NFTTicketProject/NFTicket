@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import swal from "sweetalert2";
 import styled from "styled-components";
 
 // components
@@ -21,7 +21,6 @@ import axios from "axios";
 const TopCss = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 50px;
   padding-bottom: 100px;
 `;
 
@@ -32,9 +31,12 @@ const TopLeftCss = styled.div`
 `;
 
 const UpperTitleArea = styled.div`
-  margin: 20px;
-  font-size: 32px;
-  font-weight: bold;
+  margin: 40px;
+  font-size: 36px;
+  font-weight: 700;
+  margin-left: 10px;
+  margin-bottom: 40px;
+  margin-top: 50px;
 `;
 
 const TypeAndLeft = styled.div`
@@ -42,53 +44,65 @@ const TypeAndLeft = styled.div`
 `;
 
 const TicketTitle = styled.h1`
-  margin-left: 20px;
+  margin-left: 10px;
 `;
 
 const UnderTitle = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
 `;
 
 const PosterArea = styled.div`
   width: 300px;
   margin-left: 20px;
+  margin-top: 15px;
   background-color: #D5D8DC: 
 `;
 
 const Poster = styled.img`
   width: 100%;
+  margin-right: 20px;
+`;
+
+const PosterDiv = styled.div`
+  width: 300px;
+  height: 400px;
+  background-color: #ababab: 
+  margin-right: 10px;
+  padding-right: 10px;
+  border: 1px solid gray;
 `;
 
 const SubmitButtonArea = styled.div`
-  margin-top: 50px;
-  margin-left: 20px;
+  margin-top: 30px;
 `;
 
 const TicketInfoArea = styled.div`
-  width: 500px;
-  margin-left: 20px;
+  display: flex;
 `;
 
 const ButtonDescArea = styled.div`
-  margin-top: 50px;
+  margin-top: 300px;
 `;
 
 // Top Right
 const TopRightCss = styled.div`
   width: 330px;
   height: 700px;
+  margin-top: 180px;
 `;
 
 const SmallTitleCss = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
-  margin: 16px;
+  margin-top: 16px;
+  margin-left: 18px;
+  margin-bottom: 18px;
 `;
 
 const CoverBox = styled.div`
   border: 1px solid #dadee2;
-  border-radius: 20px;
+  border-radius: 15px;
 `;
 
 const DatePickerBox = styled.div`
@@ -103,7 +117,7 @@ const MyDatePicker = styled(DatePicker)`
 `;
 
 const ColorHr = styled.hr`
-  border: 1px solid #dadee2;
+  border: 0.5px solid #dadee2;
 `;
 
 const CastingDivCss = styled.div`
@@ -204,7 +218,7 @@ const ShowPublish = ({getAccount}) => {
 
   // 공연등록 버튼 누르면, 정보 업로드!!
   const registerShow = async () => {
-    getAccount()
+    checkAccount()
     // 첫 설정을 null로 했는데, null이라면 0으로 수정해서 날아가도록 구현
     if (detailInfo.resellRoyaltyRatePercent === null) {
       setDetailInfo({
@@ -315,6 +329,25 @@ const ShowPublish = ({getAccount}) => {
     const buffer = await Buffer.from(reader.result);
     setInfo({ buffer });
   };
+  
+  const checkAccount = async () => {
+    try {
+      if (!localStorage.getItem("userAccount")){
+        swal.fire({
+            title : "지갑을 연결해주세요.",
+                icon  : "warning",
+                closeOnClickOutside : false
+          }).then(function(){
+            // 이벤트
+            navigate('/MyPage')
+            // alert('hello')
+          });
+        // alert('hello')
+      }
+    } catch(err){
+      console.error(err)
+    }
+  }
 
   // 포스터 uri 올리기 위한 useEffect
   useEffect(() => {
@@ -325,7 +358,7 @@ const ShowPublish = ({getAccount}) => {
     <div>
       <TopCss>
         <TopLeftCss>
-          <UpperTitleArea>공연등록</UpperTitleArea>
+          <UpperTitleArea>공연 등록 📝</UpperTitleArea>
           <TypeAndLeft>
             <Stack direction='row' spacing={1}>
               {apiData.category_name !== "" && (
@@ -344,8 +377,8 @@ const ShowPublish = ({getAccount}) => {
             <TextField
               name='name'
               type='text'
-              label='공연타이틀'
-              placeholder='공연 타이틀'
+              label='공연 제목'
+              placeholder='공연 제목을 적어주세요'
               variant='standard'
               value={apiData.name}
               onChange={handleApiChange}
@@ -359,10 +392,7 @@ const ShowPublish = ({getAccount}) => {
             <form onSubmit={onSubmitPoster}>
               <PosterArea>
                 {info.ipfsHash === null ? (
-                  <Poster
-                    src='images/default_profile.png'
-                    alt='포스터를 업로드해주세요.'
-                  ></Poster>
+                  <PosterDiv></PosterDiv>
                 ) : isUploadImg ? (
                   <Poster
                     src={`https://ipfs.io/ipfs/${apiData.poster}`}
@@ -370,129 +400,123 @@ const ShowPublish = ({getAccount}) => {
                   ></Poster>
                 ) : (
                   <ButtonDescArea>
-                    파일선택 후 등록 버튼을 눌러주세요.
+                    파일 선택 후 등록 버튼을 눌러주세요.
                   </ButtonDescArea>
                 )}
               </PosterArea>
               <SubmitButtonArea>
-                <Button
-                  sx={{
-                    color: "text.primary",
-                    borderColor: "text.secondary",
-                    borderRadius: 3,
-                    py: 0.5,
-                    mr: 2,
-                  }}
-                  variant='outlined'
-                  component='label' // 이거 안해주면 작동을 안하네요..
-                >
-                  파일선택
-                  <input
-                    type='file'
-                    accept='image/*'
-                    onChange={captureFile}
-                    hidden
-                  />
-                </Button>
-                {/* <button type='submit'>등록</button> */}
-                <Button
-                  type='submit'
-                  sx={{
-                    color: "text.primary",
-                    borderColor: "text.secondary",
-                    borderRadius: 3,
-                    py: 0.5,
-                  }}
-                  variant='outlined'
-                >
-                  등록
-                </Button>
+                <div style={{ 
+                  display: "flex",
+                  justifyContent: "center"
+                }}>
+                  <Button
+                    sx={{
+                      color: "text.primary",
+                      borderColor: "text.secondary",
+                      borderRadius: 3,
+                      py: 0.5,
+                      mr: 2,
+                    }}
+                    variant='outlined'
+                    component='label' // 이거 안해주면 작동을 안하네요..
+                  >
+                    파일 선택
+                    <input
+                      type='file'
+                      accept='image/*'
+                      onChange={captureFile}
+                      hidden
+                      />
+                  </Button>
+                  {/* <button type='submit'>등록</button> */}
+                  <Button
+                    type='submit'
+                    sx={{
+                      color: "text.primary",
+                      borderColor: "text.secondary",
+                      borderRadius: 3,
+                      py: 0.5,
+                    }}
+                    variant='outlined'
+                    >
+                    등록
+                  </Button>
+                </div>
               </SubmitButtonArea>
             </form>
-            <TicketInfoArea>
-              <table>
-                <tbody>
-                  <tr>
-                    <th>장소</th>
-                    <td>
-                      <TextField
-                        name='stageName'
-                        type='text'
-                        label='장소'
-                        variant='standard'
-                        value={detailInfo.stageName}
-                        onChange={handleInfoChange}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <th>공연시간</th>
-                    <td>
-                      <TextField
-                        name='running_time'
-                        type='number'
-                        label='공연시간(분)'
-                        variant='standard'
-                        value={apiData.running_time}
-                        onChange={handleApiChange}
-                      />{" "}
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <th>공연 정보</th>
-                    <td>
-                      <TextField
-                        name='description'
-                        type='text'
-                        label='공연 정보'
-                        rows={2}
-                        multiline
-                        value={apiData.description}
-                        onChange={handleApiChange}
-                      />{" "}
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <th>관람연령</th>
-                    <td>
-                      <TextField
-                        name='age_limit'
-                        type='number'
-                        label='관람연령'
-                        variant='standard'
-                        value={apiData.age_limit}
-                        onChange={handleApiChange}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <th>카테고리</th>
-                  <td>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'start', marginRight: "20px", marginLeft: "20px" }}>
+              <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', marginTop: '20px' }}>
+                  <th style={{ marginBottom: '28px' }}>카테고리</th>
+                  <th style={{ marginBottom: '28px' }}>장소</th>
+                  <th style={{ marginBottom: '28px' }}>공연 시간</th>
+                  <th style={{ marginBottom: '22px' }}>관람 연령</th>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                <td>
+                  <TextField
+                    name='category_name'
+                    type='text'
+                    label='카테고리'
+                    variant='standard'
+                    value={apiData.category_name}
+                    onChange={handleApiChange}
+                  />
+                </td>
+                <td>
+                  <TextField
+                    name='stageName'
+                    type='text'
+                    label='장소'
+                    variant='standard'
+                    value={detailInfo.stageName}
+                    onChange={handleInfoChange}
+                  />
+                </td>
+                <td>
+                  <TextField
+                    name='running_time'
+                    type='number'
+                    label='공연시간(분)'
+                    variant='standard'
+                    value={apiData.running_time}
+                    onChange={handleApiChange}
+                  />{" "}
+                </td>
+                <td>
+                  <TextField
+                    name='age_limit'
+                    type='number'
+                    label='관람연령'
+                    variant='standard'
+                    value={apiData.age_limit}
+                    onChange={handleApiChange}
+                  />
+                </td>
+                </div>
+              </div>
+              <div style={{ display: "flex", flexDirection: 'column', alignItems: 'start'}}>
+                <th style={{ marginBottom: '4px' }}>공연 정보</th>
+                  <tb style={{ marginLeft: "10px", width: "250px" }}>
                     <TextField
-                      name='category_name'
+                      name='description'
                       type='text'
-                      label='카테고리'
-                      variant='standard'
-                      value={apiData.category_name}
+                      label='공연 정보'
+                      rows={2}
+                      multiline
+                      value={apiData.description}
                       onChange={handleApiChange}
-                    />
-                  </td>
-                </tbody>
-              </table>
-            </TicketInfoArea>
+                      fullWidth
+                    />{" "}
+                  </tb>
+              </div>
+            </div>
           </UnderTitle>
         </TopLeftCss>
 
         <TopRightCss>
           <CoverBox>
-            <SmallTitleCss>판매기간 선택</SmallTitleCss>
+            <SmallTitleCss style={{ marginTop: "20px", paddingTop: "4px" }}>판매 기간 선택</SmallTitleCss>
             <DatePickerBox>
               <MyDatePicker
                 selected={startDate}
@@ -503,7 +527,9 @@ const ShowPublish = ({getAccount}) => {
                 timeCaption='time'
                 dateFormat='yyyy-MM-dd h:mm aa'
               />
-              ~
+              <p 
+                style={{ paddingLeft: "2px" }}
+              >~</p>
               <MyDatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
@@ -565,7 +591,7 @@ const ShowPublish = ({getAccount}) => {
                 onChange={handleInfoChange}
               ></SmallInputBox>
             </div>
-            <div>
+            <div style={{ paddingBottom: "10px", marginBottom: "20px"}}>
               <StyledSpan>최대 판매 금액: </StyledSpan>
               <SmallInputBox
                 type='number'

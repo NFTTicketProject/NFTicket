@@ -27,9 +27,10 @@ const TotalWidthSetting = styled.div`
 const UpperTitleArea = styled.div`
   margin: 40px;
   font-size: 36px;
-  font-weight: bold;
-  margin-left: 110px;
-  margin-bottom: 50px;
+  font-weight: 700;
+  margin-left: 90px;
+  margin-bottom: 40px;
+  margin-top: 50px;
 `;
 
 const TotalWrapJustifyCenter = styled.div`
@@ -39,15 +40,17 @@ const TotalWrapJustifyCenter = styled.div`
 
 const SearchBarCategoryArea = styled.div`
   width: 400px;
+  margin-left: 50px;
 `;
 
 const CategoryBarDiv = styled.div`
-  margin: 20px 0 0 38px;
+  margin: 40px 0 0 38px;
   width: 300px;
 `;
 
 const ShowListArea = styled.div`
   width: 800px;
+  margin-top: 20px;
 `;
 
 const Show = () => {
@@ -57,7 +60,7 @@ const Show = () => {
   const [showList, SetShowList] = useState([]);
   const [showListSearch, SetShowListSearch] = useState([]);
 
-  const categories = ["전체", "SF", "옵션1", "test"];
+  const categories = ["전체", "뮤지컬", "콘서트", "연극", "클래식/무용", "스포츠", "기타"];
 
   const getShowScheduleAddress = async () => {
     try {
@@ -97,6 +100,15 @@ const Show = () => {
       })
       .catch((err) => console.error(err));
   }, []);
+
+  // useEffect(() => {
+  //   first
+  
+  //   return () => {
+  //     second
+  //   }
+  // }, [third])
+  
 
   const getUserNickname = async (wallet) => {
     try {
@@ -225,7 +237,7 @@ const Show = () => {
 
   return (
     <TotalWidthSetting>
-      <UpperTitleArea>공연 목록</UpperTitleArea>
+      <UpperTitleArea>오늘의 공연 🎪 <p style={{ marginTop: "18px", fontSize: '18px', fontWeight: '400', marginLeft: "2px" }}>판매 중인 공연을 구매하여 나만의 티켓을 만들어보세요 !</p></UpperTitleArea>
       <TotalWrapJustifyCenter>
         {/* <h1 style={{ justifyContent: "center" }}>공연 페이지</h1> */}
         <SearchBarCategoryArea>
@@ -278,7 +290,7 @@ const Show = () => {
           </CategoryBarDiv> */}
         </SearchBarCategoryArea>
         <ShowListArea>
-          <Grid container spacing={3} rowSpacing={6}>
+          <Grid container spacing={7} rowSpacing={6}>
             {showListSearch.map((show, idx) => (
               <Grid item xs={4} key={idx}>
                 <PerformShow

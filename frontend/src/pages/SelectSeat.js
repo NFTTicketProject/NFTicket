@@ -26,9 +26,11 @@ const WidthSettingDiv = styled.div`
 `;
 
 const PageTitleDiv = styled.div`
-  font-size: 32px;
-  font-weight: bold;
-  margin: 50px 0px 10px 50px;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  margin-top: 50px;
+  margin-left: 25px;
 `;
 
 const ContainSeatAreaAndInfo = styled.div`
@@ -42,13 +44,13 @@ const ChooseSeatArea = styled.div`
 
 const SeatAndButtonArea = styled.div`
   margin-left: 40px;
+  margin-top: 60px;
 `;
 
 const SeatInfoArea = styled.div`
   width: 300px;
-  height: 540px;
   margin-left: 30px;
-  border: 1px solid #7f8c8d;
+  border: 1px solid #dadee2;
   border-radius: 15px;
 `;
 
@@ -240,9 +242,21 @@ function SelectSeat({getAccount}) {
     }
   };
 
+  // swal
+  const Toast = swal.mixin({
+  toast: true,
+  position: 'bottom-end',
+  showConfirmButton: false,
+  timer: 1500,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', swal.stopTimer)
+    toast.addEventListener('mouseleave', swal.resumeTimer)
+  }
+})
+
   // 티켓 등록
   const enrollTicket = async () => {
-    // getAccount()
     try {
       // 0. 좌석은 골랐는지 확인
       if (seatData.length === 0) {
@@ -284,7 +298,14 @@ function SelectSeat({getAccount}) {
         )
         .send({ from: userData.account });
       // ticketID 받아오기
-
+      Toast.fire({
+            icon: 'success',
+            title: `예매 Progress 1/3`
+            })
+            // .then(function(){
+            //   // 티켓 발급, 등록 완료되면 /MyPage로 이동
+            //   navigate(`/Ticket/${ticketID}`);
+            // })
       // console.log("Create", createMyTicket);
       const ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
 
@@ -302,6 +323,10 @@ function SelectSeat({getAccount}) {
           .approve(showScheduleAddress, 500)
           .send({ from: userData.account });
         if (approval.status) {
+          Toast.fire({
+            icon: 'success',
+            title: `예매 Progress 2/3`
+            })
           // alert(`티켓 발급 완료`);
           // // 좌석 등록 여부 확인
           // const getTicketId = await showScheduleContract.methods
@@ -323,12 +348,18 @@ function SelectSeat({getAccount}) {
               parseInt(ticketID),
             )
             .send({ from: userData.account });
+
           if (registerTicket.status) {
-            alert(`${ticketID}번 티켓 등록 성공`);
+            Toast.fire({
+            icon: 'success',
+            title: `${ticketID}번 티켓 등록 성공`
+            }).then(function(){
+              // 티켓 발급, 등록 완료되면 /MyPage로 이동
+              navigate(`/Ticket/${ticketID}`);
+            })
+            // alert(`${ticketID}번 티켓 등록 성공`);
             // // 티켓 발급, 등록 완료되면 /Ticket/:ticketId로 이동
             // navigate(`/Ticket/${ticketID}`);
-            // 티켓 발급, 등록 완료되면 /MyPage로 이동
-            navigate(`/Ticket/${ticketID}`);
           }
           // } else {
           //   alert("이미 예약된 좌석입니다.");
@@ -345,31 +376,50 @@ function SelectSeat({getAccount}) {
     test();
   }, []);
 
-  // console.log('seatInfo', seatInfo);  // 좌석 판매 완료 여부
-  // console.log('showDetailBack', showDetailBack);
-  // console.log('showDetail', showDetail);
-  // console.log('register', register);
+  console.log('seatInfo', seatInfo);  // 좌석 판매 완료 여부
+  console.log('showDetailBack', showDetailBack);
+  console.log('showDetail', showDetail);
+  console.log('register', register);
+  console.log('ticketDetail', ticketDetail);
 
-  // console.log("myTicket", myTicket);
+  console.log("myTicket", myTicket);
 
   return (
     <div>
       <ContainAll>
         <WidthSettingDiv>
-          <PageTitleDiv>티켓 구매</PageTitleDiv>
-
-          <ContainSeatAreaAndInfo>
+          <div style={{ display: 'flex', alignItems: 'start'}}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+            <PageTitleDiv>티켓 구매 💳
+              <p 
+                style={{ 
+                  marginTop: "18px", 
+                  fontSize: '18px', 
+                  fontWeight: '400', 
+                  marginLeft: "2px"
+                }}>
+                  원하는 좌석을 한 개 선택 후, 선택 완료 버튼을 눌러주세요.
+              </p>
+              <p 
+                style={{ 
+                  marginTop: "8px", 
+                  fontSize: '18px', 
+                  fontWeight: '400', 
+                  marginLeft: "2px"
+                }}>
+                  선택된 좌석 번호을 확인하시고 예매하기를 누르면 공연 예매가 완료됩니다 :)
+              </p>
+            </PageTitleDiv>
             <ChooseSeatArea>
-              <hr></hr>
-              <h4>좌석을 선택하세요.</h4>
               <Seat seatInfo={seatInfo} changeSeatData={changeSeatData}></Seat>
             </ChooseSeatArea>
-            <SeatAndButtonArea>
+          </div>
+
+          <SeatAndButtonArea>
               <SeatInfoArea>
                 <div style={{ margin: "30px" }}>
-                  <SeatInfo showDetail={showDetail}></SeatInfo>
-                  <hr></hr>
-                  <h2>티켓 발급</h2>
+                  <SeatInfo showDetail={showDetail} showDetailBack={showDetailBack}></SeatInfo>
+                  <p style={{ fontSize: '20px', fontWeight: '700', marginBottom: '10px', marginTop: "10px" }}>티켓 발급</p>
                   {/* <div>
                   ticketURI:
                   <input
@@ -406,15 +456,43 @@ function SelectSeat({getAccount}) {
                 </div> */}
                   {myTicket.data && (
                     <div>
-                      <BoldSpan>티켓 가격: </BoldSpan>
-                      <span>
-                        {ticketDetail[myTicket.data[0]].ticketClassPrice} SSF
-                      </span>
+                      <p
+                        style={{
+                          display : 'flex',
+                          fontSize: "16px",
+                          fontWeight: "500",
+                          marginTop: "8px",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        티켓 가격 :
+                        <p style={{ 
+                          fontWeight: "600",
+                          marginLeft: "4px",
+                        }}>
+                          {ticketDetail[myTicket.data[0]].ticketClassPrice} SSF
+                        </p>
+                      </p>
                     </div>
                   )}
                   <div style={{ margin: "5px 0 0 0" }}>
-                    <BoldSpan>좌석 행 번호: </BoldSpan>
-                    <span>{seatData[1]}</span>
+                    <p
+                      style={{
+                        display : 'flex',
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        marginTop: "8px",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      좌석 정보 :
+                      <p style={{ 
+                        fontWeight: "600",
+                        marginLeft: "4px",
+                      }}>
+                        {seatData[1]}
+                      </p>
+                    </p>
                   </div>
                 </div>
               </SeatInfoArea>
@@ -436,26 +514,7 @@ function SelectSeat({getAccount}) {
                 </Stack>
               </ButtonArea>
             </SeatAndButtonArea>
-          </ContainSeatAreaAndInfo>
-
-          {/* {myTicket.classId === 0 ? (
-          <div>금액: {ticketDetail[0].ticketClassPrice} SSF</div>
-        ) : (
-          <div>금액: {ticketDetail[myTicket.classId].ticketClassPrice} SSF</div>
-        )} */}
-
-          {/* <h2>티켓 등록</h2>
-          <div>
-            seatIndex:
-            <input
-              type='text'
-              name='seatIndex'
-              value={seatData[1]}
-              // value={register.seatIndex}
-              onChange={handleRegister}
-              disabled={true}
-            />
-          </div> */}
+          </div>
         </WidthSettingDiv>
       </ContainAll>
     </div>

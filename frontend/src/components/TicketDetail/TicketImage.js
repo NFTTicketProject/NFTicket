@@ -140,14 +140,14 @@ const TicketImage = (props) => {
                 <TicketImgInfoItem>Seat</TicketImgInfoItem>
               </div>
               <div>
-                <TicketImgInfoItem2>{props.startedAt}</TicketImgInfoItem2>
+                <TicketImgInfoItem2>{props.endedAt}</TicketImgInfoItem2>
                 <TicketImgInfoItem2>{props.casting}</TicketImgInfoItem2>
                 <TicketImgInfoItem2>{props.stageName}</TicketImgInfoItem2>
                 <TicketImgInfoItem2>{props.price} SSF</TicketImgInfoItem2>
                 {/* <TicketImgInfoItem2>{props.showDuration}</TicketImgInfoItem2> */}
                 <TicketImgInfoItem2>{props.showDuration}</TicketImgInfoItem2>
                 {/* <TicketImgInfoItem2>{props.allowedAge}</TicketImgInfoItem2> */}
-                <TicketImgInfoItem2>{props.ticketClassName} - {props.ticketSeatIndex}석</TicketImgInfoItem2>
+                <TicketImgInfoItem2>{props.ticketClassName} - {props.ticketSeatIndex}</TicketImgInfoItem2>
               </div>
             </TicketImgInfo>
             {props.isSellable ? (
