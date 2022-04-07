@@ -464,11 +464,10 @@ NFTicket
 
 <img width="100%" src="docs/images/demo_ticketsalepage.gif"/>
 
-### 티켓 예매 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+### 티켓 예매
+- 원하는 좌석, 원하는 날짜를 선택하고 티켓을 구매합니다.
 
-<img width="100%" src="https://i.pinimg.com/originals/32/98/0f/32980faaaf7a414535f75ec88ac4b393.gif"/>
+<img width="100%" src="docs.images/demo_reservation.gif"/>
 
 ### 티켓 꾸미기 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
@@ -476,11 +475,11 @@ NFTicket
 
 <img width="100%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
 
-### 티켓 재판매글 등록 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+### 티켓 재판매글 등록
+- 보유한 티켓 중 하나를 재판매합니다.
+- 재판매 유효시간, 재판매 가격 등을 입력받습니다.
 
-<img width="100%" src="https://cdn.notefolio.net/img/d6/3f/d63fc54819cd3fb0c319021e2e7cd6bfee951e8ce2db9e948bd828f538272da6_v1.jpg"/>
+<img width="100%" src="docs/images/demo_resellregister.gif"/>
 
 ### 티켓 재판매 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
