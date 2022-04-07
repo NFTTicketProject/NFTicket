@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  address          String @id @db.VarChar(100)
+  show_schedule_id Int?
+  show_id          Int?
+  Show             Show?  @relation(fields: [show_id], references: [show_id], onDelete: NoAction, onUpdate: NoAction, map: "show_id")
+
+  @@index([show_id], map: "show_id_idx")
+}
+
+model Authorization {
+  wallet_id        String   @id @db.Char(20)
+  nonce            Int
+  nonce_expired_at DateTime @default(now()) @db.Timestamp(0)
+  signature        String?  @db.Char(64)
+  jwt              String?  @db.Text
+}
+
+model Profile {
+  wallet_id   String   @id @unique(map: "wallet_id_UNIQUE") @db.Char(42)
+  nickname    String   @db.VarChar(10)
+  description String?  @db.Text
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  image_uri   String?  @db.VarChar(255)
+  gallery     String?  @db.Char(10)
+}
+
+model RandomAdjective {
+  id        Int    @id @unique(map: "id_UNIQUE") @default(autoincrement()) @db.UnsignedInt
+  adjective String @unique(map: "adjective_UNIQUE") @db.Char(5)
+}
+
+model RandomNoun {
+  id   Int    @id @unique(map: "id_UNIQUE") @default(autoincrement()) @db.UnsignedInt
+  noun String @unique(map: "noun_UNIQUE") @db.Char(5)
+}
+
+model Role {
+  staff_id   Int
+  show_id    Int
+  occupation String @db.VarChar(45)
+  Show       Show   @relation(fields: [show_id], references: [show_id], onDelete: NoAction, onUpdate: NoAction, map: "Role_ibfk_2")
+  Staff      Staff  @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction, map: "Role_ibfk_1")
+
+  @@id([staff_id, show_id])
+  @@index([show_id], map: "show_id")
+}
+
+model Sale {
+  sale_id          Int            @id @default(autoincrement())
+  show_schedule_id Int
+  description      String?        @db.Text
+  started_at       Int
+  ended_at         Int
+  TicketImages     TicketImages[]
+}
+
+model ServerConfig {
+  key   String  @id @db.VarChar(45)
+  value String? @db.VarChar(45)
+}
+
+model Show {
+  show_id                  Int       @id @default(autoincrement())
+  category_name            String    @db.VarChar(10)
+  name                     String    @db.VarChar(45)
+  description              String?   @db.Text
+  running_time             Int
+  age_limit                Int
+  poster_uri               String    @db.VarChar(255)
+  video_uri                String?   @db.VarChar(255)
+  default_ticket_image_uri String    @db.VarChar(255)
+  Address                  Address[]
+  Role                     Role[]
+}
+
+model Staff {
+  staff_id  Int     @id @unique(map: "staff_id_UNIQUE") @default(autoincrement())
+  name      String  @db.VarChar(45)
+  image_uri String? @db.VarChar(255)
+  Role      Role[]
+}
+
+model TicketImages {
+  ticket_image_id Int    @id @default(autoincrement())
+  sale_id         Int
+  uri             String @db.VarChar(100)
+  Sale            Sale   @relation(fields: [sale_id], references: [sale_id], onDelete: NoAction, onUpdate: NoAction, map: "sale_id")
+
+  @@index([sale_id], map: "sale_id_idx")
+}
