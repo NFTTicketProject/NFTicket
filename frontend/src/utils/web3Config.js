@@ -2650,12 +2650,14 @@ export const IERC20ABI = [
 ];
 
 const mintAnimalTokenAddress = "0xdDCdECe6524be448D1d2609D5430754bB06d835e";
-export const saleAnimalTokenAddress = "0xB30199f422DEc42ac5782d2D05777AD640f81447";
+export const saleAnimalTokenAddress =
+  "0xB30199f422DEc42ac5782d2D05777AD640f81447";
 //
-const myTicketAddress = "0xDb5D181710Ab26C0ba3F5D5E69e88274Cf66006F";
-const showScheduleManagerAddress = "0x073388c477c7735d82a5996A850C9c5B64BF8992";
+const myTicketAddress = "0x0e9b224E23fD1B3CE9Cf31cD96E1e2BecaE4a2Ca";
+const showScheduleManagerAddress = "0x1De088Ba1432A9E2D2126c7fD7602F3872D96acF";
 const showScheduleAddress = "";
-export const ticketSaleManagerAddress = "0x42156B6fd05628b356E41DefAe6e578099D2B307";
+export const ticketSaleManagerAddress =
+  "0xF3a4bDd51905CAF0A701D090386f3486eDeC2842";
 const ticketSaleAddress = "";
 const IERC20Address = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
 
@@ -2663,21 +2665,30 @@ export const web3 = new Web3(window.ethereum);
 
 export const mintAnimalTokenContract = new web3.eth.Contract(
   mintAnimalTokenAbi,
-  mintAnimalTokenAddress
+  mintAnimalTokenAddress,
 );
 export const saleAnimalTokenContract = new web3.eth.Contract(
   saleAnimalTokenAbi,
-  saleAnimalTokenAddress
+  saleAnimalTokenAddress,
 );
-export const myTicketContract = new web3.eth.Contract(myTicketAbi, myTicketAddress);
+export const myTicketContract = new web3.eth.Contract(
+  myTicketAbi,
+  myTicketAddress,
+);
 export const showScheduleManagerContract = new web3.eth.Contract(
   showScheduleManagerAbi,
-  showScheduleManagerAddress
+  showScheduleManagerAddress,
 );
-export const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
+export const showScheduleContract = new web3.eth.Contract(
+  showScheduleAbi,
+  showScheduleAddress,
+);
 export const ticketSaleManagerContract = new web3.eth.Contract(
   ticketSaleManagerAbi,
-  ticketSaleManagerAddress
+  ticketSaleManagerAddress,
 );
-export const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, ticketSaleAddress);
+export const ticketSaleContract = new web3.eth.Contract(
+  ticketSaleAbi,
+  ticketSaleAddress,
+);
 export const IERC20Contract = new web3.eth.Contract(IERC20ABI, IERC20Address);
