@@ -314,8 +314,6 @@ NFTicket
 │   └── schema.prisma
 ├── public
 │   ├── favicon.ico
-│   ├── images
-│   │   └── bonobono.jpg
 │   └── stylesheets
 │       └── main.css
 ├── routes
@@ -441,4 +439,56 @@ NFTicket
 
 <img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
 
+### 로그인 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
 
+<img width="30%" src="https://c.tenor.com/XHlB7aJ7fMAAAAAC/%ED%95%9C%EC%8B%AC%EC%A2%8C-%ED%95%9C%EC%8B%AC.gif"/>
+
+### 프로필 변경 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+
+### 공연 등록 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://cdn.notefolio.net/img/d6/3f/d63fc54819cd3fb0c319021e2e7cd6bfee951e8ce2db9e948bd828f538272da6_v1.jpg"/>
+
+### 공연 티켓 판매 페이지 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+
+### 티켓 예매 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://i.pinimg.com/originals/32/98/0f/32980faaaf7a414535f75ec88ac4b393.gif"/>
+
+### 티켓 꾸미기 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+
+### 티켓 재판매글 등록 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://cdn.notefolio.net/img/d6/3f/d63fc54819cd3fb0c319021e2e7cd6bfee951e8ce2db9e948bd828f538272da6_v1.jpg"/>
+
+### 티켓 재판매 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+
+### 커뮤니티 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
+
+<img width="30%" src="https://i.pinimg.com/originals/32/98/0f/32980faaaf7a414535f75ec88ac4b393.gif"/>
