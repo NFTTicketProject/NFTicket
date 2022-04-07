@@ -64,6 +64,13 @@ const BoldSpan = styled.span`
   font-weight: bold;
 `;
 
+// Date 포맷에서 날짜 더하기
+Date.prototype.addDays = function (days) {
+  const date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
+
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime);
@@ -98,44 +105,39 @@ const TopRight = (props) => {
 
   const navigate = useNavigate();
 
-
-    ////
-const checkAccount = async () => {
+  ////
+  const checkAccount = async () => {
     try {
-      if (!localStorage.getItem("userAccount")){
-        swal.fire({
-            title : "지갑을 연결해주세요.",
-                icon  : "warning",
-                closeOnClickOutside : false
-          }).then(function(){
+      if (!localStorage.getItem("userAccount")) {
+        swal
+          .fire({
+            title: "지갑을 연결해주세요.",
+            icon: "warning",
+            closeOnClickOutside: false,
+          })
+          .then(function () {
             // 이벤트
-            navigate('/MyPage')
+            navigate("/MyPage");
             // alert('hello')
           });
         // alert('hello')
       }
-    } catch(err){
-      console.error(err)
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
 
   // 예매하기 버튼 클릭 시
 
   const doBook = () => {
-    checkAccount()
+    checkAccount();
     navigate(`/SelectSeat/${props.showScheduleAddress}`);
     // console.log('props정보', props);
   };
 
   // console.log(props.posterUri);
 
-  Date.prototype.addDays = function (days) {
-    const date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-  };
-
- console.log('ticketDetail', props.ticketDetail);
+  console.log("ticketDetail", props.ticketDetail);
 
   return (
     <div style={{ marginTop: "44px", marginLeft: "px" }}>
@@ -161,8 +163,17 @@ const checkAccount = async () => {
 
         <SeatCss>
           {props.ticketDetail.map((it, idx) => (
-            <p key={idx} style={{ marginBottom: "8px"}}>
-              <span style={{fontSize: "15px", fontWeight: "400", marginBotom: "10px", marginLeft: "4px"}}>{it.ticketClassName}  : </span>
+            <p key={idx} style={{ marginBottom: "8px" }}>
+              <span
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "400",
+                  marginBotom: "10px",
+                  marginLeft: "4px",
+                }}
+              >
+                {it.ticketClassName} :{" "}
+              </span>
               {/* <BoldSpan>{it.ticketClassMaxMintCount}석</BoldSpan> */}
               <BoldSpan>{tmp[idx]}석</BoldSpan>
             </p>
@@ -173,7 +184,16 @@ const checkAccount = async () => {
 
         <SmallTitleCss>캐스팅</SmallTitleCss>
         <CastingDivCss>
-          <p style={{fontSize: "15px", fontWeight: "400", marginBotom: "10px", marginLeft: "4px"}}>{props.casting}</p>
+          <p
+            style={{
+              fontSize: "15px",
+              fontWeight: "400",
+              marginBotom: "10px",
+              marginLeft: "4px",
+            }}
+          >
+            {props.casting}
+          </p>
         </CastingDivCss>
       </CoverBox>
 

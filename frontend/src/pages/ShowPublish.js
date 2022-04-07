@@ -141,14 +141,21 @@ const StyledSpan = styled.span`
   margin-left: 16px;
 `;
 
+// Date 포맷에서 날짜 더하기
+Date.prototype.addDays = function (days) {
+  const date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
+
 // ShowPublish Page/////////////////////////
-const ShowPublish = ({getAccount}) => {
+const ShowPublish = ({ getAccount }) => {
   const navigate = useNavigate();
   // 로컬에 저장된 나의 계정정보
   const userData = JSON.parse(localStorage.getItem("userAccount"));
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date().addDays(1));
+  const [endDate, setEndDate] = useState(new Date().addDays(1));
   const [isUploadImg, setIsUploadImg] = useState(false);
 
   // Mint로 보낼 데이터(state)
@@ -218,7 +225,7 @@ const ShowPublish = ({getAccount}) => {
 
   // 공연등록 버튼 누르면, 정보 업로드!!
   const registerShow = async () => {
-    checkAccount()
+    checkAccount();
     // 첫 설정을 null로 했는데, null이라면 0으로 수정해서 날아가도록 구현
     if (detailInfo.resellRoyaltyRatePercent === null) {
       setDetailInfo({
@@ -272,10 +279,14 @@ const ShowPublish = ({getAccount}) => {
         )
         .send({ from: userData.account });
       if (response.status) {
-        await axios.put(`https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`, {
-          show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
-          address: response.events[0].address,
-        });
+        await axios.put(
+          `https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`,
+          {
+            show_schedule_id:
+              response.events.ShowScheduleCreated.returnValues.showScheduleId,
+            address: response.events[0].address,
+          },
+        );
         navigate("/Show");
       }
     } catch (err) {
@@ -307,8 +318,7 @@ const ShowPublish = ({getAccount}) => {
     await ipfs.add(info.buffer, (err, ipfsHash) => {
       if (err) {
         console.error(err);
-      }
-      else {
+      } else {
         setInfo({ ipfsHash: ipfsHash[0].hash });
         setIsUploadImg(true);
       }
@@ -329,25 +339,27 @@ const ShowPublish = ({getAccount}) => {
     const buffer = await Buffer.from(reader.result);
     setInfo({ buffer });
   };
-  
+
   const checkAccount = async () => {
     try {
-      if (!localStorage.getItem("userAccount")){
-        swal.fire({
-            title : "지갑을 연결해주세요.",
-                icon  : "warning",
-                closeOnClickOutside : false
-          }).then(function(){
+      if (!localStorage.getItem("userAccount")) {
+        swal
+          .fire({
+            title: "지갑을 연결해주세요.",
+            icon: "warning",
+            closeOnClickOutside: false,
+          })
+          .then(function () {
             // 이벤트
-            navigate('/MyPage')
+            navigate("/MyPage");
             // alert('hello')
           });
         // alert('hello')
       }
-    } catch(err){
-      console.error(err)
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
 
   // 포스터 uri 올리기 위한 useEffect
   useEffect(() => {
@@ -405,10 +417,12 @@ const ShowPublish = ({getAccount}) => {
                 )}
               </PosterArea>
               <SubmitButtonArea>
-                <div style={{ 
-                  display: "flex",
-                  justifyContent: "center"
-                }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
                   <Button
                     sx={{
                       color: "text.primary",
@@ -426,7 +440,7 @@ const ShowPublish = ({getAccount}) => {
                       accept='image/*'
                       onChange={captureFile}
                       hidden
-                      />
+                    />
                   </Button>
                   {/* <button type='submit'>등록</button> */}
                   <Button
@@ -438,77 +452,105 @@ const ShowPublish = ({getAccount}) => {
                       py: 0.5,
                     }}
                     variant='outlined'
-                    >
+                  >
                     등록
                   </Button>
                 </div>
               </SubmitButtonArea>
             </form>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'start', marginRight: "20px", marginLeft: "20px" }}>
-              <div style={{ display: 'flex' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', marginTop: '20px' }}>
-                  <th style={{ marginBottom: '28px' }}>카테고리</th>
-                  <th style={{ marginBottom: '28px' }}>장소</th>
-                  <th style={{ marginBottom: '28px' }}>공연 시간</th>
-                  <th style={{ marginBottom: '22px' }}>관람 연령</th>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
+                justifyContent: "start",
+                marginRight: "20px",
+                marginLeft: "20px",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                    marginTop: "20px",
+                  }}
+                >
+                  <th style={{ marginBottom: "28px" }}>카테고리</th>
+                  <th style={{ marginBottom: "28px" }}>장소</th>
+                  <th style={{ marginBottom: "28px" }}>공연 시간</th>
+                  <th style={{ marginBottom: "22px" }}>관람 연령</th>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                <td>
-                  <TextField
-                    name='category_name'
-                    type='text'
-                    label='카테고리'
-                    variant='standard'
-                    value={apiData.category_name}
-                    onChange={handleApiChange}
-                  />
-                </td>
-                <td>
-                  <TextField
-                    name='stageName'
-                    type='text'
-                    label='장소'
-                    variant='standard'
-                    value={detailInfo.stageName}
-                    onChange={handleInfoChange}
-                  />
-                </td>
-                <td>
-                  <TextField
-                    name='running_time'
-                    type='number'
-                    label='공연시간(분)'
-                    variant='standard'
-                    value={apiData.running_time}
-                    onChange={handleApiChange}
-                  />{" "}
-                </td>
-                <td>
-                  <TextField
-                    name='age_limit'
-                    type='number'
-                    label='관람연령'
-                    variant='standard'
-                    value={apiData.age_limit}
-                    onChange={handleApiChange}
-                  />
-                </td>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <td>
+                    <TextField
+                      name='category_name'
+                      type='text'
+                      label='카테고리'
+                      variant='standard'
+                      value={apiData.category_name}
+                      onChange={handleApiChange}
+                    />
+                  </td>
+                  <td>
+                    <TextField
+                      name='stageName'
+                      type='text'
+                      label='장소'
+                      variant='standard'
+                      value={detailInfo.stageName}
+                      onChange={handleInfoChange}
+                    />
+                  </td>
+                  <td>
+                    <TextField
+                      name='running_time'
+                      type='number'
+                      label='공연시간(분)'
+                      variant='standard'
+                      value={apiData.running_time}
+                      onChange={handleApiChange}
+                    />{" "}
+                  </td>
+                  <td>
+                    <TextField
+                      name='age_limit'
+                      type='number'
+                      label='관람연령'
+                      variant='standard'
+                      value={apiData.age_limit}
+                      onChange={handleApiChange}
+                    />
+                  </td>
                 </div>
               </div>
-              <div style={{ display: "flex", flexDirection: 'column', alignItems: 'start'}}>
-                <th style={{ marginBottom: '4px' }}>공연 정보</th>
-                  <tb style={{ marginLeft: "10px", width: "250px" }}>
-                    <TextField
-                      name='description'
-                      type='text'
-                      label='공연 정보'
-                      rows={2}
-                      multiline
-                      value={apiData.description}
-                      onChange={handleApiChange}
-                      fullWidth
-                    />{" "}
-                  </tb>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                }}
+              >
+                <th style={{ marginBottom: "4px" }}>공연 정보</th>
+                <tb style={{ marginLeft: "10px", width: "250px" }}>
+                  <TextField
+                    name='description'
+                    type='text'
+                    label='공연 정보'
+                    rows={2}
+                    multiline
+                    value={apiData.description}
+                    onChange={handleApiChange}
+                    fullWidth
+                  />{" "}
+                </tb>
               </div>
             </div>
           </UnderTitle>
@@ -516,7 +558,9 @@ const ShowPublish = ({getAccount}) => {
 
         <TopRightCss>
           <CoverBox>
-            <SmallTitleCss style={{ marginTop: "20px", paddingTop: "4px" }}>판매 기간 선택</SmallTitleCss>
+            <SmallTitleCss style={{ marginTop: "20px", paddingTop: "4px" }}>
+              판매 기간 선택
+            </SmallTitleCss>
             <DatePickerBox>
               <MyDatePicker
                 selected={startDate}
@@ -526,10 +570,9 @@ const ShowPublish = ({getAccount}) => {
                 timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
                 timeCaption='time'
                 dateFormat='yyyy-MM-dd h:mm aa'
+                minDate={new Date().addDays(1)}
               />
-              <p 
-                style={{ paddingLeft: "2px" }}
-              >~</p>
+              <p style={{ paddingLeft: "2px" }}>~</p>
               <MyDatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
@@ -538,6 +581,7 @@ const ShowPublish = ({getAccount}) => {
                 timeIntervals={15} // 15분 단위로 선택 가능한 box가 나옴
                 timeCaption='time'
                 dateFormat='yyyy-MM-dd h:mm aa'
+                minDate={startDate}
               />
             </DatePickerBox>
             <ColorHr></ColorHr>
@@ -591,7 +635,7 @@ const ShowPublish = ({getAccount}) => {
                 onChange={handleInfoChange}
               ></SmallInputBox>
             </div>
-            <div style={{ paddingBottom: "10px", marginBottom: "20px"}}>
+            <div style={{ paddingBottom: "10px", marginBottom: "20px" }}>
               <StyledSpan>최대 판매 금액: </StyledSpan>
               <SmallInputBox
                 type='number'
