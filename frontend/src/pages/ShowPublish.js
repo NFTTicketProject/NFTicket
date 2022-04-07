@@ -128,7 +128,7 @@ const StyledSpan = styled.span`
 `;
 
 // ShowPublish Page/////////////////////////
-const ShowPublish = () => {
+const ShowPublish = ({getAccount}) => {
   const navigate = useNavigate();
   // 로컬에 저장된 나의 계정정보
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -198,19 +198,13 @@ const ShowPublish = () => {
     setDetailInfo({
       ...detailInfo,
       startedAt: parseInt((startDate.getTime() - new Date().getTime()) / 1000), // - new Date().getTime(),
-      // startedAt: parseInt(startDate.getTime() / 1000),
       endedAt: parseInt((endDate.getTime() - new Date().getTime()) / 1000), // - new Date().getTime(),
-      // endedAt: parseInt(endDate.getTime() / 1000), // - new Date().getTime(),
     });
-    console.log(
-      "보낸값 : ",
-      (startDate.getTime() - new Date().getTime()) / 1000,
-    );
   }, [startDate, endDate]);
 
   // 공연등록 버튼 누르면, 정보 업로드!!
   const registerShow = async () => {
-    console.log(detailInfo);
+    getAccount()
     // 첫 설정을 null로 했는데, null이라면 0으로 수정해서 날아가도록 구현
     if (detailInfo.resellRoyaltyRatePercent === null) {
       setDetailInfo({
@@ -225,11 +219,6 @@ const ShowPublish = () => {
       });
     }
 
-    // handleApi 코드 실행
-    console.log(apiData);
-    console.log("포스터 URI는? ", apiData.poster);
-    ////
-
     // 최대 발행 갯수 자동 계산용
     const mintCnt = await ticketClassMaxMintCounts.reduce(function add(
       sum,
@@ -239,7 +228,7 @@ const ShowPublish = () => {
     },
     0);
     try {
-      // api 보내기
+      // 1. api 보내기
       const res = await axios.post(`https://nfticket.plus/api/v1/show/`, {
         category_name: apiData.category_name,
         name: apiData.name,
@@ -252,10 +241,7 @@ const ShowPublish = () => {
         staff: apiData.staff,
       });
       setDetailInfo({ ...detailInfo, showId: parseInt(res.data.show_id) });
-      // console.log("🐸");
-      // console.log(res);
-      // console.log(detailInfo);
-      // 민트
+      // 2. 민트
       const response = await showScheduleManagerContract.methods
         .create(
           parseInt(res.data.show_id),
@@ -271,22 +257,11 @@ const ShowPublish = () => {
           parseInt(detailInfo.resellPriceLimit),
         )
         .send({ from: userData.account });
-      // .send({ from: account });
-      console.log(response);
       if (response.status) {
-        // console.log("계약주소", response.events[0].address);
-        // console.log("계약번호", response.events.ShowScheduleCreated.returnValues.showScheduleId);
-        // console.log("계약번호", response.events.ShowScheduleCreated);
-        // console.log("계약번호", response.events.ShowScheduleCreated.returnValues);
-        console.log("디테일인포", detailInfo);
-        await axios.put(
-          `https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`,
-          {
-            show_schedule_id:
-              response.events.ShowScheduleCreated.returnValues.showScheduleId,
-            address: response.events[0].address,
-          },
-        );
+        await axios.put(`https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`, {
+          show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
+          address: response.events[0].address,
+        });
         navigate("/Show");
       }
     } catch (err) {
@@ -319,7 +294,6 @@ const ShowPublish = () => {
       if (err) {
         console.error(err);
       }
-      // console.log(ipfsHash);
       else {
         setInfo({ ipfsHash: ipfsHash[0].hash });
         setIsUploadImg(true);
@@ -340,7 +314,6 @@ const ShowPublish = () => {
   const convertToBuffer = async (reader) => {
     const buffer = await Buffer.from(reader.result);
     setInfo({ buffer });
-    // console.log(`buffer: ${info.buffer}`);
   };
 
   // 포스터 uri 올리기 위한 useEffect
@@ -402,7 +375,6 @@ const ShowPublish = () => {
                 )}
               </PosterArea>
               <SubmitButtonArea>
-                {/* <input type='file' onChange={captureFile} /> */}
                 <Button
                   sx={{
                     color: "text.primary",
@@ -443,7 +415,6 @@ const ShowPublish = () => {
                   <tr>
                     <th>장소</th>
                     <td>
-                      {" "}
                       <TextField
                         name='stageName'
                         type='text'
@@ -514,19 +485,6 @@ const ShowPublish = () => {
                     />
                   </td>
                 </tbody>
-                {/* <tbody>
-                  <th>발행 갯수</th>
-                  <td>
-                    <TextField
-                      name="maxMintCount"
-                      type="number"
-                      label="최대 발행 갯수"
-                      variant="standard"
-                      value={detailInfo.maxMintCount}
-                      onChange={handleInfoChange}
-                    />
-                  </td>
-                </tbody> */}
               </table>
             </TicketInfoArea>
           </UnderTitle>

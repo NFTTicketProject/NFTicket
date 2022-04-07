@@ -9,12 +9,11 @@ import swal from "sweetalert2";
 
 const SetButtonToLeftDiv = styled.div`
   display: flex;
-  justify-content: left;
-  margin-bottom: 20px;
+  justify-content: end;
+  align-items: center;
 `;
 
-const SeatNumberSpan = styled.span`
-  margin-top: 10px;
+const SeatNumberSpan = styled.p`
 `;
 
 const Seat = (props) => {
@@ -130,12 +129,12 @@ const Seat = (props) => {
     }
   };
 
-  console.log('datadata', data, data[0], data[1])
+  console.log('좌석 데이터, gradeIndex, gradeName, seatIndex, SeatName', data[0], data[1], data[2], data[3])
 
   return (
     <div>
-      <div className="container">
-        <div className="screen">STAGE</div>
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItem: 'center' }}>
+        <div className="screen">  </div>
 
         {/* <p>{data}</p> */}
         <div className="row">
@@ -164,13 +163,22 @@ const Seat = (props) => {
       </div>
       <SetButtonToLeftDiv>
         <div style={{ display: 'flex', marginRight: "20px"}}>
-          <SeatNumberSpan>좌석 번호 : </SeatNumberSpan>
-          <SeatNumberSpan>{ data[1] }</SeatNumberSpan>
-          <SeatNumberSpan>-</SeatNumberSpan>
-          <SeatNumberSpan>{ data[2] }</SeatNumberSpan>
+          <SeatNumberSpan style={{ display: 'flex', marginRight: "10px", fontSize: '16px', fontWeight: 600 }}>좌석 번호 : </SeatNumberSpan>
+          <SeatNumberSpan style={{ marginRight: "10px", fontSize: '16px', fontWeight: 600 }}>{ data[1] } -</SeatNumberSpan>
+          <SeatNumberSpan style={{ fontSize: '16px', fontWeight: 600 }}>{ data[3] }</SeatNumberSpan>
         </div>
-        <Button variant="contained" onClick={seatInfoSend} style={{ backgroundColor: "#707B7C" }}>
-          선택하기
+        <Button
+          onClick={seatInfoSend}
+          sx={{
+            fontWeight: "600",
+            color: "#3c3c47",
+            borderColor: "#ababab",
+            borderRadius: 100,
+            
+          }}
+          variant='outlined'
+        >
+          선택 완료
         </Button>
       </SetButtonToLeftDiv>
     </div>

@@ -57,17 +57,16 @@ const unixTimeToDate = (unixTime) => {
   return dateString;
 };
 
+
 function ShowDetail() {
   const [showDetailBack, setShowDetailBack] = useState({});
 
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userAccount")); // 유저 정보 (티켓 구매, 발급 등에서 사용)
-  // Detail에서 클릭해 받아온 공연 주소
+  // 공연 등록 후 받아온 공연 주소
   const { showScheduleAddress } = useParams();
-  const showScheduleContract = new web3.eth.Contract(
-    showScheduleAbi,
-    showScheduleAddress,
-  );
+  // showshceduleContract 선언
+  const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
   // 주소에 맞는 공연 관련 정보
   const [showDetail, setShowDetail] = useState({});
   // 공연에 해당하는 티켓 정보 - showDetail 안에 있는 데이터를 리스트로 사용하기 위해 새로 만듦.
@@ -269,7 +268,7 @@ function ShowDetail() {
       const getTicketId = await showScheduleContract.methods
         .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex)) // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
         .call();
-      console.log(getTicketId);
+      // console.log(getTicketId);
       if (getTicketId < 1) {
         // 아직 팔리지 않은 좌석이라면
         // 1. 티켓 발급
@@ -289,7 +288,7 @@ function ShowDetail() {
             .approve(showScheduleAddress, 500)
             .send({ from: userData.account });
           if (approval.status) {
-            alert(`티켓 발급 완료`);
+            // alert(`티켓 발급 완료`);
             // // 좌석 등록 여부 확인 - 0이면 등록 안돼있고, 1 이상이면 등록 되어있는 상태
             // const getTicketId = await showScheduleContract.methods
             //   .getTicketId(parseInt(myTicket.classId), parseInt(register.seatIndex))
@@ -328,8 +327,8 @@ function ShowDetail() {
     test();
   }, []);
 
-  console.log("🎃", seatInfo);
-  console.log("🐸", ticketDetail);
+  // console.log("🎃", seatInfo);
+  // console.log("🐸", ticketDetail);
   // console.log('seatInfo', seatInfo)
   // console.log("showDetail", showDetailBack.poster_uri);
   // console.log('showDetailBack', showDetailBack)
@@ -360,6 +359,7 @@ function ShowDetail() {
               seatInfo={seatInfo}
               casting={`${showDetailBack.staffs}`}
               showScheduleAddress={showScheduleAddress}
+              // getAccount={getAccount}
               startedAt={`${showDetail.startedAt}`}
               endedAt={`${showDetail.endedAt}`}
             ></TopRight>

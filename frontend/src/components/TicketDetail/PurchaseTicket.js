@@ -77,11 +77,10 @@ const PurchaseTicket = (props) => {
             parseInt(tradeDetail.ticketId),
             tradeDetail.description,
             parseInt(tradeDetail.price),
-            parseInt(tradeDetail.startedAt),
-            parseInt(tradeDetail.endedAt),
+            0,
+            parseInt(tradeDetail.forSale * 60 * 60)
           )
           .send({ from: userData.account });
-        console.log("🐸", res);
         // setSaleAddr(res.events[0].returnValues.saleAddr);
         if (res.status) {
           alert("판매 등록 완료");
@@ -98,6 +97,24 @@ const PurchaseTicket = (props) => {
     navigate(`/SelectSeat/${props.showScheduleAddress}`);
     // console.log('props정보', props);
   };
+
+  // 판매자, 구매자 구분 및 판매 완료, 판매 중 구분
+  const [ticketState, setTicketState] = useState();
+  const getTicketState = () => {
+    var ticketRender = '';
+    if (props.isSellable && props.isEnded) {  // 판매자이면서 판매 중일 때 - 꾸미가와 판매하기만 보이기 
+      ticketRender = 'justSeller butSelling';
+    }
+    else if (props.isSellable && (props.isEnded === false)) {  // 판매자이지만 판매중이 아닌 티켓 - 꾸미기와 판매하기만 보이기
+      ticketRender = 'justSeller';
+    }
+    else if ((props.isSellable === false) && props.isEnded) {  // non판매자이지만 판매중인 티켓 - 구매하기만 보이기
+      ticketRender = 'justBuyer butSelling';
+    }
+    else if ((props.isSellable === false) && (props.isEnded === false)) {  // 판매자이지만 판매중이 아닌 티켓 - 꾸미기와 판매하기만 보이기
+      ticketRender = 'justBuyer';
+    }
+  }
 
   // 티켓 구매
   // 구매
@@ -141,16 +158,33 @@ const PurchaseTicket = (props) => {
   //   }
   // };
 
+   const [toggle, setToggle] = useState(true);
+  const isOnSale = () => {
+    const now = new Date().getTime();
+    // 판매중
+    if (props.getEndedAt * 1000 > now) {
+      setToggle(false);
+    } else {
+      setToggle(true);
+    }
+  }
+
   useEffect(() => {
     getTicketAddr();
+    isOnSale()
   }, []);
 
-  console.log("PurchasePage", props);
+  // console.log('PurchasePage', props)
+  // console.log('isEnded', props.isEnded)
+  // console.log('isSellable', props.isSellable)
+  // console.log('endedAt🐸', props.getEndedAt)
+ 
+
 
   return (
     <div>
       <PurchaseTicketArea>
-        {/* 티켓 주인이면 꾸미기, 판매하기 버튼, 주인이 아니면 구매하기 버튼 */}
+        {/* 티켓 주인이면 꾸미기, 판매하기가 가능하다는 문구, 주인이 아니면 판매가 보여주기 */}
         {props.isSellable ? (
           <p>티켓을 꾸미거나 판매만 가능합니다.</p>
         ) : (
@@ -235,83 +269,174 @@ const PurchaseTicket = (props) => {
             </div>
           </CoverBox>
         )}
-
+        </PurchaseTicketArea>
         <ButtonBoxCss>
-          {/* 티켓 주인이면 꾸미기, 판매하기 버튼, 주인이 아니면 구매하기 버튼 */}
-          {props.isSellable ? (
-            <Stack spacing={1}>
-              <Button
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  color: "secondary.main",
-                  borderColor: "text.secondary",
-                  borderRadius: "10px",
-                  py: 1.5,
-                }}
-                onClick={() => {
-                  navigate(`/decorate/${props.ticketId}`);
-                }}
-                variant='outlined'
-              >
-                꾸미기
-              </Button>
-              {/* <Button
+        {/* 티켓 주인이면 꾸미기, 판매하기 버튼, 주인이 아니면 구매하기 버튼 */}
+        {props.isSellable ? (
+          <Stack spacing={1}>
+            <Button
               sx={{
+                fontWeight: "bold",
+                fontSize: "16px",
+                color: "secondary.main",
+                borderColor: "text.secondary",
+                borderRadius: "10px",
+                py: 1.5,
+              }}
+              onClick={() => {
+                navigate(`/decorate/${props.ticketId}`);
+              }}
+              variant="outlined"
+            >
+              꾸미기
+            </Button>
+            <Button
+              onClick={handleOpen}
+              sx={{
+                fontSize: "16px",
                 color: "text.primary",
                 borderColor: "text.secondary",
-                borderRadius: 3,
+                borderRadius: "10px",
+          // {/* 티켓 주인이면 꾸미기, 판매하기 버튼, 주인이 아니면 구매하기 버튼 */}
+          // {props.isSellable ? (
+          //   <Stack spacing={1}>
+          //     <Button
+          //       sx={{
+          //         fontWeight: "bold",
+          //         fontSize: "16px",
+          //         color: "secondary.main",
+          //         borderColor: "text.secondary",
+          //         borderRadius: "10px",
+          //         py: 1.5,
+          //       }}
+          //       onClick={() => {
+          //         navigate(`/decorate/${props.ticketId}`);
+          //       }}
+          //       variant='outlined'
+          //     >
+          //       꾸미기
+          //     </Button>
+          //     {/* <Button
+          //     sx={{
+          //       color: "text.primary",
+          //       borderColor: "text.secondary",
+          //       borderRadius: 3,
                 py: 1.5,
               }}
               variant="outlined"
             >
               판매하기
-            </Button> */}
-
-              <Button
-                onClick={handleOpen}
-                sx={{
-                  fontSize: "16px",
-                  color: "text.primary",
-                  borderColor: "text.secondary",
-                  borderRadius: "10px",
-                  py: 1.5,
-                }}
-                variant='outlined'
-              >
-                판매하기
-              </Button>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby='modal-modal-title'
-                aria-describedby='modal-modal-description'
-              >
-                <Box sx={style}>
-                  <div>
+            </Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+               <div>
                     <h1>TradeTicket</h1>
+                    {/* <div>
+                    ticketId:
+                    <input
+                      type="number"
+                      name="ticketId"
+                      // value={register.ticketID}
+                      value={tradeDetail.ticketId}
+                      onChange={handleTicketTrade}
+                      disabled={true}
+                    />
+                  </div> */}
                     <div>
-                      ticketId:
+                      사용자 한마디:
                       <input
-                        type='number'
-                        name='ticketId'
-                        // value={register.ticketID}
-                        value={tradeDetail.ticketId}
-                        onChange={handleTicketTrade}
-                        disabled={true}
-                      />
-                    </div>
-                    <div>
-                      description:
-                      <input
-                        type='text'
-                        name='description'
+                        type="text"
+                        name="description"
+            // </Button> */}
+
+            //   <Button
+            //     onClick={handleOpen}
+            //     sx={{
+            //       fontSize: "16px",
+            //       color: "text.primary",
+            //       borderColor: "text.secondary",
+            //       borderRadius: "10px",
+            //       py: 1.5,
+            //     }}
+            //     variant='outlined'
+            //   >
+            //     판매하기
+            //   </Button>
+            //   <Modal
+            //     open={open}
+            //     onClose={handleClose}
+            //     aria-labelledby='modal-modal-title'
+            //     aria-describedby='modal-modal-description'
+            //   >
+            //     <Box sx={style}>
+            //       <div>
+            //         <h1>TradeTicket</h1>
+            //         <div>
+            //           ticketId:
+            //           <input
+            //             type='number'
+            //             name='ticketId'
+            //             // value={register.ticketID}
+            //             value={tradeDetail.ticketId}
+            //             onChange={handleTicketTrade}
+            //             disabled={true}
+            //           />
+            //         </div>
+            //         <div>
+            //           description:
+            //           <input
+            //             type='text'
+            //             name='description'
                         value={tradeDetail.description}
                         onChange={handleTicketTrade}
                       />
                     </div>
                     <div>
-                      price:
+                      가격:
+                      <input
+                        type="text"
+                        name="price"
+                        value={tradeDetail.price}
+                        onChange={handleTicketTrade}
+                      />
+                      SSF
+                    </div>
+                    {/* <div>
+                    startedAt:
+                    <input
+                      type="text"
+                      name="startedAt"
+                      value={tradeDetail.startedAt}
+                      onChange={handleTicketTrade}
+                    />
+                  </div> */}
+                    <div>
+                      판매 기간:
+                      <input
+                        type="text"
+                        name="forSale"
+                        value={tradeDetail.forSale}
+                        onChange={handleTicketTrade}
+                      />
+                      HR
+                    </div>
+                    <button onClick={mintTrade}>거래 발급</button>
+                  </div>
+              </Box>
+            </Modal>
+          </Stack>
+        ) : (
+          <div>
+
+            {props.isEnded ? (  // true : 판매 완료, false : 판매 중 = 구매하기
+              // <h2>{props.isEnded}</h2>
+              <Stack spacing={1}>
+                      {/* price:
                       <input
                         type='text'
                         name='price'
@@ -344,7 +469,7 @@ const PurchaseTicket = (props) => {
             </Stack>
           ) : (
             <Stack spacing={1}>
-              {props.isEnded ? (
+              {props.isEnded ? ( */}
                 <Button
                   disabled
                   sx={{
@@ -355,11 +480,18 @@ const PurchaseTicket = (props) => {
                     borderRadius: "10px",
                     py: 1.5,
                   }}
-                  variant='outlined'
+                  variant="outlined"
                 >
                   판매 완료
                 </Button>
-              ) : (
+              </Stack>
+            ):(
+              <Stack spacing={1}>
+                  {/* variant='outlined'
+                >
+                  판매 완료
+                </Button>
+              ) : ( */}
                 <Button
                   onClick={props.buyTicket}
                   sx={{
@@ -370,26 +502,16 @@ const PurchaseTicket = (props) => {
                     borderRadius: "10px",
                     py: 1.5,
                   }}
-                  variant='outlined'
+                  variant="outlined"
                 >
                   구매하기
                 </Button>
-              )}
-              {/* <Button
-              sx={{
-                color: "text.primary",
-                borderColor: "text.secondary",
-                borderRadius: 3,
-                py: 1.5,
-              }}
-              variant="outlined"
-            >
-              대기하기
-            </Button> */}
-            </Stack>
+              </Stack>
+            )};
+            </div>
           )}
-        </ButtonBoxCss>
-      </PurchaseTicketArea>
+      </ButtonBoxCss>
+                 
     </div>
   );
 };
