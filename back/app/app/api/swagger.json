@@ -1,0 +1,5165 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "`NFTicket` 프로젝트 백엔드 API 문서",
+    "version": "1.0.0",
+    "title": "NFTicket API Documentation",
+    "termsOfService": "https://nfticket.plus",
+    "contact": {
+      "email": "nfticket@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "nfticket.plus",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Account",
+      "description": "지갑 정보에 관한 API",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Profile",
+      "description": "프로필 정보에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Role",
+      "description": "배우나 감독 등 공연 내 역할 정보에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Sale",
+      "description": "공연 티켓 발매 및 판매 정보에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Show",
+      "description": "공연 정보에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Staff",
+      "description": "공연 스태프 정보에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Block",
+      "description": "블록 해쉬에 관한 API",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/account/{wallet_address}": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 프로필 정보 생성",
+        "description": "",
+        "operationId": "createProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "기존에 존재하던 프로필",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "201": {
+            "description": "새로운 프로필 생성",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "400": {
+            "description": "잘못된 지갑 주소",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid address"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 프로필 수정",
+        "description": "",
+        "operationId": "editProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/account/edit/{wallet_address}": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 프로필 수정",
+        "description": "",
+        "operationId": "editProfileLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "500": {
+            "description": "사용자 없음 | 서버 오류"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/account/{wallet_address}/nickname": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 닉네임 수정",
+        "description": "",
+        "operationId": "editProfileNickname",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 닉네임 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileNickname"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/account/edit/nickname/{wallet_address}": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 닉네임 수정",
+        "description": "",
+        "operationId": "editProfileNicknameLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 닉네임 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileNickname"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "500": {
+            "description": "사용자 없음 | 서버 오류"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/account/{wallet_address}/description": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 자기 소개 수정",
+        "description": "",
+        "operationId": "editProfileDescription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 자기 소개 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileDescription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/account/edit/description/{wallet_address}": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 자기 소개 수정",
+        "description": "",
+        "operationId": "editProfileDescriptionLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 자기 소개 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileDescription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/account/{wallet_address}/image-uri": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 이미지 URI 수정",
+        "description": "",
+        "operationId": "ediProfiletImageURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 이미지 URI 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileImageURI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/account/edit/imageuri/{wallet_address}": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 이미지 URI 수정",
+        "description": "",
+        "operationId": "ediProfiletImageURILegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 이미지 URI 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileImageURI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/account/{wallet_address}/gallery": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 갤러리 크기 수정",
+        "description": "",
+        "operationId": "editProfileGallery",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 갤러리 크기 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileGallery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "프로필 수정 권한 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "[Validation Message]"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/account/edit/gallery/{wallet_address}": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "지갑 소유자의 갤러리 크기 수정",
+        "description": "",
+        "operationId": "editProfileGalleryLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "서명된 프로필 갤러리 크기 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignedProfileGallery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "모든 프로필 조회",
+        "description": "",
+        "operationId": "getAllProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/{wallet_address}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 프로필 조회",
+        "description": "",
+        "operationId": "getProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/{wallet_address}/nickname": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 닉네임 반환",
+        "description": "",
+        "operationId": "getProfileNickname",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileNickname"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/nickname/{wallet_address}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 닉네임 반환",
+        "description": "",
+        "operationId": "getProfileNicknameLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileNickname"
+            }
+          },
+          "500": {
+            "description": "사용자 없음 | 서버 오류"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/profile/{wallet_address}/description": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 자기 소개 반환",
+        "description": "",
+        "operationId": "getProfileDescription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileDescription"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/description/{wallet_address}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 자기 소개 반환",
+        "description": "",
+        "operationId": "getProfileDescriptionLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileDescription"
+            }
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/profile/{wallet_address}/image-uri": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 이미지 반환",
+        "description": "",
+        "operationId": "getProfileImageURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileImageURI"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/imageuri/{wallet_address}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 이미지 반환",
+        "description": "",
+        "operationId": "getProfileImageURILegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileImageURI"
+            }
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/profile/{wallet_address}/created-at": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 생성 일시 반환",
+        "description": "",
+        "operationId": "getProfileCreatedAt",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileCreatedAt"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/createdat/{wallet_address}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 생성 일시 반환",
+        "description": "",
+        "operationId": "getProfileCreatedAtLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileCreatedAt"
+            }
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/profile/{wallet_address}/gallery": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 갤러리 크기 반환",
+        "description": "",
+        "operationId": "getProfileGallery",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileGallery"
+            }
+          },
+          "404": {
+            "description": "프로필 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Profile doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/profile/gallery/{wallet_address}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "지갑 소유자의 갤러리 크기 반환",
+        "description": "",
+        "operationId": "getProfileGalleryLegacy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "wallet_address",
+            "description": "지갑 주소",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileGallery"
+            }
+          },
+          "500": {
+            "description": "사용자 없음 | 서버"
+          }
+        },
+        "deprecated": true
+      }
+    },
+    "/profile/address-by-nickname": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "닉네임 소유자의 지갑주소 반환",
+        "description": "",
+        "operationId": "getAddressByNickname",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "닉네임",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProfileAddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ProfileAddresses"
+            }
+          },
+          "404": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "No Data",
+                  "example": "Profile doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/role": {
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "역할 정보 생성",
+        "description": "",
+        "operationId": "createRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "역할 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "역할 정보 전체 반환",
+        "description": "",
+        "operationId": "getAllRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Role"
+              }
+            }
+          },
+          "404": {
+            "description": "역할 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/role/{show_id}/{staff_id}": {
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "역할 정보 반환",
+        "description": "",
+        "operationId": "getRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          },
+          "404": {
+            "description": "역할 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "역할 정보 수정",
+        "description": "",
+        "operationId": "editRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 역할 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RoleOccupation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "역할 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/sale": {
+      "post": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 정보 생성",
+        "description": "",
+        "operationId": "createSale",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "생성할 티켓 판매 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sale_id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "새로 생성된 티켓 판매 정보 ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 정보 전체 반환",
+        "description": "",
+        "operationId": "getAllSale",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sale"
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/sale/{sale_id}": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 정보 반환",
+        "description": "",
+        "operationId": "getSale",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Role doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 정보 수정",
+        "description": "",
+        "operationId": "editSale",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 티켓 판매 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/sale/{sale_id}/show-schedule-id": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "공연 스케줄 ID 정보 반환",
+        "description": "",
+        "operationId": "getSaleShowScheduleId",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/SaleShowScheduleId"
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "공연 스케줄 ID 정보 수정",
+        "description": "",
+        "operationId": "editSaleShowScheduleId",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 스케줄 ID 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleShowScheduleId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/sale/{sale_id}/description": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 설명 정보 반환",
+        "description": "",
+        "operationId": "getSaleDescription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/SaleDescription"
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 설명 정보 수정",
+        "description": "",
+        "operationId": "editSaleDescription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 티켓 판매 설명 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleDescription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/sale/{sale_id}/started-at": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 시작 시간 반환",
+        "description": "",
+        "operationId": "getSaleStartedAt",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/SaleStartedAt"
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 시작 시간 수정",
+        "description": "",
+        "operationId": "editSaleStartedAt",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 티켓 판매 시작 시간 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleStartedAt"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/sale/{sale_id}/ended-at": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 종료 시간 반환",
+        "description": "",
+        "operationId": "getSaleEndedAt",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/SaleEndedAt"
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Sale"
+        ],
+        "summary": "티켓 판매 종료 시간 수정",
+        "description": "",
+        "operationId": "editSaleEndedAt",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sale_id",
+            "description": "티켓 판매 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 티켓 판매 종료 시간 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaleEndedAt"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "티켓 판매 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Sale doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show": {
+      "post": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 정보 생성",
+        "description": "",
+        "operationId": "createShow",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "is_raw",
+            "description": "스태프 정보를 Join하여 이름 문자열(콤마로 구분)로 가져오지않고 스태프 ID 배열로 가져옵니다.",
+            "required": false,
+            "type": "boolean",
+            "enum": [
+              true,
+              false
+            ]
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "생성할 공연 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Show"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "show_id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "새로 생성된 공연 정보 ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 정보 전체 반환",
+        "description": "",
+        "operationId": "getAllShow",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Show"
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/search": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 정보 검색",
+        "description": "",
+        "operationId": "searchShow",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "category_name",
+            "description": "검색 할 카테고리 명",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "검색 할 공연 명",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "description": "검색 할 공연 설명",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "in": "query",
+            "name": "min_running_time",
+            "description": "검색 할 최소 공연 길이",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "max_running_time",
+            "description": "검색 할 최대 공연 길이",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "min_age_limit",
+            "description": "검색 할 최소 연령 제한",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "max_age_limit",
+            "description": "검색 할 최대 연령 제한",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "sort_by",
+            "description": "정렬 기준",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "category_name",
+              "name",
+              "description",
+              "running_time",
+              "age_limit"
+            ]
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "정렬 순서",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "asc",
+              "desc"
+            ]
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "검색 결과 오프셋",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "검색 결과 표시 수",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ShowWithAddress"
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/categories": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 카테고리 목록 반환",
+        "description": "",
+        "operationId": "getShowCategories",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "string",
+                "description": "카테고리 명",
+                "example": "SF"
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 정보 반환",
+        "description": "",
+        "operationId": "getShow",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Show"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 정보 수정",
+        "description": "",
+        "operationId": "editShow",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Show"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/category-name": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 카테고리 명 반환",
+        "description": "",
+        "operationId": "getShowCategoryName",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowCategoryName"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 카테고리 명 수정",
+        "description": "",
+        "operationId": "editShowCategoryName",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 카테고리 명",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowCategoryName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/name": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 명 반환",
+        "description": "",
+        "operationId": "getShowName",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowName"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 명 수정",
+        "description": "",
+        "operationId": "editShowName",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 명",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/description": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 설명 반환",
+        "description": "",
+        "operationId": "getShowDescription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowDescription"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 설명 수정",
+        "description": "",
+        "operationId": "editShowDescription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 설명",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowDescription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/running-time": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 길이 반환",
+        "description": "",
+        "operationId": "getShowRunningTime",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowRunningTime"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 길이 수정",
+        "description": "",
+        "operationId": "editShowRunningTime",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 길이",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowRunningTime"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/age-limit": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 연령 제한 반환",
+        "description": "",
+        "operationId": "getShowAgeLimit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowAgeLimit"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 연령 제한 수정",
+        "description": "",
+        "operationId": "editShowAgeLimit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 연령 제한",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowAgeLimit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/poster-uri": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 포스터 URI 반환",
+        "description": "",
+        "operationId": "getShowPosterURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowPosterURI"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 포스터 URI 수정",
+        "description": "",
+        "operationId": "editShowPosterURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 포스터 URI",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowPosterURI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/video-uri": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 예고편 URI 반환",
+        "description": "",
+        "operationId": "getShowVideoURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowVideoURI"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 예고편 URI 수정",
+        "description": "",
+        "operationId": "editShowVideoURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 예고편 URI",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowVideoURI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/default-ticket-image-uri": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 기본 티켓 이미지 URI 반환",
+        "description": "",
+        "operationId": "getShowDefaultTicketURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowDefaultTicketImageURI"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 기본 티켓 이미지 URI 수정",
+        "description": "",
+        "operationId": "editShowDefaultTicketURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 기본 티켓 이미지 URI",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowDefaultTicketImageURI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/stage-seller": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 기획자 지갑 주소 반환",
+        "description": "",
+        "operationId": "getShowStageSeller",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/ShowStageSeller"
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 기획자 지갑 주소 수정",
+        "description": "",
+        "operationId": "editShowStageSeller",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 공연 기획자 지갑 주소",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowStageSeller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/show/{show_id}/show-schedule": {
+      "get": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 스케줄 CA 목록 반환",
+        "description": "",
+        "operationId": "getShowShowScheduleAddressList",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "address",
+                "description": "공연 스케줄 Contract Address",
+                "example": "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679"
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Show"
+        ],
+        "summary": "공연 스케줄 정보 추가",
+        "description": "",
+        "operationId": "addShowShowSchedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "show_id",
+            "description": "공연 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "추가 할 공연 스케줄 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowShowSchedule"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "공연 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Show doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/staff": {
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 정보 생성",
+        "description": "",
+        "operationId": "createStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "생성할 스태프 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Staff"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "staff_id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "새로 생성된 스태프 정보 ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 정보 전체 반환",
+        "description": "",
+        "operationId": "getAllStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Staff"
+              }
+            }
+          },
+          "500": {
+            "description": "스태프 정보 없음 | 서버 오류"
+          }
+        }
+      }
+    },
+    "/staff/{staff_id}": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 정보 반환",
+        "description": "",
+        "operationId": "getStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/Staff"
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 정보 수정",
+        "description": "",
+        "operationId": "editStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 스태프 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Staff"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/staff/{staff_id}/name": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 이름 반환",
+        "description": "",
+        "operationId": "getStaffName",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/StaffName"
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 이름 수정",
+        "description": "",
+        "operationId": "editStaffName",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 스태프 이름 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StaffName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/staff/{staff_id}/image-uri": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 사진 URI 반환",
+        "description": "",
+        "operationId": "getStaffImageURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/StaffImageURI"
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "스태프 사진 URI 수정",
+        "description": "",
+        "operationId": "editStaffImageURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "staff_id",
+            "description": "스태프 정보 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "갱신할 스태프 사진 URI 정보",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StaffImageURI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Invalid request"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "스태프 정보 없음",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "description": "Staff doesn't exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/block": {
+      "post": {
+        "tags": [
+          "Block"
+        ],
+        "summary": "블록 해쉬와 티켓 아이디 등록",
+        "description": "블록 해쉬와 티켓 아이디 등록",
+        "operationId": "createBlockhash",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "등록할 블록 해쉬와 티켓 아이디",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "201": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    },
+    "/block/{ticket_id}": {
+      "get": {
+        "tags": [
+          "Block"
+        ],
+        "summary": "블록 해쉬 조회",
+        "description": "블록 해쉬 조회",
+        "operationId": "getBlockhashByTicketID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ticket_id",
+            "description": "티켓 아이디",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "201": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/BlockHash"
+            }
+          },
+          "404": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "format": "string",
+                  "example": "11 not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Profile": {
+      "type": "object",
+      "description": "프로필 정보",
+      "required": [
+        "nickname",
+        "description",
+        "image_uri",
+        "timestamp"
+      ],
+      "properties": {
+        "nickname": {
+          "description": "닉네임",
+          "type": "string",
+          "format": "string",
+          "example": "달달한 너구리"
+        },
+        "description": {
+          "description": "자기 소개",
+          "type": "string",
+          "format": "string",
+          "example": "너구리 한마리 몰고 가세요"
+        },
+        "image_uri": {
+          "description": "프로필 사진",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs/..."
+        },
+        "timestamp": {
+          "description": "생성 시간",
+          "type": "integer",
+          "format": "datetime",
+          "example": 1648433785800
+        },
+        "gallery": {
+          "description": "갤러리 사이즈",
+          "type": "string",
+          "format": "size",
+          "example": "galleryS"
+        }
+      }
+    },
+    "SignedProfile": {
+      "type": "object",
+      "description": "서명된 프로필 정보",
+      "required": [
+        "info",
+        "hash_sign"
+      ],
+      "properties": {
+        "info": {
+          "$ref": "#/definitions/Profile"
+        },
+        "hash_sign": {
+          "description": "Metamask로 서명된 프로필 정보의 해쉬 값",
+          "type": "string",
+          "format": "sha256-hash",
+          "example": "0xb075e20f0ab0b27d30cd238bcbd54e0936daee9381f7d9ce562404a2b1c3d69d483e997ded8aee17d12d54da3472c4c35dcdaa9139c52ab785f34a9f585fd6ba1c"
+        }
+      }
+    },
+    "ProfileNickname": {
+      "type": "object",
+      "description": "닉네임",
+      "properties": {
+        "nickname": {
+          "description": "닉네임",
+          "type": "string",
+          "format": "string",
+          "example": "달달한 너구리"
+        }
+      }
+    },
+    "ProfileNicknameWithTimestamp": {
+      "type": "object",
+      "description": "프로필 닉네임 정보",
+      "required": [
+        "nickname",
+        "timestamp"
+      ],
+      "properties": {
+        "nickname": {
+          "description": "닉네임",
+          "type": "string",
+          "format": "string",
+          "example": "달달한 너구리"
+        },
+        "timestamp": {
+          "description": "갱신 시간",
+          "type": "integer",
+          "format": "datetime",
+          "example": 1648433785800
+        }
+      }
+    },
+    "SignedProfileNickname": {
+      "type": "object",
+      "description": "서명된 프로필 닉네임 정보",
+      "required": [
+        "info",
+        "hash_sign"
+      ],
+      "properties": {
+        "info": {
+          "$ref": "#/definitions/ProfileNicknameWithTimestamp"
+        },
+        "hash_sign": {
+          "description": "Metamask로 서명된 프로필 닉네임 갱신 정보의 해쉬 값",
+          "type": "string",
+          "format": "sha256-hash",
+          "example": "0xb075e20f0ab0b27d30cd238bcbd54e0936daee9381f7d9ce562404a2b1c3d69d483e997ded8aee17d12d54da3472c4c35dcdaa9139c52ab785f34a9f585fd6ba1cZ"
+        }
+      }
+    },
+    "ProfileDescription": {
+      "type": "object",
+      "description": "자기 소개",
+      "properties": {
+        "description": {
+          "description": "자기 소개",
+          "type": "string",
+          "format": "string",
+          "example": "너구리 한마리 몰고 가세요"
+        }
+      }
+    },
+    "ProfileDescriptionWithTimestamp": {
+      "type": "object",
+      "description": "프로필 자기 소개 정보",
+      "required": [
+        "description",
+        "timestamp"
+      ],
+      "properties": {
+        "description": {
+          "description": "자기 소개",
+          "type": "string",
+          "format": "string",
+          "example": "너구리 한마리 몰고 가세요"
+        },
+        "timestamp": {
+          "description": "갱신 시간",
+          "type": "integer",
+          "format": "datetime",
+          "example": 1648433785800
+        }
+      }
+    },
+    "SignedProfileDescription": {
+      "type": "object",
+      "description": "서명된 프로필 자기 소개 정보",
+      "required": [
+        "info",
+        "hash_sign"
+      ],
+      "properties": {
+        "info": {
+          "$ref": "#/definitions/ProfileDescriptionWithTimestamp"
+        },
+        "hash_sign": {
+          "description": "Metamask로 서명된 프로필 자기 소개 정보의 해쉬 값",
+          "type": "string",
+          "format": "sha256-hash",
+          "example": "0xb075e20f0ab0b27d30cd238bcbd54e0936daee9381f7d9ce562404a2b1c3d69d483e997ded8aee17d12d54da3472c4c35dcdaa9139c52ab785f34a9f585fd6ba1c"
+        }
+      }
+    },
+    "ProfileImageURI": {
+      "type": "object",
+      "description": "이미지 URI",
+      "properties": {
+        "image_uri": {
+          "description": "이미지 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs/..."
+        }
+      }
+    },
+    "ProfileImageURIWithTimestamp": {
+      "type": "object",
+      "description": "프로필 이미지 URI 정보",
+      "required": [
+        "image_uri",
+        "timestamp"
+      ],
+      "properties": {
+        "image_uri": {
+          "description": "이미지 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs/..."
+        },
+        "timestamp": {
+          "description": "갱신 시간",
+          "type": "integer",
+          "format": "datetime",
+          "example": 1648433785800
+        }
+      }
+    },
+    "SignedProfileImageURI": {
+      "type": "object",
+      "description": "서명된 프로필 이미지 URI 정보",
+      "required": [
+        "info",
+        "hash_sign"
+      ],
+      "properties": {
+        "info": {
+          "$ref": "#/definitions/ProfileImageURIWithTimestamp"
+        },
+        "hash_sign": {
+          "description": "Metamask로 서명된 프로필 이미지 URI 정보의 해쉬 값",
+          "type": "string",
+          "format": "sha256-hash",
+          "example": "0xb075e20f0ab0b27d30cd238bcbd54e0936daee9381f7d9ce562404a2b1c3d69d483e997ded8aee17d12d54da3472c4c35dcdaa9139c52ab785f34a9f585fd6ba1c"
+        }
+      }
+    },
+    "ProfileCreatedAt": {
+      "type": "object",
+      "description": "생성 일시",
+      "properties": {
+        "created_at": {
+          "description": "생성 일시",
+          "type": "integer",
+          "format": "datetime",
+          "example": 1648433785800
+        }
+      }
+    },
+    "ProfileGallery": {
+      "type": "object",
+      "description": "갤러리 크기",
+      "properties": {
+        "gallery": {
+          "description": "갤러리 크기",
+          "type": "string",
+          "format": "size",
+          "example": "galleryS"
+        }
+      }
+    },
+    "ProfileGalleryWithTimestamp": {
+      "type": "object",
+      "description": "프로필 갤러리 크기 정보",
+      "required": [
+        "gallery",
+        "timestamp"
+      ],
+      "properties": {
+        "gallery": {
+          "description": "갤러리 크기",
+          "type": "string",
+          "format": "size",
+          "example": "galleryS"
+        },
+        "timestamp": {
+          "description": "갱신 시간",
+          "type": "integer",
+          "format": "datetime",
+          "example": 1648433785800
+        }
+      }
+    },
+    "ProfileAddress": {
+      "type": "object",
+      "description": "사용자 주소",
+      "required": [
+        "nickname"
+      ],
+      "properties": {
+        "nickname": {
+          "description": "닉네임",
+          "type": "string",
+          "format": "size",
+          "example": "닉네임"
+        }
+      }
+    },
+    "ProfileAddresses": {
+      "type": "array",
+      "description": "지갑주소 배열",
+      "items": {
+        "type": "object",
+        "properties": {
+          "wallet_id": {
+            "type": "string",
+            "example": "0xD823e14ed981f56Ca624D2d6FeE99Fa89af8Be31"
+          }
+        }
+      }
+    },
+    "SignedProfileGallery": {
+      "type": "object",
+      "description": "서명된 프로필 갤러리 크기 정보",
+      "required": [
+        "info",
+        "hash_sign"
+      ],
+      "properties": {
+        "info": {
+          "$ref": "#/definitions/ProfileGalleryWithTimestamp"
+        },
+        "hash_sign": {
+          "description": "Metamask로 서명된 프로필 이미지 정보의 해쉬 값",
+          "type": "string",
+          "format": "sha256-hash",
+          "example": "0xb075e20f0ab0b27d30cd238bcbd54e0936daee9381f7d9ce562404a2b1c3d69d483e997ded8aee17d12d54da3472c4c35dcdaa9139c52ab785f34a9f585fd6ba1c"
+        }
+      }
+    },
+    "RoleOccupation": {
+      "type": "object",
+      "description": "역할",
+      "properties": {
+        "occupation": {
+          "description": "역할",
+          "type": "string",
+          "format": "string",
+          "example": "감독"
+        }
+      }
+    },
+    "RoleStaffId": {
+      "type": "object",
+      "description": "스태프 ID",
+      "properties": {
+        "staff_id": {
+          "description": "스태프 ID",
+          "type": "integer",
+          "format": "int64",
+          "example": 123
+        }
+      }
+    },
+    "RoleShowId": {
+      "type": "object",
+      "description": "공연 ID",
+      "properties": {
+        "show_id": {
+          "description": "공연 ID",
+          "type": "integer",
+          "format": "int64",
+          "example": 123
+        }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "description": "역할 정보",
+      "required": [
+        "occupation",
+        "staff_id",
+        "show_id"
+      ],
+      "properties": {
+        "occupation": {
+          "description": "역할",
+          "type": "string",
+          "format": "string",
+          "example": "감독"
+        },
+        "staff_id": {
+          "description": "스태프 ID",
+          "type": "integer",
+          "format": "int64",
+          "example": 123
+        },
+        "show_id": {
+          "description": "공연 ID",
+          "type": "integer",
+          "format": "int64",
+          "example": 123
+        }
+      }
+    },
+    "SaleShowScheduleId": {
+      "type": "object",
+      "description": "공연 스케줄 ID",
+      "properties": {
+        "show_schedule_id": {
+          "description": "공연 스케줄 ID",
+          "type": "integer",
+          "format": "int256",
+          "example": 123
+        }
+      }
+    },
+    "SaleDescription": {
+      "type": "object",
+      "description": "티켓 판매에 관한 설명",
+      "properties": {
+        "description": {
+          "description": "티켓 판매에 관한 설명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드는..."
+        }
+      }
+    },
+    "SaleStartedAt": {
+      "type": "object",
+      "description": "티켓 판매 시작 시간",
+      "properties": {
+        "started_at": {
+          "description": "티켓 판매 시작 시간",
+          "type": "string",
+          "format": "datetime",
+          "example": "2022-03-30T17:24:14.000Z"
+        }
+      }
+    },
+    "SaleEndedAt": {
+      "type": "object",
+      "description": "티켓 판매 종료 시간",
+      "properties": {
+        "ended_at": {
+          "description": "티켓 판매 종료 시간",
+          "type": "string",
+          "format": "datetime",
+          "example": "2022-03-30T17:24:14.000Z"
+        }
+      }
+    },
+    "Sale": {
+      "type": "object",
+      "description": "티켓 판매 정보",
+      "required": [
+        "show_schedule_id",
+        "description",
+        "started_at",
+        "ended_at"
+      ],
+      "properties": {
+        "show_schedule_id": {
+          "description": "공연 스케줄 ID",
+          "type": "integer",
+          "format": "int256",
+          "example": 123
+        },
+        "description": {
+          "description": "티켓 판매에 관한 설명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드는..."
+        },
+        "started_at": {
+          "description": "티켓 판매 시작 시간",
+          "type": "string",
+          "format": "datetime",
+          "example": "2022-03-30T17:24:14.000Z"
+        },
+        "ended_at": {
+          "description": "티켓 판매 종료 시간",
+          "type": "string",
+          "format": "datetime",
+          "example": "2022-03-30T17:24:14.000Z"
+        }
+      }
+    },
+    "ShowCategoryName": {
+      "type": "object",
+      "description": "공연 카테고리 명",
+      "properties": {
+        "category_name": {
+          "description": "카테고리 명",
+          "type": "string",
+          "format": "string",
+          "example": 123
+        }
+      }
+    },
+    "ShowName": {
+      "type": "object",
+      "description": "공연 명",
+      "properties": {
+        "name": {
+          "description": "공연 명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드"
+        }
+      }
+    },
+    "ShowDescription": {
+      "type": "object",
+      "description": "공연 설명",
+      "properties": {
+        "description": {
+          "description": "공연 설명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드는..."
+        }
+      }
+    },
+    "ShowRunningTime": {
+      "type": "object",
+      "description": "공연 길이",
+      "properties": {
+        "running_time": {
+          "description": "공연 길이",
+          "type": "integer",
+          "format": "int64",
+          "example": 228
+        }
+      }
+    },
+    "ShowAgeLimit": {
+      "type": "object",
+      "description": "공연 연령 제한",
+      "properties": {
+        "age_limit": {
+          "description": "공연 연령 제한",
+          "type": "integer",
+          "format": "int64",
+          "example": 15
+        }
+      }
+    },
+    "ShowPosterURI": {
+      "type": "object",
+      "description": "공연 포스터 URI",
+      "properties": {
+        "poster_uri": {
+          "description": "공연 포스터 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        }
+      }
+    },
+    "ShowVideoURI": {
+      "type": "object",
+      "description": "공연 예고편 URI",
+      "properties": {
+        "video_uri": {
+          "description": "공연 예고편 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        }
+      }
+    },
+    "ShowDefaultTicketImageURI": {
+      "type": "object",
+      "description": "공연 기본 티켓 이미지 URI",
+      "properties": {
+        "default_ticket_image_uri": {
+          "description": "공연 기본 티켓 이미지 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        }
+      }
+    },
+    "ShowStageSeller": {
+      "type": "object",
+      "description": "공연 기획자 지갑 주소",
+      "properties": {
+        "default_ticket_image_uri": {
+          "description": "공연 기획자 지갑 주소",
+          "type": "string",
+          "format": "wallet_address",
+          "example": "0xD823e14ed981f56Ca624D2d6FeE99Fa89af8Be31"
+        }
+      }
+    },
+    "ShowShowSchedule": {
+      "type": "object",
+      "description": "공연 스케줄 정보",
+      "properties": {
+        "show_schedule_id": {
+          "description": "공연 스케줄 ID",
+          "type": "integer",
+          "format": "contract_id",
+          "example": 123
+        },
+        "address": {
+          "description": "공연 스케줄 주소",
+          "type": "string",
+          "format": "contract_address",
+          "example": "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679"
+        }
+      }
+    },
+    "Show": {
+      "type": "object",
+      "description": "공연 정보",
+      "required": [
+        "category_name",
+        "name",
+        "description",
+        "running_time",
+        "age_limit",
+        "poster_uri",
+        "video_uri",
+        "default_ticket_image_uri",
+        "stage_seller"
+      ],
+      "properties": {
+        "category_name": {
+          "description": "카테고리 명",
+          "type": "string",
+          "format": "string",
+          "example": 123
+        },
+        "name": {
+          "description": "공연명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드"
+        },
+        "description": {
+          "description": "공연 설명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드는..."
+        },
+        "running_time": {
+          "description": "공연 길이",
+          "type": "integer",
+          "format": "int64",
+          "example": 228
+        },
+        "age_limit": {
+          "description": "공연 연령 제한",
+          "type": "integer",
+          "format": "int64",
+          "example": 15
+        },
+        "poster_uri": {
+          "description": "공연 포스터 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        },
+        "video_uri": {
+          "description": "공연 예고편 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        },
+        "default_ticket_image_uri": {
+          "description": "공연 기본 티켓 이미지 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        }
+      }
+    },
+    "ShowWithAddress": {
+      "type": "object",
+      "description": "공연 정보 (공연 스케줄 주소 목록 포함)",
+      "required": [
+        "category_name",
+        "name",
+        "description",
+        "running_time",
+        "age_limit",
+        "poster_uri",
+        "video_uri",
+        "default_ticket_image_uri",
+        "show_schedule_address"
+      ],
+      "properties": {
+        "category_name": {
+          "description": "카테고리 명",
+          "type": "string",
+          "format": "string",
+          "example": 123
+        },
+        "name": {
+          "description": "공연명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드"
+        },
+        "description": {
+          "description": "공연 설명",
+          "type": "string",
+          "format": "string",
+          "example": "지킬앤하이드는..."
+        },
+        "running_time": {
+          "description": "공연 길이",
+          "type": "integer",
+          "format": "int64",
+          "example": 228
+        },
+        "age_limit": {
+          "description": "공연 연령 제한",
+          "type": "integer",
+          "format": "int64",
+          "example": 15
+        },
+        "poster_uri": {
+          "description": "공연 포스터 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        },
+        "video_uri": {
+          "description": "공연 예고편 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        },
+        "default_ticket_image_uri": {
+          "description": "공연 기본 티켓 이미지 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        },
+        "show_schedule_address": {
+          "description": "공연 스케줄 CA 목록",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "0x72e342D7E5dDfc7aF7b6c470EeACe96b3B6c5679"
+          }
+        },
+        "staffs": {
+          "description": "공연 스태프 이름 목록",
+          "type": "string",
+          "format": "comma_separated_list",
+          "example": "김범수,조권"
+        }
+      }
+    },
+    "StaffName": {
+      "type": "object",
+      "description": "스태프 이름",
+      "properties": {
+        "name": {
+          "description": "스태프 이름",
+          "type": "string",
+          "format": "string",
+          "example": "지킬"
+        }
+      }
+    },
+    "StaffImageURI": {
+      "type": "object",
+      "description": "스태프 사진 URI",
+      "properties": {
+        "image_uri": {
+          "description": "스태프 사진 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        }
+      }
+    },
+    "Staff": {
+      "type": "object",
+      "description": "스태프 정보",
+      "required": [
+        "name",
+        "image_uri"
+      ],
+      "properties": {
+        "name": {
+          "description": "스태프 이름",
+          "type": "string",
+          "format": "string",
+          "example": "지킬"
+        },
+        "image_uri": {
+          "description": "스태프 사진 URI",
+          "type": "string",
+          "format": "uri",
+          "example": "http://ipfs..."
+        }
+      }
+    },
+    "BlockHash": {
+      "type": "object",
+      "description": "블록해쉬와 티켓ID",
+      "properties": {
+        "ticket_id": {
+          "description": "티켓 ID",
+          "type": "integer",
+          "format": "int64",
+          "example": 11
+        },
+        "block_hash": {
+          "description": "블록 해쉬",
+          "type": "string",
+          "format": "string",
+          "example": "8f4b5b1cef254bb017b981dc67acc5066845969c8566c3e2ed9a45f3e83e2604"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
