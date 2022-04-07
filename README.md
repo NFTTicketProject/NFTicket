@@ -467,7 +467,7 @@ NFTicket
 ### 티켓 예매
 - 원하는 좌석, 원하는 날짜를 선택하고 티켓을 구매합니다.
 
-<img width="100%" src="docs.images/demo_reservation.gif"/>
+<img width="100%" src="docs/images/demo_reservation.gif"/>
 
 ### 티켓 꾸미기 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
