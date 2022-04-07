@@ -451,11 +451,10 @@ NFTicket
 
 <img width="100%" src="docs/images/demo_editprofile.gif"/>
 
-### 공연 등록 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+### 공연 등록
+- 공연명, 공연 장소, 공연 시간, 관람제한 연령, 공연설명, 포스터 이미지 등을 입력받아 공연을 등록합니다.
 
-<img width="100%" src="https://cdn.notefolio.net/img/d6/3f/d63fc54819cd3fb0c319021e2e7cd6bfee951e8ce2db9e948bd828f538272da6_v1.jpg"/>
+<img width="100%" src="docs/images/demo_registershow.gif"/>
 
 ### 공연 티켓 판매 페이지
 - 현재 진행 중인 공연에 대한 상세정보와 출연진을 확인할 수 있습니다.
