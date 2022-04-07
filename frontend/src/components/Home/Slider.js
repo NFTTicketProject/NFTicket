@@ -44,17 +44,37 @@ const HomeSlider = () => {
         </div>
       </Link>
 
-      <Link to='/Market'>
+      <Link to='/Guide'>
         <div>
           <img
-            src='images/carousel1.png'
+            src='images/carousel2-1.png'
             alt=''
             style={{ width: "100vw" }}
           ></img>
         </div>
       </Link>
 
-      <Link to='/Guide'>
+      <Link to='/MyPage'>
+        <div>
+          <img
+            src='images/carousel3.png'
+            alt=''
+            style={{ width: "100vw" }}
+          ></img>
+        </div>
+      </Link>
+
+      <Link to='/ShowPublish'>
+        <div>
+          <img
+            src='images/carousel4.png'
+            alt=''
+            style={{ width: "100vw" }}
+          ></img>
+        </div>
+      </Link>
+
+      {/* <Link to='/Guide'>
         <div>
           <img
             src='images/carousel2.png'
@@ -62,27 +82,7 @@ const HomeSlider = () => {
             style={{ width: "100vw" }}
           ></img>
         </div>
-      </Link>
-
-      <Link to='/Market'>
-        <div>
-          <img
-            src='images/carousel1.png'
-            alt=''
-            style={{ width: "100vw" }}
-          ></img>
-        </div>
-      </Link>
-
-      <Link to='/Guide'>
-        <div>
-          <img
-            src='images/carousel2.png'
-            alt=''
-            style={{ width: "100vw" }}
-          ></img>
-        </div>
-      </Link>
+      </Link> */}
     </Slider>
   );
 };
