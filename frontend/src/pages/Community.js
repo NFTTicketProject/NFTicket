@@ -150,13 +150,13 @@ const Community = () => {
       const balanceLength = await myTicketContract.methods
         .balanceOf(wallet)
         .call();
-      console.log("총 갯수", balanceLength);
+      // console.log("총 갯수", balanceLength);
 
       const tempArray = [];
       for (let i = 0; i < parseInt(balanceLength, 10); i++) {
         // 거꾸로 가자
         var j = parseInt(balanceLength, 10) - i - 1;
-        console.log("j", j);
+        // console.log("j", j);
         // ticketId: 1부터 시작
         const ticketId = await myTicketContract.methods
           .tokenOfOwnerByIndex(wallet, j)
@@ -193,7 +193,7 @@ const Community = () => {
         // console.log("티켓 주소", ticketId, ticketUri);
         // console.log("공연정보", showInfo);
         var showDesc = showInfo.data.description;
-        console.log(showDesc);
+        // console.log(showDesc);
         if (showDesc) {
           if (showDesc.length > 80)
             showDesc = showDesc.substring(0, 79) + " ...";
@@ -282,12 +282,12 @@ const Community = () => {
       // Unity->React로 방을 만들었다는 내용을 보낸다
       if (name === "입장완료") {
         // 입장 완료시 티켓 정보를 보내줌
-        console.log("순서 측정 3", ticketArray);
+        // console.log("순서 측정 3", ticketArray);
         loadTickets();
         // 커뮤니티 입장하겠다는 선언
       } else if (name === "commuSSAFY") {
         // 입장 조건을 갖추지 못했을때와 그럴때 둘 다 대응
-        console.log(nickname);
+        // console.log(nickname);
         if (nickname === "Guest") {
           // 입장 가능
           unityContext.send("NetworkManager", "CreateCommu", "galleryS");

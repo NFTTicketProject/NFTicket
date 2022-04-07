@@ -17,7 +17,7 @@ const DatepickerComponent = ({ detailInfo, setDetailInfo }) => {
       endedAt: parseInt((endDate.getTime() - new Date().getTime()) / 1000), // - new Date().getTime(),
       // endedAt: parseInt(endDate.getTime() / 1000), // - new Date().getTime(),
     });
-    console.log("보낸값 : ", (startDate.getTime() - new Date().getTime()) / 1000);
+    // console.log("보낸값 : ", (startDate.getTime() - new Date().getTime()) / 1000);
   }, [startDate, endDate]);
   // useEffect(() => {
   //   handleDate(

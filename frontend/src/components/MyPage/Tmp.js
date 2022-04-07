@@ -62,7 +62,7 @@ function Tmp(props) {
   }, []);
 
   // console.log("🐸", ticketInfo.getStartedAt, new Date().getTime(), ticketInfo.getEndedAt);
-  console.log("🐸", ticketInfo.isEnded);
+  // console.log("🐸", ticketInfo.isEnded);
   // var started = 1649163507000;
   // var ended = 1649163867000;
   // var date = new Date().getTime();

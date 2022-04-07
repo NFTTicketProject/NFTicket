@@ -34,7 +34,7 @@ const HomeShow = (props) => {
     e.target.src = "images/posterImg1.png";
   };
 
-  console.log("✅", props);
+  // console.log("✅", props);
 
   return (
     <PerformContainer>

@@ -43,7 +43,7 @@ const Purchase = () => {
           0
         )
         .send({ from: myAddresss });
-      console.log(createMyTicket);
+      // console.log(createMyTicket);
       if (createMyTicket.status) {
         // approve
         const approval = await IERC20Contract.methods
@@ -53,7 +53,7 @@ const Purchase = () => {
           const register = await showScheduleContract.methods
             .registerTicket(0, 2, 1)
             .send({ from: myAddresss });
-          console.log(register);
+          // console.log(register);
         }
       }
     } catch (err) {
@@ -85,11 +85,11 @@ const Purchase = () => {
         0
       )
       .send({ from: myAddresss });
-    console.log(response);
+    // console.log(response);
     // var ticktId = response.events.Transfer.id
     // var ticktId = response.events.Transfer.blockNumber
     var ticketId = response.events.Transfer.returnValues.tokenId;
-    console.log("id", ticketId);
+    // console.log("id", ticketId);
     // 발매한 티켓을 판다. 이때 조건이 맞는지 확인한다.
     // parameter : (uint256 classId, uint256 seatIndex, uint256 ticketId)
     // classId : 좌석 등급을 번호로 변형(S->0)
@@ -98,7 +98,7 @@ const Purchase = () => {
     var res = await showScheduleContract.methods
       .registerTicket(0, 1, parseInt(ticketId))
       .send({ from: myAddresss });
-    console.log(res);
+    // console.log(res);
   };
 
   // 내 티켓 전부 가져오기
