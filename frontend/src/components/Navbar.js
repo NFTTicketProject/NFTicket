@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,18 +15,18 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 // import logoImg from "../images/logo.png";
 
 // Navbar에 페이지 추가하고싶으시면, 바로 아랫 줄 pages 안에 요소 추가하시면 됩니다.
 const pages = [
   // "Profile",
-  { name: "공연등록", link: "ShowPublish" },
-  { name: "공연목록", link: "Show" },
-  { name: "마켓", link: "Market" },
+  { name: "공연 등록", link: "ShowPublish" },
+  { name: "공연몰", link: "Show" },
+  { name: "티켓몰", link: "Market" },
   { name: "커뮤니티", link: "Community" },
-  { name: "Guide", link: "Guide" },
+  { name: "가이드", link: "Guide" },
   // { name: "상세인무언가", link: "Detail" },
   // { name: "이미지수정", link: "Toast UI" },
   // { name: "무언가작업중", link: "Detail-Handover" },
@@ -45,10 +47,38 @@ const Logo = styled.img`
 const ResponsiveAppBar = () => {
   // react 6.0 버전 이후부터 useHistory => useNavigate 로 바뀌었다고 합니다.
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [currentPage, setCurrentPage] = useState("Home");
+
+  // 로그인 여부
+  const userData = JSON.parse(localStorage.getItem("userAccount"));
+  const [userInfo, setUserInfo] = useState();
+  const [isConnected, setIsConnected] = useState(false);
+  const [walletInfo, setWalletInfo] = useState({
+    nickname: "Unnamed",
+    description: "Please Write Description",
+  });
+
+  // 지갑연결하기
+  function checkConnectedWallet() {
+    const userData = JSON.parse(localStorage.getItem("userAccount"));
+    if (userData != null) {
+      setUserInfo(userData);
+      setIsConnected(true);
+      // api 통해 지갑 정보 가져오고, walletInfo에 정보 추가
+      // .get
+      axios
+        .get(`https://nfticket.plus/api/v1/profile/${userData.account}`)
+        .then((res) => {
+          setWalletInfo(res.data);
+          // console.log(res);
+        })
+        .catch((err) => console.error(err));
+    }
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -65,6 +95,10 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  useEffect(() => {
+    checkConnectedWallet();
+  }, []);
 
   return (
     <AppBar
@@ -189,6 +223,7 @@ const ResponsiveAppBar = () => {
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
+              mx: 3,
             }}
           >
             {pages.map((page) => {
@@ -251,7 +286,15 @@ const ResponsiveAppBar = () => {
                 }}
                 sx={{ p: 0 }}
               >
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                {userData === null ? (
+                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                ) : (
+                  <Avatar
+                    alt='Remy Sharp'
+                    src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`}
+                  />
+                )}
+                {/* <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' /> */}
               </IconButton>
             </Tooltip>
             <Menu

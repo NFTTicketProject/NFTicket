@@ -29,7 +29,8 @@ function Settings() {
 
   const signMessage = async (message) => {
     // 메타마스크가 없으면 에러
-    if (!window.ethereum) throw new Error("No crypto wallet found. Please install it.");
+    if (!window.ethereum)
+      throw new Error("No crypto wallet found. Please install it.");
 
     await window.ethereum.send("eth_requestAccounts");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -49,12 +50,16 @@ function Settings() {
     const sign = await signMessage(JSON.stringify(data));
     const sendData = { info: data, hash_sign: sign };
     axios
-      .patch(`https://nfticket.plus/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
+      .patch(
+        `https://nfticket.plus/api/v1/account/edit/${userInfo.wallet_id}`,
+        sendData,
+      )
       .then((res) => {
         // console.log(res);
         if (res.status) {
           navigate("/MyPage");
         }
+        window.location.reload(false);
       })
       .catch((err) => {
         console.error(err);
@@ -64,6 +69,7 @@ function Settings() {
   const getUserInfo = () => {
     if (localStorage.getItem("userAccount")) {
       const userData = JSON.parse(localStorage.getItem("userAccount"));
+
       // .get
       axios
         .get(`https://nfticket.plus/api/v1/profile/${userData.account}`)
@@ -86,22 +92,26 @@ function Settings() {
       <ProfileImage userInfo={userInfo} setUserInfo={setUserInfo} />
       <h2>Username</h2>
       <InputForm
-        type="text"
-        name="nickname"
-        placeholder="Enter Nickname"
+        type='text'
+        name='nickname'
+        placeholder='Enter Nickname'
         value={userInfo.nickname}
         onChange={handleChange}
       />
       <h2>Description</h2>
       <InputForm
-        type="text"
-        name="description"
-        placeholder="Enter Description"
+        type='text'
+        name='description'
+        placeholder='Enter Description'
         value={userInfo.description}
         onChange={handleChange}
       />
       <div>
-        <Button variant="contained" onClick={editInfo} style={{ marginTop: "1rem" }}>
+        <Button
+          variant='contained'
+          onClick={editInfo}
+          style={{ marginTop: "1rem" }}
+        >
           수정
         </Button>
         <Button

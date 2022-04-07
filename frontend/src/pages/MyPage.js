@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import TicketCollection from "../components/TicketCollection";
 import {
@@ -110,13 +110,15 @@ function MyPage() {
     nickname: "Unnamed",
     description: "Please Write Description",
   });
-    ////
+  ////
   const [ticketArray, setTicketArray] = useState([]);
   const [myTicketArray, setMyTicketArray] = useState([]);
   const [saleStatus, setSaleStatus] = useState(false);
 
   // Redux
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const detectCurrentProvider = () => {
     let provider;
@@ -169,6 +171,7 @@ function MyPage() {
     } catch (err) {
       console.error(err);
     }
+    window.location.reload(false);
   };
 
   const saveUserInfo = (ethBalance, account, chainId) => {
@@ -188,6 +191,7 @@ function MyPage() {
     setUserInfo({});
     setIsConnected(false);
     setWalletInfo([]);
+    window.location.reload(false);
   };
 
   function checkConnectedWallet() {
@@ -242,9 +246,13 @@ function MyPage() {
           .call();
         // 공연 이름 ??????????????????
         const showId = await showScheduleContract.methods.getShowId().call();
-        const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
+        const showInfo = await axios.get(
+          `https://nfticket.plus/api/v1/show/${showId}`,
+        );
         // 티켓 이미지 주소
-        const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
+        const ticketUri = await myTicketContract.methods
+          .getTokenURI(ticketId)
+          .call();
 
         tempArray.push({
           ticketId,
@@ -269,7 +277,9 @@ function MyPage() {
 
       const tempAddress = [];
       for (let i = 0; i < parseInt(cnt.length); i++) {
-        const saleAddr = await ticketSaleManagerContract.methods.getSale(parseInt(cnt[i])).call();
+        const saleAddr = await ticketSaleManagerContract.methods
+          .getSale(parseInt(cnt[i]))
+          .call();
         tempAddress.push({ saleAddr });
       }
       setMyTicketArray(tempAddress);
@@ -277,7 +287,6 @@ function MyPage() {
       console.error(err);
     }
   };
- 
 
   useEffect(() => {
     checkConnectedWallet();
@@ -290,8 +299,8 @@ function MyPage() {
     getMyTicketsOnSale();
     getMyShows();
     getMyTickets();
-  }, [pageNum])
-  
+  }, [pageNum]);
+
   // 로열티 회수
   const wtRoyalty = async () => {
     try {
@@ -517,7 +526,9 @@ function MyPage() {
                   등록 공연
                 </NavListItemSelected>
               ) : (
-                <NavListItem onClick={() => handlePageNum(3)}>등록 공연</NavListItem>
+                <NavListItem onClick={() => handlePageNum(3)}>
+                  등록 공연
+                </NavListItem>
               )}
             </NavList>
 
@@ -577,7 +588,6 @@ function MyPage() {
               </div>
             )}
           </div>
-
         </>
       ) : (
         <UnconnectedContainer>
