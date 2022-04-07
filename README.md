@@ -98,6 +98,210 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 ## ✔ 프로젝트 파일 구조
 ---
 ### Frontend
+
+```
+Frontend
+├── README.md
+├── package.json
+├── public
+│   ├── build
+│   │   ├── 02.Gallery.data
+│   │   ├── 02.Gallery.framework.js
+│   │   ├── 02.Gallery.loader.js
+│   │   └── 02.Gallery.wasm
+│   ├── favicon-1.ico
+│   ├── favicon-2.ico
+│   ├── favicon.ico
+│   ├── images
+│   │   ├── 1.png
+│   │   ├── ...
+│   │   └── ticketImg5.png
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── components
+│   │   ├── AnimalCard.js
+│   │   ├── CreateImage.js
+│   │   ├── DatepickerComponent.js
+│   │   ├── Footer.js
+│   │   ├── Home
+│   │   │   ├── Community.js
+│   │   │   ├── CommunityItem.js
+│   │   │   ├── Home.css
+│   │   │   ├── HomeShow.js
+│   │   │   ├── HomeTicket.js
+│   │   │   ├── Perform.js
+│   │   │   ├── PerformShow.js
+│   │   │   ├── PerformTicket.js
+│   │   │   ├── Slider.css
+│   │   │   ├── Slider.js
+│   │   │   ├── SpecialTicket.js
+│   │   │   ├── Ticket.js
+│   │   │   ├── Ticketo.js
+│   │   │   ├── TicketoItem.js
+│   │   │   └── TodayPerformance.js
+│   │   ├── InputEditor.js
+│   │   ├── InputItem.js
+│   │   ├── InputList.js
+│   │   ├── MyAnimalCard.js
+│   │   ├── MyPage
+│   │   │   ├── MyShow.js
+│   │   │   ├── MyTicket.js
+│   │   │   ├── MyTicketItem.js
+│   │   │   ├── SellTicket.js
+│   │   │   ├── TicketOnSale.js
+│   │   │   └── Tmp.js
+│   │   ├── Navbar.css
+│   │   ├── Navbar.js
+│   │   ├── Perform3.js
+│   │   ├── PosterImage.js
+│   │   ├── ProfileImage.js
+│   │   ├── Purchase
+│   │   │   ├── Seat.css
+│   │   │   ├── Seat.js
+│   │   │   ├── SeatInfo.js
+│   │   │   ├── SeatInfomation.js
+│   │   │   ├── SeatItem.js
+│   │   │   └── SeatLine.js
+│   │   ├── SaleAnimalCard.js
+│   │   ├── Settings.js
+│   │   ├── ShowDetail
+│   │   │   ├── TopLeft.css
+│   │   │   ├── TopLeft.js
+│   │   │   └── TopRight.js
+│   │   ├── ShowList.js
+│   │   ├── ShowPublish
+│   │   │   ├── InputEditor.js
+│   │   │   ├── InputItem.js
+│   │   │   └── InputList.js
+│   │   ├── TicketCollection.js
+│   │   ├── TicketDetail
+│   │   │   ├── Bottom.js
+│   │   │   ├── Middle.js
+│   │   │   ├── MiddleLeft.js
+│   │   │   ├── MiddleRight.js
+│   │   │   ├── NFTInfo.js
+│   │   │   ├── Notification.js
+│   │   │   ├── PurchaseTicket.js
+│   │   │   ├── TicketImage.js
+│   │   │   ├── TicketInfo.js
+│   │   │   ├── TopLeft.css
+│   │   │   ├── TopLeft.js
+│   │   │   ├── TopRight.js
+│   │   │   └── TradeHistory.js
+│   │   ├── TicketDetailHandover
+│   │   │   ├── Bottom.js
+│   │   │   ├── Middle.js
+│   │   │   ├── MiddleLeft.js
+│   │   │   ├── MiddleRight.js
+│   │   │   ├── OtherTicketInfo.js
+│   │   │   ├── Top.js
+│   │   │   ├── TopLeft.js
+│   │   │   └── TopRight.js
+│   │   ├── TicketSale.js
+│   │   ├── TradeTicket.js
+│   │   ├── common
+│   │   │   └── ScrollToTop.js
+│   │   ├── guide
+│   │   │   ├── GuideBody.js
+│   │   │   ├── GuideBodyComponent.css
+│   │   │   ├── GuideBodyComponent.js
+│   │   │   ├── GuideHeader.css
+│   │   │   ├── GuideHeader.js
+│   │   │   ├── GuideTitle.css
+│   │   │   └── GuideTitle.js
+│   │   └── toast
+│   │       └── DrawerMain.js
+│   ├── images
+│   │   ├── logo.png
+│   │   └── stamp
+│   │       ├── emoticon
+│   │       │   ├── 01_really.png
+│   │       │   ├── ...
+│   │       │   └── 24_suspicious.png
+│   │       ├── family
+│   │       │   ├── 001.png
+│   │       │   ├── ...
+│   │       │   ├── 010.png
+│   │       │   └── readme.txt
+│   │       ├── galaxy
+│   │       │   ├── 001.png
+│   │       │   ├── ...
+│   │       │   ├── 015.png
+│   │       │   └── readme.txt
+│   │       ├── icon
+│   │       │   ├── 001.PNG
+│   │       │   ├── ...
+│   │       │   └── 048.PNG
+│   │       ├── normal
+│   │       │   ├── 001.png
+│   │       │   ├── ...
+│   │       │   ├── 120.png
+│   │       │   └── readme.txt
+│   │       ├── pin
+│   │       │   ├── 001.png
+│   │       │   ├── ...
+│   │       │   ├── 032.png
+│   │       │   └── readme.txt
+│   │       ├── sns
+│   │       │   ├── 001.png
+│   │       │   ├── ...
+│   │       │   ├── 068.png
+│   │       │   └── readme.txt
+│   │       ├── stamp1.png
+│   │       ├── ...
+│   │       └── stamp7.png
+│   ├── index.css
+│   ├── index.js
+│   ├── pages
+│   │   ├── Community.js
+│   │   ├── Decorate.js
+│   │   ├── Detail.js
+│   │   ├── Guide.js
+│   │   ├── Home.js
+│   │   ├── Market.js
+│   │   ├── Mint.js
+│   │   ├── MyAnimal.js
+│   │   ├── MyPage.js
+│   │   ├── MyTicket.js
+│   │   ├── NotFound.js
+│   │   ├── Page1.js
+│   │   ├── Page2.js
+│   │   ├── Page4.js
+│   │   ├── Payment.js
+│   │   ├── Profile.js
+│   │   ├── Purchase.js
+│   │   ├── SaleAnimal.js
+│   │   ├── ScheduleManager.js
+│   │   ├── SelectSeat.js
+│   │   ├── Show.js
+│   │   ├── ShowDetail.js
+│   │   ├── ShowPublish.js
+│   │   ├── Thumbnail.css
+│   │   ├── TicketDetail.css
+│   │   ├── TicketDetail.js
+│   │   ├── TicketDetail2.js
+│   │   ├── TicketDetailHandover.js
+│   │   ├── TicketPurchase.js
+│   │   └── TicketPurchaseDetail.js
+│   ├── store
+│   │   ├── GuidePageReducer.js
+│   │   ├── MushmomReducer.js
+│   │   ├── WalletReducer.js
+│   │   └── store.js
+│   └── utils
+│       ├── web3.js
+│       └── web3Config.js
+└── yarn.lock
+```
+
+### Backend
+
 ```
 NFTicket
 ├── README.md
@@ -235,4 +439,5 @@ NFTicket
 - 무한스크롤이 적용됩니다.
 
 <img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+
 
