@@ -439,11 +439,11 @@ NFTicket
 
 <img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
 
-### 로그인 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+### 로그인
+- 메타마스크 지갑주소를 사용해 로그인합니다.
+- 처음 접속하는 지갑주소인 경우, 임의로 설정된 닉네임, 자기소개, 프로필사진이 부여됩니다.
 
-<img width="30%" src="https://c.tenor.com/XHlB7aJ7fMAAAAAC/%ED%95%9C%EC%8B%AC%EC%A2%8C-%ED%95%9C%EC%8B%AC.gif"/>
+<img width="30%" src="docs/images/demo_login.gif"/>
 
 ### 프로필 변경 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
