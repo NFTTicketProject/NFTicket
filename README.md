@@ -446,10 +446,10 @@ NFTicket
 <img width="30%" src="docs/images/demo_login.gif"/>
 
 ### 프로필 변경 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+- 프로필을 변경 전, 지갑 소유자가 맞는지 확인하는 인증 절차를 거쳐야합니다. 
+- 닉네임, 프로필 사진, 자기소개를 변경 할 수 있습니다.
 
-<img width="30%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+<img width="30%" src="docs/images/demo_editprofile.gif"/>
 
 ### 공연 등록 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
