@@ -32,11 +32,11 @@ import SelectSeat from "./pages/SelectSeat";
 
 const TotalWrapDiv = styled.div`
   position: relative;
-  min-height: 100vh;
+  min-height: 120vh;
 `;
 
 const ContentWrapDiv = styled.div`
-  padding-bottom: 16rem;
+  padding-bottom: 12rem;
 `;
 
 function App() {

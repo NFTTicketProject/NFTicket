@@ -335,7 +335,7 @@ function ShowDetail() {
   // console.log('showDetailBack', showDetailBack)
 
   return (
-    <div>
+    <div style={{ paddingBottom: "100px" }}>
       <TopCss>
         <TopLeftCss>
           <TopLeft

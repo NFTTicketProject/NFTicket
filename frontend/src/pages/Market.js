@@ -21,6 +21,8 @@ import {
 
 const TotalWidthSetting = styled.div`
   width: 1400px;
+  padding-bottom: 100px;
+
   margin: auto;
 `;
 
