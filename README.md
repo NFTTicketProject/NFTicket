@@ -214,7 +214,7 @@ NFTicket
 - [플로우차트](./docs/docs/플로우차트.md)
 - [아키텍처](docs/docs/아키텍처.md)
 - [와이어프레임](docs/docs/와이어프레임.md)
-- [컨벤션](./docs/컨벤션.md) [수정 필요]
+- [컨벤션](docs/docs/컨벤션.md)
 - [API](docs/docs/apidocs.pdf)
 - [ERD](docs/docs/ERD.md)
 - [회의록](./docs/회의록.md) [수정 필요]
