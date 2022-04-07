@@ -30,7 +30,9 @@ const TodayPerformance = () => {
       .get(`https://nfticket.plus/api/v1/show/`)
       .then((res) => {
         var tmp = [];
-        if (count > res.data.length) count = res.data.length;
+        if (count > res.data.length) {
+          count = res.data.length;
+        }
         for (let i = 0; i < count; i++) {
           var j = count - i - 1;
           tmp.push(res.data[j]);
@@ -40,9 +42,20 @@ const TodayPerformance = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  console.log(showList);
+
   return (
     <TodayPerformContainer>
-      <p style={{ display: "flex", justifyContent: "center", fontSize: "28px", fontWeight: "600", marginTop: "60px", marginBottom: "50px" }}>
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "28px",
+          fontWeight: "600",
+          marginTop: "60px",
+          marginBottom: "50px",
+        }}
+      >
         🎪 오늘의 공연
       </p>
       <Container style={{ display: "flex", justifyContent: "center" }}>
