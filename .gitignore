@@ -1,6 +1,10 @@
 # 모든 폴더 무시
 /*
 
+# front, exec 폴더 포함
+!front/
+!exec/
+
 # back, solidity 폴더 포함
 !back/
 !solidity/
