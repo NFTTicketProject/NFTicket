@@ -308,7 +308,6 @@ NFTicket
 ├── api
 │   └── swagger.json
 ├── app.js
-├── logs
 ├── package-lock.json
 ├── package.json
 ├── prisma
@@ -322,6 +321,7 @@ NFTicket
 ├── routes
 │   ├── controllers
 │   │   ├── account.js
+│   │   ├── block.js
 │   │   ├── profile.js
 │   │   ├── role.js
 │   │   ├── sale.js
@@ -329,13 +329,14 @@ NFTicket
 │   │   └── staff.js
 │   └── index.js
 ├── services
+│   ├── address.js
 │   ├── auth.js
+│   ├── block.js
 │   ├── profile.js
 │   ├── role.js
 │   ├── sale.js
 │   ├── show.js
-│   ├── staff.js
-│   └── text_generater.js
+│   └── staff.js
 ├── start.sh
 └── utils
     ├── prisma.js
