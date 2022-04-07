@@ -457,11 +457,12 @@ NFTicket
 
 <img width="100%" src="https://cdn.notefolio.net/img/d6/3f/d63fc54819cd3fb0c319021e2e7cd6bfee951e8ce2db9e948bd828f538272da6_v1.jpg"/>
 
-### 공연 티켓 판매 페이지 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+### 공연 티켓 판매 페이지
+- 현재 진행 중인 공연에 대한 상세정보와 출연진을 확인할 수 있습니다.
+- 공연명, 공연장소, 판매기간, 공연시간, 관렴연령, 가격 등 공연에 관한 정보를 확인 할 수 있습니다.
+- 티켓 예매 페이지와 연결되는 링크를 제공합니다.
 
-<img width="100%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+<img width="100%" src="docs/images/demo_ticketsalepage.gif"/>
 
 ### 티켓 예매 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
