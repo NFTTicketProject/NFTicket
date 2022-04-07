@@ -217,7 +217,7 @@ NFTicket
 - [컨벤션](docs/docs/컨벤션.md)
 - [API](docs/docs/apidocs.pdf)
 - [ERD](docs/docs/ERD.md)
-- [회의록](./docs/회의록.md) [수정 필요]
+- [회의록](docs/docs/회의록.md)
 - [시스템기술서](./docs/TUPLI_시스템_기술서.docx) [수정 필요]
 - [명세기술서](./docs/TUPLI_명세_기술서.docx) [수정 필요]
 
