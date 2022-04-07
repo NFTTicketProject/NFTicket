@@ -33,7 +33,7 @@ function Profile() {
     axios
       .post(`https://nfticket.plus/api/v1/account/${accounts[0]}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.error(err);
@@ -45,7 +45,7 @@ function Profile() {
     axios
       .get(`https://nfticket.plus/api/v1/profile/${account}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setWalletInfo(res.data);
       })
       .catch((err) => console.error(err));
@@ -74,13 +74,13 @@ function Profile() {
           resellPriceLimit
         )
         .send({ from: account });
-      console.log(response);
+      // console.log(response);
 
       if (response.status) {
         const tokenId = response.events.Transfer.returnValues.tokenId;
-        console.log(`발행한 tokenId: ${tokenId}`);
+        // console.log(`발행한 tokenId: ${tokenId}`);
         const balanceLength = await myTicketContract.methods.balanceOf(account).call();
-        console.log(`해당 주소가 보유하고있는 NFT 토큰의 개수: ${balanceLength}`);
+        // console.log(`해당 주소가 보/유하고있는 NFT 토큰의 개수: ${balanceLength}`);
       }
     } catch (err) {
       console.error(err);

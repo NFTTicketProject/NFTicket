@@ -24,7 +24,7 @@ const PosterImgContainer = styled.img`
 `;
 
 function MyShow(props) {
-  console.log(props);
+  // console.log(props);
   const showScheduleContract = new web3.eth.Contract(showScheduleAbi, props.getShowSchedule);
   const userData = JSON.parse(localStorage.getItem("userAccount"));
   const [showInfo, setShowInfo] = useState({});
@@ -35,7 +35,7 @@ function MyShow(props) {
       const showId = await showScheduleContract.methods.getShowId().call();
 
       const res = await axios.get(`https://nfticket.plus/api/v1/show/${showId}/poster-uri`);
-      console.log(res.data.poster_uri);
+      // console.log(res.data.poster_uri);
 
       setShowInfo({ ...showInfo, stageName, poster: res.data.poster_uri });
     } catch (err) {

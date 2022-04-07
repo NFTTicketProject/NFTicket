@@ -236,7 +236,7 @@ function ShowDetail() {
       const withdraw = await showScheduleContract.methods
         .withdraw()
         .send({ from: userData.account });
-      console.log(withdraw);
+      // console.log(withdraw);
     } catch (err) {
       console.error(err);
     }

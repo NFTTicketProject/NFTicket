@@ -126,7 +126,7 @@ const TicketDetail2 = () => {
       const showInfo = await axios.get(
         `https://nfticket.plus/api/v1/show/${showId}`,
       );
-      console.log("showInfo", showInfo);
+      // console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
       const stageName = await showScheduleContract.methods
         .getStageName()
@@ -236,7 +236,7 @@ const TicketDetail2 = () => {
       const getSale = await ticketSaleManagerContract.methods
         .getSaleOfTicket(parseInt(ticketId))
         .call();
-      console.log(getSale);
+      // console.log(getSale);
       setSaleAddr(getSale);
     } catch (err) {
       console.error(err);
@@ -254,7 +254,7 @@ const TicketDetail2 = () => {
       const approval = await IERC20Contract.methods
         .approve(saleAddr, 500)
         .send({ from: userData.account });
-      console.log(approval);
+      // console.log(approval);
       // 3. ticketSale.sol 발행
       if (approval.status) {
         const purchase = await ticketSaleContract.methods
@@ -306,7 +306,7 @@ const TicketDetail2 = () => {
     getTicketData();
   }, []);
 
-  console.log("ticketInfo", ticketInfo);
+  // console.log("ticketInfo", ticketInfo);
 
   //  console.log('showDetail', showDetail);
   //  console.log('ticketDetail', ticketDetail);

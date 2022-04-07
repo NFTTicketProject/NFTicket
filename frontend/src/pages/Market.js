@@ -78,7 +78,7 @@ const Market = () => {
   const getTicketOnSale = async () => {
     try {
       const cnt = await myTicketContract.methods.totalSupply().call();
-      console.log(cnt);
+      // console.log(cnt);
       const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
         const saleAddr = await ticketSaleManagerContract.methods
@@ -177,7 +177,7 @@ const Market = () => {
   const getTicketOnSaleCategory = async (category) => {
     try {
       const cnt = await myTicketContract.methods.totalSupply().call();
-      console.log(cnt);
+      // console.log(cnt);
       const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
         const saleAddr = await ticketSaleManagerContract.methods
@@ -333,7 +333,7 @@ const Market = () => {
     //   console.error(err);
     // }
   };
-  console.log("", isBuyable)
+  // console.log("", isBuyable)
   // 초기정보
   useEffect(() => {
     getTicketOnSale();

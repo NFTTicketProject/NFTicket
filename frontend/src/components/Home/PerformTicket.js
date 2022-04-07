@@ -63,7 +63,7 @@ const PerformTicket = (props) => {
     e.target.src = "images/posterImg1.png";
   };
 
-  console.log("id", props);
+  // console.log("id", props);
 
   return (
     <>

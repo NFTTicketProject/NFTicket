@@ -87,7 +87,7 @@ const TicketDetail = ({getAccount}) => {
       // const ticketContractNumber = "asdfbdlskfaf";
       const apiData = await (axios.get(`https://nfticket.plus/api/v1/block/${ticketId}`))
       const ticketContractNumber = apiData.data.block_hash
-      console.log("🎃", ticketContractNumber)
+      // console.log("🎃", ticketContractNumber)
       
       // Unix Timestamp를 Date로 바꾸기
       startedAt = unixTimeToDate(startedAt);
@@ -96,7 +96,7 @@ const TicketDetail = ({getAccount}) => {
       // 티켓 좌석 정보저장
       const ticketClassName = await showScheduleContract.methods.getTicketClassName(classId).call();
       const ticketSeatIndex = await GetSeatIndex(ticketId);
-      console.log('민구 인덱스', ticketSeatIndex)
+      // console.log('민구 인덱스', ticketSeatIndex)
       const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(classId).call();
       setShowDetail({
         ...showDetail,
@@ -132,7 +132,7 @@ const TicketDetail = ({getAccount}) => {
       const getSale = await ticketSaleManagerContract.methods
         .getSaleOfTicket(parseInt(ticketId))
         .call();
-      console.log("getSale", getSale);
+      // console.log("getSale", getSale);
       setSaleAddr(getSale);
     } catch (err) {
       console.error(err);
@@ -241,7 +241,7 @@ const TicketDetail = ({getAccount}) => {
       const approval = await IERC20Contract.methods
         .approve(saleAddr, 500)
         .send({ from: userData.account });
-      console.log(approval);
+      // console.log(approval);
       // 3. ticketSale.sol 발행
       if (approval.status) {
         const purchase = await ticketSaleContract.methods
@@ -262,9 +262,9 @@ const TicketDetail = ({getAccount}) => {
   const checkOwner = async () => {
     // 티켓 소유자인지 확인 - 소유자만 판매 가능
     const owner = await myTicketContract.methods.ownerOf(parseInt(ticketId)).call();
-    console.log("오ㅡ류")
-    console.log(owner)
-    console.log(userData.account)
+    // console.log("오ㅡ류")
+    // console.log(owner)
+    // console.log(userData.account)
     setIsSellable(owner.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
 
   };
@@ -292,9 +292,9 @@ const TicketDetail = ({getAccount}) => {
   // }, []);
 
 
- console.log('showDetail', showDetail);
- console.log('ticketInfo', ticketInfo.owner);
- console.log('ticketUri', ticketInfo.ticketUri);
+//  console.log('showDetail', showDetail);
+//  console.log('ticketInfo', ticketInfo.owner);
+//  console.log('ticketUri', ticketInfo.ticketUri);
 
 
 //  console.log('🐸', showDetail);

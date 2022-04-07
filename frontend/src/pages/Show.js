@@ -87,9 +87,9 @@ const Show = () => {
     axios
       .get(`https://nfticket.plus/api/v1/show/search`)
       .then((res) => {
-        console.log("초기값", res.data);
+        // console.log("초기값", res.data);
         for (let show of res.data) {
-          console.log("공연", show);
+          // console.log("공연", show);
           var address = show.show_schedule_address[0];
           if (!address) address = "0x7fda176A47EBa05A4fD2F6C95339164ab2817883";
           callShowDetail(address, show.show_id, show.name, show.poster_uri);

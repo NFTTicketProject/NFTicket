@@ -101,7 +101,7 @@ const TopRight = (props) => {
   // console.log(tradeDetail);
   // 거래 발급
   const mintTrade = async () => {
-    console.log(tradeDetail);
+    // console.log(tradeDetail);
     try {
       // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
       const val = await myTicketContract.methods
@@ -118,7 +118,7 @@ const TopRight = (props) => {
             parseInt(tradeDetail.saleTime * 60 * 60)
           )
           .send({ from: userData.account });
-        console.log("🐸", res);
+        // console.log("🐸", res);
         // setSaleAddr(res.events[0].returnValues.saleAddr);
         if (res.status) {
           alert("판매 등록 완료");

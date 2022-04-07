@@ -76,12 +76,12 @@ function SeatLine(props) {
     var seatId =  id + 1
     var data = [gradeId, grade, id, seatId];
     setSelectSeats((selectSeatList) => data);
-    console.log("넘어온 data list로 묶음", data);
+    // console.log("넘어온 data list로 묶음", data);
     if (data) {
-      console.log("선택한 좌석", data);
+      // console.log("선택한 좌석", data);
       props.getData(data);
     } else {
-      console.log("선택 취소한 좌석");
+      // console.log("선택 취소한 좌석");
     }
   }
 

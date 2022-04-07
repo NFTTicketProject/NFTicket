@@ -51,7 +51,7 @@ function Settings() {
     axios
       .patch(`https://nfticket.plus/api/v1/account/edit/${userInfo.wallet_id}`, sendData)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status) {
           navigate("/MyPage");
         }
@@ -75,7 +75,7 @@ function Settings() {
       return;
     }
   };
-  console.log(userInfo);
+  // console.log(userInfo);
   useEffect(() => {
     getUserInfo();
   }, []);

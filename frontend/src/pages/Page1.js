@@ -46,7 +46,7 @@ const Page1 = () => {
       <button
         onClick={() => {
           setsMushVal(mushVal);
-          console.log("mushVal", mushVal);
+          // console.log("mushVal", mushVal);
           dispatch(setMushVal(mushVal));
         }}
       >

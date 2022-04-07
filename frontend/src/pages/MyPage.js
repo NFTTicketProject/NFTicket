@@ -339,7 +339,7 @@ function MyPage() {
         `https://nfticket.plus/api/v1/account/${userInfo.account}/gallery`,
         sendData,
       );
-      console.log(res);
+      // console.log(res);
     } catch (err) {
       console.error(err);
     }
