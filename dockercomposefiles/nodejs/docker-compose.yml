@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  backend:
+    image: node:16.14
+    restart: always
+    container_name: backend
+    ports:
+      - "3000:3000"
+    environment:
+      - process.env.PORT=3000
+      - DATABASE_URL=mysql://dev:a102!a102!@j6a102.p.ssafy.io:3306/NFTicket
+      - TZ=Asia/Seoul
+    volumes:
+            - /home/ubuntu/S06P22A102/back/app/app:/home/node/app
+    entrypoint:
+            - sh
+            - /home/node/app/start.sh
+
