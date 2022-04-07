@@ -18,7 +18,7 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 수집가처럼 앨범을 준비하고 일상을 기록하기는 힘들지만 마음만큼은, 그 순간의 추억을 간직하고 싶은 당신을 위해 준비했습니다.
 </br>
 
-## 💜 NFTicket - 개요 [수정필요]
+## 💜 NFTicket - 개요
 *- 당신의 추억의 조각을 기록하고 소유할 수 있도록 -*  
 
 **NFTicket**은 당신의 추억이 담긴 티켓을 기록하고 소유할 수 있는 NFT로 만들어 드리는 NFT 기반 블록체인 티켓 거래 시스템입니다.
@@ -30,7 +30,7 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 특별한 추억이 담긴 티켓을 거래함으로써 그 가치를 증명하고 인기 있는 티켓을 수집하고 소유 할 수 있습니다.
 </br>
 
-## 💜 주요 기능 [수정필요]
+## 💜 주요 기능
 ---
 - ### 공연 관리
     - 블록체인 기반의 안전한 공연 관리 시스템을 통해 당신의 공연을 등록해 보세요
@@ -73,7 +73,7 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 - IPFS
 - IPFS-Cluster
 
-**Frontend  [수정 필요]**
+**Frontend**
 - Visual Studio Code IDE
 - Vue 2.6.11
 - Vuetify 2.4.0
@@ -409,11 +409,9 @@ NFTicket
 ---
 ![역할 배분](docs/images/crew.jpg)
 
-## ✔ 프로젝트 산출물 [수정 필요]
+## ✔ 프로젝트 산출물
 ---
 - [기능명세서](docs/docs/기능명세서.md)
-- [디자인&컨셉기획](./docs/디자인&컨셉기획.md) [수정 필요]
-- [스토리보드](./docs/스토리보드.md) [수정 필요]
 - [플로우차트](./docs/docs/플로우차트.md)
 - [아키텍처](docs/docs/아키텍처.md)
 - [와이어프레임](docs/docs/와이어프레임.md)
@@ -422,15 +420,14 @@ NFTicket
 - [ERD](docs/docs/ERD.md)
 - [회의록](docs/docs/회의록.md)
 - [시스템기술서](docs/docs/NFTicket_시스템_기술서.pdf)
-- [명세기술서](./docs/TUPLI_명세_기술서.docx) [수정 필요]
 
-## ✔ 프로젝트 결과물 [수정 필요]
+## ✔ 프로젝트 결과물
 - [포팅메뉴얼](docs/docs/NFTicket_포팅_메뉴얼.pdf)
 - [중간발표자료](docs/docs/NFTicket_midterm.pdf)
 - [최종발표자료](docs/docs/NFTicket - 최종.pdf)
 
 
-## 🎵 NFTicket 서비스 화면 [수정 필요]
+## 🎵 NFTicket 서비스 화면
 ---
 
 ### 메인화면
@@ -446,7 +443,7 @@ NFTicket
 
 <img width="100%" src="docs/images/demo_login.gif"/>
 
-### 프로필 변경 [수정 필요]
+### 프로필 변경
 - 프로필을 변경 전, 지갑 소유자가 맞는지 확인하는 인증 절차를 거쳐야합니다. 
 - 닉네임, 프로필 사진, 자기소개를 변경 할 수 있습니다.
 
@@ -473,7 +470,7 @@ NFTicket
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
 - 무한스크롤이 적용됩니다.
 
-<img width="100%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+<img width="100%" src="https://user-images.githubusercontent.cf2cf5b1.gif"/>
 
 ### 티켓 재판매글 등록
 - 보유한 티켓 중 하나를 재판매합니다.
@@ -485,10 +482,10 @@ NFTicket
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
 - 무한스크롤이 적용됩니다.
 
-<img width="100%" src="https://user-images.githubusercontent.com/55949647/154587375-cfef4162-d404-41fd-9d28-39712f2cf5b1.gif"/>
+<img width="100%" src="https://user-images.githubuent.com/55949647/1d28-39712f2cf5b1.gif"/>
 
 ### 커뮤니티 [수정 필요]
 - 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
 - 무한스크롤이 적용됩니다.
 
-<img width="100%" src="https://i.pinimg.com/originals/32/98/0f/32980faaaf7a414535f75ec88ac4b393.gif"/>
+<img width="100%" src="https://i.ps/32/98/0f/32980faaaf7a41b393.gif"/>
