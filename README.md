@@ -93,7 +93,7 @@ SSAFY 6기 2학기 블록체인 특화 프로젝트 - NFTicket
 
 ## ✔ 프로젝트 구조
 ---
-![프로젝트 구조](docs/images/architecture.jpg)
+![프로젝트 구조](docs/images/architecture.png)
 
 ## ✔ 프로젝트 파일 구조
 ---
