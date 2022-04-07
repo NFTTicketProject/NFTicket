@@ -68,6 +68,10 @@ const TicketInfo = (props) => {
               <img
                 style={{ width: "70px", height: "70px", borderRadius: "100px", margin: "10px", marginRight: "20px" }}
                 src={`https://nfticket.plus/showipfs/ipfs/${sellerInfo.image_uri}`}
+                onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = "../images/MetaMask_Fox.svg.png";
+                    }}
                 alt="@/images/default_profile.png"
               ></img>
               <div

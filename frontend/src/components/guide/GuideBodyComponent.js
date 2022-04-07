@@ -1,27 +1,40 @@
 import React from "react";
 import "./GuideBodyComponent.css";
+import styled from "styled-components";
 
 // icon components from MUI
-import SellIcon from "@mui/icons-material/Sell";
-import BrushIcon from "@mui/icons-material/Brush";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import PeopleIcon from "@mui/icons-material/People";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+
+const ImgDiv = styled.img`
+  max-width: 800px;
+  max-height: 500px;
+  box-shadow: 1px 1px 15px gray;
+  margin-bottom: 50px;
+`;
 
 const GuideBodyComponent = (props) => {
   return (
     <div className='bodyComponent'>
-      <div className='icon'>
-        {props.icon === "SellIcon" && <SellIcon fontSize='large' />}
-        {props.icon === "BrushIcon" && <BrushIcon fontSize='large' />}
-        {props.icon === "ShoppingBagIcon" && (
-          <ShoppingBagIcon fontSize='large' />
-        )}
-        {props.icon === "PeopleIcon" && <PeopleIcon fontSize='large' />}
+      {props.img !== "" && <ImgDiv src={props.img}></ImgDiv>}
 
+      <div className='icon'>
         {props.icon === "ConfirmationNumberIcon" && (
-          <ConfirmationNumberIcon fontSize='large' />
+          <ConfirmationNumberIcon style={{ fontSize: 50 }} />
+        )}
+        {props.icon === "LocalAtmIcon" && (
+          <LocalAtmIcon style={{ fontSize: 50 }} />
+        )}
+        {props.icon === "LightbulbIcon" && (
+          <LightbulbIcon style={{ fontSize: 50 }} />
+        )}
+        {props.icon === "GetAppIcon" && <GetAppIcon style={{ fontSize: 50 }} />}
+        {props.icon === "StorefrontIcon" && (
+          <StorefrontIcon style={{ fontSize: 50 }} />
         )}
       </div>
       <div className='smallTitle'>{props.title}</div>

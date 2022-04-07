@@ -353,7 +353,7 @@ const Community = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px', marginBottom: '40px'}}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '1280px', alignItems: 'center', marginTop: '0px', marginBottom: '20px', paddingRight: '10px'}}>
-        <CameraEnhanceRoundedIcon style={{ marginRight: '10px', color: '#E500C5'}} onClick={handleOnClickTakeScreenshot}></CameraEnhanceRoundedIcon>
+        <CameraEnhanceRoundedIcon style={{ marginRight: '10px', color: '#e605ff'}} onClick={handleOnClickTakeScreenshot}></CameraEnhanceRoundedIcon>
         <FullscreenRoundedIcon onClick={handleOnClickFullscreen}>Fullscreen</FullscreenRoundedIcon>
       </div>
       <CommunityBox>

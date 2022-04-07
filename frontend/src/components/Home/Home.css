@@ -1,36 +1,36 @@
 .Tickets {
-  animation: tickets 30s 5s linear infinite;
+  /* animation: tickets 30s 5s linear infinite; */
 }
 
-@keyframes tickets {
+/* @keyframes tickets {
   from {
     transform: translateX(-10%);
   }
   to {
     transform: translateX(0%);
   }
-}
+} */
 
 .Ticket {
   width: 100%;
   overflow: hidden;
   display: inline-block;
   height: 177px;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover;
+  background-size: cover; */
 
-  animation: ticket 5s 1s linear infinite;
+  /* animation: ticket 5s 1s linear infinite; */
 }
 
-@keyframes ticket {
+/* @keyframes ticket {
   from {
     opacity: 100%;
   }
   to {
     opacity: 10%;
-  }
-}
+  } 
+} */
 
 .Community:hover {
   opacity: 30%;

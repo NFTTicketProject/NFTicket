@@ -7,7 +7,7 @@ const NotiTitle = styled.h3`
 `;
 
 const Marginli = styled.li`
-  margin-top: 5px;
+  margin-top: 8px;
 `;
 
 const Notification = () => {

@@ -2,9 +2,9 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import { Routes, Route, useNavigate } from "react-router-dom";
 import PerformTicket from "../components/Home/PerformTicket"; // 임시
-
+import swal from "sweetalert2";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -29,9 +29,10 @@ const TotalWidthSetting = styled.div`
 const UpperTitleArea = styled.div`
   margin: 40px;
   font-size: 36px;
-  font-weight: bold;
-  margin-left: 50px;
-  margin-bottom: 50px;
+  font-weight: 700;
+  margin-left: 90px;
+  margin-bottom: 40px;
+  margin-top: 50px;
 `;
 
 const TotalWrapJustifyCenter = styled.div`
@@ -41,22 +42,44 @@ const TotalWrapJustifyCenter = styled.div`
 
 const SearchBarCategoryArea = styled.div`
   width: 400px;
+  margin-left: 50px;
 `;
 
 const CategoryBarDiv = styled.div`
-  margin: 20px 0 0 38px;
+  margin: 40px 0 0 38px;
   width: 300px;
 `;
 
 const TicketListArea = styled.div`
   width: 800px;
+  margin-top: 20px;
 `;
 
-const Market = () => {
+const Market = ({getAccount, account}) => {
+  const navigate = useNavigate()
   ////
   const [isBuyable, setIsBuyable] = useState(false); // 주인은 살 수 없도록 버튼 비활성화용
   const userData = JSON.parse(localStorage.getItem("userAccount"));
   ////
+    // console.log(userData)
+  const checkAccount = async () => {
+    try {
+      if (!localStorage.getItem("userAccount")){
+        swal.fire({
+            title : "지갑을 연결해주세요.",
+                icon  : "warning",
+                closeOnClickOutside : false
+          }).then(function(){
+            // 이벤트
+            navigate('/MyPage')
+            // alert('hello')
+          });
+        // alert('hello')
+      }
+    } catch(err){
+      console.error(err)
+    }
+  }
 
   const getTicketOwner = async () => {
     try {
@@ -73,17 +96,17 @@ const Market = () => {
   const [saleTicketArray, setSaleTicketArray] = useState([]);
   const [saleTicketSearchArray, setSaleTicketSearchArray] = useState([]);
 
-  const categories = ["전체", "SF", "옵션1", "test"];
+  const categories = ["전체", "뮤지컬", "콘서트", "연극", "클래식/무용", "스포츠", "기타"];
 
   const getTicketOnSale = async () => {
     try {
       const cnt = await myTicketContract.methods.totalSupply().call();
-      // console.log(cnt);
       const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
         const saleAddr = await ticketSaleManagerContract.methods
-          .getSaleOfTicket(i)
-          .call();
+        .getSaleOfTicket(i)
+        .call();
+        // console.log("🐸", saleAddr);
         if (saleAddr != "0x0000000000000000000000000000000000000000") {
           const showScheduleId = await myTicketContract.methods
             .getShowScheduleId(i)
@@ -97,7 +120,7 @@ const Market = () => {
           );
           const showId = await showScheduleContract.methods.getShowId().call();
           const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
-
+          // console.log("showInfo", showId, showInfo)
           const ticketUri = await myTicketContract.methods
             .getTokenURI(i)
             .call();
@@ -109,6 +132,7 @@ const Market = () => {
           // 티켓 소유자
           // const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
           const ticketSeller = await ticketSaleContract.methods.getSeller().call()
+          const description = await ticketSaleContract.methods.getDescription().call()
           var ticketSellerName = await getUserNickname(ticketSeller);
 
           const price = await ticketSaleContract.methods.getPrice().call();
@@ -163,7 +187,9 @@ const Market = () => {
             dateEndString,
             sellerOfTicket,
             buyable,
-            isEnded
+            isEnded,
+            endAt,
+            description
           });
         }
       }
@@ -173,16 +199,17 @@ const Market = () => {
       console.error(err);
     }
   };
+  // console.log(saleTicketArray)
 
   const getTicketOnSaleCategory = async (category) => {
     try {
       const cnt = await myTicketContract.methods.totalSupply().call();
-      // console.log(cnt);
       const ticketInfos = [];
       for (let i = 1; i < parseInt(cnt) + 1; i++) {
         const saleAddr = await ticketSaleManagerContract.methods
-          .getSaleOfTicket(i)
-          .call();
+        .getSaleOfTicket(i)
+        .call();
+        // console.log("🐸", saleAddr);
         if (saleAddr != "0x0000000000000000000000000000000000000000") {
           const showScheduleId = await myTicketContract.methods
             .getShowScheduleId(i)
@@ -196,7 +223,7 @@ const Market = () => {
           );
           const showId = await showScheduleContract.methods.getShowId().call();
           const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
-
+          // console.log("showInfo", showId, showInfo)
           const ticketUri = await myTicketContract.methods
             .getTokenURI(i)
             .call();
@@ -209,7 +236,7 @@ const Market = () => {
           // const ticketSeller = await ticketSaleManagerContract.methods.ownerOf(i).call();
           const ticketSeller = await ticketSaleContract.methods.getSeller().call()
           var ticketSellerName = await getUserNickname(ticketSeller);
-
+          const description = await ticketSaleContract.methods.getDescription().call()
           const price = await ticketSaleContract.methods.getPrice().call();
           const startAt = await ticketSaleContract.methods
             .getStartedAt()
@@ -262,7 +289,9 @@ const Market = () => {
             dateEndString,
             sellerOfTicket,
             buyable,
-            isEnded
+            isEnded,
+            endAt,
+            description
           });
         }
       }
@@ -335,9 +364,18 @@ const Market = () => {
   };
   // console.log("", isBuyable)
   // 초기정보
+
+
+
   useEffect(() => {
+    // getAccount();
+    checkAccount()
     getTicketOnSale();
+    getTicketOnSaleCategory();
   }, []);
+
+  // useEffect(()=>{
+  // }, [account])
 
   const getUserNickname = async (wallet) => {
     try {
@@ -369,9 +407,11 @@ const Market = () => {
     }
   };
 
+  // console.log("🐸", saleTicketSearchArray.buyable)
   return (
+    <>
     <TotalWidthSetting>
-      <UpperTitleArea>개인 티켓 거래 시장</UpperTitleArea>
+      <UpperTitleArea>티켓 🎟 <p style={{ marginTop: "18px", fontSize: '18px', fontWeight: '400', marginLeft: "2px" }}>개인 간의 티켓 거래를 이용해보세요 !</p></UpperTitleArea>
       <TotalWrapJustifyCenter>
         <SearchBarCategoryArea>
           <TextField
@@ -395,7 +435,7 @@ const Market = () => {
               value={category}
               onChange={(event, newValue) => {
                 SetCategory(newValue);
-                onSubmitCategory(newValue);
+                // onSubmitCategory(newValue);
               }}
               id='controllable-states-demo'
               options={categories}
@@ -423,6 +463,8 @@ const Market = () => {
                   dateEndString={ticket.dateEndString}
                   buyable={ticket.buyable}
                   isEnded={ticket.isEnded}
+                  endAt={ticket.endAt}
+                  description={ticket.description}
                 />
               </Grid>
             ))}
@@ -430,6 +472,7 @@ const Market = () => {
         </TicketListArea>
       </TotalWrapJustifyCenter>
     </TotalWidthSetting>
+    </>
   );
 };
 

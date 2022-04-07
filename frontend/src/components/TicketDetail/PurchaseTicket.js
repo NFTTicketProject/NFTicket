@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-
+import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -49,7 +49,14 @@ const ButtonBoxCss = styled.div`
   margin-top: 10px;
 `;
 
+const ModalInput = styled.div`
+  display: flex; 
+  align-items: center; 
+  margin-top: 1rem;
+`
+
 const PurchaseTicket = (props) => {
+  
   const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -63,6 +70,19 @@ const PurchaseTicket = (props) => {
     setTradeDetail({ ...tradeDetail, [e.target.name]: e.target.value });
   };
 
+  // swal
+  const Toast = swal.mixin({
+  toast: true,
+  position: 'bottom-end',
+  showConfirmButton: false,
+  timer: 1000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', swal.stopTimer)
+    toast.addEventListener('mouseleave', swal.resumeTimer)
+  }
+})
+
   const mintTrade = async () => {
     // console.log(tradeDetail);
     try {
@@ -70,7 +90,12 @@ const PurchaseTicket = (props) => {
       const val = await myTicketContract.methods
         .setApprovalForAll(ticketSaleManagerAddress, true)
         .send({ from: userData.account });
+        
       if (val.status) {
+        Toast.fire({
+            icon: 'success',
+            title: `판매 Progress 1/2`
+            })
         // create
         const res = await ticketSaleManagerContract.methods
           .create(
@@ -83,8 +108,14 @@ const PurchaseTicket = (props) => {
           .send({ from: userData.account });
         // setSaleAddr(res.events[0].returnValues.saleAddr);
         if (res.status) {
-          alert("판매 등록 완료");
-          navigate("/Market");
+          Toast.fire({
+            icon: 'success',
+            title: `판매 등록 성공`
+            }).then(function(){
+              navigate("/Market")
+            })
+          // alert("판매 등록 완료");
+          // navigate("/Market");
         }
       }
     } catch (err) {
@@ -217,7 +248,7 @@ const PurchaseTicket = (props) => {
                     marginBottom: "6px",
                   }}
                 >
-                  공연 일자 - 2022.04.03
+                  공연 일자: {props.endAt}
                 </p>
                 <p
                   style={{
@@ -226,7 +257,7 @@ const PurchaseTicket = (props) => {
                     marginBottom: "8px",
                   }}
                 >
-                  좌석 정보 - R-1
+                  좌석 정보: {props.ticketClassName}-{props.ticketSeatIndex}
                 </p>
                 {/* <p>{ props. }</p> */}
               </div>
@@ -334,8 +365,11 @@ const PurchaseTicket = (props) => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style}>
-               <div>
+                <div>
+                  <ModalInput style={{justifyContent:'center'}}>
                     <h1>TradeTicket</h1>
+                  </ModalInput>
+
                     {/* <div>
                     ticketId:
                     <input
@@ -347,85 +381,40 @@ const PurchaseTicket = (props) => {
                       disabled={true}
                     />
                   </div> */}
-                    <div>
+                    <ModalInput >
                       사용자 한마디:
                       <input
                         type="text"
                         name="description"
-            // </Button> */}
-
-            //   <Button
-            //     onClick={handleOpen}
-            //     sx={{
-            //       fontSize: "16px",
-            //       color: "text.primary",
-            //       borderColor: "text.secondary",
-            //       borderRadius: "10px",
-            //       py: 1.5,
-            //     }}
-            //     variant='outlined'
-            //   >
-            //     판매하기
-            //   </Button>
-            //   <Modal
-            //     open={open}
-            //     onClose={handleClose}
-            //     aria-labelledby='modal-modal-title'
-            //     aria-describedby='modal-modal-description'
-            //   >
-            //     <Box sx={style}>
-            //       <div>
-            //         <h1>TradeTicket</h1>
-            //         <div>
-            //           ticketId:
-            //           <input
-            //             type='number'
-            //             name='ticketId'
-            //             // value={register.ticketID}
-            //             value={tradeDetail.ticketId}
-            //             onChange={handleTicketTrade}
-            //             disabled={true}
-            //           />
-            //         </div>
-            //         <div>
-            //           description:
-            //           <input
-            //             type='text'
-            //             name='description'
                         value={tradeDetail.description}
                         onChange={handleTicketTrade}
                       />
-                    </div>
-                    <div>
+                    </ModalInput>
+                    <ModalInput >
                       가격:
                       <input
                         type="text"
                         name="price"
                         value={tradeDetail.price}
                         onChange={handleTicketTrade}
+                        style={{width:'50px'}}
                       />
                       SSF
-                    </div>
-                    {/* <div>
-                    startedAt:
-                    <input
-                      type="text"
-                      name="startedAt"
-                      value={tradeDetail.startedAt}
-                      onChange={handleTicketTrade}
-                    />
-                  </div> */}
-                    <div>
+                    </ModalInput>
+                    <ModalInput >
                       판매 기간:
                       <input
                         type="text"
                         name="forSale"
                         value={tradeDetail.forSale}
                         onChange={handleTicketTrade}
+                        style={{width:'50px'}}
                       />
                       HR
-                    </div>
-                    <button onClick={mintTrade}>거래 발급</button>
+                    </ModalInput>
+                    <ModalInput style={{justifyContent:'center'}}>
+                      <Button onClick={mintTrade}  >거래 발급</Button>
+                    </ModalInput>
                   </div>
               </Box>
             </Modal>
@@ -507,7 +496,7 @@ const PurchaseTicket = (props) => {
                   구매하기
                 </Button>
               </Stack>
-            )};
+            )}
             </div>
           )}
       </ButtonBoxCss>

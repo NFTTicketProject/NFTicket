@@ -72,8 +72,9 @@ const RightArea = styled.div`
   display: flex;
   justify-content: right;
   width: 300px;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-bottom: 140px;
+  padding-right: 140px;
 `;
 
 const RightUnits = styled.div`
