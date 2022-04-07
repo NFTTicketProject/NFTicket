@@ -4,6 +4,7 @@
 # back, solidity 폴더 포함
 !back/
 !solidity/
+!dockercomposefiles
 
 solidity/extra
 
