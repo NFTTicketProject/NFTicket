@@ -35,6 +35,21 @@ const CommunityBox = styled.div`
  width: 1280px;
 `;
 
+const CameraHover = styled(CameraEnhanceRoundedIcon)`
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
+
+const FullscreenHover = styled(FullscreenRoundedIcon)`
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
+
+
 const Community = () => {
   const [speed, SetSpeed] = useState(0);
   const [nickname, SetNickname] = useState("Noname");
@@ -353,8 +368,8 @@ const Community = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px', marginBottom: '40px'}}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '1280px', alignItems: 'center', marginTop: '0px', marginBottom: '20px', paddingRight: '10px'}}>
-        <CameraEnhanceRoundedIcon style={{ marginRight: '10px', color: '#e605ff'}} onClick={handleOnClickTakeScreenshot}></CameraEnhanceRoundedIcon>
-        <FullscreenRoundedIcon onClick={handleOnClickFullscreen}>Fullscreen</FullscreenRoundedIcon>
+        <CameraHover fontSize="large" style={{ marginRight: '10px', color: '#e605ff' }} onClick={handleOnClickTakeScreenshot}></CameraHover>
+        <FullscreenHover fontSize="large" onClick={handleOnClickFullscreen}>Fullscreen</FullscreenHover>
       </div>
       <CommunityBox>
         <div>

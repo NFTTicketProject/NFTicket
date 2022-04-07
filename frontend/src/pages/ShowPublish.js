@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 import styled from "styled-components";
-
+import Alert from "@mui/material/Alert";
 // components
 import InputEditor from "../components/ShowPublish/InputEditor";
 import InputList from "../components/ShowPublish/InputList";
@@ -140,6 +140,9 @@ const StyledSpan = styled.span`
   font-size: 14px;
   margin-left: 16px;
 `;
+const WarningArea = styled.div`
+  margin: 10px;
+`;
 
 // ShowPublish Page/////////////////////////
 const ShowPublish = ({getAccount}) => {
@@ -232,7 +235,7 @@ const ShowPublish = ({getAccount}) => {
         resellPriceLimit: 0,
       });
     }
-
+    console.log(detailInfo)
     // 최대 발행 갯수 자동 계산용
     const mintCnt = await ticketClassMaxMintCounts.reduce(function add(
       sum,
@@ -242,7 +245,16 @@ const ShowPublish = ({getAccount}) => {
     },
     0);
     try {
-      // 1. api 보내기
+      
+      if (detailInfo.stageName &&
+          detailInfo.startedAt &&
+          detailInfo.endedAt &&
+          parseInt(mintCnt) &&
+          ticketClassNames &&
+          ticketClassPrices &&
+          ticketClassMaxMintCounts) {
+            setWarning(false)
+// 1. api 보내기
       const res = await axios.post(`https://nfticket.plus/api/v1/show/`, {
         category_name: apiData.category_name,
         name: apiData.name,
@@ -255,29 +267,36 @@ const ShowPublish = ({getAccount}) => {
         staff: apiData.staff,
       });
       setDetailInfo({ ...detailInfo, showId: parseInt(res.data.show_id) });
-      // 2. 민트
-      const response = await showScheduleManagerContract.methods
-        .create(
-          parseInt(res.data.show_id),
-          detailInfo.stageName,
-          detailInfo.startedAt,
-          detailInfo.endedAt,
-          parseInt(mintCnt),
-          ticketClassNames,
-          ticketClassPrices,
-          ticketClassMaxMintCounts,
-          detailInfo.isResellAvailable,
-          parseInt(detailInfo.resellRoyaltyRatePercent),
-          parseInt(detailInfo.resellPriceLimit),
-        )
-        .send({ from: userData.account });
-      if (response.status) {
-        await axios.put(`https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`, {
-          show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
-          address: response.events[0].address,
-        });
-        navigate("/Show");
+      if (res.status) {
+
+        // 2. 민트
+        const response = await showScheduleManagerContract.methods
+          .create(
+            parseInt(res.data.show_id),
+            detailInfo.stageName,
+            detailInfo.startedAt,
+            detailInfo.endedAt,
+            parseInt(mintCnt),
+            ticketClassNames,
+            ticketClassPrices,
+            ticketClassMaxMintCounts,
+            detailInfo.isResellAvailable,
+            parseInt(detailInfo.resellRoyaltyRatePercent),
+            parseInt(detailInfo.resellPriceLimit),
+          )
+          .send({ from: userData.account });
+        if (response.status) {
+          await axios.put(`https://nfticket.plus/api/v1/show/${res.data.show_id}/show-schedule`, {
+            show_schedule_id: response.events.ShowScheduleCreated.returnValues.showScheduleId,
+            address: response.events[0].address,
+          });
+          navigate("/Show");
+        }
       }
+          } else {
+            setWarning(true)
+          }
+      
     } catch (err) {
       console.error(err);
     }
@@ -347,6 +366,11 @@ const ShowPublish = ({getAccount}) => {
     } catch(err){
       console.error(err)
     }
+  }
+
+  const [warning, setWarning] = useState(false);
+  const checkIsFull = () => {
+    
   }
 
   // 포스터 uri 올리기 위한 useEffect
@@ -619,6 +643,11 @@ const ShowPublish = ({getAccount}) => {
               >
                 공연등록
               </Button>
+               <WarningArea>
+          {warning && (
+            <Alert severity='warning'>좌석 정보를 모두 입력해주세요.</Alert>
+          )}
+        </WarningArea>
             </Stack>
           </ButtonBoxCss>
         </TopRightCss>

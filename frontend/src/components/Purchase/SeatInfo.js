@@ -18,8 +18,10 @@ const CoverBox = styled.div`
 `;
 
 
+
 const SeatInfo = (props) => {
-  // console.log('seatInfo props', props)
+
+  console.log('seatInfo props', props)
 
   return (
     <div>
@@ -46,8 +48,11 @@ const SeatInfo = (props) => {
             <p style={{ 
               fontWeight: "600",
               marginLeft: "4px",
+              height: "20px",
+              width: "154px",
+              overflow: "hidden"
             }}>
-              {props.showDetail.stageName}
+              {props.showDetailBack.name}
             </p>
           </p>
 

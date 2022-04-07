@@ -411,12 +411,12 @@ const Market = ({getAccount, account}) => {
   return (
     <>
     <TotalWidthSetting>
-      <UpperTitleArea>티켓 🎟 <p style={{ marginTop: "18px", fontSize: '18px', fontWeight: '400', marginLeft: "2px" }}>개인 간의 티켓 거래를 이용해보세요 !</p></UpperTitleArea>
+      <UpperTitleArea>티켓 🎫 <p style={{ marginTop: "18px", fontSize: '18px', fontWeight: '400', marginLeft: "2px" }}>개인 간의 티켓 거래를 이용해보세요 !</p></UpperTitleArea>
       <TotalWrapJustifyCenter>
         <SearchBarCategoryArea>
           <TextField
             id='search'
-            label='크리에이터 또는 제목'
+            label='제목 또는 판매자'
             variant='standard'
             onChange={searchKeyword}
             sx={{ ml: 5, width: 300 }}

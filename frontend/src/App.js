@@ -39,6 +39,8 @@ const TotalWrapDiv = styled.div`
 
 const ContentWrapDiv = styled.div`
   padding-bottom: 12rem;
+  max-width: 100%;
+  overflow-x: hidden;
 `;
 
 function App() {
