@@ -15,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import styled from "styled-components";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import logoImg from "../images/logo.png";
 
@@ -47,7 +47,6 @@ const Logo = styled.img`
 const ResponsiveAppBar = () => {
   // react 6.0 버전 이후부터 useHistory => useNavigate 로 바뀌었다고 합니다.
   const navigate = useNavigate();
-  const {state} = useLocation();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -80,7 +79,6 @@ const ResponsiveAppBar = () => {
     }
   }
 
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -99,7 +97,6 @@ const ResponsiveAppBar = () => {
 
   useEffect(() => {
     checkConnectedWallet();
-    console.log("state넘어옴?", state)
   }, []);
 
   return (
@@ -288,7 +285,14 @@ const ResponsiveAppBar = () => {
                 }}
                 sx={{ p: 0 }}
               >
-                {userData === null ? <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' /> : <Avatar alt='Remy Sharp' src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`} />}
+                {userData === null ? (
+                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                ) : (
+                  <Avatar
+                    alt='Remy Sharp'
+                    src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`}
+                  />
+                )}
                 {/* <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' /> */}
               </IconButton>
             </Tooltip>
