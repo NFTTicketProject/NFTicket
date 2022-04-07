@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
+import swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 
 // import DatePicker from "@mui/lab/DatePicker";
@@ -14,23 +14,27 @@ import DatePicker from "react-datepicker";
 import SelectSeat from "../../pages/SelectSeat";
 
 const SmallTitleCss = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
-  margin: 16px;
+  margin-top: 16px;
+  margin-left: 18px;
+  margin-bottom: 18px;
 `;
 
 const CoverBox = styled.div`
   border: 1px solid #dadee2;
-  border-radius: 20px;
+  border-radius: 15px;
 `;
 
 const DatePickerCss = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 18px;
 `;
 
 const ColorHr = styled.hr`
-  border: 1px solid #dadee2;
+  border: 0.5px solid #dadee2;
 `;
 
 const ToggleButtonCss = styled.div`
@@ -94,9 +98,31 @@ const TopRight = (props) => {
 
   const navigate = useNavigate();
 
+
+    ////
+const checkAccount = async () => {
+    try {
+      if (!localStorage.getItem("userAccount")){
+        swal.fire({
+            title : "지갑을 연결해주세요.",
+                icon  : "warning",
+                closeOnClickOutside : false
+          }).then(function(){
+            // 이벤트
+            navigate('/MyPage')
+            // alert('hello')
+          });
+        // alert('hello')
+      }
+    } catch(err){
+      console.error(err)
+    }
+  }
+
   // 예매하기 버튼 클릭 시
 
   const doBook = () => {
+    checkAccount()
     navigate(`/SelectSeat/${props.showScheduleAddress}`);
     // console.log('props정보', props);
   };
@@ -109,10 +135,12 @@ const TopRight = (props) => {
     return date;
   };
 
+ console.log('ticketDetail', props.ticketDetail);
+
   return (
-    <div>
+    <div style={{ marginTop: "44px", marginLeft: "px" }}>
       <CoverBox>
-        <SmallTitleCss>판매기간</SmallTitleCss>
+        <SmallTitleCss style={{ marginTop: "20px" }}>판매 기간</SmallTitleCss>
         {isNaN(startDate) ? (
           <div style={{ marginLeft: "30px" }}>로딩중..</div>
         ) : (
@@ -133,19 +161,20 @@ const TopRight = (props) => {
 
         <SeatCss>
           {props.ticketDetail.map((it, idx) => (
-            <span key={idx}>
-              <span>{it.ticketClassName}등급: </span>
+            <p key={idx} style={{ marginBottom: "8px"}}>
+              <span style={{fontSize: "15px", fontWeight: "400", marginBotom: "10px", marginLeft: "4px"}}>{it.ticketClassName}  : </span>
               {/* <BoldSpan>{it.ticketClassMaxMintCount}석</BoldSpan> */}
               <BoldSpan>{tmp[idx]}석</BoldSpan>
-              <span> / </span>
-            </span>
+            </p>
           ))}
         </SeatCss>
 
         <ColorHr></ColorHr>
 
         <SmallTitleCss>캐스팅</SmallTitleCss>
-        <CastingDivCss>{props.casting}</CastingDivCss>
+        <CastingDivCss>
+          <p style={{fontSize: "15px", fontWeight: "400", marginBotom: "10px", marginLeft: "4px"}}>{props.casting}</p>
+        </CastingDivCss>
       </CoverBox>
 
       <ButtonBoxCss>
@@ -158,6 +187,7 @@ const TopRight = (props) => {
               borderColor: "text.secondary",
               borderRadius: 3,
               py: 1.5,
+              mt: 0.5,
             }}
             variant='outlined'
           >

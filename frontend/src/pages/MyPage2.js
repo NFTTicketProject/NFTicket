@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import TicketCollection from "../components/TicketCollection";
 import {
@@ -32,7 +32,7 @@ const UnconnectedContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   height: 100%;
-  margin-top: 5rem;
+  margin-top: 2rem;
 `;
 
 const ConnectedContainer = styled.div`
@@ -46,12 +46,12 @@ const ConnectedContainer = styled.div`
 const LogInButton = styled.button`
   background: white;
   color: black;
-  border-radius: 7px;
+  border-radius: 4px;
   border: 1px solid #e5e5e5;
-  padding: 1.5rem 3rem;
+  padding: 0.5rem 1rem;
   margin-top: 1rem;
   box-sizing: border-box;
-  font-size: 22px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   width: 40vw;
@@ -66,21 +66,18 @@ const LogInButton = styled.button`
 
 const UserInfo = styled.div`
   border: none;
-  margin-top: 1rem;
 `;
 //
 const NavList = styled.div`
   display: flex;
   justify-content: center;
-  padding-bottom: 8px;
-  border-bottom: 0.5px solid #ababab80;
+  border-bottom: 1px solid #939393;
 `;
 
 const NavListItem = styled.div`
   margin: 12px;
   margin-left: 30px;
   margin-right: 30px;
-  font-size: 18px;
   cursor: pointer;
 `;
 
@@ -90,7 +87,6 @@ const NavListItemSelected = styled.div`
   margin-right: 30px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 18px;
 `;
 const TitleText = styled.h2`
   margin-left: 20px;
@@ -102,8 +98,6 @@ const DescriptionDiv = styled.div`
 `;
 
 function MyPage() {
-  const navigate = useNavigate();
-
   const userData = JSON.parse(localStorage.getItem("userAccount"));
   const [pageNum, setPageNum] = useState(1);
   const handlePageNum = (page) => {
@@ -175,8 +169,6 @@ function MyPage() {
     } catch (err) {
       console.error(err);
     }
-    window.location.reload(false);
-
   };
 
   const saveUserInfo = (ethBalance, account, chainId) => {
@@ -186,7 +178,7 @@ function MyPage() {
       connectionid: chainId,
     };
     window.localStorage.setItem("userAccount", JSON.stringify(userAccount)); //user persisted data
-    // const userData = JSON.parse(localStorage.getItem("userAccount"));
+    const userData = JSON.parse(localStorage.getItem("userAccount"));
     setUserInfo(userData);
     setIsConnected(true);
   };
@@ -196,7 +188,6 @@ function MyPage() {
     setUserInfo({});
     setIsConnected(false);
     setWalletInfo([]);
-    window.location.reload(false);
   };
 
   function checkConnectedWallet() {
@@ -214,13 +205,12 @@ function MyPage() {
         })
         .catch((err) => console.error(err));
     }
-
   }
 
   // 나의 티켓
   const getMyTickets = async () => {
     try {
-      // const userData = JSON.parse(localStorage.getItem("userAccount"));
+      const userData = JSON.parse(localStorage.getItem("userAccount"));
       // 해당 지갑 주소 소유자가 가지고있는 티켓 수
       const balanceLength = await myTicketContract.methods
         .balanceOf(userData.account)
@@ -393,7 +383,7 @@ function MyPage() {
                   style={{
                     display: "flex",
                     position: "absolute",
-                    top: "370px",
+                    top: "390px",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                   }}
@@ -424,31 +414,8 @@ function MyPage() {
                   alignItems: "center",
                   justifyContent: "end",
                   paddingRight: "4rem",
-                  paddingTop: "20px",
                 }}
               >
-                <div><img src="images/unity_logo_icon.png" alt="" onClick={onChangeGallery}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    color: "black",
-                    height: "25px",
-                    width: "25px",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                  }}/></div>
-                {/* <PhotoLibraryIcon
-                  onClick={onChangeGallery}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    color: "black",
-                    height: "30px",
-                    width: "30px",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                  }}
-                ></PhotoLibraryIcon> */}
                 <Link to='/MyPage/Settings'>
                   <SettingsIcon
                     style={{
@@ -456,12 +423,22 @@ function MyPage() {
                       alignItems: "center",
                       color: "black",
                       height: "30px",
-                      marginLeft: "0.4rem",
                       width: "30px",
-                      marginRight: "10px",
                     }}
                   />
                 </Link>
+                <PhotoLibraryIcon
+                  onClick={onChangeGallery}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "black",
+                    height: "30px",
+                    width: "30px",
+                    marginLeft: "0.4rem",
+                    cursor: "pointer",
+                  }}
+                ></PhotoLibraryIcon>
                 <LogoutIcon
                   onClick={onDisconnect}
                   style={{
@@ -470,7 +447,6 @@ function MyPage() {
                     width: "30px",
                     marginLeft: "0.5rem",
                     cursor: "pointer",
-                    marginRight: "10px",
                   }}
                 />
               </Grid>
@@ -512,7 +488,7 @@ function MyPage() {
               <UserInfo>
                 <p>{walletInfo.description}</p>
               </UserInfo>
-              <Button onClick={wtRoyalty} style={{marginTop: '1rem'}}>Withdraw</Button>
+              <Button onClick={wtRoyalty}>Withdraw</Button>
             </div>
           </ConnectedContainer>
 
@@ -547,23 +523,20 @@ function MyPage() {
 
             {pageNum === 1 && (
               <div>
-                <div style={{ backgroudColor: "gray" }}>
-                  <TitleText>나의 티켓</TitleText>
+                <TitleText>나의 티켓</TitleText>
 
-                  <DescriptionDiv>
-                    <Grid container>
-                      {/* <h1>냉내용</h1> */}
-                      {ticketArray &&
-                        ticketArray.map((v, i) => {
-                          return (
-                            <Grid item xs={3}>
-                              <MyTicketItem key={i} {...v} />
-                            </Grid>
-                          );
-                        })}
-                    </Grid>
-                  </DescriptionDiv>
-                </div>
+                <DescriptionDiv>
+                  <Grid container>
+                    {ticketArray &&
+                      ticketArray.map((v, i) => {
+                        return (
+                          <Grid item xs={3}>
+                            <MyTicketItem key={i} {...v} />
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
+                </DescriptionDiv>
               </div>
             )}
 
@@ -608,7 +581,7 @@ function MyPage() {
         </>
       ) : (
         <UnconnectedContainer>
-          <h1>아래 버튼을 눌러 지갑을 연결해주세요.</h1>
+          <h1>Connect Your Wallet</h1>
           <LogInButton variant='contained' onClick={onConnect}>
             <img
               src='images/MetaMask_Fox.svg.png'

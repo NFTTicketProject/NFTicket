@@ -14,10 +14,10 @@ const SpecialTicket = () => {
   `;
 
   return (
-    <div>
-      <Title style={{ display: "flex", justifyContent: "center", fontSize: "40px" }}>
-        나만의 티켓
-      </Title>
+    <div style={{ disply: 'flex', flexDirection: 'column', justifyContet: 'center', paddingBottom: '90px'}}>
+      <p style={{ display: "flex", justifyContent: "center", fontSize: "28px", fontWeight: "600", marginTop: "60px", marginBottom: "50px" }}>
+      🎟 나만의 티켓
+      </p>
       <Ticket></Ticket>
     </div>
   );

@@ -9,6 +9,7 @@ const TodayPerformContainer = styled.div`
   display: flex-column;
   justify-content: center;
   margin-top: 50px;
+  padding-bottom: 90px;
   background-color: #f5f5f5;
 `;
 

@@ -98,14 +98,14 @@ function Tmp(props) {
         {/* <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p> */}
         {/* <p style={{ fontSize: "14px", color: "gray" }}> 판매 종료까지 : {ticketInfo.stageSellerName}</p> */}
         <div style={{ marginTop: "1rem" }}>
-          {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>}
-          {/* {new Date().getTime() > ticketInfo.getEndedAt * 1000 ? (
+          {/* {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>} */}
+          {new Date().getTime() > ticketInfo.getEndedAt * 1000 ? (
           <div>판매 종료</div>
         ) : (
           <div>
             {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>}
           </div>
-        )} */}
+        )}
         </div>
       </PerformContainer>
       {/* )} */}

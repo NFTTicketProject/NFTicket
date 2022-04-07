@@ -46,7 +46,7 @@ const GuideHeader = () => {
               dispatch(changePage(2));
             }}
           >
-            NFTickets
+            NFTicket
           </div>
         ) : (
           <div
@@ -55,7 +55,7 @@ const GuideHeader = () => {
               dispatch(changePage(2));
             }}
           >
-            NFTickets
+            NFTicket
           </div>
         )}
 
@@ -86,7 +86,7 @@ const GuideHeader = () => {
               dispatch(changePage(4));
             }}
           >
-            티켓 구매하기
+            티켓 판매 / 공연 등록
           </div>
         ) : (
           <div
@@ -95,7 +95,7 @@ const GuideHeader = () => {
               dispatch(changePage(4));
             }}
           >
-            티켓 구매하기
+            티켓 판매 / 공연 등록
           </div>
         )}
 
@@ -106,7 +106,7 @@ const GuideHeader = () => {
               dispatch(changePage(5));
             }}
           >
-            티켓 판매하기
+            티켓 구매
           </div>
         ) : (
           <div
@@ -115,7 +115,7 @@ const GuideHeader = () => {
               dispatch(changePage(5));
             }}
           >
-            티켓 판매하기
+            티켓 구매
           </div>
         )}
 

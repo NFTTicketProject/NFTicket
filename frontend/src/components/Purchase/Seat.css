@@ -24,7 +24,8 @@
 }
 
 .seat {
-  background-color: #444451;
+  background-color: rgb(152, 199, 228);
+  /* background-color: #ababab; */
   height: 20px;
   width: 30px;
   margin: 3px;
@@ -33,7 +34,8 @@
 }
 
 .seat-info {
-  background-color: #444451;
+  background-color: #98c7e4;
+  /* background-color: #ababab; */
   height: 20px;
   width: 30px;
   margin: 3px;
@@ -43,19 +45,21 @@
 }
 
 .seat-info.selected {
-  background-color: #6feaf6;
+  background-color: #166ca2;
 }
 
 .seat-info.occupied {
-  background-color: rgb(0, 255, 72);
+  background-color: #ffffff;
+  border: 1px solid #166ca2;
 }
 
 .seat.selected {
-  background-color: #6feaf6;
+  background-color: #166ca2;
 }
 
 .seat.occupied {
-  background-color: rgb(0, 255, 72);
+  background-color: #ffffff;
+  border: 1px solid #166ca2;
 }
 
 .seat:nth-of-type(2) {
@@ -70,7 +74,7 @@
 
 .seat:not(.occupied):hover {
   cursor: pointer;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .seat-item {
@@ -114,11 +118,13 @@
 }
 
 .screen {
-  background-color: rgb(162, 162, 162);
+  background-color: rgb(228, 225, 225);
   height: 70px;
-  width: 100%;
-  margin: 15px 0px;
-  transform: rotateX(-45deg);
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  margin: 15px 40px;
+  transform: rotateX(-30deg);
   box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
 }
 
