@@ -96,7 +96,7 @@ const TicketInfo = (props) => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
               <p>컨트렉트 주소</p>
-              <p>{props.saleAddr}</p>
+              <p>{props.ticketContractNumber}</p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
               <p>티켓 ID</p>

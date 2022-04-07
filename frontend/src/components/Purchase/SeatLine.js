@@ -74,7 +74,7 @@ function SeatLine(props) {
     // var data = selectSeatList;
     // data = [grade, id];
     var seatId =  id + 1
-    var data = [gradeId, grade, seatId];
+    var data = [gradeId, grade, id, seatId];
     setSelectSeats((selectSeatList) => data);
     console.log("넘어온 data list로 묶음", data);
     if (data) {
@@ -89,7 +89,7 @@ function SeatLine(props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <div style={{ display: "flex", flexDirection: "row", border: "black", width: "800px", flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexDirection: "row", border: "black", width: "800px", flexWrap: 'wrap', justifyContent: 'center', alignItem: 'center' }}>
         {/* <p>{ props.grade } </p> */}
         {props.num.map((seatNum, key) => (
           <div

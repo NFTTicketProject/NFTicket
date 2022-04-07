@@ -21,6 +21,7 @@ const UpperTitleArea = styled.div`
 `;
 
 const Show = () => {
+  const [contractSchedule, setContractSchedule] = useState([]);
   const [category, SetCategory] = useState("전체");
   const [currentSelling, SetCurrentSelling] = useState("전체");
   const [showList, SetShowList] = useState([]);

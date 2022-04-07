@@ -85,18 +85,22 @@ const TopRight = (props) => {
       }
     }
   }
-  console.log("🐸", tmp);
+
   const [startDate, setStartDate] = useState(new Date());
 
   const navigate = useNavigate();
 
   // 예매하기 버튼 클릭 시
-  const doBook = () => {
-    console.log(startDate);
+  const doBook =  () => {
+    // const check = await props.getAccount()
+    // console.log(startDate);
     const date = unixTimeToDate(startDate);
-    console.log("date", date);
-    navigate(`/SelectSeat/${props.showScheduleAddress}/${date}`);
-    // console.log('props정보', props);
+
+
+      // console.log("date", date);
+      navigate(`/SelectSeat/${props.showScheduleAddress}/${date}`);
+      // console.log('props정보', props);
+
   };
 
   // console.log(props.posterUri);

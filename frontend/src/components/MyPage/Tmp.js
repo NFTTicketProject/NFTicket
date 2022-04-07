@@ -78,32 +78,37 @@ function Tmp(props) {
   };
   return (
     <>
-      {!ticketInfo.isEnded && (
-        <PerformContainer>
-          <Link to={`/Ticket/${ticketInfo.ticketId}`}>
-            <PosterImgContainer
-              src={`https://nfticket.plus/showipfs/ipfs/${ticketInfo.ticketUri}`}
-              onError={handleError}
-              alt="poster img"
-            />
-          </Link>
-          {/* <p style={{ fontSize: "11px" }}>
+      {/* {!ticketInfo.isEnded && ( */}
+      <PerformContainer>
+        {/* <Link to={`/Ticket/${ticketInfo.ticketId}`}> */}
+          <PosterImgContainer
+            src={`https://nfticket.plus/showipfs/ipfs/${ticketInfo.ticketUri}`}
+            onError={handleError}
+            alt="poster img"
+          />
+        {/* </Link> */}
+        {/* <p style={{ fontSize: "11px" }}>
         {props.dateStartString} ~ {props.dateEndString}
       </p> */}
-          {/* <p style={{ fontSize: "14px" }}>{props.name}</p> */}
-          <p style={{ fontSize: "14px", fontWeight: "700" }}>판매 가격 : {ticketInfo.price} SSF</p>
-          <hr />
-          <p style={{ fontSize: "14px" }}>판매자 한마디 : {ticketInfo.description}</p>
-          {/* <p style={{ fontSize: "14px" }}>판매 시작 시간 : {ticketInfo.startTime}</p> */}
-          {/* <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p> */}
-          {/* <p style={{ fontSize: "14px", color: "gray" }}> 판매 종료까지 : {ticketInfo.stageSellerName}</p> */}
-          {new Date().getTime() > ticketInfo.getEndedAt * 1000 ? (
-            <div>판매 종료</div>
-          ) : (
-            <div>판매 중</div>
-          )}
-        </PerformContainer>
-      )}
+        {/* <p style={{ fontSize: "14px" }}>{props.name}</p> */}
+        <p style={{ fontSize: "14px", fontWeight: "700" }}>판매 가격 : {ticketInfo.price} SSF</p>
+        <hr />
+        <p style={{ fontSize: "14px" }}>판매자 한마디 : {ticketInfo.description}</p>
+        {/* <p style={{ fontSize: "14px" }}>판매 시작 시간 : {ticketInfo.startTime}</p> */}
+        {/* <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p> */}
+        {/* <p style={{ fontSize: "14px", color: "gray" }}> 판매 종료까지 : {ticketInfo.stageSellerName}</p> */}
+        <div style={{ marginTop: "1rem" }}>
+          {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>}
+          {/* {new Date().getTime() > ticketInfo.getEndedAt * 1000 ? (
+          <div>판매 종료</div>
+        ) : (
+          <div>
+            {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>}
+          </div>
+        )} */}
+        </div>
+      </PerformContainer>
+      {/* )} */}
     </>
   );
 }

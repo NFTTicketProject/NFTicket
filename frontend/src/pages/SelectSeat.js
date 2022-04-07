@@ -40,14 +40,16 @@ const ChooseSeatArea = styled.div`
   width: 800px;
 `;
 
-const SeatAndButtonArea = styled.div``;
+const SeatAndButtonArea = styled.div`
+  margin-left: 40px;
+`;
 
 const SeatInfoArea = styled.div`
   width: 300px;
   height: 540px;
   margin-left: 30px;
   border: 1px solid #7f8c8d;
-  border-radius: 20px;
+  border-radius: 15px;
 `;
 
 const ButtonArea = styled.div`
@@ -70,7 +72,7 @@ const unixTimeToDate = (unixTime) => {
   return dateString;
 };
 
-function SelectSeat() {
+function SelectSeat({getAccount}) {
   const navigate = useNavigate();
   // Detail에서 클릭해 받아온 공연 주소
   const { showScheduleAddress, date } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
@@ -242,6 +244,7 @@ function SelectSeat() {
 
   // 티켓 등록
   const enrollTicket = async () => {
+    // getAccount()
     try {
       // 0. 좌석은 골랐는지 확인
       if (seatData.length === 0) {
@@ -279,7 +282,16 @@ function SelectSeat() {
         )
         .send({ from: userData.account });
       // ticketID 받아오기
-      var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
+
+      console.log("Create", createMyTicket);
+      const ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
+
+      // api 사용해서 백으로 일단 블록해시 넘겨주기 - 나중에 Ticket/:숫자 페이지에서 api로 받아와야 함 //
+      const blockHash = createMyTicket.blockHash;
+      const sendApi = await axios.post(`https://nfticket.plus/api/v1/block`, {ticket_id: ticketID, block_hash: blockHash })
+      console.log("🐸")
+      console.log(ticketID, blockHash)
+      console.log(sendApi)
       setRegister({ ...register, ticketID });
       if (createMyTicket.status) {
         // 2. approve - 토큰 이동
@@ -288,7 +300,7 @@ function SelectSeat() {
           .approve(showScheduleAddress, 500)
           .send({ from: userData.account });
         if (approval.status) {
-          alert(`티켓 발급 완료`);
+          // alert(`티켓 발급 완료`);
           // // 좌석 등록 여부 확인
           // const getTicketId = await showScheduleContract.methods
           //   .getTicketId(parseInt(myTicket.data[0]), parseInt(seatData[1])) // 좌석 등급과 좌석 번호로 좌석 빈 여부 확인
@@ -299,13 +311,13 @@ function SelectSeat() {
           console.log(
             "3",
             parseInt(myTicket.data[0]),
-            parseInt(seatData[1]),
+            parseInt(seatData[2]),
             parseInt(ticketID),
           );
           const registerTicket = await showScheduleContract.methods
             .registerTicket(
               parseInt(myTicket.data[0]),
-              parseInt(seatData[1]),
+              parseInt(seatData[2]),
               parseInt(ticketID),
             )
             .send({ from: userData.account });
@@ -327,9 +339,6 @@ function SelectSeat() {
   };
 
   useEffect(() => {
-    console.log("머쉬맘", date);
-    console.log("머머쉬맘", showScheduleAddress);
-    console.log("머머머쉬맘", showScheduleId);
     callShowDetail();
     test();
   }, []);

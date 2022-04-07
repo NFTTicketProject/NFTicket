@@ -11,6 +11,11 @@ import {
   web3,
 } from "../utils/web3Config";
 
+import styled from "styled-components";
+import CameraEnhanceRoundedIcon from '@mui/icons-material/CameraEnhanceRounded';
+import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded';
+
+
 // Develop_mode
 const unityContext = new UnityContext({
   loaderUrl: "build/02.Gallery.loader.js",
@@ -22,6 +27,13 @@ const unityContext = new UnityContext({
     preserveDrawingBuffer: true,
   }
 });
+
+const CommunityBox = styled.div`
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 1280px;
+`;
 
 const Community = () => {
   const [speed, SetSpeed] = useState(0);
@@ -298,38 +310,38 @@ const Community = () => {
   }
 
   return (
-  <Container fixed sx={{my: 2}}>
-    <Grid 
-      container 
-      spacing={0} 
-      direction="column"
-      alignItems="center"
-      >
-      <Unity style={{ width:'1080px', height:'720px', background: "grey" }} unityContext={unityContext} />
-        {/* <Unity style={{width:'1920px', height:'1080px', border: "5px solid black", background: "grey"}} unityContext={unityContext} /> */}
-    </Grid>
-    <Grid 
-      container 
-      spacing={0}
-      direction="row"
-      justifyContent="flex-end"
-      sx={{my:2}}
-      >
-      <Grid item xs={1}>
-        <Button variant="contained" onClick={handleOnClickTakeScreenshot}>스크린샷</Button>
-      </Grid>
-      <Grid item xs={1}>
-        <Button variant="contained" onClick={handleOnClickFullscreen}>Fullscreen</Button>
-      </Grid>
-    </Grid>
-    <hr/>
-    <h3>SSAFY 티켓 NFT 미보유 방문자를 위한 안내</h3>
-    닉네임을 Guest(대소문자 구별)로 변경하실 경우, SSAFY NFT 티켓이 없으셔도 커뮤니티에 들어가실 수 있게 열어두었습니다.
-    <h3>입장 가능한 닉네임/방 (티켓 미구매 포함 전체 계정 리스트)</h3>
-    {members.map((member) => (
-      <div>{member.nickname}</div>
-    ))}
-  </Container>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px', marginBottom: '40px'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', width: '1280px', alignItems: 'center', marginTop: '0px', marginBottom: '20px', paddingRight: '10px'}}>
+        <CameraEnhanceRoundedIcon style={{ marginRight: '10px', color: '#E500C5'}} onClick={handleOnClickTakeScreenshot}></CameraEnhanceRoundedIcon>
+        <FullscreenRoundedIcon onClick={handleOnClickFullscreen}>Fullscreen</FullscreenRoundedIcon>
+      </div>
+      <CommunityBox>
+        <div>
+          <Unity style={{ width:'1280px', height:'720px', background: "grey", borderRadius: '15px' }} unityContext={unityContext} />
+        </div>
+        <hr style={{ width:'1260px', border: "0.8px solid #ababab", marginBottom: "20px", marginTop: '40px' }}/>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '550px' }}>
+              <h3>NFTicket를 보유하지 않은 방문자를 위한 안내</h3>
+              <div style={{ display: 'flex', flexDirection: 'column'}}>
+                <p style={{ fontSize: '15px', fontWeight: 500, marginBottom: '6px'}}>" 닉네임을 Guest(대소문자 구별)로 변경한 경우,</p>
+                <p style={{ fontSize: '15px', fontWeight: 500 }}>SSAFY NFT 티켓이 없으셔도 커뮤니티에 들어가실 수 있습니다. "</p>
+              </div>
+            </div>
+            {/* <div style={{ width: '0.5px', height: '150px', border: '0.5px solid #ababab', marginTop: '30px', marginLeft: '30px', marginRight: '30px', marginRight: '30px' }}></div> */}
+            <div style={{ display: 'flex', flexDirection: 'column', width: '440px', marginLeft: '30px' }}>
+              <h3>입장 가능한 닉네임 / 방</h3>
+              <p style={{ fontSize: '15px', fontWeight: 500, marginBottom: '6px', }}>아래의 텍스트 중 하나를 선택하여 방 찾기를 눌러 입력한 후 입장하시면, </p>
+              <p style={{ fontSize: '15px', fontWeight: 500, marginBottom: '18px' }}> 해당 방으로 이동할 수 있습니다.</p>
+              {members.map((member) => (
+                <p style={{ marginBottom: '8px', fontSize: '15px', fontWeight: 400, marginLeft: '4px' }}>  · {member.nickname}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+    </CommunityBox>
+  </div>
   );
 };
 
