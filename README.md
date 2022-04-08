@@ -484,8 +484,9 @@ NFTicket
 
 <img width="100%" src="https://user-images.githubuent.com/55949647/1d28-39712f2cf5b1.gif"/>
 
-### 커뮤니티 [수정 필요]
-- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
-- 무한스크롤이 적용됩니다.
+### 커뮤니티
+- 자신의 티켓을 전시할 수 있는 3D 공간을 제공합니다.
+- 자신의 방, 다른 사용자의 방 모두 입장 가능합니다.
+- 티켓에 가까이 다가가면 티켓 설명을 볼 수 있습니다.
 
-<img width="100%" src="https://i.ps/32/98/0f/32980faaaf7a41b393.gif"/>
+<img width="100%" src="docs/images/demo_community.gif"/>
