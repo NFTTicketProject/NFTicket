@@ -81,7 +81,7 @@ const TicketInfo = (props) => {
               >
                 <p
                   style={{ fontSize: "16px", color: "#a8a8a8", fontWeight: 400, marginBottom: "4px" }}
-                  >판매자</p>
+                  >소유자</p>
                 <p
                   style={{ fontSize: "20px", fontWeight: 700 }}
                 >{sellerInfo.nickname}</p>

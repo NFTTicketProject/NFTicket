@@ -116,8 +116,8 @@ const Community = () => {
     unityContext.send("Image3", "SetUrl", image5);
     unityContext.send("Window1", "SetUrl", image1);
     unityContext.send("Window2", "SetUrl", image2);
-    unityContext.send("Zone1", "SetTitle", title1);
-    unityContext.send("Zone2", "SetTitle", title2);
+    unityContext.send("Zone1", "SetTitle", title2);
+    unityContext.send("Zone2", "SetTitle", title1);
     unityContext.send("Zone1", "SetDesc", desc1);
     unityContext.send("Zone2", "SetDesc", desc2);
   };

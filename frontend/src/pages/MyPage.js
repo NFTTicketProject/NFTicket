@@ -516,7 +516,7 @@ function MyPage() {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: "1rem",
+                marginTop: "0.5rem",
               }}
             >
               {/* 닉네임 */}
@@ -581,17 +581,10 @@ function MyPage() {
             </NavList>
 
             {pageNum === 1 && (
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center", border: "2px solid blue" }} >
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }} >
                   {/* <TitleText>나의 티켓</TitleText> */}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center"  }} >
-                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', border: "1px solid red" }} >
-                    <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "18px"}}></div>
-                    <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "18px"}}></div>
-                    <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "18px"}}></div>
-                    <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "18px"}}></div>
-                    <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "18px"}}></div>
-                    <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "18px"}}></div>
-
+                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
                     <DescriptionDiv>
                       <Grid container>
                         {/* <h1>냉내용</h1> */}
@@ -611,40 +604,81 @@ function MyPage() {
             )}
 
             {pageNum === 2 && (
-              <div>
-                <TitleText>내가 판매중인 티켓</TitleText>
-
-                <DescriptionDiv>
-                  <Grid container>
-                    {myTicketArray &&
-                      myTicketArray.map((v, i) => {
-                        return (
-                          <Grid item xs={3}>
-                            <Tmp key={i} {...v} />
-                          </Grid>
-                        );
-                      })}
-                  </Grid>
-                </DescriptionDiv>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }} >
+                  {/* <TitleText>나의 티켓</TitleText> */}
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center"  }} >
+                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                    <DescriptionDiv>
+                      <Grid container>
+                        {/* <h1>냉내용</h1> */}
+                        {myTicketArray &&
+                          myTicketArray.map((v, i) => {
+                            return (
+                              <Grid item xs={3}>
+                                <Tmp key={i} {...v} />
+                              </Grid>
+                            );
+                          })}
+                      </Grid>
+                    </DescriptionDiv>
+                  </div>
+                </div>
               </div>
+
+              // <div>
+              //   <TitleText>내가 판매중인 티켓</TitleText>
+
+              //   <DescriptionDiv>
+              //     <Grid container>
+              //       {myTicketArray &&
+              //         myTicketArray.map((v, i) => {
+              //           return (
+              //             <Grid item xs={3}>
+              //               <Tmp key={i} {...v} />
+              //             </Grid>
+              //           );
+              //         })}
+              //     </Grid>
+              //   </DescriptionDiv>
+              // </div>
             )}
 
             {pageNum === 3 && (
-              <div>
-                <TitleText>내가 등록한 공연</TitleText>
-                <DescriptionDiv>
-                  <Grid container>
-                    {showArray &&
-                      showArray.map((v, i) => {
-                        return (
-                          <Grid item xz={3}>
-                            <MyShow key={i} {...v} />
-                          </Grid>
-                        );
-                      })}
-                  </Grid>
-                </DescriptionDiv>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }} >
+                  {/* <TitleText>나의 티켓</TitleText> */}
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center"  }} >
+                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
+                    <DescriptionDiv>
+                      <Grid container>
+                        {/* <h1>냉내용</h1> */}
+                        {showArray &&
+                          showArray.map((v, i) => {
+                            return (
+                              <Grid item xz={3}>
+                                <MyShow key={i} {...v} />
+                              </Grid>
+                            );
+                          })}
+                      </Grid>
+                    </DescriptionDiv>
+                  </div>
+                </div>
               </div>
+              // <div>
+              //   <TitleText>내가 등록한 공연</TitleText>
+              //   <DescriptionDiv>
+              //     <Grid container>
+              //       {showArray &&
+              //         showArray.map((v, i) => {
+              //           return (
+              //             <Grid item xz={3}>
+              //               <MyShow key={i} {...v} />
+              //             </Grid>
+              //           );
+              //         })}
+              //     </Grid>
+              //   </DescriptionDiv>
+              // </div>
             )}
           </div>
         </>

@@ -41,7 +41,7 @@ function Settings() {
     return signature;
   };
 
-  console.log("🐸", userInfo)
+  console.log("🐸", userInfo);
   const editInfo = async () => {
     const data = {
       nickname: userInfo.nickname,
@@ -59,7 +59,6 @@ function Settings() {
           navigate("/MyPage");
         }
         window.location.reload(false);
-
       })
       .catch((err) => {
         console.error(err);
