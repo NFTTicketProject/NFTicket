@@ -409,7 +409,7 @@ NFTicket
 
 ## ✔ 팀원 역할 분배
 ---
-![역할 배분](docs/images/crew.jpg)
+![역할 배분](docs/images/crew.png)
 
 ## ✔ 프로젝트 산출물
 ---
