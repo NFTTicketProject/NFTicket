@@ -7,7 +7,7 @@ import HomeSlider from "../components/Home/Slider";
 import TodayPerformance from "../components/Home/TodayPerformance";
 import SpecialTicket from "../components/Home/SpecialTicket";
 import Ticketo from "../components/Home/Ticketo";
-// import Community from "../components/Home/Community";
+import Community from "../components/Home/Community";
 
 const HomeBox = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const Home = () => {
       <TodayPerformance></TodayPerformance>
       <SpecialTicket></SpecialTicket>
       <Ticketo></Ticketo>
-      {/* <Community></Community> */}
+      <Community></Community>
     </HomeBox>
   );
 };

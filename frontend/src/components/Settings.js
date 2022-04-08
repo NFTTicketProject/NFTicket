@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import ProfileImage from "./ProfileImage";
+import { TextField } from '@mui/material';
 
 const SettingContainer = styled.div`
   display: flex;
@@ -51,7 +52,7 @@ function Settings() {
     const sign = await signMessage(JSON.stringify(data));
     const sendData = { info: data, hash_sign: sign };
     axios
-      .patch(`https://nfticket.plus/api/v1/account/edit/${userData.account}`, sendData)
+      .patch(`https://nfticket.plus/api/v1/account/${userData.account}`, sendData)
       .then((res) => {
         // console.log(res);
         if (res.status) {
@@ -87,22 +88,28 @@ function Settings() {
     <SettingContainer>
       <h1>Profile Settings</h1>
       <ProfileImage userInfo={userInfo} setUserInfo={setUserInfo} />
-      <h2>Username</h2>
-      <InputForm
+      <h2>닉네임</h2>
+      <TextField type="text"
+        name="nickname"
+        placeholder="Enter Nickname"
+        value={userInfo.nickname}
+        onChange={handleChange}
+        style={{width:'300px'}}/>
+      {/* <InputForm
         type="text"
         name="nickname"
         placeholder="Enter Nickname"
         value={userInfo.nickname}
         onChange={handleChange}
-      />
-      <h2>Description</h2>
-      <InputForm
-        type="text"
+      /> */}
+      <h2>상세 설명</h2>
+      <TextField type="text"
         name="description"
         placeholder="Enter Description"
         value={userInfo.description}
-        onChange={handleChange}
-      />
+        onChange={handleChange} 
+        style={{width:'300px', marginBottom:
+        '2rem'}}/>
       <div>
         <Button variant="contained" onClick={editInfo} style={{ marginTop: "1rem" }}>
           수정

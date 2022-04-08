@@ -28,8 +28,10 @@ const NameDiv = styled.div`
   font-size: 17px;
   font-weight: 500;
   margin-bottom: 12px;
-  white-space: no-wrap;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+
 `;
 
 const PriceDiv = styled.div`

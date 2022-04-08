@@ -109,7 +109,7 @@ const TicketImage = (props) => {
   return (
     <div>
       <PosterArea>
-        <Poster src={`https://nfticket.plus/showipfs/ipfs/${props.posterUri}`} alt="poster img"></Poster>
+        {typeof props.posterUri !== "undefined" ? <Poster src={`https://nfticket.plus/showipfs/ipfs/${props.posterUri}`} alt="poster img"></Poster> : <Poster src="images/poster_default.jpeg" alt="poster img"></Poster>}
         <TicketData>
           <TicketTitle>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>

@@ -21,6 +21,7 @@ const PerformContainer = styled.div`
 const PosterImgContainer = styled.img`
   width: 203px;
   height: 270px;
+  border-radius: 15px;
 `;
 
 function Tmp(props) {
@@ -63,6 +64,7 @@ function Tmp(props) {
 
   // console.log("🐸", ticketInfo.getStartedAt, new Date().getTime(), ticketInfo.getEndedAt);
   // console.log("🐸", ticketInfo.isEnded);
+  console.log("🐸", ticketInfo);
   // var started = 1649163507000;
   // var ended = 1649163867000;
   // var date = new Date().getTime();
@@ -91,9 +93,9 @@ function Tmp(props) {
         {props.dateStartString} ~ {props.dateEndString}
       </p> */}
         {/* <p style={{ fontSize: "14px" }}>{props.name}</p> */}
-        <p style={{ fontSize: "14px", fontWeight: "700" }}>판매 가격 : {ticketInfo.price} SSF</p>
-        <hr />
-        <p style={{ fontSize: "14px" }}>판매자 한마디 : {ticketInfo.description}</p>
+        <p style={{ fontSize: "14px", marginTop: "16px", marginBottom: "16px", height: "16px", overflow: 'hidden', textOverflow: "ellipsis" }}>{ticketInfo.description}</p>
+        <hr style={{ border: "0.5px solid #ababab"}}/>
+        <p style={{ fontSize: "14px", fontWeight: "700" }}>{ticketInfo.price} SSF</p>
         {/* <p style={{ fontSize: "14px" }}>판매 시작 시간 : {ticketInfo.startTime}</p> */}
         {/* <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p> */}
         {/* <p style={{ fontSize: "14px", color: "gray" }}> 판매 종료까지 : {ticketInfo.stageSellerName}</p> */}
