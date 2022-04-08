@@ -470,7 +470,7 @@ NFTicket
 - 구매한 티켓 이미지에 아이콘을 추가하거나 직접 그림을 그려 꾸밀 수 있습니다.
 - 티켓 꾸미기가 완료되면 기존의 티켓이미지가 꾸민 티켓이미지로 교체됩니다.
 
-<img width="100%" src="docs.images/demo_decoration.gif"/>
+<img width="100%" src="docs/images/demo_decoration.gif"/>
 
 ### 티켓 재판매글 등록
 - 보유한 티켓 중 하나를 재판매합니다.
