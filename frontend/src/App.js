@@ -39,6 +39,8 @@ const TotalWrapDiv = styled.div`
 
 const ContentWrapDiv = styled.div`
   padding-bottom: 12rem;
+  max-width: 100%;
+  overflow-x: hidden;
 `;
 
 function App() {
@@ -89,21 +91,21 @@ function App() {
             path='/Schedule%20Manager'
             element={<ScheduleManager />}
           ></Route>
-          <Route path='/MyPage' element={<MyPage/>} />
+          <Route path='/MyPage' element={<MyPage />} />
           <Route path='/MyPage/Settings' element={<Settings />} />
           <Route path='/Ticket/:ticketId' element={<TicketDetail />} />
-          <Route ></Route>
+          <Route></Route>
           {/* <Route path="/Ticket/:showScheduleAddress" element={<TicketDetail />} /> */}
 
           <Route
             path='/Detail-Handover/:ticketId'
             element={<TicketDetailHandover />}
           />
-          <Route path='/Barcode' element={<Page4 />} />
+          <Route path='/Burn' element={<Page4 />} />
           <Route path='/Purchase' element={<Purchase />} />
           <Route path='/*' element={<NotFound />} />
           <Route path='/Show' element={<Show />} />
-          <Route path='/Market' element={<Market/>} />
+          <Route path='/Market' element={<Market />} />
           <Route path='/ShowPublish' element={<ShowPublish />} />
           <Route
             path='/SelectSeat/:showScheduleAddress'

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import styled from "styled-components";
 
 import { Grid, Container } from "@mui/material";
@@ -18,6 +20,17 @@ const PerformBox = styled.div`
   flex-wrap: wrap;
   width: 75vw;
   justify-content: center;
+`;
+
+const StyledTodayPerformanceLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-top: 60px;
+  margin-bottom: 50px;
+  text-decoration: none;
+  color: black;
 `;
 
 const TodayPerformance = () => {
@@ -46,18 +59,9 @@ const TodayPerformance = () => {
 
   return (
     <TodayPerformContainer>
-      <p
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          fontSize: "28px",
-          fontWeight: "600",
-          marginTop: "60px",
-          marginBottom: "50px",
-        }}
-      >
+      <StyledTodayPerformanceLink to="Show">
         🎪 오늘의 공연
-      </p>
+      </StyledTodayPerformanceLink>
       <Container style={{ display: "flex", justifyContent: "center" }}>
         <Grid container spacing={1}>
           {showList.map((v, i) => {

@@ -2653,13 +2653,15 @@ const mintAnimalTokenAddress = "0xdDCdECe6524be448D1d2609D5430754bB06d835e";
 export const saleAnimalTokenAddress =
   "0xB30199f422DEc42ac5782d2D05777AD640f81447";
 //
-const myTicketAddress = "0x0e9b224E23fD1B3CE9Cf31cD96E1e2BecaE4a2Ca";
-const showScheduleManagerAddress = "0x1De088Ba1432A9E2D2126c7fD7602F3872D96acF";
+
+
+const myTicketAddress = "0xa25399b91bd55b4a5606c1166dDe71A579757820";
+const showScheduleManagerAddress = "0x7185FD292c08ECF8914E81Fb37E537d601f342f4";
 const showScheduleAddress = "";
-export const ticketSaleManagerAddress =
-  "0xF3a4bDd51905CAF0A701D090386f3486eDeC2842";
+export const ticketSaleManagerAddress = "0x42156B6fd05628b356E41DefAe6e578099D2B307";
 const ticketSaleAddress = "";
 const IERC20Address = "0x6C927304104cdaa5a8b3691E0ADE8a3ded41a333";
+
 
 export const web3 = new Web3(window.ethereum);
 

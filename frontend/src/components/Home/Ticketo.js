@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import styled from "styled-components";
 
 import { Grid, Container } from "@mui/material";
@@ -38,6 +40,17 @@ const TicketoItemContainer = styled.div`
   justify-content: center;
 `;
 
+const StyledResellingTicketMallLink = styled(Link)`
+  display: flex;
+  justify-content: start;
+  font-size: 28px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: black;
+`;
+
 const Ticketo = () => {
   const [ticketList, SetTicketList] = useState([]);
 
@@ -63,14 +76,18 @@ const Ticketo = () => {
           .getSaleOfTicket(i)
           .call();
         if (saleAddr != "0x0000000000000000000000000000000000000000") {
-          count = count - 1;
-          if (count < 0) break;
+          if (count <= 0) break;
           const showScheduleId = await myTicketContract.methods
             .getShowScheduleId(i)
             .call();
+          if (showScheduleId === 0) continue;
           const showScheduleAddress = await showScheduleManagerContract.methods
             .getShowSchedule(showScheduleId)
             .call();
+          if (
+            showScheduleAddress === "0x0000000000000000000000000000000000000000"
+          )
+            continue;
           const showScheduleContract = new web3.eth.Contract(
             showScheduleAbi,
             showScheduleAddress,
@@ -133,6 +150,7 @@ const Ticketo = () => {
             dateStartString,
             dateEndString,
           });
+          count = count - 1;
         }
       }
       SetTicketList(ticketInfos);
@@ -150,30 +168,41 @@ const Ticketo = () => {
     <div style={{ background: "#f5f5f5", paddingBottom: "100px" }}>
       <TitleContainer>
         <div
-          style={{ display: "flex-column", width: "70vw", fontSize: "40px" }}
+          style={{ display: "flex-column", width: "60vw", fontSize: "40px" }}
         >
           {/* <div style={{ width: "1180px", display: "flex-column", justifyContent: "center"}}> */}
-          <p style={{ display: "flex", justifyContent: "start", fontSize: "28px", fontWeight: "600", marginTop: "40px", marginBottom: '12px' }}>
-            리셀링 티켓몰
-          </p>
+
+          <StyledResellingTicketMallLink to="Market">
+            리셀링 티켓몰 🤑
+          </StyledResellingTicketMallLink>
           <p style={{ display: "flex", justifyContent: "start", fontSize: "20px", fontWeight: "400", marginBottom: "30px" }}>
             개인 간 티켓 거래로 다른 관객들과 NFTicket을 자유롭게 거래해보세요.
           </p>
         </div>
       </TitleContainer>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <TicketoItemContainer>
-          <Grid container spacing={2}>
-            {ticketList.map((v, i) => {
-              return (
-                <Grid item xs={3}>
-                  <HomeTicket key={i} {...v} />
-                </Grid>
+        <div style={{ display: "flex", justifyContent: "start", width: "60vw", flexWrap: "wrap" }}>
+          {/* <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "14px"}}></div>
+          <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "14px"}}></div>
+          <div style={{ width: "203px", height: "372.5px", backgroundColor: "gray", margin: "14px"}}></div> */}
+          {ticketList.map((v, i) => {
+            return (
+              <HomeTicket key={i} {...v} />
               );
             })}
-          </Grid>
-        </TicketoItemContainer>
-      </div>
+          {/* <TicketoItemContainer>
+            <Grid container spacing={2}>
+              {ticketList.map((v, i) => {
+                return (
+                  <Grid item xs={3}>
+                    <HomeTicket key={i} {...v} />
+                  </Grid>
+                );
+              })} 
+            </Grid>
+          </TicketoItemContainer> */}
+        </div>
+        </div>
     </div>
   );
 };
