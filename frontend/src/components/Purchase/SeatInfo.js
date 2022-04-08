@@ -21,7 +21,7 @@ const CoverBox = styled.div`
 
 const SeatInfo = (props) => {
 
-  console.log('seatInfo props', props)
+  // console.log('seatInfo props', props)
 
   return (
     <div>
@@ -33,61 +33,91 @@ const SeatInfo = (props) => {
           marginBottom: "12px",
         }}
       >
-        <p style={{ fontSize: '20px', fontWeight: '700', marginBottom: '10px' }}>공연 정보</p>
+        <p
+          style={{ fontSize: "20px", fontWeight: "700", marginBottom: "10px" }}
+        >
+          공연 정보
+        </p>
         <div>
           <p
             style={{
-              display : 'flex',
+              display: "flex",
               fontSize: "16px",
               fontWeight: "500",
               marginTop: "8px",
               marginBottom: "8px",
             }}
           >
-            공연 이름 : 
-            <p style={{ 
-              fontWeight: "600",
-              marginLeft: "4px",
-              height: "20px",
-              width: "154px",
-              overflow: "hidden"
-            }}>
+            공연 이름 :
+            <p
+              style={{
+                fontWeight: "600",
+                marginLeft: "4px",
+                height: "20px",
+                width: "154px",
+                overflow: "hidden"
+              }}
+            >
               {props.showDetailBack.name}
             </p>
           </p>
 
           <p
             style={{
-              display : 'flex',
+              display: "flex",
               fontSize: "16px",
               fontWeight: "500",
               marginTop: "8px",
               marginBottom: "8px",
             }}
           >
-            발매 기간 : 
-            <p style={{ 
-              fontWeight: "600",
-              marginLeft: "4px",
-            }}>
+            공연 장소 :
+            <p
+              style={{
+                fontWeight: "600",
+                marginLeft: "4px",
+              }}
+            >
+              {props.showDetail.stageName}
+            </p>
+          </p>
+
+          <p
+            style={{
+              display: "flex",
+              fontSize: "16px",
+              fontWeight: "500",
+              marginTop: "8px",
+              marginBottom: "8px",
+            }}
+          >
+            발매 기간 :
+            <p
+              style={{
+                fontWeight: "600",
+                marginLeft: "4px",
+              }}
+            >
               {props.showDetail.startedAt} ~ {props.showDetail.endedAt}
             </p>
           </p>
 
           <p
             style={{
-              display : 'flex',
+              display: "flex",
               fontSize: "16px",
               fontWeight: "500",
               marginTop: "8px",
               marginBottom: "8px",
             }}
           >
-            캐스팅 : 
-            <p style={{ 
-              fontWeight: "600",
-              marginLeft: "4px",
-            }}>
+            캐스팅 :
+            <p
+              style={{
+                fontWeight: "600",
+                marginLeft: "4px",
+              }}
+            >
               {props.showDetailBack.staffs}
             </p>
           </p>
@@ -101,7 +131,16 @@ const SeatInfo = (props) => {
           }}
         ></hr>
         <div>
-          <p style={{ fontSize: '20px', fontWeight: '700', marginBottom: '10px', marginTop: "10px" }}>좌석 정보</p>
+          <p
+            style={{
+              fontSize: "20px",
+              fontWeight: "700",
+              marginBottom: "10px",
+              marginTop: "10px",
+            }}
+          >
+            좌석 정보
+          </p>
           <ul className='showcase'>
             <li style={{ display: "flex", flexDirection: "column" }}>
               <div className='seat-info'></div>

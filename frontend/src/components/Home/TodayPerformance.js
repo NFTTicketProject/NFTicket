@@ -43,7 +43,9 @@ const TodayPerformance = () => {
       .get(`https://nfticket.plus/api/v1/show/`)
       .then((res) => {
         var tmp = [];
-        if (count > res.data.length) count = res.data.length;
+        if (count > res.data.length) {
+          count = res.data.length;
+        }
         for (let i = 0; i < count; i++) {
           var j = count - i - 1;
           tmp.push(res.data[j]);
@@ -52,6 +54,8 @@ const TodayPerformance = () => {
       })
       .catch((err) => console.error(err));
   }, []);
+
+  console.log(showList);
 
   return (
     <TodayPerformContainer>

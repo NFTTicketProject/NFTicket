@@ -79,7 +79,6 @@ const ResponsiveAppBar = () => {
     }
   }
 
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -286,7 +285,15 @@ const ResponsiveAppBar = () => {
                 }}
                 sx={{ p: 0 }}
               >
-                {userData === null ? <Avatar alt='Remy Sharp' src='/images/default_profile.png' /> : walletInfo.image_uri !== "none" ? <Avatar alt='Remy Sharp' src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`} /> : <Avatar alt='Remy Sharp' src="images/MetaMask_Fox.svg.png" sx={{backgroundColor:"#D0D3D4"}}/>}
+
+                {userData === null ? (
+                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                ) : (
+                  <Avatar
+                    alt='Remy Sharp'
+                    src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`}
+                  />
+                )}
                 {/* <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' /> */}
               </IconButton>
             </Tooltip>
