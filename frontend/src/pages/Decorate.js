@@ -28,7 +28,7 @@ const Decorate = () => {
   toast: true,
   position: 'bottom-end',
   showConfirmButton: false,
-  timer: 1000,
+  timer: 1500,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.addEventListener('mouseenter', swal.stopTimer)
@@ -313,9 +313,18 @@ const Decorate = () => {
               usageStatistics={true}
             />
           </Grid>
-          <hr />
           <Grid container spacing={0} direction="column" alignItems="flex-end" sx={{ my: 2 }}>
-            <Button variant="contained" onClick={editorToBase64}>
+            <Button onClick={editorToBase64} sx={{
+              width: '150px',
+              fontWeight: "bold",
+              color: "secondary.main",
+              borderColor: "text.secondary",
+              borderRadius: 3,
+              py: 1.5,
+              mr: 9,
+              mt: 1,
+            }}
+            variant='outlined'>
               저장하기
             </Button>
           </Grid>

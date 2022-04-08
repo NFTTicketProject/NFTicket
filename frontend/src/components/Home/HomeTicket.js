@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 const PerformContainer = styled.div`
   display: flex-column;
   width: 203px;
-  margin: 20px;
+  margin: 14px;
 `;
 
 const PosterImgContainer = styled.img`
   width: 203px;
   height: 270px;
+  border-radius: 15px;
   background-color: gray;
   &:hover {
     transform: scale(1.03);
@@ -65,7 +66,7 @@ const userData = JSON.parse(localStorage.getItem("userAccount"));
       console.error(err)
     }
   }
-  console.log(props.ticketSeller, userData.account)
+  // console.log(props.ticketSeller, userData.account)
 
   useEffect(() => {
     checkAccount()
@@ -92,14 +93,16 @@ const userData = JSON.parse(localStorage.getItem("userAccount"));
         />
       )}
       
-      <NameDiv style={{ fontSize: "14px" }}>{props.name}</NameDiv>
-      <hr />
-      <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
-        판매자 : {props.ticketSellerName}
-      </ShowSellerName>
-      <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
-        가격 : {props.price} SSF
-      </ShowSellerName>
+      <div style={{ paddingLeft: "4px", marginRight: "6px"}}>
+        <NameDiv style={{ fontSize: "14px", fontWeight: 500, marginTop: "14px" }}>{props.name}</NameDiv>
+        <hr style={{ marginTop: "14px", marginBottom: "12px", border: "0.5px solid #ababab"}}/>
+        <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+          판매자 : {props.ticketSellerName}
+        </ShowSellerName>
+        <ShowSellerName style={{ fontSize: "14px", color: "gray" }}>
+          가격 : {props.price} SSF
+        </ShowSellerName>
+      </div>
     </PerformContainer>
   );
 };

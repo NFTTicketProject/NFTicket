@@ -13,12 +13,15 @@ const PosterImgContainer = styled.img`
   width: 203px;
   height: 270px;
   background-color: gray;
+  border-radius: 15px;
 `;
 
 const PerformTicket = (props) => {
   const handleError = (e) => {
     e.target.src = "images/posterImg1.png";
   };
+  
+  console.log('aaaa', props)
 
   return (
     <PerformContainer>
@@ -34,9 +37,9 @@ const PerformTicket = (props) => {
       </p> */}
       {/* <p style={{ fontSize: "14px" }}>{props.name}</p> */}
       {/* <p style={{ fontSize: "14px", fontWeight: "700" }}>가격 : {props.price} SSF</p> */}
-      <hr />
-      <p style={{ fontSize: "14px" }}>공연 이름 : {props.name}</p>
-      <p style={{ fontSize: "14px" }}>좌석 등급 : {props.className}석</p>
+      <p style={{ fontSize: "15px", marginTop: "8px", fontWeight: "600" }}>{props.name}</p>
+      <hr style={{ border: "0.5px solid #ababab"}}/>
+      <p style={{ fontSize: "14px" }}>{props.className}</p>
       {/* <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p>
       <p style={{ fontSize: "14px", color: "gray" }}>발매자 : {props.stageSellerName}</p> */}
     </PerformContainer>

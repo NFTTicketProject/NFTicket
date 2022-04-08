@@ -39,8 +39,10 @@ const NameDiv = styled.div`
   margin-bottom: 12px;
   margin-top: 18px;
   margin-left: 2px;
-  white-space: no-wrap;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+
 `;
 
 const PriceDiv = styled.div`

@@ -284,12 +284,12 @@ function SelectSeat({getAccount}) {
       }
 
       // 1. 티켓 발급
-      // console.log(
-      //   "1",
-      //   showDetailBack.poster_uri,
-      //   parseInt(showScheduleId),
-      //   parseInt(myTicket.data[0]),
-      // );
+      console.log(
+        "1",
+        showDetailBack.poster_uri,
+        parseInt(showScheduleId),
+        parseInt(myTicket.data[0]),
+      );
       const createMyTicket = await myTicketContract.methods
         .create(
           showDetailBack.poster_uri,
@@ -312,13 +312,13 @@ function SelectSeat({getAccount}) {
       // api 사용해서 백으로 일단 블록해시 넘겨주기 - 나중에 Ticket/:숫자 페이지에서 api로 받아와야 함 //
       const blockHash = createMyTicket.blockHash;
       const sendApi = await axios.post(`https://nfticket.plus/api/v1/block`, {ticket_id: ticketID, block_hash: blockHash })
-      // console.log("🐸")
+      console.log("🐸")
       // console.log(ticketID, blockHash)
       // console.log(sendApi)
       setRegister({ ...register, ticketID });
       if (createMyTicket.status) {
         // 2. approve - 토큰 이동
-        // console.log("2", showScheduleAddress);
+        console.log("2", showScheduleAddress);
         const approval = await IERC20Contract.methods
           .approve(showScheduleAddress, 500)
           .send({ from: userData.account });
@@ -335,12 +335,12 @@ function SelectSeat({getAccount}) {
           // if (getTicketId === 0) {
           // 아직 팔리지 않은 좌석이라면
           // 3. register
-          // console.log(
-          //   "3",
-          //   parseInt(myTicket.data[0]),
-          //   parseInt(seatData[2]),
-          //   parseInt(ticketID),
-          // );
+          console.log(
+            "3",
+            parseInt(myTicket.data[0]),
+            parseInt(seatData[2]),
+            parseInt(ticketID),
+          );
           const registerTicket = await showScheduleContract.methods
             .registerTicket(
               parseInt(myTicket.data[0]),

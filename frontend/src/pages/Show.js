@@ -67,7 +67,7 @@ const Show = () => {
       const scheduleCount = await showScheduleManagerContract.methods
         .getCount()
         .call();
-
+      console.log("🎃", scheduleCount)
       const tmpContractArray = [];
       for (let i = 1; i <= scheduleCount; i++) {
         const showSchedule = await showScheduleManagerContract.methods
@@ -243,7 +243,7 @@ const Show = () => {
         <SearchBarCategoryArea>
           <TextField
             id='search'
-            label='크리에이터 또는 제목'
+            label='제목 또는 판매자'
             variant='standard'
             onChange={searchKeyword}
             sx={{ ml: 5, width: 300 }}
