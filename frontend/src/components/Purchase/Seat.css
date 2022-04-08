@@ -1,0 +1,137 @@
+* {
+  box-sizing: border-box;
+}
+
+.movie-container {
+  margin: 20px 0;
+}
+
+.movie-container select {
+  background-color: rgb(55, 0, 255);
+  border: 0;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-left: 10px;
+  padding: 5px 15px 5px 15px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.container {
+  perspective: 1000px;
+  margin-bottom: 30px;
+}
+
+.seat {
+  background-color: rgb(152, 199, 228);
+  /* background-color: #ababab; */
+  height: 20px;
+  width: 30px;
+  margin: 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.seat-info {
+  background-color: #98c7e4;
+  /* background-color: #ababab; */
+  height: 20px;
+  width: 30px;
+  margin: 3px;
+  margin-bottom: 16px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.seat-info.selected {
+  background-color: #166ca2;
+}
+
+.seat-info.occupied {
+  background-color: #ffffff;
+  border: 1px solid #166ca2;
+}
+
+.seat.selected {
+  background-color: #166ca2;
+}
+
+.seat.occupied {
+  background-color: #ffffff;
+  border: 1px solid #166ca2;
+}
+
+.seat:nth-of-type(2) {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.seat:nth-last-of-type(2) {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.seat:not(.occupied):hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.seat-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.showcase .seat:not(.occupied):hover {
+  cursor: default;
+  transform: scale(1);
+}
+
+.showcase {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #777;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+}
+
+.showcase li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.showcase li small {
+  margin-left: 2px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.screen {
+  background-color: rgb(228, 225, 225);
+  height: 70px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  margin: 15px 40px;
+  transform: rotateX(-30deg);
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+}
+
+p.text {
+  margin: 5px 0;
+}
+
+p.text span {
+  color: #6feaf6;
+}
