@@ -4,7 +4,7 @@
 
 
 ## NFTicket 링크(PC 화면) : [https://nfticket.plus](https://nfticket.plus/)
-## 소개 영상 보기 : [UCC 링크](https://youtu.be/WU3tIIOS0Ec) [수정필요]
+## 소개 영상 보기 : [UCC 링크](https://youtu.be/lelttBR33Qo)
 
 ## 💜 프로젝트 진행 기간
 2022.02.21(월) ~ 2022.04.08(금) (46일간 진행)  
