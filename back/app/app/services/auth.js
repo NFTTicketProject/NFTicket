@@ -23,7 +23,7 @@ module.exports = {
             }
         }
 
-        const result = verkey === eth.utils.verifyMessage(JSON.stringify(param.info), param.hash_sign)
+        const result = verkey.toLowerCase() === eth.utils.verifyMessage(JSON.stringify(param.info), param.hash_sign).toLowerCase()
 
         return {
             success: result,
