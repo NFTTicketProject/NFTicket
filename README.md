@@ -478,8 +478,9 @@ NFTicket
 
 <img width="100%" src="docs/images/demo_resellregister.gif"/>
 
-### 티켓 재판매
-- 사용자간 티켓을 거래할 수 있습니다.
+### 티켓 재판매 [수정 필요]
+- 최신순으로 업로드된 플레이리스트 or 플레이룸 or 게시글 정보를 로드합니다.
+- 무한스크롤이 적용됩니다.
 
 <img width="100%" src="https://user-images.githubuent.com/55949647/1d28-39712f2cf5b1.gif"/>
 
