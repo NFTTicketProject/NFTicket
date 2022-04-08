@@ -460,80 +460,69 @@ const Market = ({ getAccount, account }) => {
   // console.log("🐸", saleTicketSearchArray.buyable)
   return (
     <>
-      <TotalWidthSetting>
-        <UpperTitleArea>
-          티켓 🎟{" "}
-          <p
-            style={{
-              marginTop: "18px",
-              fontSize: "18px",
-              fontWeight: "400",
-              marginLeft: "2px",
+<TotalWidthSetting>
+      <UpperTitleArea>티켓 🎫 <p style={{ marginTop: "18px", fontSize: '18px', fontWeight: '400', marginLeft: "2px" }}>개인 간의 티켓 거래를 이용해보세요 !</p></UpperTitleArea>
+      <TotalWrapJustifyCenter>
+        <SearchBarCategoryArea>
+          <TextField
+            id='search'
+            label='제목 또는 판매자'
+            variant='standard'
+            onChange={searchKeyword}
+            sx={{ ml: 5, width: 300 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton type='submit' aria-label='search'>
+                    <SearchIcon style={{ color: "#000000" }} />
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
-          >
-            개인 간의 티켓 거래를 이용해보세요 !
-          </p>
-        </UpperTitleArea>
-        <TotalWrapJustifyCenter>
-          <SearchBarCategoryArea>
-            <TextField
-              id='search'
-              label='크리에이터 또는 제목'
-              variant='standard'
-              onChange={searchKeyword}
-              sx={{ ml: 5, width: 300 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton type='submit' aria-label='search'>
-                      <SearchIcon style={{ color: "#000000" }} />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+          />
+          <CategoryBarDiv>
+            <Autocomplete
+              value={category}
+              onChange={(event, newValue) => {
+                SetCategory(newValue);
+                // onSubmitCategory(newValue);
               }}
+              id='controllable-states-demo'
+              options={categories}
+              renderInput={(params) => (
+                <TextField {...params} label='카테고리' />
+              )}
+              size='small'
             />
-            <CategoryBarDiv>
-              <Autocomplete
-                value={category}
-                onChange={(event, newValue) => {
-                  SetCategory(newValue);
-                  // onSubmitCategory(newValue);
-                }}
-                id='controllable-states-demo'
-                options={categories}
-                renderInput={(params) => (
-                  <TextField {...params} label='카테고리' />
-                )}
-                size='small'
-              />
-            </CategoryBarDiv>
-          </SearchBarCategoryArea>
-          <TicketListArea>
-            <Grid container spacing={3} rowSpacing={6}>
-              {saleTicketSearchArray.map((ticket, idx) => (
-                <Grid item xs={4} key={idx}>
-                  <PerformTicket
-                    key={ticket.ticketId}
-                    id={ticket.ticketId}
-                    ticketUri={ticket.ticketUri}
-                    saleAddr={ticket.saleAddr}
-                    stageSellerName={ticket.stageSellerName}
-                    ticketSellerName={ticket.ticketSellerName}
-                    name={ticket.name}
-                    price={ticket.price}
-                    dateStartString={ticket.dateStartString}
-                    dateEndString={ticket.dateEndString}
-                    buyable={ticket.buyable}
-                    isEnded={ticket.isEnded}
-                    endAt={ticket.endAt}
-                    description={ticket.description}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </TicketListArea>
-        </TotalWrapJustifyCenter>
-      </TotalWidthSetting>
+          </CategoryBarDiv>
+        </SearchBarCategoryArea>
+        <TicketListArea>
+          <Grid container spacing={3} rowSpacing={6}>
+            {saleTicketSearchArray.map((ticket, idx) => (
+              <Grid item xs={4} key={idx}>
+                <PerformTicket
+                  key={ticket.ticketId}
+                  id={ticket.ticketId}
+                  ticketUri={ticket.ticketUri}
+                  saleAddr={ticket.saleAddr}
+                  stageSellerName={ticket.stageSellerName}
+                  ticketSellerName={ticket.ticketSellerName}
+                  name={ticket.name}
+                  price={ticket.price}
+                  dateStartString={ticket.dateStartString}
+                  dateEndString={ticket.dateEndString}
+                  buyable={ticket.buyable}
+                  isEnded={ticket.isEnded}
+                  endAt={ticket.endAt}
+                  description={ticket.description}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </TicketListArea>
+      </TotalWrapJustifyCenter>
+    </TotalWidthSetting>
+
     </>
   );
 };

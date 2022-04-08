@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
 import swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -55,6 +56,10 @@ const ModalInput = styled.div`
   margin-top: 1rem;
 `
 
+const WarningArea = styled.div`
+  margin: 10px;
+`;
+
 const PurchaseTicket = (props) => {
   
   const navigate = useNavigate();
@@ -66,8 +71,10 @@ const PurchaseTicket = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [tradeDetail, setTradeDetail] = useState({ ticketId: props.ticketId });
+  const [warning, setWarning] = useState(false);
   const handleTicketTrade = (e) => {
     setTradeDetail({ ...tradeDetail, [e.target.name]: e.target.value });
+    
   };
 
   // swal
@@ -75,7 +82,7 @@ const PurchaseTicket = (props) => {
   toast: true,
   position: 'bottom-end',
   showConfirmButton: false,
-  timer: 1000,
+  timer: 1500,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.addEventListener('mouseenter', swal.stopTimer)
@@ -84,9 +91,11 @@ const PurchaseTicket = (props) => {
 })
 
   const mintTrade = async () => {
-    // console.log(tradeDetail);
+    console.log(tradeDetail);
     try {
-      // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
+      if (tradeDetail.description && tradeDetail.forSale && tradeDetail.price ) {
+        setWarning(false)
+        // 유효성 체크 setapprovalforall(ticketSaleManagerAddress, true)
       const val = await myTicketContract.methods
         .setApprovalForAll(ticketSaleManagerAddress, true)
         .send({ from: userData.account });
@@ -108,21 +117,28 @@ const PurchaseTicket = (props) => {
           .send({ from: userData.account });
         // setSaleAddr(res.events[0].returnValues.saleAddr);
         if (res.status) {
-          Toast.fire({
-            icon: 'success',
-            title: `판매 등록 성공`
+          swal.fire({
+            title : "지갑을 연결해주세요.",
+                icon  : "warning",
+                closeOnClickOutside : false
             }).then(function(){
               navigate("/Market")
             })
           // alert("판매 등록 완료");
           // navigate("/Market");
         }
+      } 
+      }else {
+        setWarning(true)
       }
+
+      
     } catch (err) {
       console.error(err);
     }
   };
 
+  console.log(warning)
   // 예매하기 버튼 클릭 시
   const doBook = () => {
     navigate(`/SelectSeat/${props.showScheduleAddress}`);
@@ -217,7 +233,7 @@ const PurchaseTicket = (props) => {
       <PurchaseTicketArea>
         {/* 티켓 주인이면 꾸미기, 판매하기가 가능하다는 문구, 주인이 아니면 판매가 보여주기 */}
         {props.isSellable ? (
-          <p>티켓을 꾸미거나 판매만 가능합니다.</p>
+          <p></p>
         ) : (
           <CoverBox>
             <div
@@ -415,6 +431,11 @@ const PurchaseTicket = (props) => {
                     <ModalInput style={{justifyContent:'center'}}>
                       <Button onClick={mintTrade}  >거래 발급</Button>
                     </ModalInput>
+                    <WarningArea>
+                      {warning && (
+                        <Alert severity='warning'>정보를 모두 입력해주세요.</Alert>
+                      )}
+                    </WarningArea>
                   </div>
               </Box>
             </Modal>
@@ -495,12 +516,12 @@ const PurchaseTicket = (props) => {
                 >
                   구매하기
                 </Button>
+                
               </Stack>
             )}
             </div>
           )}
       </ButtonBoxCss>
-                 
     </div>
   );
 };

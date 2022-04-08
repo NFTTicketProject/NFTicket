@@ -18,6 +18,7 @@ const CoverBox = styled.div`
 `;
 
 const SeatInfo = (props) => {
+
   // console.log('seatInfo props', props)
   console.log("야야", props.showDetail);
   console.log("야야백", props.showDetailBack);
@@ -52,10 +53,12 @@ const SeatInfo = (props) => {
               style={{
                 fontWeight: "600",
                 marginLeft: "4px",
+                height: "20px",
+                width: "154px",
+                overflow: "hidden"
               }}
             >
               {props.showDetailBack.name}
-              {props.showDetail.stageName}
             </p>
           </p>
 

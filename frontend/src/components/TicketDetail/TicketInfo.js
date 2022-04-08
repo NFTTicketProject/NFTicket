@@ -66,20 +66,22 @@ const TicketInfo = (props) => {
               style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
             >
               <img
-                style={{ width: "70px", height: "70px", borderRadius: "100px", margin: "10px", marginRight: "20px" }}
+                style={{ width: "70px", height: "70px", borderRadius: "100px", margin: "10px", marginRight: "20px", objectFit: "cover",
+              }}
                 src={`https://nfticket.plus/showipfs/ipfs/${sellerInfo.image_uri}`}
                 onError={({ currentTarget }) => {
                       currentTarget.onerror = null; // prevents looping
                       currentTarget.src = "../images/MetaMask_Fox.svg.png";
                     }}
                 alt="@/images/default_profile.png"
+                
               ></img>
               <div
                   style={{ display: 'flex', flexDirection: 'column', justifyContent: 'start'  }}
               >
                 <p
                   style={{ fontSize: "16px", color: "#a8a8a8", fontWeight: 400, marginBottom: "4px" }}
-                  >판매자</p>
+                  >소유자</p>
                 <p
                   style={{ fontSize: "20px", fontWeight: 700 }}
                 >{sellerInfo.nickname}</p>

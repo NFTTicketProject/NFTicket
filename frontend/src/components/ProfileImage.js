@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
 
 function ProfileImage({ userInfo, setUserInfo }) {
   const IPFS = require("ipfs-api");
@@ -45,12 +46,17 @@ function ProfileImage({ userInfo, setUserInfo }) {
   //   setUserInfo({ ...userInfo, image_uri: `https://ipfs.io/ipfs/${info.ipfsHash}` });
   // }, [info]);
 
+  const handleError = (e) => {
+    e.target.src = "../images/MetaMask_Fox.svg.png";
+  };
+
   return (
     <>
       <div>
         <img
           src={`https://ipfs.io/ipfs/${userInfo.image_uri}`}
           alt="sample"
+          onError={handleError}
           style={{
             display: "flex",
             alignItems: "center",
@@ -59,16 +65,20 @@ function ProfileImage({ userInfo, setUserInfo }) {
             height: "150px",
             margin: "auto",
             borderRadius: "50%",
+            objectFit: "cover",
+            marginBottom: '1.2rem'
           }}
         />
         <div
           style={{
             alignItems: "center",
             justifyContent: "center",
+            marginBottom: '1.5rem'
           }}
         >
           <input name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
-          <button onClick={onSubmit}>저장</button>
+          <Button onClick={onSubmit}>저장</Button>
+          {/* <button onClick={onSubmit}>저장</button> */}
         </div>
       </div>
     </>
