@@ -12,11 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 
-import {
-  web3,
-  showScheduleAbi,
-  showScheduleManagerContract,
-} from "../utils/web3Config";
+import { web3, showScheduleAbi, showScheduleManagerContract } from "../utils/web3Config";
 
 const TotalWidthSetting = styled.div`
   width: 1400px;
@@ -64,15 +60,11 @@ const Show = () => {
 
   const getShowScheduleAddress = async () => {
     try {
-      const scheduleCount = await showScheduleManagerContract.methods
-        .getCount()
-        .call();
-      console.log("🎃", scheduleCount)
+      const scheduleCount = await showScheduleManagerContract.methods.getCount().call();
+      // console.log("🎃", scheduleCount)
       const tmpContractArray = [];
       for (let i = 1; i <= scheduleCount; i++) {
-        const showSchedule = await showScheduleManagerContract.methods
-          .getShowSchedule(i)
-          .call();
+        const showSchedule = await showScheduleManagerContract.methods.getShowSchedule(i).call();
         tmpContractArray.push(showSchedule);
         // localStorage에 showScheduleId를 저장해둔다. - myTicket.sol에서 create하기 위해
         localStorage.setItem(showSchedule, `${i}`);
@@ -103,18 +95,15 @@ const Show = () => {
 
   // useEffect(() => {
   //   first
-  
+
   //   return () => {
   //     second
   //   }
   // }, [third])
-  
 
   const getUserNickname = async (wallet) => {
     try {
-      const response = await axios.get(
-        `https://nfticket.plus/api/v1/profile/nickname/${wallet}`,
-      );
+      const response = await axios.get(`https://nfticket.plus/api/v1/profile/nickname/${wallet}`);
       return response.data.nickname;
     } catch (err) {
       return "NFTicket";
@@ -123,47 +112,28 @@ const Show = () => {
 
   const callShowDetail = async (address, id, name, poster_uri) => {
     try {
-      const stageSeller = await showScheduleManagerContract.methods
-        .ownerOf(id)
-        .call();
+      const stageSeller = await showScheduleManagerContract.methods.ownerOf(id).call();
       var stageSellerName = await getUserNickname(stageSeller);
-      const showScheduleContract = new web3.eth.Contract(
-        showScheduleAbi,
-        address,
-      );
+      const showScheduleContract = new web3.eth.Contract(showScheduleAbi, address);
       // const showId = await showScheduleContract.methods.getShowId().call();
-      const stageName = await showScheduleContract.methods
-        .getStageName()
-        .call();
-      const ticketClassCount = await showScheduleContract.methods
-        .getTicketClassCount()
-        .call();
+      const stageName = await showScheduleContract.methods.getStageName().call();
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       // const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
       // const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
       const startAt = await showScheduleContract.methods.getStartedAt().call();
       var dateStart = new Date(startAt * 1000);
       var dateStartString =
-        dateStart.getFullYear() +
-        "." +
-        (dateStart.getMonth() + 1) +
-        "." +
-        dateStart.getDate();
+        dateStart.getFullYear() + "." + (dateStart.getMonth() + 1) + "." + dateStart.getDate();
       const endAt = await showScheduleContract.methods.getEndedAt().call();
       var dateEnd = new Date(endAt * 1000);
       var dateEndString =
-        dateEnd.getFullYear() +
-        "." +
-        (dateEnd.getMonth() + 1) +
-        "." +
-        dateEnd.getDate();
+        dateEnd.getFullYear() + "." + (dateEnd.getMonth() + 1) + "." + dateEnd.getDate();
       // var now = new Date();
       // console.log("날짜비교", now.getTime(), dateEnd.getTime(), dateStart.getTime())
 
       var price = 987654321;
       for (let i = 0; i < ticketClassCount; i++) {
-        const ticketClassPrice = await showScheduleContract.methods
-          .getTicketClassPrice(i)
-          .call();
+        const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(i).call();
         if (ticketClassPrice <= price) price = ticketClassPrice;
       }
       SetShowList((showList) => [
@@ -204,9 +174,7 @@ const Show = () => {
     if (keyword) {
       var tmp = [];
       for (let show of showList) {
-        if (
-          show.name.includes(keyword) | show.stageSellerName.includes(keyword)
-        ) {
+        if (show.name.includes(keyword) | show.stageSellerName.includes(keyword)) {
           tmp.push(show);
         }
       }
@@ -220,9 +188,7 @@ const Show = () => {
     if (newValue === "전체") newValue = "";
     axios
       // .get(`http://localhost:3000/show/search?category_name=${newValue}`)
-      .get(
-        `https://nfticket.plus/api/v1/show/search?include_address=1&category_name=${newValue}`,
-      )
+      .get(`https://nfticket.plus/api/v1/show/search?include_address=1&category_name=${newValue}`)
       .then((res) => {
         SetShowList([]);
         SetShowListSearch([]);
@@ -237,20 +203,25 @@ const Show = () => {
 
   return (
     <TotalWidthSetting>
-      <UpperTitleArea>오늘의 공연 🎪 <p style={{ marginTop: "18px", fontSize: '18px', fontWeight: '400', marginLeft: "2px" }}>판매 중인 공연을 구매하여 나만의 티켓을 만들어보세요 !</p></UpperTitleArea>
+      <UpperTitleArea>
+        오늘의 공연 🎪{" "}
+        <p style={{ marginTop: "18px", fontSize: "18px", fontWeight: "400", marginLeft: "2px" }}>
+          판매 중인 공연을 구매하여 나만의 티켓을 만들어보세요 !
+        </p>
+      </UpperTitleArea>
       <TotalWrapJustifyCenter>
         {/* <h1 style={{ justifyContent: "center" }}>공연 페이지</h1> */}
         <SearchBarCategoryArea>
           <TextField
-            id='search'
-            label='제목 또는 판매자'
-            variant='standard'
+            id="search"
+            label="제목 또는 판매자"
+            variant="standard"
             onChange={searchKeyword}
             sx={{ ml: 5, width: 300 }}
             InputProps={{
               endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton type='submit' aria-label='search'>
+                <InputAdornment position="end">
+                  <IconButton type="submit" aria-label="search">
                     <SearchIcon style={{ color: "#000000" }} />
                   </IconButton>
                 </InputAdornment>
@@ -264,12 +235,10 @@ const Show = () => {
                 SetCategory(newValue);
                 onSubmitCategory(newValue);
               }}
-              id='controllable-states-demo'
+              id="controllable-states-demo"
               options={categories}
-              renderInput={(params) => (
-                <TextField {...params} label='카테고리' />
-              )}
-              size='small'
+              renderInput={(params) => <TextField {...params} label="카테고리" />}
+              size="small"
             />
           </CategoryBarDiv>
 

@@ -6,12 +6,7 @@ import TopLeft from "../components/ShowDetail/TopLeft";
 import TopRight from "../components/ShowDetail/TopRight";
 import Middle from "../components/TicketDetail/Middle";
 import Bottom from "../components/TicketDetail/Bottom";
-import {
-  web3,
-  showScheduleAbi,
-  myTicketContract,
-  IERC20Contract,
-} from "../utils/web3Config";
+import { web3, showScheduleAbi, myTicketContract, IERC20Contract } from "../utils/web3Config";
 import axios from "axios";
 
 const TopCss = styled.div`
@@ -52,11 +47,9 @@ const BottomCss = styled.div`
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
-  const dateString =
-    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
-
 
 function ShowDetail() {
   const [showDetailBack, setShowDetailBack] = useState({});
@@ -91,31 +84,19 @@ function ShowDetail() {
     setRegister({ ...register, [e.target.name]: e.target.value });
   };
 
-  console.log("showScheduleAddress", showScheduleAddress);
+  // console.log("showScheduleAddress", showScheduleAddress);
 
   // contract 통해서 show detail 정보 가져오기
   const callShowDetail = async () => {
     try {
       const showId = await showScheduleContract.methods.getShowId().call();
-      const stageName = await showScheduleContract.methods
-        .getStageName()
-        .call();
-      const ticketClassCount = await showScheduleContract.methods
-        .getTicketClassCount()
-        .call();
-      const resellPolicy = await showScheduleContract.methods
-        .getResellPolicy()
-        .call();
-      const maxMintCount = await showScheduleContract.methods
-        .getMaxMintCount()
-        .call();
-      const isCancelled = await showScheduleContract.methods
-        .isCancelled()
-        .call();
+      const stageName = await showScheduleContract.methods.getStageName().call();
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
+      const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
+      const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
+      const isCancelled = await showScheduleContract.methods.isCancelled().call();
       // 한길 추가, 공연시작과 끝 가져오기
-      const startedAtRaw = await showScheduleContract.methods
-        .getStartedAt()
-        .call();
+      const startedAtRaw = await showScheduleContract.methods.getStartedAt().call();
       const endedAtRaw = await showScheduleContract.methods.getEndedAt().call();
       // 전역변수에 담기
       // Unix Timestamp를 Date로 바꾸기
@@ -127,23 +108,18 @@ function ShowDetail() {
       const tmp = [];
 
       for (let i = 0; i < ticketClassCount; i++) {
-        const ticketClassName = await showScheduleContract.methods
-          .getTicketClassName(i)
-          .call();
+        const ticketClassName = await showScheduleContract.methods.getTicketClassName(i).call();
         const tmpTicketClassPrice = await showScheduleContract.methods
           .getTicketClassPrice(i)
           .call();
         // 가격은 3자리마다 콤마 붙여주었습니다.
-        const ticketClassPrice =
-          Number(tmpTicketClassPrice).toLocaleString("ko-KR");
+        const ticketClassPrice = Number(tmpTicketClassPrice).toLocaleString("ko-KR");
         const ticketClassMaxMintCount = await showScheduleContract.methods
           .getTicketClassMaxMintCount(i)
           .call();
         const occ = [];
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(i, j)
-            .call();
+          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
           if (getTicketId > 0) {
             // console.log("🎃", getTicketId);
             occ.push([i, j]);
@@ -174,9 +150,7 @@ function ShowDetail() {
         startedAtRaw,
         endedAtRaw,
       });
-      const showInfo = await axios.get(
-        `https://nfticket.plus/api/v1/show/${showId}`,
-      );
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
       // console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
     } catch (err) {
@@ -187,9 +161,7 @@ function ShowDetail() {
   // 좌석 예약 관련, 예약된 좌석 걸러내는 용도
   const test = async () => {
     try {
-      const ticketClassCount = await showScheduleContract.methods
-        .getTicketClassCount()
-        .call();
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       const arr = [];
       for (let i = 0; i < ticketClassCount; i++) {
         const ticketClassMaxMintCount = await showScheduleContract.methods
@@ -198,9 +170,7 @@ function ShowDetail() {
         const tmp = [];
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
           tmp.push(0);
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(i, j)
-            .call();
+          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
           if (getTicketId > 0) {
             tmp[j] = 1;
           }
@@ -217,9 +187,7 @@ function ShowDetail() {
   // show 등록 취소 버튼
   const cancelShow = async () => {
     try {
-      const cancel = await showScheduleContract.methods
-        .cancel()
-        .send({ from: userData.account });
+      const cancel = await showScheduleContract.methods.cancel().send({ from: userData.account });
       // console.log(cancel);
       if (cancel.status) {
         window.localStorage.setItem(`${showScheduleAddress}Cancelled`, true);
@@ -273,11 +241,7 @@ function ShowDetail() {
         // 아직 팔리지 않은 좌석이라면
         // 1. 티켓 발급
         const createMyTicket = await myTicketContract.methods
-          .create(
-            myTicket.ticketURI,
-            parseInt(showScheduleId),
-            parseInt(myTicket.classId),
-          )
+          .create(myTicket.ticketURI, parseInt(showScheduleId), parseInt(myTicket.classId))
           .send({ from: userData.account });
         // ticketID 받아오기
         var ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
@@ -299,7 +263,7 @@ function ShowDetail() {
               .registerTicket(
                 parseInt(myTicket.classId),
                 parseInt(register.seatIndex),
-                parseInt(ticketID),
+                parseInt(ticketID)
               )
               .send({ from: userData.account });
             if (registerTicket.status) {
