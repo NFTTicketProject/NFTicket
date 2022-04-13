@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import ProfileImage from "./ProfileImage";
-import { TextField } from '@mui/material';
+import { TextField } from "@mui/material";
 
 const SettingContainer = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ function Settings() {
     return signature;
   };
 
-  console.log("🐸", userInfo);
+  // console.log("🐸", userInfo);
   const editInfo = async () => {
     const data = {
       nickname: userInfo.nickname,
@@ -89,12 +89,14 @@ function Settings() {
       <h1>Profile Settings</h1>
       <ProfileImage userInfo={userInfo} setUserInfo={setUserInfo} />
       <h2>닉네임</h2>
-      <TextField type="text"
+      <TextField
+        type="text"
         name="nickname"
         placeholder="Enter Nickname"
         value={userInfo.nickname}
         onChange={handleChange}
-        style={{width:'300px'}}/>
+        style={{ width: "300px" }}
+      />
       {/* <InputForm
         type="text"
         name="nickname"
@@ -103,13 +105,14 @@ function Settings() {
         onChange={handleChange}
       /> */}
       <h2>상세 설명</h2>
-      <TextField type="text"
+      <TextField
+        type="text"
         name="description"
         placeholder="Enter Description"
         value={userInfo.description}
-        onChange={handleChange} 
-        style={{width:'300px', marginBottom:
-        '2rem'}}/>
+        onChange={handleChange}
+        style={{ width: "300px", marginBottom: "2rem" }}
+      />
       <div>
         <Button variant="contained" onClick={editInfo} style={{ marginTop: "1rem" }}>
           수정

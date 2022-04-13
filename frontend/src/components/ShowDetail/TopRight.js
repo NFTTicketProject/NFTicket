@@ -74,8 +74,7 @@ Date.prototype.addDays = function (days) {
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime);
-  const dateString =
-    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
@@ -137,7 +136,7 @@ const TopRight = (props) => {
 
   // console.log(props.posterUri);
 
-  console.log("ticketDetail", props.ticketDetail);
+  // console.log("ticketDetail", props.ticketDetail);
 
   return (
     <div style={{ marginTop: "44px", marginLeft: "px" }}>
@@ -209,7 +208,7 @@ const TopRight = (props) => {
               py: 1.5,
               mt: 0.5,
             }}
-            variant='outlined'
+            variant="outlined"
           >
             예매하기
           </Button>
