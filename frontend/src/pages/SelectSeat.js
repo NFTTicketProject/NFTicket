@@ -238,18 +238,18 @@ function SelectSeat({ getAccount }) {
       }
 
       // 0. 애초에 돈 있나 확인
-      const money = await IERC20Contract.methods.balanceOf(userData.account).call();
-      if (money < ticketDetail[myTicket.data[0]].ticketClassPrice) {
-        // console.log("돈부족", ticketDetail[myTicket.data[0]].ticketClassPrice);
-        swal.fire({
-          icon: "error",
-          title: "싸피 코인이 부족합니다.",
-          html: `보유 코인 : ${money}<br>필요 코인 : ${
-            ticketDetail[myTicket.data[0]].ticketClassPrice
-          }`,
-        });
-        return;
-      }
+      // const money = await IERC20Contract.methods.balanceOf(userData.account).call();
+      // if (money < ticketDetail[myTicket.data[0]].ticketClassPrice) {
+      //   // console.log("돈부족", ticketDetail[myTicket.data[0]].ticketClassPrice);
+      //   swal.fire({
+      //     icon: "error",
+      //     title: "싸피 코인이 부족합니다.",
+      //     html: `보유 코인 : ${money}<br>필요 코인 : ${
+      //       ticketDetail[myTicket.data[0]].ticketClassPrice
+      //     }`,
+      //   });
+      //   return;
+      // }
 
       // 1. 티켓 발급
       console.log(
