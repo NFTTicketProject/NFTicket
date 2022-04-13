@@ -17,7 +17,7 @@ const Page4 = () => {
     const burnOldTicket = await myTicketContract.methods
       .burn(parseInt(ticketId))
       .send({ from: userData.account });
-    console.log("태운 티켓", ticketId, burnOldTicket);
+    // console.log("태운 티켓", ticketId, burnOldTicket);
   };
 
   return (
@@ -43,12 +43,7 @@ const Page4 = () => {
         size="80"
       /> */}
       <div>
-        <input
-          value={ticketId}
-          placeholder='태울티켓'
-          type='number'
-          onChange={onChange}
-        />
+        <input value={ticketId} placeholder="태울티켓" type="number" onChange={onChange} />
       </div>
       <button onClick={burn}>태우기</button>
     </div>

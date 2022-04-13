@@ -55,13 +55,11 @@ const TodayPerformance = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  console.log(showList);
+  // console.log(showList);
 
   return (
     <TodayPerformContainer>
-      <StyledTodayPerformanceLink to="Show">
-        🎪 오늘의 공연
-      </StyledTodayPerformanceLink>
+      <StyledTodayPerformanceLink to="Show">🎪 오늘의 공연</StyledTodayPerformanceLink>
       <Container style={{ display: "flex", justifyContent: "center" }}>
         <Grid container spacing={1}>
           {showList.map((v, i) => {

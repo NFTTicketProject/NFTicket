@@ -47,6 +47,7 @@ const CoverBox = styled.div`
 `;
 
 const ButtonBoxCss = styled.div`
+  width: 350px;
   margin-top: 10px;
 `;
 

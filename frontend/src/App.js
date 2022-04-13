@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import styled from "styled-components";
-import swal from "sweetalert2";
+// import swal from "sweetalert2";
 
 // routes
 import Home from "./pages/Home";
@@ -78,39 +78,30 @@ function App() {
       <ContentWrapDiv>
         <Navbar></Navbar>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/Redux1' element={<Page1 />} />
-          <Route path='/Redux2' element={<Page2 />} />
-          <Route path='/decorate/:ticketId' element={<Decorate />} />
-          <Route path='/Wallet%20Info' element={<Page4 />} />
-          <Route path='/Community' element={<Community />} />
-          <Route path='/Guide' element={<Guide />} />
-          <Route path='/Detail' element={<Detail />} />
-          <Route path='/Detail/:showScheduleAddress' element={<ShowDetail />} />
-          <Route
-            path='/Schedule%20Manager'
-            element={<ScheduleManager />}
-          ></Route>
-          <Route path='/MyPage' element={<MyPage />} />
-          <Route path='/MyPage/Settings' element={<Settings />} />
-          <Route path='/Ticket/:ticketId' element={<TicketDetail />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/Redux1" element={<Page1 />} />
+          <Route path="/Redux2" element={<Page2 />} />
+          <Route path="/decorate/:ticketId" element={<Decorate />} />
+          <Route path="/Wallet%20Info" element={<Page4 />} />
+          <Route path="/Community" element={<Community />} />
+          <Route path="/Guide" element={<Guide />} />
+          <Route path="/Detail" element={<Detail />} />
+          <Route path="/Detail/:showScheduleAddress" element={<ShowDetail />} />
+          <Route path="/Schedule%20Manager" element={<ScheduleManager />}></Route>
+          <Route path="/MyPage" element={<MyPage />} />
+          <Route path="/MyPage/Settings" element={<Settings />} />
+          <Route path="/Ticket/:ticketId" element={<TicketDetail />} />
           <Route></Route>
           {/* <Route path="/Ticket/:showScheduleAddress" element={<TicketDetail />} /> */}
 
-          <Route
-            path='/Detail-Handover/:ticketId'
-            element={<TicketDetailHandover />}
-          />
-          <Route path='/Burn' element={<Page4 />} />
-          <Route path='/Purchase' element={<Purchase />} />
-          <Route path='/*' element={<NotFound />} />
-          <Route path='/Show' element={<Show />} />
-          <Route path='/Market' element={<Market />} />
-          <Route path='/ShowPublish' element={<ShowPublish />} />
-          <Route
-            path='/SelectSeat/:showScheduleAddress'
-            element={<SelectSeat />}
-          />
+          <Route path="/Detail-Handover/:ticketId" element={<TicketDetailHandover />} />
+          <Route path="/Burn" element={<Page4 />} />
+          <Route path="/Purchase" element={<Purchase />} />
+          <Route path="/*" element={<NotFound />} />
+          <Route path="/Show" element={<Show />} />
+          <Route path="/Market" element={<Market />} />
+          <Route path="/ShowPublish" element={<ShowPublish />} />
+          <Route path="/SelectSeat/:showScheduleAddress" element={<SelectSeat />} />
         </Routes>
       </ContentWrapDiv>
       <Footer></Footer>
