@@ -101,17 +101,17 @@ const ResponsiveAppBar = () => {
 
   return (
     <AppBar
-      position='sticky'
+      position="sticky"
       elevation={0}
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#F5F5F5" }}
     >
       {/* 펼친 로고 */}
-      <Container maxWidth='xl'>
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
-            component='div'
+            component="div"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -120,8 +120,8 @@ const ResponsiveAppBar = () => {
               setCurrentPage("Home");
             }}
           >
-            <Link to='/'>
-              <Logo src='https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN'></Logo>
+            <Link to="/">
+              <Logo src="https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN"></Logo>
             </Link>
           </Typography>
 
@@ -132,19 +132,19 @@ const ResponsiveAppBar = () => {
             }}
           >
             <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={handleOpenNavMenu}
               // color='inherit'
               // inherit 흰색 default 회색 primary 파랑 secondary 보라 error 빨강 info 파랑 success 초록 warning 주황 string 적용안됨
-              color='default'
+              color="default"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
@@ -177,7 +177,7 @@ const ResponsiveAppBar = () => {
                         },
                       }}
                     >
-                      <Typography textAlign='center'>{page.name}</Typography>
+                      <Typography textAlign="center">{page.name}</Typography>
                     </MenuItem>
                   );
                 return (
@@ -195,7 +195,7 @@ const ResponsiveAppBar = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    <Typography textAlign='center'>{page.name}</Typography>
+                    <Typography textAlign="center">{page.name}</Typography>
                   </MenuItem>
                 );
               })}
@@ -204,16 +204,16 @@ const ResponsiveAppBar = () => {
 
           {/* 안펼친 로고 */}
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
-            component='div'
+            component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             onClick={() => {
               setCurrentPage("Home");
             }}
           >
-            <Link to='/'>
-              <Logo src='https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN'></Logo>
+            <Link to="/">
+              <Logo src="https://nfticket.plus/showipfs/ipfs/QmVgBqiTaf2hkhwuKQwwBWedjmWBPgEzN6NvbqoTJpcNfN"></Logo>
             </Link>
           </Typography>
 
@@ -277,7 +277,7 @@ const ResponsiveAppBar = () => {
 
           {/* 프로필로 가는 아바타 */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
+            <Tooltip title="Open settings">
               <IconButton
                 onClick={() => {
                   navigate("/MyPage");
@@ -286,19 +286,29 @@ const ResponsiveAppBar = () => {
                 sx={{ p: 0 }}
               >
                 {userData === null ? (
+                  <Avatar alt="Remy Sharp" src="images/default_profile.png" />
+                ) : walletInfo.image_uri !== "none" ? (
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`}
+                  />
+                ) : (
+                  <Avatar alt="Remy Sharp" src="images/MetaMask_Fox.svg.png" />
+                )}
+                {/* {userData === null ? (
                   <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
                 ) : (
                   <Avatar
                     alt='Remy Sharp'
                     src={`https://nfticket.plus/showipfs/ipfs/${walletInfo.image_uri}`}
                   />
-                )}
+                )} */}
                 {/* <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' /> */}
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id='menu-appbar'
+              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
@@ -314,7 +324,7 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign='center'>
+                  <Typography textAlign="center">
                     <Link to={`/${setting}`}>{setting}</Link>
                   </Typography>
                 </MenuItem>

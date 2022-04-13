@@ -533,7 +533,7 @@ function MyPage() {
                   border: "1px solid grey",
                   borderRadius: "20px",
                   padding: "0.5rem",
-                  display:'flex',
+                  display: "flex",
                 }}
               >
                 <img
@@ -541,9 +541,15 @@ function MyPage() {
                   alt="eth"
                   style={{ width: "20px", height: "20px" }}
                 />
-                <div style={{
-                  width: "180px", overflow: "hidden",
-                  textOverflow: "ellipsis", }}>{userInfo.account}</div>
+                <div
+                  style={{
+                    width: "180px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {userInfo.account}
+                </div>
               </div>
               {/* 설명 */}
               <UserInfo>
@@ -581,46 +587,60 @@ function MyPage() {
             </NavList>
 
             {pageNum === 1 && (
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }} >
-                  {/* <TitleText>나의 티켓</TitleText> */}
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center"  }} >
-                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
-                    <DescriptionDiv>
-                      <Grid container>
-                        {/* <h1>냉내용</h1> */}
-                        {ticketArray &&
-                          ticketArray.map((v, i) => {
-                            return (
-                              <Grid item xs={3}>
-                                <MyTicketItem key={i} {...v} />
-                              </Grid>
-                            );
-                          })}
-                      </Grid>
-                    </DescriptionDiv>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                {/* <TitleText>나의 티켓</TitleText> */}
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                  <div
+                    style={{
+                      width: "1080px",
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {/* <DescriptionDiv> */}
+                    <Grid container>
+                      {/* <h1>냉내용</h1> */}
+                      {ticketArray &&
+                        ticketArray.map((v, i) => {
+                          return (
+                            <Grid item xs={3}>
+                              <MyTicketItem key={i} {...v} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                    {/* </DescriptionDiv> */}
                   </div>
                 </div>
               </div>
             )}
 
             {pageNum === 2 && (
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }} >
-                  {/* <TitleText>나의 티켓</TitleText> */}
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center"  }} >
-                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
-                    <DescriptionDiv>
-                      <Grid container>
-                        {/* <h1>냉내용</h1> */}
-                        {myTicketArray &&
-                          myTicketArray.map((v, i) => {
-                            return (
-                              <Grid item xs={3}>
-                                <Tmp key={i} {...v} />
-                              </Grid>
-                            );
-                          })}
-                      </Grid>
-                    </DescriptionDiv>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                {/* <TitleText>나의 티켓</TitleText> */}
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                  <div
+                    style={{
+                      width: "1080px",
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {/* <DescriptionDiv> */}
+                    <Grid container>
+                      {/* <h1>냉내용</h1> */}
+                      {myTicketArray &&
+                        myTicketArray.map((v, i) => {
+                          return (
+                            <Grid item xs={3}>
+                              <Tmp key={i} {...v} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                    {/* </DescriptionDiv> */}
                   </div>
                 </div>
               </div>
@@ -644,23 +664,30 @@ function MyPage() {
             )}
 
             {pageNum === 3 && (
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center" }} >
-                  {/* <TitleText>나의 티켓</TitleText> */}
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "center"  }} >
-                  <div style={{ width: '1080px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }} >
-                    <DescriptionDiv>
-                      <Grid container>
-                        {/* <h1>냉내용</h1> */}
-                        {showArray &&
-                          showArray.map((v, i) => {
-                            return (
-                              <Grid item xz={3}>
-                                <MyShow key={i} {...v} />
-                              </Grid>
-                            );
-                          })}
-                      </Grid>
-                    </DescriptionDiv>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                {/* <TitleText>나의 티켓</TitleText> */}
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                  <div
+                    style={{
+                      width: "1080px",
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {/* <DescriptionDiv> */}
+                    <Grid container>
+                      {/* <h1>냉내용</h1> */}
+                      {showArray &&
+                        showArray.map((v, i) => {
+                          return (
+                            <Grid item xz={3}>
+                              <MyShow key={i} {...v} />
+                            </Grid>
+                          );
+                        })}
+                    </Grid>
+                    {/* </DescriptionDiv> */}
                   </div>
                 </div>
               </div>

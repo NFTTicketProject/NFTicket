@@ -16,7 +16,7 @@ function SeatItem(props) {
   const [selectedD, setSelectedD] = React.useState(false);
   // const [count, setCount] = React.useState(0);
 
-  var realNum = props.id + 1  // 실제 좌석 번호 표기 = id + 1
+  var realNum = props.id + 1; // 실제 좌석 번호 표기 = id + 1
 
   // var selected1 = '';
 
@@ -27,10 +27,9 @@ function SeatItem(props) {
     var selected1 = selected;
     var selectedDesign = selectedD;
 
-
     selected1 = !selected1;
 
-    console.log(a, "a 값");
+    // console.log(a, "a 값");
     // if (a !== []) {
     // console.log(a[0], props.grade, 'a 값 비교')
     // console.log(a[1], props.id, 'a 값 비교2')
@@ -123,9 +122,8 @@ function SeatItem(props) {
     alert("이미 판매된 좌석입니다.");
   };
 
-
   return (
-    <div style={{ width: "50px"}}>
+    <div style={{ width: "50px" }}>
       {props.num ? ( // 이미 예매된 좌석 분류
         <div
           className="seat-item"
