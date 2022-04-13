@@ -64,7 +64,7 @@ function Tmp(props) {
 
   // console.log("🐸", ticketInfo.getStartedAt, new Date().getTime(), ticketInfo.getEndedAt);
   // console.log("🐸", ticketInfo.isEnded);
-  console.log("🐸", ticketInfo);
+  // console.log("🐸", ticketInfo);
   // var started = 1649163507000;
   // var ended = 1649163867000;
   // var date = new Date().getTime();
@@ -83,18 +83,29 @@ function Tmp(props) {
       {/* {!ticketInfo.isEnded && ( */}
       <PerformContainer>
         {/* <Link to={`/Ticket/${ticketInfo.ticketId}`}> */}
-          <PosterImgContainer
-            src={`https://nfticket.plus/showipfs/ipfs/${ticketInfo.ticketUri}`}
-            onError={handleError}
-            alt="poster img"
-          />
+        <PosterImgContainer
+          src={`https://nfticket.plus/showipfs/ipfs/${ticketInfo.ticketUri}`}
+          onError={handleError}
+          alt="poster img"
+        />
         {/* </Link> */}
         {/* <p style={{ fontSize: "11px" }}>
         {props.dateStartString} ~ {props.dateEndString}
       </p> */}
         {/* <p style={{ fontSize: "14px" }}>{props.name}</p> */}
-        <p style={{ fontSize: "14px", marginTop: "16px", marginBottom: "16px", height: "16px", overflow: 'hidden', textOverflow: "ellipsis" }}>{ticketInfo.description}</p>
-        <hr style={{ border: "0.5px solid #ababab"}}/>
+        <p
+          style={{
+            fontSize: "14px",
+            marginTop: "16px",
+            marginBottom: "16px",
+            height: "16px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {ticketInfo.description}
+        </p>
+        <hr style={{ border: "0.5px solid #ababab" }} />
         <p style={{ fontSize: "14px", fontWeight: "700" }}>{ticketInfo.price} SSF</p>
         {/* <p style={{ fontSize: "14px" }}>판매 시작 시간 : {ticketInfo.startTime}</p> */}
         {/* <p style={{ fontSize: "14px", color: "gray" }}>판매자 : {props.ticketSellerName}</p> */}
@@ -102,12 +113,10 @@ function Tmp(props) {
         <div style={{ marginTop: "1rem" }}>
           {/* {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>} */}
           {new Date().getTime() > ticketInfo.getEndedAt * 1000 ? (
-          <div>판매 종료</div>
-        ) : (
-          <div>
-            {ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>}
-          </div>
-        )}
+            <div>판매 종료</div>
+          ) : (
+            <div>{ticketInfo.isEnded ? <div>판매 완료</div> : <div>판매 중</div>}</div>
+          )}
         </div>
       </PerformContainer>
       {/* )} */}

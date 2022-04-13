@@ -13,8 +13,7 @@ const SetButtonToLeftDiv = styled.div`
   align-items: center;
 `;
 
-const SeatNumberSpan = styled.p`
-`;
+const SeatNumberSpan = styled.p``;
 
 const Seat = (props) => {
   const [grade, setGrade] = React.useState("");
@@ -122,19 +121,29 @@ const Seat = (props) => {
       props.changeSeatData(data); // 좌석 정보를 상위 컴포넌트인 SelectSeat로 넘겨줌
       // console.log('상위로 좌석 정보 넘겨줌')
     } else {
-      swal.fire ({
-        icon: 'error',
-        title: '좌석을 골라주세요',
-      })
+      swal.fire({
+        icon: "error",
+        title: "좌석을 골라주세요",
+      });
     }
   };
 
-  console.log('좌석 데이터, gradeIndex, gradeName, seatIndex, SeatName', data[0], data[1], data[2], data[3])
+  // console.log('좌석 데이터, gradeIndex, gradeName, seatIndex, SeatName', data[0], data[1], data[2], data[3])
 
   return (
     <div>
-      <div className="container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItem: 'center' }}>
-        <div className="screen" style={{ }}>  </div>
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItem: "center",
+        }}
+      >
+        <div className="screen" style={{}}>
+          {" "}
+        </div>
 
         {/* <p>{data}</p> */}
         <div className="row">
@@ -158,14 +167,29 @@ const Seat = (props) => {
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', marginBottom: "0.8rem", color: "#ababab", marginTop: "40px", justifyContent: "end", fontSize: "14px" }}>
+      <div
+        style={{
+          display: "flex",
+          marginBottom: "0.8rem",
+          color: "#ababab",
+          marginTop: "40px",
+          justifyContent: "end",
+          fontSize: "14px",
+        }}
+      >
         * 실제 좌석은 화면에 표시된 위치와 다를 수 있습니다.
       </div>
       <SetButtonToLeftDiv>
-        <div style={{ display: 'flex', paddingTop: "1px", marginRight: "20px"}}>
-          <SeatNumberSpan style={{ display: 'flex', marginRight: "10px", fontSize: '16px', fontWeight: 600 }}>선택된 좌석 번호 : </SeatNumberSpan>
-          <SeatNumberSpan style={{ marginRight: "6px", fontSize: '16px', fontWeight: 600 }}>{ data[1] } -</SeatNumberSpan>
-          <SeatNumberSpan style={{ fontSize: '16px', fontWeight: 600 }}>{ data[3] }</SeatNumberSpan>
+        <div style={{ display: "flex", paddingTop: "1px", marginRight: "20px" }}>
+          <SeatNumberSpan
+            style={{ display: "flex", marginRight: "10px", fontSize: "16px", fontWeight: 600 }}
+          >
+            선택된 좌석 번호 :{" "}
+          </SeatNumberSpan>
+          <SeatNumberSpan style={{ marginRight: "6px", fontSize: "16px", fontWeight: 600 }}>
+            {data[1]} -
+          </SeatNumberSpan>
+          <SeatNumberSpan style={{ fontSize: "16px", fontWeight: 600 }}>{data[3]}</SeatNumberSpan>
         </div>
         <Button
           onClick={seatInfoSend}
@@ -175,8 +199,8 @@ const Seat = (props) => {
             borderColor: "#ababab",
             borderRadius: 100,
           }}
-          variant='outlined'
-          size='small'
+          variant="outlined"
+          size="small"
         >
           선택 완료
         </Button>
