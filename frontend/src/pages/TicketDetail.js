@@ -16,21 +16,22 @@ import {
 
 import axios from "axios";
 import Footer from "../components/Footer";
+import MediaQuery from "react-responsive";
 
 import PurchaseTicket from "../components/TicketDetail/PurchaseTicket";
+import PurchaseTicketMobile from "../components/TicketDetail/PurchaseTicket";
 import TicketImage from "../components/TicketDetail/TicketImage";
+import TicketImageMobile from "../components/TicketDetail/TicketImageMobile";
 import TicketInfo from "../components/TicketDetail/TicketInfo";
-
+import TicketInfoMobile from "../components/TicketDetail/TicketInfo";
 
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
-  const dateString =
-    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
-const TicketDetail = ({getAccount}) => {
-
+const TicketDetail = ({ getAccount }) => {
   const navigate = useNavigate();
 
   const { ticketId } = useParams();
@@ -56,37 +57,32 @@ const TicketDetail = ({getAccount}) => {
       const showScheduleAddress = await showScheduleManagerContract.methods
         .getShowSchedule(showScheduleId)
         .call();
-      const showScheduleContract = new web3.eth.Contract(
-        showScheduleAbi,
-        showScheduleAddress,
-      );
+      const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress);
       const showId = await showScheduleContract.methods.getShowId().call();
-      
+
       // 백에서 정보 가져오기
       const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
-      console.log("🎃", showInfo);
+      // console.log("🎃", showInfo);
       setShowDetailBack(showInfo.data);
-      
+
       const stageName = await showScheduleContract.methods.getStageName().call();
       const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
       const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
       const isCancelled = await showScheduleContract.methods.isCancelled().call();
-      // const isEnded = await ticketSaleContract.methods.isEnded().call();  // 티켓 판매 중인지 여부 확인 
+      // const isEnded = await ticketSaleContract.methods.isEnded().call();  // 티켓 판매 중인지 여부 확인
 
       // 한길 추가, 공연시작과 끝 가져오기
       let startedAt = await showScheduleContract.methods.getStartedAt().call();
       let endedAt = await showScheduleContract.methods.getEndedAt().call();
       // 티켓 uri 정보
-      const ticketImage = await myTicketContract.methods
-        .getTokenURI(ticketId)
-        .call();
+      const ticketImage = await myTicketContract.methods.getTokenURI(ticketId).call();
       // 티켓 소유자
-      const ownerOfTicket = await myTicketContract.methods.ownerOf(ticketId).call()
+      const ownerOfTicket = await myTicketContract.methods.ownerOf(ticketId).call();
       // 티켓 번호 - 블록해시
       // const ticketContractNumber = "asdfbdlskfaf";
-      const apiData = await (axios.get(`https://nfticket.plus/api/v1/block/${ticketId}`))
-      const ticketContractNumber = apiData.data.block_hash
+      const apiData = await axios.get(`https://nfticket.plus/api/v1/block/${ticketId}`);
+      const ticketContractNumber = apiData.data.block_hash;
       // console.log("🐸", apiData)
 
       // Unix Timestamp를 Date로 바꾸기
@@ -96,7 +92,9 @@ const TicketDetail = ({getAccount}) => {
       // 티켓 좌석 정보저장
       const ticketClassName = await showScheduleContract.methods.getTicketClassName(classId).call();
       const ticketSeatIndex = await GetSeatIndex(ticketId);
-      const ticketClassPrice = await showScheduleContract.methods.getTicketClassPrice(classId).call();
+      const ticketClassPrice = await showScheduleContract.methods
+        .getTicketClassPrice(classId)
+        .call();
       setShowDetail({
         ...showDetail,
         showId,
@@ -114,7 +112,8 @@ const TicketDetail = ({getAccount}) => {
         ticketClassName,
         ticketSeatIndex,
         ownerOfTicket,
-        ticketClassPrice, ticketContractNumber
+        ticketClassPrice,
+        ticketContractNumber,
       });
       // const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showDetail.showId}`);
       // console.log("showInfo", showInfo);
@@ -131,67 +130,74 @@ const TicketDetail = ({getAccount}) => {
       const getSale = await ticketSaleManagerContract.methods
         .getSaleOfTicket(parseInt(ticketId))
         .call();
-      console.log("getSale", getSale);
+      // console.log("getSale", getSale);
       setSaleAddr(getSale);
     } catch (err) {
       console.error(err);
     }
   };
 
-
   // 티켓ID 입력시 seatIndex 반환
   const GetSeatIndex = async (ticketIdToFind) => {
     // Contract 상에 등록된 공연 스케줄 개수를 가져옵니다
     const showScheduleCount = await showScheduleManagerContract.methods.getCount().call();
     // const showScheduleContracts = []
-    let showSchedules = {}
+    let showSchedules = {};
 
     // 각 공연 스케줄의 정보를 가져옵니다
-    for (var i = 1; i <= showScheduleCount; i++)
-    {
-        const ShowScheduleContractAddr = await showScheduleManagerContract.methods.getShowSchedule(i).call();
-        const ShowScheduleContractInstance = new web3.eth.Contract(showScheduleAbi, ShowScheduleContractAddr);
+    for (var i = 1; i <= showScheduleCount; i++) {
+      const ShowScheduleContractAddr = await showScheduleManagerContract.methods
+        .getShowSchedule(i)
+        .call();
+      const ShowScheduleContractInstance = new web3.eth.Contract(
+        showScheduleAbi,
+        ShowScheduleContractAddr
+      );
 
-        let showSchedule = {}
-        showSchedule.address = ShowScheduleContractAddr;
-        showSchedule.ticketClasses = []
-        const ticketClassCount = await ShowScheduleContractInstance.methods.getTicketClassCount().call();
-        for (var j = 0; j < ticketClassCount; j++)
-        {
-            var ticketClass = {
-                name: await ShowScheduleContractInstance.methods.getTicketClassName(j).call(),
-                price: await ShowScheduleContractInstance.methods.getTicketClassPrice(j).call(),
-                maxMintCount: await ShowScheduleContractInstance.methods.getTicketClassMaxMintCount(j).call(),
-            }
+      let showSchedule = {};
+      showSchedule.address = ShowScheduleContractAddr;
+      showSchedule.ticketClasses = [];
+      const ticketClassCount = await ShowScheduleContractInstance.methods
+        .getTicketClassCount()
+        .call();
+      for (var j = 0; j < ticketClassCount; j++) {
+        var ticketClass = {
+          name: await ShowScheduleContractInstance.methods.getTicketClassName(j).call(),
+          price: await ShowScheduleContractInstance.methods.getTicketClassPrice(j).call(),
+          maxMintCount: await ShowScheduleContractInstance.methods
+            .getTicketClassMaxMintCount(j)
+            .call(),
+        };
 
-            showSchedule.ticketClasses.push(ticketClass)
-        }
-        showSchedules[i] = showSchedule
+        showSchedule.ticketClasses.push(ticketClass);
+      }
+      showSchedules[i] = showSchedule;
     }
-  
+
     // const ticketIdToFind = 1 // Ticket ID 3번을 찾아보자
-    let foundSeat = []
-    for (var key of Object.keys(showSchedules))
-    {
-        const ShowScheduleContractAddr = showSchedules[key].address;
-        const ShowScheduleContractInstance = new web3.eth.Contract(showScheduleAbi, ShowScheduleContractAddr);
-        
-        for (var [i, ticketClass] of showSchedules[key].ticketClasses.entries())
-        {
-            for (var j = 0; j < ticketClass.maxMintCount; j++)
-            {
-                const currentTicketId = await ShowScheduleContractInstance.methods.getTicketId(i, j).call()
-                if (ticketIdToFind === currentTicketId) {foundSeat.push([i, j])}
-            }
-        }
-    }
-  
-    // console.log('찾은 티켓 seatIndex', foundSeat[0][1])
-    return foundSeat[0][1]
-  }
-  
+    let foundSeat = [];
+    for (var key of Object.keys(showSchedules)) {
+      const ShowScheduleContractAddr = showSchedules[key].address;
+      const ShowScheduleContractInstance = new web3.eth.Contract(
+        showScheduleAbi,
+        ShowScheduleContractAddr
+      );
 
-  
+      for (var [i, ticketClass] of showSchedules[key].ticketClasses.entries()) {
+        for (var j = 0; j < ticketClass.maxMintCount; j++) {
+          const currentTicketId = await ShowScheduleContractInstance.methods
+            .getTicketId(i, j)
+            .call();
+          if (ticketIdToFind === currentTicketId) {
+            foundSeat.push([i, j]);
+          }
+        }
+      }
+    }
+
+    // console.log('찾은 티켓 seatIndex', foundSeat[0][1])
+    return foundSeat[0][1];
+  };
 
   // 리셀링 추가 정보 불러오기
   const ticketSaleContract = new web3.eth.Contract(ticketSaleAbi, saleAddr);
@@ -203,14 +209,12 @@ const TicketDetail = ({getAccount}) => {
       // const description = await ticketSaleContract.methods.getDescription().call(); // 상세 정보
       // const getStartedAt = await ticketSaleContract.methods.getStartedAt().call(); // 판매 시작시간
       const getEndedAt = await ticketSaleContract.methods.getEndedAt().call(); // 판매 종료시간
-      const owner = await ticketSaleManagerContract.methods.owner().call();  // 판매자 정보
+      const owner = await ticketSaleManagerContract.methods.owner().call(); // 판매자 정보
       // const owner = await myTicketContract.methods.ownerOf(ticketId).call()
-      
+
       // const startTime = new Date(getStartedAt * 1000);
       // const endTime = new Date(getEndedAt * 1000);
-      const ticketUri = await myTicketContract.methods
-        .getTokenURI(ticketId)
-        .call();
+      const ticketUri = await myTicketContract.methods.getTokenURI(ticketId).call();
 
       setTicketInfo({
         ...ticketInfo,
@@ -229,16 +233,16 @@ const TicketDetail = ({getAccount}) => {
 
   // swal
   const Toast = swal.mixin({
-  toast: true,
-  position: 'bottom-end',
-  showConfirmButton: false,
-  timer: 1500,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', swal.stopTimer)
-    toast.addEventListener('mouseleave', swal.resumeTimer)
-  }
-})
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", swal.stopTimer);
+      toast.addEventListener("mouseleave", swal.resumeTimer);
+    },
+  });
 
   const buyTicket = async () => {
     try {
@@ -251,24 +255,24 @@ const TicketDetail = ({getAccount}) => {
       const approval = await IERC20Contract.methods
         .approve(saleAddr, 500)
         .send({ from: userData.account });
-      console.log(approval);
+      // console.log(approval);
       // 3. ticketSale.sol 발행
       if (approval.status) {
         Toast.fire({
-            icon: 'success',
-            title: `구매 Progress 1/2`
-            })
+          icon: "success",
+          title: `구매 Progress 1/2`,
+        });
         const purchase = await ticketSaleContract.methods
           .purchase()
           .send({ from: userData.account });
         if (purchase.status) {
           Toast.fire({
-            icon: 'success',
-            title: `구매 완료`
-            }).then(function(){
-              // 티켓 발급, 등록 완료되면 /MyPage로 이동
-              navigate(`/MyPage`);
-            })
+            icon: "success",
+            title: `구매 완료`,
+          }).then(function () {
+            // 티켓 발급, 등록 완료되면 /MyPage로 이동
+            navigate(`/MyPage`);
+          });
         }
       }
     } catch (err) {
@@ -281,18 +285,17 @@ const TicketDetail = ({getAccount}) => {
   const checkOwner = async () => {
     // 티켓 소유자인지 확인 - 소유자만 판매 가능
     const owner = await myTicketContract.methods.ownerOf(parseInt(ticketId)).call();
-    console.log("오ㅡ류")
-    console.log(owner)
-    console.log(userData.account)
+    // console.log("오ㅡ류");
+    // console.log(owner);
+    // console.log(userData.account);
     setIsSellable(owner.toLocaleLowerCase() === userData.account.toLocaleLowerCase());
-
   };
 
-
-  const [isEnded, setIsEnded] = useState(false);  // 판매 완료가 되었는지 아닌지, 애초에 판매 완료라면 주소값이 0x000임.
+  const [isEnded, setIsEnded] = useState(false); // 판매 완료가 되었는지 아닌지, 애초에 판매 완료라면 주소값이 0x000임.
 
   const getIsEnded = async () => {
-    if (saleAddr === '0x0000000000000000000000000000000000000000') {  // 주소값이 없다면, 판매 완료 티켓
+    if (saleAddr === "0x0000000000000000000000000000000000000000") {
+      // 주소값이 없다면, 판매 완료 티켓
       setIsEnded(true);
     }
   };
@@ -310,18 +313,16 @@ const TicketDetail = ({getAccount}) => {
   //   getTicketAddr();
   // }, []);
 
+  // console.log("showDetail", showDetail);
+  // console.log("showDetail", showDetail);
+  // console.log("ticketInfo", ticketInfo.owner);
+  // console.log("ticketUri", ticketInfo.ticketUri);
 
- console.log('showDetail', showDetail);
- console.log('showDetail', showDetail);
- console.log('ticketInfo', ticketInfo.owner);
- console.log('ticketUri', ticketInfo.ticketUri);
+  //  console.log('🐸', showDetail);
+  //  console.log('showDetail', showDetail);
+  //  console.log('ticketInfo', ticketInfo);
 
-
-//  console.log('🐸', showDetail);
-//  console.log('showDetail', showDetail);
-//  console.log('ticketInfo', ticketInfo);
-
-const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const isOnSale = () => {
     const now = new Date().getTime();
     if (ticketInfo.getEndedAt * 1000 > now) {
@@ -329,81 +330,117 @@ const [toggle, setToggle] = useState(false);
     } else {
       setToggle(true);
     }
-  }
-   useEffect(() => {
-    isOnSale()
+  };
+  useEffect(() => {
+    isOnSale();
   }, []);
 
   return (
     <div style={{ paddingBottom: "100px" }}>
-      <div
-        className='ticket-image'
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItem: "center",
-        }}
-      >
-        <TicketImage
-          showId={`${showDetail.showId}`}
-          stageName={`${showDetail.stageName}`}
-          startedAt={`${showDetail.startedAt}`}
-          endedAt={`${showDetail.endedAt}`}
-          allowedAge={`${showDetailBack.age_limit}`}
-          showDuration={`${showDetailBack.running_time}`}
-          showTitle={`${showDetailBack.name}`}
-          catetory={`${showDetailBack.category_name}`}
-          casting={`${showDetailBack.staffs}`}
-          posterUri={`${showDetail.ticketImage}`}
-          ticketId={ticketId}  // 티켓 id
-          ticketClassName={showDetail.ticketClassName}
-          ticketSeatIndex={showDetail.ticketSeatIndex}  // [0] : 클래스Id, [1] : seatIndex
-          price={showDetail.ticketClassPrice}
-          saleAddr={saleAddr}  // 티켓 주소
-          isSellable={isSellable}
-          ticketUri={`${ticketInfo.ticketUri}`}
-          ticketContractNumber={`${showDetail.ticketContractNumber}`}
+      <MediaQuery maxWidth={767}>
+        <div style={{}}>
+          <p style={{ fontSize: "24px", fontWeight: 600, marginTop: "20px", marginLeft: "30px" }}>
+            {`${showDetailBack.name}`}
+          </p>
+          <p style={{ fontSize: "18px", fontWeight: 400, marginTop: "8px", marginLeft: "30px" }}>
+            {`${showDetail.stageName}`}
+          </p>
+          <div
+            className="ticket-image"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItem: "center",
+            }}
+          ></div>
+          <TicketImageMobile
+            showId={`${showDetail.showId}`}
+            stageName={`${showDetail.stageName}`}
+            startedAt={`${showDetail.startedAt}`}
+            endedAt={`${showDetail.endedAt}`}
+            allowedAge={`${showDetailBack.age_limit}`}
+            showDuration={`${showDetailBack.running_time}`}
+            showTitle={`${showDetailBack.name}`}
+            catetory={`${showDetailBack.category_name}`}
+            casting={`${showDetailBack.staffs}`}
+            posterUri={`${showDetail.ticketImage}`}
+            ticketId={ticketId} // 티켓 id
+            ticketClassName={showDetail.ticketClassName}
+            ticketSeatIndex={showDetail.ticketSeatIndex} // [0] : 클래스Id, [1] : seatIndex
+            price={showDetail.ticketClassPrice}
+            saleAddr={saleAddr} // 티켓 주소
+            isSellable={isSellable}
+            ticketUri={`${ticketInfo.ticketUri}`}
+            ticketContractNumber={`${showDetail.ticketContractNumber}`}
+          ></TicketImageMobile>
+        </div>
+      </MediaQuery>
+      <MediaQuery minWidth={768}>
+        <div
+          className="ticket-image"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItem: "center",
+          }}
         >
-        </TicketImage>
-      </div>
+          <TicketImage
+            showId={`${showDetail.showId}`}
+            stageName={`${showDetail.stageName}`}
+            startedAt={`${showDetail.startedAt}`}
+            endedAt={`${showDetail.endedAt}`}
+            allowedAge={`${showDetailBack.age_limit}`}
+            showDuration={`${showDetailBack.running_time}`}
+            showTitle={`${showDetailBack.name}`}
+            catetory={`${showDetailBack.category_name}`}
+            casting={`${showDetailBack.staffs}`}
+            posterUri={`${showDetail.ticketImage}`}
+            ticketId={ticketId} // 티켓 id
+            ticketClassName={showDetail.ticketClassName}
+            ticketSeatIndex={showDetail.ticketSeatIndex} // [0] : 클래스Id, [1] : seatIndex
+            price={showDetail.ticketClassPrice}
+            saleAddr={saleAddr} // 티켓 주소
+            isSellable={isSellable}
+            ticketUri={`${ticketInfo.ticketUri}`}
+            ticketContractNumber={`${showDetail.ticketContractNumber}`}
+          ></TicketImage>
+        </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItem: "start",
-        }}
-      >
-        <TicketInfo
-          showTitle={`${showDetailBack.name}`}  // 제목
-          owner={`${showDetail.ownerOfTicket}`}
-          // owner={`${ticketInfo.owner}`}  // 소유자
-          ticketId={ticketId}  // 티켓 id
-          saleAddr={saleAddr}  // 티켓 주소
-          description={`${showDetailBack.description}`}
-          hallDescription={`${hallDescription}`}
-          ticketContractNumber = {showDetail.ticketContractNumber}
-        ></TicketInfo>
-        <PurchaseTicket
-          getAccount={getAccount}
-           saleAddr={saleAddr}
-          showTitle={`${showDetailBack.name}`}  // 제목
-          casting={`${showDetailBack.staffs}`}
-          price={ticketInfo.price}
-          ticketId={ticketId}
-          isSellable={isSellable}  // 판매자인지 아닌지
-          isEnded={isEnded}  // 티켓 판매 중 여부
-          ticketSeatIndex={showDetail.ticketSeatIndex}
-          buyTicket={buyTicket}
-          endedAt={ticketInfo.getEndedAt}
-          endAt={`${showDetail.endedAt}`}
-          ticketClassName={showDetail.ticketClassName}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItem: "start",
+          }}
+        >
+          <TicketInfo
+            showTitle={`${showDetailBack.name}`} // 제목
+            owner={`${showDetail.ownerOfTicket}`}
+            // owner={`${ticketInfo.owner}`}  // 소유자
+            ticketId={ticketId} // 티켓 id
+            saleAddr={saleAddr} // 티켓 주소
+            description={`${showDetailBack.description}`}
+            hallDescription={`${hallDescription}`}
+            ticketContractNumber={showDetail.ticketContractNumber}
+          ></TicketInfo>
+          <PurchaseTicket
+            getAccount={getAccount}
+            saleAddr={saleAddr}
+            showTitle={`${showDetailBack.name}`} // 제목
+            casting={`${showDetailBack.staffs}`}
+            price={ticketInfo.price}
+            ticketId={ticketId}
+            isSellable={isSellable} // 판매자인지 아닌지
+            isEnded={isEnded} // 티켓 판매 중 여부
+            ticketSeatIndex={showDetail.ticketSeatIndex}
+            buyTicket={buyTicket}
+            endedAt={ticketInfo.getEndedAt}
+            endAt={`${showDetail.endedAt}`}
+            ticketClassName={showDetail.ticketClassName}
           ></PurchaseTicket>
-
-      </div>
-      
-
+        </div>
+      </MediaQuery>
       <Footer></Footer>
     </div>
   );

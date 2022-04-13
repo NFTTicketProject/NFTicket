@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  web3,
-  showScheduleAbi,
-  myTicketContract,
-  IERC20Contract,
-} from "../utils/web3Config";
+import { web3, showScheduleAbi, myTicketContract, IERC20Contract } from "../utils/web3Config";
 
 import styled from "styled-components";
 import Button from "@mui/material/Button";
@@ -67,19 +62,15 @@ const BoldSpan = styled.span`
 // 시간 단위 변경 (unixTime)
 const unixTimeToDate = (unixTime) => {
   const date = new Date(unixTime * 1000);
-  const dateString =
-    date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
+  const dateString = date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate();
   return dateString;
 };
 
-function SelectSeat({getAccount}) {
+function SelectSeat({ getAccount }) {
   const navigate = useNavigate();
   // Detail에서 클릭해 받아온 공연 주소
   const { showScheduleAddress } = useParams(); // detail 페이지에서 넘겨 받아온 파라미터 = 공연 정보가 담긴 주소
-  const showScheduleContract = new web3.eth.Contract(
-    showScheduleAbi,
-    showScheduleAddress,
-  ); // showScheduleAddress를 통해서 공연 정보 받아오기
+  const showScheduleContract = new web3.eth.Contract(showScheduleAbi, showScheduleAddress); // showScheduleAddress를 통해서 공연 정보 받아오기
 
   // const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userAccount"));
@@ -130,21 +121,11 @@ function SelectSeat({getAccount}) {
   const callShowDetail = async () => {
     try {
       const showId = await showScheduleContract.methods.getShowId().call();
-      const stageName = await showScheduleContract.methods
-        .getStageName()
-        .call();
-      const ticketClassCount = await showScheduleContract.methods
-        .getTicketClassCount()
-        .call();
-      const resellPolicy = await showScheduleContract.methods
-        .getResellPolicy()
-        .call();
-      const maxMintCount = await showScheduleContract.methods
-        .getMaxMintCount()
-        .call();
-      const isCancelled = await showScheduleContract.methods
-        .isCancelled()
-        .call();
+      const stageName = await showScheduleContract.methods.getStageName().call();
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
+      const resellPolicy = await showScheduleContract.methods.getResellPolicy().call();
+      const maxMintCount = await showScheduleContract.methods.getMaxMintCount().call();
+      const isCancelled = await showScheduleContract.methods.isCancelled().call();
       // 한길 추가, 공연시작과 끝 가져오기
       let startedAt = await showScheduleContract.methods.getStartedAt().call();
       let endedAt = await showScheduleContract.methods.getEndedAt().call();
@@ -157,23 +138,18 @@ function SelectSeat({getAccount}) {
       const tmp = [];
 
       for (let i = 0; i < ticketClassCount; i++) {
-        const ticketClassName = await showScheduleContract.methods
-          .getTicketClassName(i)
-          .call();
+        const ticketClassName = await showScheduleContract.methods.getTicketClassName(i).call();
         const tmpTicketClassPrice = await showScheduleContract.methods
           .getTicketClassPrice(i)
           .call();
         // 가격은 3자리마다 콤마 붙여주었습니다.
-        const ticketClassPrice =
-          Number(tmpTicketClassPrice).toLocaleString("ko-KR");
+        const ticketClassPrice = Number(tmpTicketClassPrice).toLocaleString("ko-KR");
         const ticketClassMaxMintCount = await showScheduleContract.methods
           .getTicketClassMaxMintCount(i)
           .call();
         const occ = [];
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(i, j)
-            .call();
+          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
           if (getTicketId > 0) {
             // console.log("🎃", getTicketId);
             occ.push([i, j]);
@@ -202,9 +178,7 @@ function SelectSeat({getAccount}) {
         startedAt,
         endedAt,
       });
-      const showInfo = await axios.get(
-        `https://nfticket.plus/api/v1/show/${showId}`,
-      );
+      const showInfo = await axios.get(`https://nfticket.plus/api/v1/show/${showId}`);
       // console.log("showInfo", showInfo);
       setShowDetailBack(showInfo.data);
     } catch (err) {
@@ -215,9 +189,7 @@ function SelectSeat({getAccount}) {
   // 좌석 예약 관련, 예약된 좌석 걸러내는 용도
   const test = async () => {
     try {
-      const ticketClassCount = await showScheduleContract.methods
-        .getTicketClassCount()
-        .call();
+      const ticketClassCount = await showScheduleContract.methods.getTicketClassCount().call();
       const arr = [];
       for (let i = 0; i < ticketClassCount; i++) {
         const ticketClassMaxMintCount = await showScheduleContract.methods
@@ -226,9 +198,7 @@ function SelectSeat({getAccount}) {
         const tmp = [];
         for (let j = 0; j < ticketClassMaxMintCount; j++) {
           tmp.push(0);
-          const getTicketId = await showScheduleContract.methods
-            .getTicketId(i, j)
-            .call();
+          const getTicketId = await showScheduleContract.methods.getTicketId(i, j).call();
           if (getTicketId > 0) {
             tmp[j] = 1;
           }
@@ -244,16 +214,16 @@ function SelectSeat({getAccount}) {
 
   // swal
   const Toast = swal.mixin({
-  toast: true,
-  position: 'bottom-end',
-  showConfirmButton: false,
-  timer: 1500,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', swal.stopTimer)
-    toast.addEventListener('mouseleave', swal.resumeTimer)
-  }
-})
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", swal.stopTimer);
+      toast.addEventListener("mouseleave", swal.resumeTimer);
+    },
+  });
 
   // 티켓 등록
   const enrollTicket = async () => {
@@ -268,9 +238,7 @@ function SelectSeat({getAccount}) {
       }
 
       // 0. 애초에 돈 있나 확인
-      const money = await IERC20Contract.methods
-        .balanceOf(userData.account)
-        .call();
+      const money = await IERC20Contract.methods.balanceOf(userData.account).call();
       if (money < ticketDetail[myTicket.data[0]].ticketClassPrice) {
         // console.log("돈부족", ticketDetail[myTicket.data[0]].ticketClassPrice);
         swal.fire({
@@ -288,45 +256,44 @@ function SelectSeat({getAccount}) {
         "1",
         showDetailBack.poster_uri,
         parseInt(showScheduleId),
-        parseInt(myTicket.data[0]),
+        parseInt(myTicket.data[0])
       );
       const createMyTicket = await myTicketContract.methods
-        .create(
-          showDetailBack.poster_uri,
-          parseInt(showScheduleId),
-          parseInt(myTicket.data[0]),
-        )
+        .create(showDetailBack.poster_uri, parseInt(showScheduleId), parseInt(myTicket.data[0]))
         .send({ from: userData.account });
       // ticketID 받아오기
       Toast.fire({
-            icon: 'success',
-            title: `예매 Progress 1/3`
-            })
-            // .then(function(){
-            //   // 티켓 발급, 등록 완료되면 /MyPage로 이동
-            //   navigate(`/Ticket/${ticketID}`);
-            // })
+        icon: "success",
+        title: `예매 Progress 1/3`,
+      });
+      // .then(function(){
+      //   // 티켓 발급, 등록 완료되면 /MyPage로 이동
+      //   navigate(`/Ticket/${ticketID}`);
+      // })
       // console.log("Create", createMyTicket);
       const ticketID = createMyTicket.events.Transfer.returnValues.tokenId;
 
       // api 사용해서 백으로 일단 블록해시 넘겨주기 - 나중에 Ticket/:숫자 페이지에서 api로 받아와야 함 //
       const blockHash = createMyTicket.blockHash;
-      const sendApi = await axios.post(`https://nfticket.plus/api/v1/block`, {ticket_id: ticketID, block_hash: blockHash })
-      console.log("🐸")
+      const sendApi = await axios.post(`https://nfticket.plus/api/v1/block`, {
+        ticket_id: ticketID,
+        block_hash: blockHash,
+      });
+      // console.log("🐸")
       // console.log(ticketID, blockHash)
       // console.log(sendApi)
       setRegister({ ...register, ticketID });
       if (createMyTicket.status) {
         // 2. approve - 토큰 이동
-        console.log("2", showScheduleAddress);
+        // console.log("2", showScheduleAddress);
         const approval = await IERC20Contract.methods
           .approve(showScheduleAddress, 500)
           .send({ from: userData.account });
         if (approval.status) {
           Toast.fire({
-            icon: 'success',
-            title: `예매 Progress 2/3`
-            })
+            icon: "success",
+            title: `예매 Progress 2/3`,
+          });
           // alert(`티켓 발급 완료`);
           // // 좌석 등록 여부 확인
           // const getTicketId = await showScheduleContract.methods
@@ -335,28 +302,24 @@ function SelectSeat({getAccount}) {
           // if (getTicketId === 0) {
           // 아직 팔리지 않은 좌석이라면
           // 3. register
-          console.log(
-            "3",
-            parseInt(myTicket.data[0]),
-            parseInt(seatData[2]),
-            parseInt(ticketID),
-          );
+          // console.log(
+          //   "3",
+          //   parseInt(myTicket.data[0]),
+          //   parseInt(seatData[2]),
+          //   parseInt(ticketID),
+          // );
           const registerTicket = await showScheduleContract.methods
-            .registerTicket(
-              parseInt(myTicket.data[0]),
-              parseInt(seatData[2]),
-              parseInt(ticketID),
-            )
+            .registerTicket(parseInt(myTicket.data[0]), parseInt(seatData[2]), parseInt(ticketID))
             .send({ from: userData.account });
 
           if (registerTicket.status) {
             Toast.fire({
-            icon: 'success',
-            title: `${ticketID}번 티켓 등록 성공`
-            }).then(function(){
+              icon: "success",
+              title: `${ticketID}번 티켓 등록 성공`,
+            }).then(function () {
               // 티켓 발급, 등록 완료되면 /MyPage로 이동
               navigate(`/Ticket/${ticketID}`);
-            })
+            });
             // alert(`${ticketID}번 티켓 등록 성공`);
             // // 티켓 발급, 등록 완료되면 /Ticket/:ticketId로 이동
             // navigate(`/Ticket/${ticketID}`);
@@ -376,50 +339,62 @@ function SelectSeat({getAccount}) {
     test();
   }, []);
 
-  console.log('seatInfo', seatInfo);  // 좌석 판매 완료 여부
-  console.log('showDetailBack', showDetailBack);
-  console.log('showDetail', showDetail);
-  console.log('register', register);
-  console.log('ticketDetail', ticketDetail);
+  // console.log('seatInfo', seatInfo);  // 좌석 판매 완료 여부
+  // console.log('showDetailBack', showDetailBack);
+  // console.log('showDetail', showDetail);
+  // console.log('register', register);
+  // console.log('ticketDetail', ticketDetail);
 
-  console.log("myTicket", myTicket);
+  // console.log("myTicket", myTicket);
 
   return (
     <div>
       <ContainAll>
         <WidthSettingDiv>
-          <div style={{ display: 'flex', alignItems: 'start'}}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
-            <PageTitleDiv>티켓 구매 💳
-              <p 
-                style={{ 
-                  marginTop: "18px", 
-                  fontSize: '18px', 
-                  fontWeight: '400', 
-                  marginLeft: "2px"
-                }}>
+          <div style={{ display: "flex", alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+              <PageTitleDiv>
+                티켓 구매 💳
+                <p
+                  style={{
+                    marginTop: "18px",
+                    fontSize: "18px",
+                    fontWeight: "400",
+                    marginLeft: "2px",
+                  }}
+                >
                   원하는 좌석을 한 개 선택 후, 선택 완료 버튼을 눌러주세요.
-              </p>
-              <p 
-                style={{ 
-                  marginTop: "8px", 
-                  fontSize: '18px', 
-                  fontWeight: '400', 
-                  marginLeft: "2px"
-                }}>
+                </p>
+                <p
+                  style={{
+                    marginTop: "8px",
+                    fontSize: "18px",
+                    fontWeight: "400",
+                    marginLeft: "2px",
+                  }}
+                >
                   선택된 좌석 번호을 확인하시고 예매하기를 누르면 공연 예매가 완료됩니다 :)
-              </p>
-            </PageTitleDiv>
-            <ChooseSeatArea>
-              <Seat seatInfo={seatInfo} changeSeatData={changeSeatData}></Seat>
-            </ChooseSeatArea>
-          </div>
+                </p>
+              </PageTitleDiv>
+              <ChooseSeatArea>
+                <Seat seatInfo={seatInfo} changeSeatData={changeSeatData}></Seat>
+              </ChooseSeatArea>
+            </div>
 
-          <SeatAndButtonArea>
+            <SeatAndButtonArea>
               <SeatInfoArea>
                 <div style={{ margin: "30px" }}>
                   <SeatInfo showDetail={showDetail} showDetailBack={showDetailBack}></SeatInfo>
-                  <p style={{ fontSize: '20px', fontWeight: '700', marginBottom: '10px', marginTop: "10px" }}>티켓 발급</p>
+                  <p
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "700",
+                      marginBottom: "10px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    티켓 발급
+                  </p>
                   {/* <div>
                   ticketURI:
                   <input
@@ -458,7 +433,7 @@ function SelectSeat({getAccount}) {
                     <div>
                       <p
                         style={{
-                          display : 'flex',
+                          display: "flex",
                           fontSize: "16px",
                           fontWeight: "500",
                           marginTop: "8px",
@@ -466,10 +441,12 @@ function SelectSeat({getAccount}) {
                         }}
                       >
                         티켓 가격 :
-                        <p style={{ 
-                          fontWeight: "600",
-                          marginLeft: "4px",
-                        }}>
+                        <p
+                          style={{
+                            fontWeight: "600",
+                            marginLeft: "4px",
+                          }}
+                        >
                           {ticketDetail[myTicket.data[0]].ticketClassPrice} SSF
                         </p>
                       </p>
@@ -478,7 +455,7 @@ function SelectSeat({getAccount}) {
                   <div style={{ margin: "5px 0 0 0" }}>
                     <p
                       style={{
-                        display : 'flex',
+                        display: "flex",
                         fontSize: "16px",
                         fontWeight: "500",
                         marginTop: "8px",
@@ -486,10 +463,12 @@ function SelectSeat({getAccount}) {
                       }}
                     >
                       좌석 정보 :
-                      <p style={{ 
-                        fontWeight: "600",
-                        marginLeft: "4px",
-                      }}>
+                      <p
+                        style={{
+                          fontWeight: "600",
+                          marginLeft: "4px",
+                        }}
+                      >
                         {seatData[1]}
                       </p>
                     </p>
@@ -507,7 +486,7 @@ function SelectSeat({getAccount}) {
                       borderRadius: 3,
                       py: 1.5,
                     }}
-                    variant='outlined'
+                    variant="outlined"
                   >
                     예매하기
                   </Button>
