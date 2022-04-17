@@ -439,6 +439,12 @@ NFTicket
 
 <img width="100%" src="docs/images/demo_mainpage.gif"/>
 
+### 메인화면
+- 사이트 공지사항 캐로셀이 형식으로 표시
+- 사이트 이용방법 상세 설명
+
+<img width="100%" src="docs/images/demo_guide.gif"/>
+
 ### 로그인
 - 메타마스크 지갑주소를 사용해 로그인합니다.
 - 처음 접속하는 지갑주소인 경우, 임의로 설정된 닉네임, 자기소개, 프로필사진이 부여됩니다.
@@ -483,7 +489,7 @@ NFTicket
 ### 티켓 재판매
 - 사용자간 티켓을 거래할 수 있습니다.
 
-<img width="100%" src="docs/images/demo_resell.png"/>
+<img width="100%" src="docs/images/demo_trade.gif"/>
 
 ### 커뮤니티
 - 자신의 티켓을 전시할 수 있는 3D 공간을 제공합니다.
@@ -491,3 +497,4 @@ NFTicket
 - 티켓에 가까이 다가가면 티켓 설명을 볼 수 있습니다.
 
 <img width="100%" src="docs/images/demo_community.gif"/>
+<img width="100%" src="docs/images/demo_ssafyland.gif"/>
