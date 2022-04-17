@@ -483,7 +483,7 @@ NFTicket
 ### 티켓 재판매
 - 사용자간 티켓을 거래할 수 있습니다.
 
-<img width="100%" src="docs/images/demo_resell.png"/>
+<img width="100%" src="docs/images/demo_trade.gif"/>
 
 ### 커뮤니티
 - 자신의 티켓을 전시할 수 있는 3D 공간을 제공합니다.
