@@ -485,6 +485,11 @@ NFTicket
 
 <img width="100%" src="docs/images/demo_resell.png"/>
 
+### 티켓 거래
+- 사용자간 티켓을 거래할 수 있습니다.
+
+<img width="100%" src="docs/images/demo_trade.gif"/>
+
 ### 커뮤니티
 - 자신의 티켓을 전시할 수 있는 3D 공간을 제공합니다.
 - 자신의 방, 다른 사용자의 방 모두 입장 가능합니다.
