@@ -426,7 +426,7 @@ NFTicket
 ## ✔ 프로젝트 결과물
 - [포팅메뉴얼](docs/docs/NFTicket_포팅_메뉴얼.pdf)
 - [중간발표자료](docs/docs/NFTicket_midterm.pdf)
-- [최종발표자료](docs/docs/NFTicket - 최종.pdf)
+- [최종발표자료](docs/docs/NFTicket%20-%20최종.pdf)
 
 
 ## 🎵 NFTicket 서비스 화면
